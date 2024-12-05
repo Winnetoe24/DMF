@@ -1,0 +1,41 @@
+dmf 1.0.0
+model "dp_success" version 0.0.1
+
+package de.alex.brand {
+    package other {
+
+        struct Test extends ..Test{
+
+
+        }
+
+        enum Ort {
+
+            VOR_HAUS(_);
+        }
+
+        entity Person extends ..Test implements Inte, ..grund.IGrund {
+
+            identifier(i, me);
+        }
+
+        interface Inte  {
+
+        }
+
+
+
+    }
+    package grund {
+         interface IGrund  {
+
+         }
+    }
+
+     struct Test implements .other.Inte, Inte {}
+
+     interface Inte implements ....de.alex.brand.grund.IGrund  {
+
+     }
+
+}

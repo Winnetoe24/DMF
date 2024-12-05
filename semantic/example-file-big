@@ -1,0 +1,503 @@
+dmf 1.0.0
+model "library_management" version 1.0.0
+
+package de.library.management {
+
+    // Basispaket für Medienverwaltung
+    package media {
+
+        // Basisstruktur für alle Medientypen
+        struct MediaItem {
+            arg string title;
+            arg string isbn;
+            arg date publishedDate;
+            arg double price;
+            arg int copyNumber;
+            func boolean isAvailable(int copyId);
+        }
+
+        // Verschiedene Medientypen
+        enum MediaType {
+            BOOK(_);
+            EBOOK(_);
+            AUDIO_BOOK(_);
+            DVD(_);
+            MAGAZINE(_);
+            NEWSPAPER(_);
+        }
+
+        // Kategorisierung der Medien
+        enum Category {
+            arg string name;
+            FICTION(1, "Belletristik");
+            NON_FICTION(2, "Sachbuch");
+            CHILDREN(3, "Kinderbuch");
+            SCIENCE(4, "Wissenschaft");
+            HISTORY(5, "Geschichte");
+        }
+
+        // Detaillierte Buchinformationen
+        entity Book extends MediaItem {
+            arg string author;
+            ref .Category category;
+            ref .MediaType type;
+            arg int pageCount;
+            arg string publisher;
+            arg string language;
+
+            identifier(isbn, copyNumber);
+        }
+
+        // Verwaltung von Zeitschriften
+        entity Magazine extends MediaItem {
+            arg int issueNumber;
+            arg string publisher;
+            arg boolean isSubscription;
+            arg date validUntil;
+
+            identifier(isbn, issueNumber);
+        }
+    }
+
+    // Benutzerverwaltung
+    package users {
+
+        // Adressinformationen
+        struct Address {
+            arg string street;
+            arg string houseNumber;
+            arg string postalCode;
+            arg string city;
+            arg string country;
+        }
+
+        // Verschiedene Mitgliedsarten
+        enum MembershipType {
+            arg int preis;
+            arg date startdatum;
+            STANDARD(1, 10, D2024-01-01);
+            PREMIUM(2, 20, D2024-01-01);
+            STUDENT(3, 15, D2024-01-01);
+        }
+
+        // Benutzerstatus
+        enum UserStatus {
+            ACTIVE(_);
+            SUSPENDED(_);
+            EXPIRED(_);
+        }
+
+        // Benutzerentität
+        entity User {
+            arg string firstName;
+            arg string lastName;
+            arg date dateOfBirth;
+            arg string email;
+            ref .Address address;
+            ref .MembershipType membershipType;
+            ref .UserStatus status;
+            arg date memberSince;
+            arg date membershipExpiry;
+
+            identifier(email);
+        }
+    }
+
+    // Ausleihverwaltung
+    package lending {
+
+        // Status einer Ausleihe
+        enum LendingStatus {
+            BORROWED(_);
+            RETURNED(_);
+            OVERDUE(_);
+            LOST(_);
+        }
+
+        // Ausleihvorgang
+        entity LendingProcess {
+            ref ..users.User user;
+            ref ..media.MediaItem item;
+            ref .LendingStatus status;
+            arg date borrowDate;
+            arg date dueDate;
+            arg date returnDate;
+            arg decimal lateFee;
+
+            identifier(user, item, borrowDate);
+        }
+
+        // Interface für Benachrichtigungen
+        interface NotificationService {
+            func void sendOverdueNotice(..users.User user, ..media.MediaItem item);
+            func void sendReturnReminder(..users.User user,  ..media.MediaItem item);
+            func boolean checkAvailability(..media.MediaItem item);
+        }
+
+        // Reservierungsverwaltung
+        entity Reservation {
+            ref ..users.User user;
+            ref ..media.MediaItem item;
+            arg date reservationDate;
+            arg date validUntil;
+            arg boolean isActive;
+
+            identifier(user, item, reservationDate);
+        }
+    }
+
+      // Finanzverwaltung
+    package finance {
+
+        // Zahlungsarten
+        enum PaymentMethod {
+            CASH(_);
+            CREDIT_CARD(_);
+            DEBIT_CARD(_);
+            BANK_TRANSFER(_);
+            PAYPAL(_);
+        }
+
+        // Transaktionstypen
+        enum TransactionType {
+            arg string name;
+            MEMBERSHIP_FEE(1, "Mitgliedsbeitrag");
+            LATE_FEE(2, "Mahngebühr");
+            REPLACEMENT_FEE(3, "Ersatzgebühr");
+            PRINTING_FEE(4, "Druckkosten");
+            DEPOSIT(5, "Kaution");
+        }
+
+        // Steuersätze
+        enum TaxRate {
+            arg double rate;
+            STANDARD(_, 19.0);
+            REDUCED(_, 7.0);
+            ZERO(_, 0.0);
+        }
+
+        // Rechnungsstruktur
+        struct InvoiceDetails {
+            arg string invoiceNumber;
+            arg date issueDate;
+            arg date dueDate;
+            arg string description;
+            arg double subtotal;
+            arg double taxAmount;
+            ref .TaxRate taxRate;
+        }
+
+        // Zahlungstransaktion
+        entity Transaction {
+            ref ..users.User user;
+            ref .PaymentMethod paymentMethod;
+            ref .TransactionType type;
+            ref .InvoiceDetails invoice;
+            arg date transactionDate;
+            arg double amount;
+            arg boolean isPaid;
+            arg string reference;
+
+            identifier(reference, transactionDate);
+        }
+
+        // Mahnungsverwaltung
+        entity Reminder {
+            ref ..users.User user;
+            ref .Transaction transaction;
+            arg int reminderLevel;
+            arg date sentDate;
+            arg date deadlineDate;
+            arg double additionalFee;
+            arg boolean isPaid;
+
+            identifier(transaction, reminderLevel);
+        }
+
+        // Interface für Zahlungsverarbeitung
+        interface PaymentProcessor {
+            func boolean processPayment(..users.User user, .Transaction transaction);
+            func void generateInvoice(.Transaction transaction);
+            func boolean refundPayment(.Transaction transaction, double amount);
+        }
+
+        // Budgetverwaltung
+        entity Budget {
+            arg int year;
+            arg int month;
+            arg string category;
+            arg double plannedAmount;
+            arg double actualAmount;
+            arg string notes;
+
+            identifier(year, month, category);
+        }
+    }
+
+    // Studentenverifikation
+    package verification {
+
+        // Status der Verifikation
+        enum VerificationStatus {
+            PENDING(_);
+            VERIFIED(_);
+            REJECTED(_);
+            EXPIRED(_);
+            SUSPENDED(_);
+        }
+
+        // Arten von Studentennachweisen
+        enum StudentIdType {
+            UNIVERSITY_CARD(_);
+            ENROLLMENT_CERTIFICATE(_);
+            INTERNATIONAL_STUDENT_ID(_);
+            SEMESTER_TICKET(_);
+        }
+
+        // Universitäten
+        struct University {
+            arg string name;
+            arg string location;
+            arg string verificationEmail;
+            arg string apiEndpoint;
+            arg boolean hasDirectVerification;
+        }
+
+        // Verifikationsdokument
+        struct VerificationDocument {
+            arg string documentNumber;
+            arg date issueDate;
+            arg date expiryDate;
+            arg string issuingAuthority;
+            arg string documentImage;
+        }
+
+        // Studentenausweis
+        entity StudentId {
+            ref ..users.User user;
+            ref .StudentIdType type;
+            ref .University university;
+            ref .VerificationDocument document;
+            ref .VerificationStatus status;
+            arg string studentNumber;
+            arg string faculty;
+            arg int semester;
+            arg date validUntil;
+
+            identifier(user, studentNumber);
+        }
+
+        // Verifikationsprotokoll
+        entity VerificationLog {
+            ref .StudentId studentId;
+            ref ..employees.Employee verifiedBy;
+            arg date verificationDate;
+            arg string verificationMethod;
+            arg string notes;
+            arg boolean isSuccessful;
+
+            identifier(studentId, verificationDate);
+        }
+
+        // Interface für externe Verifikation
+        interface ExternalVerificationService {
+            func boolean verifyWithUniversity(.StudentId studentId);
+            func boolean checkEnrollmentStatus(.StudentId studentId);
+            func void notifyStatusChange(.StudentId studentId, .VerificationStatus newStatus);
+        }
+    }
+
+    // Gebäudeverwaltung
+    package facilities {
+
+        // Gebäudetypen
+        enum BuildingType {
+            MAIN_LIBRARY(_);
+            BRANCH_LIBRARY(_);
+            ARCHIVE(_);
+            STUDY_CENTER(_);
+            STORAGE(_);
+        }
+
+        // Raumtypen
+        enum RoomType {
+            READING_ROOM(_);
+            STUDY_ROOM(_);
+            COMPUTER_LAB(_);
+            CONFERENCE_ROOM(_);
+            OFFICE(_);
+            STORAGE_ROOM(_);
+        }
+
+        // Ausstattungsstatus
+        enum EquipmentStatus {
+            OPERATIONAL(_);
+            MAINTENANCE(_);
+            OUT_OF_ORDER(_);
+            RESERVED(_);
+        }
+
+        // Gebäude
+        entity Building {
+            arg string name;
+            ref .BuildingType type;
+            arg string address;
+            arg int floors;
+            arg int capacity;
+            arg time openingTime;
+            arg time closingTime;
+            arg boolean isAccessible;
+
+            identifier(name);
+        }
+
+        // Räume
+        entity Room {
+            ref .Building building;
+            ref .RoomType type;
+            arg string roomNumber;
+            arg int capacity;
+            arg boolean hasNetworkAccess;
+            arg boolean requiresReservation;
+            arg string specialEquipment;
+
+            identifier(building, roomNumber);
+        }
+
+        // Ausstattung
+        entity Equipment {
+            ref .Room room;
+            ref .EquipmentStatus status;
+            arg string name;
+            arg string serialNumber;
+            arg date purchaseDate;
+            arg date lastMaintenance;
+            arg string manufacturer;
+
+            identifier(serialNumber);
+        }
+
+        // Raumbuchungen
+        entity RoomBooking {
+            ref .Room room;
+            ref ..users.User user;
+            arg date bookingDate;
+            arg time startTime;
+            arg time endTime;
+            arg int numberOfPeople;
+            arg string purpose;
+
+            identifier(room, bookingDate, startTime);
+        }
+
+        // Interface für Wartungsmanagement
+        interface MaintenanceService {
+            func void scheduleRoutineMaintenance(.Room room);
+            func void reportIssue(.Equipment equipment, string issue);
+            func boolean checkAvailability(.Room room, date date, time startTime, time endTime);
+        }
+    }
+
+    // Personalverwaltung
+    package employees {
+
+        // Mitarbeiterposition
+        enum Position {
+            DIRECTOR(_);
+            LIBRARIAN(_);
+            ASSISTANT(_);
+            IT_STAFF(_);
+            MAINTENANCE(_);
+            INTERN(_);
+        }
+
+        // Abteilungen
+        enum Department {
+            arg string name;
+
+            ADMINISTRATION(1, "Verwaltung");
+            CATALOGING(2, "Katalogisierung");
+            USER_SERVICES(3, "Benutzerdienste");
+            IT_SUPPORT(4, "IT-Support");
+            FACILITY_MANAGEMENT(5, "Gebäudemanagement");
+        }
+
+        // Qualifikationen
+        enum Qualification {
+            LIBRARY_SCIENCE(_);
+            IT_SPECIALIST(_);
+            ADMINISTRATION(_);
+            MANAGEMENT(_);
+            TRAINEE(_);
+        }
+
+        // Arbeitsplan
+        struct WorkSchedule {
+            arg datetime regularStart;
+            arg datetime regularEnd;
+            arg int weeklyHours;
+            arg string shiftPattern;
+            arg boolean includesWeekends;
+        }
+
+        // Mitarbeiter
+        entity Employee {
+            arg string employeeId;
+            arg string firstName;
+            arg string lastName;
+            ref .Position position;
+            ref .Department department;
+            //ref .Qualification[] qualifications;
+            ref .WorkSchedule schedule;
+            ref ..facilities.Building workplace;
+            arg date hireDate;
+            arg string email;
+            arg string phone;
+
+            identifier(employeeId);
+        }
+
+        // Urlaubsanträge
+        entity TimeOff {
+            ref .Employee employee;
+            arg date startDate;
+            arg date endDate;
+            arg string type;
+            arg string status;
+            arg string notes;
+
+            identifier(employee, startDate);
+        }
+
+        // Schichten
+        entity Shift {
+            ref .Employee employee;
+            ref ..facilities.Building building;
+            arg date date;
+            arg datetime startTime;
+            arg datetime endTime;
+            arg string responsibilities;
+
+            identifier(employee, date, startTime);
+        }
+
+        // Interface für Personalmanagement
+        interface StaffManagement {
+            func boolean assignShift(.Employee employee, .Shift shift);
+            func boolean approveTimeOff(.TimeOff request);
+            func void updateSchedule(.Employee employee, .WorkSchedule newSchedule);
+        }
+
+        // Leistungsbeurteilung
+        entity Performance {
+            ref .Employee employee;
+            ref .Employee evaluator;
+            arg date evaluationDate;
+            arg int rating;
+            arg string feedback;
+            arg string goals;
+
+            identifier(employee, evaluationDate);
+        }
+    }
+}

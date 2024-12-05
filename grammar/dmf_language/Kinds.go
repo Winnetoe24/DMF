@@ -1,4 +1,4 @@
-package main
+package dmf_language
 
 type (
 	ModelNodeKind string

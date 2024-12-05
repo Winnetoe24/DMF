@@ -1,0 +1,52 @@
+dmf 1.0.0
+model "modelname" version 0.0.1
+
+// import de.alex.lib from "lib.dmf" (model "lib")
+
+// iadsasaj asdiniasd
+// oasdjiasd
+expand package de.alex.brand {
+
+
+    // asd
+    package other {
+
+        //Tets
+        expand struct Test extends ..Bla implements ..Blo, Blup {
+            // integer
+            arg int i;
+            arg date beispieldate;
+            func boolean hi(boolean param, o objekt);
+
+        }
+
+        enum Ort {
+            arg int i;
+            arg boolean b;
+            arg string s;
+            arg date d;
+            arg datetime dt;
+            arg long l;
+
+            VOR_HAUS(_, 1, true, 'd', D2012-12-12, D2012-01-01T00:00:00, 123L);
+        }
+
+        //Kommentar über Entität Person
+        entity Person {
+            ref ..Ort o;
+            arg date beispieldate;
+            arg int me;
+
+            identifier(i, me);
+        }
+
+        //Kommentar über Interface
+        interface Inte implements Blo, Blup {
+            //Kommentar über Funktion
+            func void hi(boolean param, o objekt);
+        }
+
+    }
+
+}
+
