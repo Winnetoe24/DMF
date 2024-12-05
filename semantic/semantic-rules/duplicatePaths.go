@@ -18,18 +18,18 @@ func (d *duplicatePathRule) SemanticRule(fileContent []byte, model *sematic_mode
 	d.err = make([]err_element2.ErrorElement, 0)
 	d.finds = make(TypeLookUp, 5)
 	for _, pack := range model.Packages {
-		d.handlePackage(fileContent, pack)
+		d.handlePackage(fileContent, &pack)
 	}
 	return d.err, d.finds
 }
 
-func (d *duplicatePathRule) handlePackage(fileContent []byte, pack packages.Package) {
+func (d *duplicatePathRule) handlePackage(fileContent []byte, pack *packages.Package) {
 	d.handleElement(fileContent, pack)
 
 	for _, elem := range pack.Elements {
 		switch elem.(type) {
-		case packages.Package:
-			d.handlePackage(fileContent, elem.(packages.Package))
+		case *packages.Package:
+			d.handlePackage(fileContent, elem.(*packages.Package))
 		default:
 			d.handleBaseElement(fileContent, elem)
 		}

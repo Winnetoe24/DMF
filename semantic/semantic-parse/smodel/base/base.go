@@ -30,15 +30,15 @@ type TypeNode struct {
 	Implements []TypeNode
 }
 
-func (m PackageElement) GetTypeNode() TypeNode {
+func (m *PackageElement) GetTypeNode() TypeNode {
 	return TypeNode{}
 }
 
-func (m PackageElement) GetBase() *PackageElement {
-	return &m
+func (m *PackageElement) GetBase() *PackageElement {
+	return m
 }
 
-func (m PackageElement) GetType() PackageElementType {
+func (m *PackageElement) GetType() PackageElementType {
 	panic("TODO GetType not implemented")
 }
 

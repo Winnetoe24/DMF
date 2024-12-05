@@ -27,7 +27,7 @@ func (c *checkSuperTypes) setTypeLookUp(up ITypeLookUp) {
 	c.lookup = up.getTypeLookUp()
 }
 
-func (c *checkSuperTypes) handleStruct(fileContent []byte, element packages.StructElement, entity *packages.EntityElement) {
+func (c *checkSuperTypes) handleStruct(fileContent []byte, element *packages.StructElement, entity *packages.EntityElement) {
 	if element.ExtendsPath != nil {
 		extendsPath := element.ExtendsPath.ToString()
 		extendsElement, found := c.lookup[extendsPath]
@@ -38,13 +38,13 @@ func (c *checkSuperTypes) handleStruct(fileContent []byte, element packages.Stru
 				c.err = append(c.err, errElement.CreateErrorElement(fileContent, element.Node, errors.New("Es sind keine Rekursiven ExtendsPath erlaubt!")))
 			}
 			switch extendsElement.(type) {
-			case packages.EntityElement:
+			case *packages.EntityElement:
 				if entity != nil {
 					c.calculateTypeNode(fileContent, element, entity, make([]string, 0))
 				} else {
 					c.err = append(c.err, errElement.CreateErrorElementCause(fileContent, element.Node, errors.New("Der Supertyp ist eine Entity! Structs können nur von Structs erben."), extendsElement.GetBase().Node))
 				}
-			case packages.StructElement:
+			case *packages.StructElement:
 				c.calculateTypeNode(fileContent, element, entity, make([]string, 0))
 
 			// Extra kein Fallthrough
@@ -62,7 +62,7 @@ type topDownTypeNode struct {
 	Parents []topDownTypeNode
 }
 
-func (c *checkSuperTypes) calculateTypeNode(fileContent []byte, current packages.StructElement, currentEntity *packages.EntityElement, subTypes []string) {
+func (c *checkSuperTypes) calculateTypeNode(fileContent []byte, current *packages.StructElement, currentEntity *packages.EntityElement, subTypes []string) {
 	if current.Extends != nil || (current.ExtendsPath == nil && len(current.ImplementsPaths) == 0) {
 		return
 	}
@@ -93,18 +93,18 @@ func (c *checkSuperTypes) calculateTypeNode(fileContent []byte, current packages
 			var entityElement *packages.EntityElement
 			var structElement *packages.StructElement
 			switch extendsElement.(type) {
-			case packages.EntityElement:
-				element := extendsElement.(packages.EntityElement)
-				entityElement = &element
+			case *packages.EntityElement:
+				element := extendsElement.(*packages.EntityElement)
+				entityElement = element
 				if element.Extends == nil {
-					c.calculateTypeNode(fileContent, entityElement.StructElement, entityElement, append(subTypes, currentPath))
+					c.calculateTypeNode(fileContent, &entityElement.StructElement, entityElement, append(subTypes, currentPath))
 				}
 
-			case packages.StructElement:
-				element := extendsElement.(packages.StructElement)
-				structElement = &element
+			case *packages.StructElement:
+				element := extendsElement.(*packages.StructElement)
+				structElement = element
 				if element.Extends == nil {
-					c.calculateTypeNode(fileContent, *structElement, nil, append(subTypes, currentPath))
+					c.calculateTypeNode(fileContent, structElement, nil, append(subTypes, currentPath))
 				}
 			}
 			if entityElement != nil {
@@ -126,7 +126,7 @@ func (c *checkSuperTypes) calculateTypeNode(fileContent []byte, current packages
 	c.lookup[currentPath] = current
 }
 
-func (c *checkSuperTypes) handleInterface(fileContent []byte, element packages.InterfaceElement) {
+func (c *checkSuperTypes) handleInterface(fileContent []byte, element *packages.InterfaceElement) {
 	c.handleImplements(fileContent, element.Implements, element.PackageElement)
 }
 
@@ -141,7 +141,7 @@ func (c *checkSuperTypes) handleImplements(fileContent []byte, implements []base
 			if !found {
 				c.err = append(c.err, errElement.CreateErrorElement(fileContent, element.Node, errors.New("Das implementierte Interface wurde nicht gefunden!")))
 			} else {
-				_, ok := implElement.(packages.InterfaceElement)
+				_, ok := implElement.(*packages.InterfaceElement)
 				if !ok {
 					c.err = append(c.err, errElement.CreateErrorElement(fileContent, element.Node, errors.New("Der Implementierte Typ ist kein Interface!")))
 				} else {
@@ -155,6 +155,6 @@ func (c *checkSuperTypes) handleImplements(fileContent []byte, implements []base
 	}
 }
 
-func (c *checkSuperTypes) handleEnumeration(_ []byte, _ packages.EnumElement) {
+func (c *checkSuperTypes) handleEnumeration(fileContent []byte, element *packages.EnumElement) {
 
 }

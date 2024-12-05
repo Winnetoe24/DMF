@@ -10,7 +10,7 @@ type checkEntityIdentifier struct {
 	err []errElement.ErrorElement
 }
 
-func (c *checkEntityIdentifier) handleStruct(fileContent []byte, element packages.StructElement, entity *packages.EntityElement) {
+func (c *checkEntityIdentifier) handleStruct(fileContent []byte, element *packages.StructElement, entity *packages.EntityElement) {
 	if entity != nil {
 		cEntity := *entity
 
@@ -25,7 +25,7 @@ func (c *checkEntityIdentifier) handleStruct(fileContent []byte, element package
 	}
 }
 
-func (c *checkEntityIdentifier) calculateVariables(element packages.StructElement, varNamen *map[string]bool) {
+func (c *checkEntityIdentifier) calculateVariables(element *packages.StructElement, varNamen *map[string]bool) {
 	for _, arg := range element.Argumente {
 		exists := (*varNamen)[arg.Name.Name]
 		if exists {
@@ -41,15 +41,15 @@ func (c *checkEntityIdentifier) calculateVariables(element packages.StructElemen
 		(*varNamen)[ref.Name.Name] = true
 	}
 	if element.Extends != nil {
-		c.calculateVariables(element.Extends.(packages.StructElement), varNamen)
+		c.calculateVariables(element.Extends.(*packages.StructElement), varNamen)
 	}
 }
 
-func (c *checkEntityIdentifier) handleInterface(fileContent []byte, element packages.InterfaceElement) {
+func (c *checkEntityIdentifier) handleInterface(fileContent []byte, element *packages.InterfaceElement) {
 	// Ignored
 }
 
-func (c *checkEntityIdentifier) handleEnumeration(fileContent []byte, element packages.EnumElement) {
+func (c *checkEntityIdentifier) handleEnumeration(fileContent []byte, element *packages.EnumElement) {
 	//Ignored
 }
 

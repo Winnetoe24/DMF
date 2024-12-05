@@ -161,7 +161,7 @@ func (S *SemanticContext) parseModelContent() {
 			if content.GetType() != base.PACKAGE {
 				S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, S.Cursor.Node(), errors.New("alle Elemente müssen Packages untergeordnet sein")))
 			} else {
-				S.Model.Packages = append(S.Model.Packages, content.(packages.Package))
+				S.Model.Packages = append(S.Model.Packages, *content.(*packages.Package))
 			}
 		}
 		if !S.Cursor.GotoNextSibling() {
@@ -174,12 +174,12 @@ func (S *SemanticContext) parsePackageContent(current base.ModelPath) (packages.
 	node := S.Cursor.Node()
 	errorElement := assertNodeState(S.Text, node, "Package Content Node")
 	if errorElement != nil {
-		return base.PackageElement{}, errorElement
+		return &base.PackageElement{}, errorElement
 	}
 
 	hasFirstChild := S.Cursor.GotoFirstChild()
 	if !hasFirstChild {
-		return base.PackageElement{}, errElement.CreateErrorElementRef(S.Text, node, errors.New("kein Inhalt im Package"))
+		return &base.PackageElement{}, errElement.CreateErrorElementRef(S.Text, node, errors.New("kein Inhalt im Package"))
 	}
 	defer S.Cursor.GotoParent()
 	var comment base.Comment
@@ -190,24 +190,25 @@ func (S *SemanticContext) parsePackageContent(current base.ModelPath) (packages.
 		case dmf_lang.COMMENT_BLOCK:
 			comment, errorElement = S.parseComment()
 			if errorElement != nil {
-				return base.PackageElement{}, errorElement
+				return &base.PackageElement{}, errorElement
 			}
 		case "expand":
 			expand = true
 		case dmf_lang.PACKAGE_BLOCK:
 			packageBlock := S.parsePackageBlock(slices.Clone(current), &comment, expand)
-			return packageBlock, nil
+			return &packageBlock, nil
 		case dmf_lang.STRUCT_BLOCK:
 			structBlock, _ := S.parseStructBlock(slices.Clone(current), &comment, expand, false)
-			return structBlock, nil
+			return &structBlock, nil
 		case dmf_lang.ENTITY_BLOCK:
 			entityBlock := S.parseEntityBlock(slices.Clone(current), &comment, expand)
-			return entityBlock, nil
+			return &entityBlock, nil
 		case dmf_lang.INTERFACE_BLOCK:
 			interfaceBlock := S.parseInterfaceBlock(slices.Clone(current), &comment, expand)
-			return interfaceBlock, nil
+			return &interfaceBlock, nil
 		case dmf_lang.ENUM_BLOCK:
-			return S.parseEnumBlock(slices.Clone(current), &comment, expand), nil
+			enumBlock := S.parseEnumBlock(slices.Clone(current), &comment, expand)
+			return &enumBlock, nil
 		}
 		if !S.Cursor.GotoNextSibling() {
 			break

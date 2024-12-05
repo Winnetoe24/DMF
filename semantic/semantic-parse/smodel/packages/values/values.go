@@ -2,7 +2,8 @@ package values
 
 import (
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
-	tree_sitte
+	tree_sitter "github.com/tree-sitter/go-tree-sitter"
+
 	"math/big"
 	"time"
 )

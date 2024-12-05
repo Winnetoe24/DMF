@@ -99,19 +99,19 @@ func (v VoidElement) GetVariableType() (*base.ModelPath, *base.PrimitivType) {
 	return nil, nil
 }
 
-func (p Package) GetType() base.PackageElementType {
+func (p *Package) GetType() base.PackageElementType {
 	return base.PACKAGE
 }
-func (s StructElement) GetType() base.PackageElementType {
+func (s *StructElement) GetType() base.PackageElementType {
 	return base.STRUCT
 }
-func (s EntityElement) GetType() base.PackageElementType {
+func (s *EntityElement) GetType() base.PackageElementType {
 	return base.ENTITY
 }
-func (s EnumElement) GetType() base.PackageElementType {
+func (s *EnumElement) GetType() base.PackageElementType {
 	return base.ENUM
 }
-func (s InterfaceElement) GetType() base.PackageElementType {
+func (s *InterfaceElement) GetType() base.PackageElementType {
 	return base.INTERFACE
 }
 

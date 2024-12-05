@@ -25,15 +25,15 @@ func (c *checkEnumConstants) setTypeLookUp(up ITypeLookUp) {
 	c.lookup = up.getTypeLookUp()
 }
 
-func (c *checkEnumConstants) handleStruct([]byte, packages.StructElement, *packages.EntityElement) {
+func (c *checkEnumConstants) handleStruct([]byte, *packages.StructElement, *packages.EntityElement) {
 
 }
 
-func (c *checkEnumConstants) handleInterface([]byte, packages.InterfaceElement) {
+func (c *checkEnumConstants) handleInterface([]byte, *packages.InterfaceElement) {
 
 }
 
-func (c *checkEnumConstants) handleEnumeration(fileContent []byte, element packages.EnumElement) {
+func (c *checkEnumConstants) handleEnumeration(fileContent []byte, element *packages.EnumElement) {
 
 	nameSet := make(map[string]packages.Konstante)
 	indexSet := make(map[int]packages.Konstante)

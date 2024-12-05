@@ -7,9 +7,9 @@ import (
 )
 
 type walkModelWithTypes interface {
-	handleStruct(fileContent []byte, element packages.StructElement, entity *packages.EntityElement)
-	handleInterface(fileContent []byte, element packages.InterfaceElement)
-	handleEnumeration(fileContent []byte, element packages.EnumElement)
+	handleStruct(fileContent []byte, element *packages.StructElement, entity *packages.EntityElement)
+	handleInterface(fileContent []byte, element *packages.InterfaceElement)
+	handleEnumeration(fileContent []byte, element *packages.EnumElement)
 	getErrorElements() []errElement.ErrorElement
 	setTypeLookUp(ITypeLookUp)
 }
@@ -23,7 +23,7 @@ func (c *modelWithTypesWalker) SemanticRule(fileContent []byte, model *smodel.Mo
 		types.setTypeLookUp(extra)
 	}
 	for _, pack := range model.Packages {
-		c.handlePackage(fileContent, pack)
+		c.handlePackage(fileContent, &pack)
 	}
 	var errs []errElement.ErrorElement
 	for _, types := range c.handler {
@@ -32,27 +32,27 @@ func (c *modelWithTypesWalker) SemanticRule(fileContent []byte, model *smodel.Mo
 	return errs, nil
 }
 
-func (c *modelWithTypesWalker) handlePackage(fileContent []byte, pack packages.Package) {
+func (c *modelWithTypesWalker) handlePackage(fileContent []byte, pack *packages.Package) {
 	for _, elem := range pack.Elements {
 		switch elem.(type) {
-		case packages.Package:
-			c.handlePackage(fileContent, elem.(packages.Package))
-		case packages.StructElement:
+		case *packages.Package:
+			c.handlePackage(fileContent, elem.(*packages.Package))
+		case *packages.StructElement:
 			for _, handler := range c.handler {
-				handler.handleStruct(fileContent, elem.(packages.StructElement), nil)
+				handler.handleStruct(fileContent, elem.(*packages.StructElement), nil)
 			}
-		case packages.EntityElement:
-			entityElement := elem.(packages.EntityElement)
+		case *packages.EntityElement:
+			entityElement := elem.(*packages.EntityElement)
 			for _, handler := range c.handler {
-				handler.handleStruct(fileContent, entityElement.StructElement, &entityElement)
+				handler.handleStruct(fileContent, &entityElement.StructElement, entityElement)
 			}
-		case packages.InterfaceElement:
+		case *packages.InterfaceElement:
 			for _, handler := range c.handler {
-				handler.handleInterface(fileContent, elem.(packages.InterfaceElement))
+				handler.handleInterface(fileContent, elem.(*packages.InterfaceElement))
 			}
-		case packages.EnumElement:
+		case *packages.EnumElement:
 			for _, handler := range c.handler {
-				handler.handleEnumeration(fileContent, elem.(packages.EnumElement))
+				handler.handleEnumeration(fileContent, elem.(*packages.EnumElement))
 			}
 		}
 	}
