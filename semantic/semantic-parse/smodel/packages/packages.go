@@ -26,6 +26,10 @@ type StructElement struct {
 	Funktionen      []Funktion
 }
 
+func (s *StructElement) GetPackageElement() PackageElement {
+	return s
+}
+
 type Argument struct {
 	base.ModelElement
 	Typ  base.PrimitivType
@@ -59,6 +63,10 @@ type EntityElement struct {
 	Identifier
 }
 
+func (s *EntityElement) GetPackageElement() PackageElement {
+	return s
+}
+
 type Identifier struct {
 	base.ModelElement
 	Variablen []base.ElementIdentifier
@@ -78,9 +86,14 @@ type Konstante struct {
 
 type InterfaceElement struct {
 	base.PackageElement
-	Funktionen []Funktion
-	TypeNode   base.TypeNode
-	Implements []base.ModelPath
+	Funktionen      []Funktion
+	TypeNode        base.TypeNode
+	ImplementsPaths []base.ModelPath
+	Implements      []PackageElement
+}
+
+func (s *InterfaceElement) GetPackageElement() PackageElement {
+	return s
 }
 
 func (v VoidElement) SetName(base.ElementIdentifier) {

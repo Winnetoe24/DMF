@@ -479,7 +479,7 @@ func (S *SemanticContext) parseInterfaceBlock(current base.ModelPath, comment *b
 	if elements != nil {
 		S.ErrorElements = append(S.ErrorElements, elements...)
 	}
-	interfaceElement.Implements = block
+	interfaceElement.ImplementsPaths = block
 
 	// skip to '{'
 	if cursor.Node().Kind() != "{" {
