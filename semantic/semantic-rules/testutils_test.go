@@ -9,10 +9,9 @@ import (
 	"testing"
 )
 
-func testSemanticRule[E any, R any](t *testing.T, rule semanticRule[E, R], filename string, expectedErrorCount int, extra E) R {
-	file, model := testSetup(t, filename)
+func testSemanticRule[E any, R any](t *testing.T, rule semanticRule[E, R], filename string, expectedErrorCount int, extra E, file []byte, model *smodel.Model) R {
 
-	errorElements, r := rule.SemanticRule(file, &model, extra)
+	errorElements, r := rule.SemanticRule(file, model, extra)
 	if expectedErrorCount == 0 {
 		if errorElements != nil && len(errorElements) > 0 {
 			for _, element := range errorElements {

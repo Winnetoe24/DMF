@@ -18,9 +18,10 @@ func (i ModelElement) GetNode() *tree_sitter.Node {
 
 type PackageElement struct {
 	ModelElement
-	Path       ModelPath
-	Identifier ElementIdentifier
-	Expand     bool
+	Path          ModelPath
+	Identifier    ElementIdentifier
+	NamedElements map[string]NamedElement
+	Expand        bool
 }
 
 type TypeNode struct {

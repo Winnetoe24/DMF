@@ -248,7 +248,7 @@ func (S *SemanticContext) parsePackageBlock(current base.ModelPath, comment *bas
 	// Package String
 	hasNextSibling := S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("kein Package Name vorhanden")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("kein Package GetName vorhanden")))
 	}
 	packageString, elementIdentifier, errorElement := S.parsePackageString(current, false)
 	if errorElement != nil {

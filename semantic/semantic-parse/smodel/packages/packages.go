@@ -2,7 +2,6 @@ package packages
 
 import (
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
-	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages/values"
 )
 
 type PackageElement interface {
@@ -15,36 +14,10 @@ type Package struct {
 	Elements []PackageElement
 }
 
-type StructElement struct {
-	base.PackageElement
-	ExtendsPath     *base.ModelPath
-	Extends         PackageElement
-	ImplementsPaths []base.ModelPath
-	Implements      []PackageElement
-	Argumente       []Argument
-	Referenzen      []Referenz
-	Funktionen      []Funktion
-}
+var _ PackageElement = (*Package)(nil)
 
-func (s *StructElement) GetPackageElement() PackageElement {
-	return s
-}
-
-type Argument struct {
-	base.ModelElement
-	Typ  base.PrimitivType
-	Name base.ElementIdentifier
-}
-
-type Referenz struct {
-	base.ModelElement
-	Typ  base.ModelPath
-	Name base.ElementIdentifier
-}
-
-type Variable interface {
-	GetVariableType() (*base.ModelPath, *base.PrimitivType)
-	SetName(base.ElementIdentifier)
+func (p *Package) GetType() base.PackageElementType {
+	return base.PACKAGE
 }
 
 type Funktion struct {
@@ -54,84 +27,15 @@ type Funktion struct {
 	Parameter  []Variable
 }
 
-type VoidElement struct {
-	base.ModelElement
+func (f *Funktion) Element() base.ModelElement {
+	return f.ModelElement
 }
 
-type EntityElement struct {
-	StructElement
-	Identifier
-}
-
-func (s *EntityElement) GetPackageElement() PackageElement {
-	return s
+func (f *Funktion) GetName() string {
+	return f.Name.Name
 }
 
 type Identifier struct {
 	base.ModelElement
 	Variablen []base.ElementIdentifier
-}
-
-type EnumElement struct {
-	base.PackageElement
-	Argumente  []Argument
-	Konstanten []Konstante
-}
-
-type Konstante struct {
-	base.ModelElement
-	Name   base.ElementIdentifier
-	Values []values.Value
-}
-
-type InterfaceElement struct {
-	base.PackageElement
-	Funktionen      []Funktion
-	TypeNode        base.TypeNode
-	ImplementsPaths []base.ModelPath
-	Implements      []PackageElement
-}
-
-func (s *InterfaceElement) GetPackageElement() PackageElement {
-	return s
-}
-
-func (v VoidElement) SetName(base.ElementIdentifier) {
-	panic("should not be used")
-}
-
-func (a *Argument) SetName(identifier base.ElementIdentifier) {
-	a.Name = identifier
-}
-
-func (r *Referenz) SetName(identifier base.ElementIdentifier) {
-	r.Name = identifier
-}
-
-func (v VoidElement) GetVariableType() (*base.ModelPath, *base.PrimitivType) {
-	return nil, nil
-}
-
-func (p *Package) GetType() base.PackageElementType {
-	return base.PACKAGE
-}
-func (s *StructElement) GetType() base.PackageElementType {
-	return base.STRUCT
-}
-func (s *EntityElement) GetType() base.PackageElementType {
-	return base.ENTITY
-}
-func (s *EnumElement) GetType() base.PackageElementType {
-	return base.ENUM
-}
-func (s *InterfaceElement) GetType() base.PackageElementType {
-	return base.INTERFACE
-}
-
-func (a *Argument) GetVariableType() (*base.ModelPath, *base.PrimitivType) {
-	return nil, &a.Typ
-}
-
-func (r *Referenz) GetVariableType() (*base.ModelPath, *base.PrimitivType) {
-	return &r.Typ, nil
 }

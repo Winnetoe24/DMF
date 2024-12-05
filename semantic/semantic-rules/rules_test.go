@@ -12,10 +12,14 @@ func TestDuplicateRule(t *testing.T) {
 	rule := duplicatePathRule{}
 
 	t.Run("success", func(t *testing.T) {
-		testSemanticRule(t, &rule, "./test-resources/duplicate-paths-success.dmf", 0, nil)
+		filename := "./test-resources/duplicate-paths-success.dmf"
+		file, model := testSetup(t, filename)
+		testSemanticRule(t, &rule, filename, 0, nil, file, &model)
 	})
 	t.Run("errors", func(t *testing.T) {
-		testSemanticRule(t, &rule, "./test-resources/duplicate-paths-error.dmf", 6, nil)
+		filename := "./test-resources/duplicate-paths-error.dmf"
+		file, model := testSetup(t, filename)
+		testSemanticRule(t, &rule, filename, 6, nil, file, &model)
 	})
 }
 
@@ -46,13 +50,15 @@ func TestCheckSuperTypes(t *testing.T) {
 	t.Run("success", func(t *testing.T) {
 
 		filename := "./test-resources/check-Super-Types-success.dmf"
-		typeLookUp := testSemanticRule(t, &duplicatePathRule{}, filename, 0, nil)
-		_ = testSemanticRule(t, &rule, filename, 0, ITypeLookUp(typeLookUp))
+		file, model := testSetup(t, filename)
+		typeLookUp := testSemanticRule(t, &duplicatePathRule{}, filename, 0, nil, file, &model)
+		_ = testSemanticRule(t, &rule, filename, 0, ITypeLookUp(typeLookUp), file, &model)
 	})
 	t.Run("errors", func(t *testing.T) {
 		filename := "./test-resources/check-Super-Types-error.dmf"
-		typeLookUp := testSemanticRule(t, &duplicatePathRule{}, filename, 0, nil)
-		_ = testSemanticRule(t, &rule, filename, 5, ITypeLookUp(typeLookUp))
+		file, model := testSetup(t, filename)
+		typeLookUp := testSemanticRule(t, &duplicatePathRule{}, filename, 0, nil, file, &model)
+		_ = testSemanticRule(t, &rule, filename, 5, ITypeLookUp(typeLookUp), file, &model)
 	})
 }
 
@@ -66,8 +72,8 @@ func TestSuperTypes(t *testing.T) {
 		}},
 	}
 	filename := "./test-resources/check-Super-Types-Vererbung.dmf"
-	typeLookUp := testSemanticRule(t, &duplicatePathRule{}, filename, 0, nil)
 	file, model := testSetup(t, filename)
+	typeLookUp := testSemanticRule(t, &duplicatePathRule{}, filename, 0, nil, file, &model)
 
 	elements, a := rule.SemanticRule(file, &model, typeLookUp)
 	fmt.Printf("elements: %v, a: %v\n", elements, a)
@@ -109,6 +115,44 @@ func BenchmarkCheckSuperTypes(b *testing.B) {
 			_, _ = rule.SemanticRule(file, &model, typeLookUp)
 		}
 	})
+}
+
+func TestDuplicateElements(t *testing.T) {
+	// Given
+
+	t.Run("success", func(t *testing.T) {
+
+		filename := "./test-resources/duplicate-elements-success.dmf"
+		file, model := testSetup(t, filename)
+		typeLookUp := testSemanticRule(t, &duplicatePathRule{}, filename, 0, nil, file, &model)
+		_ = testSemanticRule(t, &modelWithTypesWalker{
+			handler: []walkModelWithTypes{&checkSuperTypes{
+				lookup:     make(TypeLookUp),
+				nodeLookup: make(TypeNodeLookup),
+				err:        nil,
+			}},
+		}, filename, 0, ITypeLookUp(typeLookUp), file, &model)
+		testSemanticRule(t, &duplicateElements{}, filename, 0, typeLookUp, file, &model)
+	})
+	t.Run("error", func(t *testing.T) {
+
+		filename := "./test-resources/duplicate-elements-error.dmf"
+		file, model := testSetup(t, filename)
+		typeLookUp := testSemanticRule(t, &duplicatePathRule{}, filename, 0, nil, file, &model)
+		_ = testSemanticRule(t, &modelWithTypesWalker{
+			handler: []walkModelWithTypes{&checkSuperTypes{
+				lookup:     make(TypeLookUp),
+				nodeLookup: make(TypeNodeLookup),
+				err:        nil,
+			}},
+		}, filename, 0, ITypeLookUp(typeLookUp), file, &model)
+		testSemanticRule(t, &duplicateElements{}, filename, 1, typeLookUp, file, &model)
+	})
+	//t.Run("errors", func(t *testing.T) {
+	//	filename := "./test-resources/check-Super-Types-error.dmf"
+	//	typeLookUp := testSemanticRule(t, &duplicatePathRule{}, filename, 0, nil)
+	//	_ = testSemanticRule(t, &rule, filename, 5, ITypeLookUp(typeLookUp))
+	//})
 }
 
 //TODO: CheckEnumConstants

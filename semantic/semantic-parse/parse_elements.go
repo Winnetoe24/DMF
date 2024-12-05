@@ -247,10 +247,10 @@ func (S *SemanticContext) parseFuncBlock(current base.ModelPath, comment base.Co
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(S.Text, cursor.Node(), errors.New("return-Type ungültig"), node))
 	}
 
-	// Funktion Name
+	// Funktion GetName
 	hasNextSibling = cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("Name fehlt")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("GetName fehlt")))
 		return funktion
 	}
 	funktion.Name = S.parseIdentifier()
@@ -351,7 +351,7 @@ func (S *SemanticContext) parseParameterDefinition(current base.ModelPath) (pack
 	// Identifier
 	hasNextSibling := cursor.GotoNextSibling()
 	if !hasNextSibling {
-		sErrors = append(sErrors, errElement.CreateErrorElement(S.Text, node, errors.New("Name fehlt")))
+		sErrors = append(sErrors, errElement.CreateErrorElement(S.Text, node, errors.New("GetName fehlt")))
 		return nil, sErrors
 	}
 
