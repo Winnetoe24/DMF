@@ -8,61 +8,55 @@ import (
 	errElement "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
 )
 
-type checkSuperTypes struct {
-	lookup     TypeLookUp
-	nodeLookup TypeNodeLookup
-	err        []errElement.ErrorElement
+type computeSuperTypes struct {
+	*walkRule
 }
 
-var _ walkModelWithTypes = (*checkSuperTypes)(nil)
-
-func (c *checkSuperTypes) getErrorElements() []errElement.ErrorElement {
-	if c.err == nil {
-		return make([]errElement.ErrorElement, 0)
+func newComputeSuperTypes(lookup *TypeLookUp) *computeSuperTypes {
+	types := computeSuperTypes{
+		walkRule: &walkRule{
+			lookup:   lookup,
+			elements: make([]errElement.ErrorElement, 0),
+		},
 	}
-	return c.err
+	types.iWalkRule = &types
+	return &types
 }
 
-func (c *checkSuperTypes) setTypeLookUp(up ITypeLookUp) {
-	c.lookup = up.getTypeLookUp()
-}
-
-func (c *checkSuperTypes) handleStruct(fileContent []byte, element *packages.StructElement, entity *packages.EntityElement) {
+func (c *computeSuperTypes) handleStruct(element *packages.StructElement, entity *packages.EntityElement) {
 	if element.ExtendsPath != nil {
 		extendsPath := element.ExtendsPath.ToString()
-		extendsElement, found := c.lookup[extendsPath]
+		extendsElement, found := (*c.lookup)[extendsPath]
 		if !found {
-			c.err = append(c.err, errElement.CreateErrorElement(element.Node, errors.New("Der Supertyp wurde nicht gefunden!")))
+			c.elements = append(c.elements, errElement.CreateErrorElement(element.Node, errors.New("Der Supertyp wurde nicht gefunden!")))
 		} else {
 			if extendsPath == element.Path.ToString() {
-				c.err = append(c.err, errElement.CreateErrorElement(element.Node, errors.New("Es sind keine Rekursiven ExtendsPath erlaubt!")))
+				c.elements = append(c.elements, errElement.CreateErrorElement(element.Node, errors.New("Es sind keine Rekursiven ExtendsPath erlaubt!")))
 			}
 			switch extendsElement.(type) {
 			case *packages.EntityElement:
 				if entity != nil {
-					c.calculateSuperTypes(fileContent, element, entity, make([]string, 0), nil)
+					c.calculateSuperTypes(element, entity, make([]string, 0), nil)
 				} else {
-					c.err = append(c.err, errElement.CreateErrorElementCause(element.Node, errors.New("Der Supertyp ist eine Entity! Structs können nur von Structs erben."), extendsElement.GetBase().Node))
+					c.elements = append(c.elements, errElement.CreateErrorElementCause(element.Node, errors.New("Der Supertyp ist eine Entity! Structs können nur von Structs erben."), extendsElement.GetBase().Node))
 				}
 			case *packages.StructElement:
-				c.calculateSuperTypes(fileContent, element, entity, make([]string, 0), nil)
+				c.calculateSuperTypes(element, entity, make([]string, 0), nil)
 
 			// Extra kein Fallthrough
 			default:
-				c.err = append(c.err, errElement.CreateErrorElementCause(element.Node, errors.New("Der Supertyp ist kein struct oder entity!"), extendsElement.GetBase().Node))
+				c.elements = append(c.elements, errElement.CreateErrorElementCause(element.Node, errors.New("Der Supertyp ist kein struct oder entity!"), extendsElement.GetBase().Node))
 			}
 		}
 	}
-	c.handleImplements(fileContent, element.ImplementsPaths, element.PackageElement)
+	c.handleImplements(element.ImplementsPaths, element.PackageElement)
 }
 
-// Zum Top Down Durchlaufen des Typ-Baums
-type topDownTypeNode struct {
-	Name    string
-	Parents []topDownTypeNode
+func (c *computeSuperTypes) handleInterface(element *packages.InterfaceElement) {
+	c.calculateImplementsTypes(element, make([]string, 0))
 }
 
-func (c *checkSuperTypes) calculateSuperTypes(fileContent []byte, current *packages.StructElement, currentEntity *packages.EntityElement, subTypes []string, interfaceSubtypes []string) {
+func (c *computeSuperTypes) calculateSuperTypes(current *packages.StructElement, currentEntity *packages.EntityElement, subTypes []string, interfaceSubtypes []string) {
 	if current.Extends != nil || (current.ExtendsPath == nil && len(current.ImplementsPaths) == 0) {
 		return
 	}
@@ -71,24 +65,24 @@ func (c *checkSuperTypes) calculateSuperTypes(fileContent []byte, current *packa
 	rekursiv := false
 	for _, subType := range subTypes {
 		if subType == currentPath {
-			c.err = append(c.err, errElement.CreateErrorElement(current.Node, errors.New("Rekursive Vererbung!")))
-			//println("Found", subType, node.Path)
+			c.elements = append(c.elements, errElement.CreateErrorElement(current.Node, errors.New("Rekursive Vererbung!")))
 			rekursiv = true
 		}
 	}
 
+	// Der return findet nach dem Loop statt, damit alle Fehler hinzugefügt werden können
 	if rekursiv {
 		return
 	}
 
-	interfaceSubtypes = c.calculateImplementsTypes(fileContent, current, interfaceSubtypes)
+	interfaceSubtypes = c.calculateImplementsTypes(current, interfaceSubtypes)
 
 	if current.ExtendsPath != nil && len(*current.ExtendsPath) > 0 && !rekursiv {
 		extendsString := current.ExtendsPath.ToString()
-		extendsElement, found := c.lookup[extendsString]
+		extendsElement, found := (*c.lookup)[extendsString]
 
 		if !found {
-			c.err = append(c.err, errElement.CreateErrorElement(current.Node, errors.New("Der Supertyp konnte nicht gefunden werden!")))
+			c.elements = append(c.elements, errElement.CreateErrorElement(current.Node, errors.New("Der Supertyp konnte nicht gefunden werden!")))
 		} else {
 			var entityElement *packages.EntityElement
 			var structElement *packages.StructElement
@@ -97,44 +91,44 @@ func (c *checkSuperTypes) calculateSuperTypes(fileContent []byte, current *packa
 				element := extendsElement.(*packages.EntityElement)
 				entityElement = element
 				if element.Extends == nil {
-					c.calculateSuperTypes(fileContent, &entityElement.StructElement, entityElement, append(subTypes, currentPath), interfaceSubtypes)
+					c.calculateSuperTypes(&entityElement.StructElement, entityElement, append(subTypes, currentPath), interfaceSubtypes)
 				}
 
 			case *packages.StructElement:
 				element := extendsElement.(*packages.StructElement)
 				structElement = element
 				if element.Extends == nil {
-					c.calculateSuperTypes(fileContent, structElement, nil, append(subTypes, currentPath), interfaceSubtypes)
+					c.calculateSuperTypes(structElement, nil, append(subTypes, currentPath), interfaceSubtypes)
 				}
 			}
 			if entityElement != nil {
 				if currentEntity == nil {
-					c.err = append(c.err, errElement.CreateErrorElement(current.Node, errors.New("Ein Struct darf nur von einem Struct erben!")))
+					c.elements = append(c.elements, errElement.CreateErrorElement(current.Node, errors.New("Ein Struct darf nur von einem Struct erben!")))
 				} else {
 					structElement = &entityElement.StructElement
 				}
 			}
 			if structElement == nil {
-				c.err = append(c.err, errElement.CreateErrorElement(current.Node, errors.New("Der Supertyp muss ein Struct oder eine Entity sein!")))
+				c.elements = append(c.elements, errElement.CreateErrorElement(current.Node, errors.New("Der Supertyp muss ein Struct oder eine Entity sein!")))
 			}
 
 			current.Extends = extendsElement
 		}
 		if currentEntity != nil {
-			c.lookup[currentPath] = currentEntity
+			(*c.lookup)[currentPath] = currentEntity
 		} else {
-			c.lookup[currentPath] = current
+			(*c.lookup)[currentPath] = current
 		}
 	}
 
 }
 
-func (c *checkSuperTypes) calculateImplementsTypes(fileContent []byte, current packages.Implementable, subTypes []string) (newSubtypes []string) {
+func (c *computeSuperTypes) calculateImplementsTypes(current packages.Implementable, subTypes []string) (newSubtypes []string) {
 	currentPath := current.GetPath().ToString()
 	rekursiv := false
 	for _, subType := range subTypes {
 		if subType == currentPath {
-			c.err = append(c.err, errElement.CreateErrorElement(current.GetNode(), errors.New("Rekursive Vererbung!")))
+			c.elements = append(c.elements, errElement.CreateErrorElement(current.GetNode(), errors.New("Rekursive Vererbung!")))
 			//println("Found", subType, node.Path)
 			rekursiv = true
 		}
@@ -148,56 +142,48 @@ func (c *checkSuperTypes) calculateImplementsTypes(fileContent []byte, current p
 	ImplementsLoop:
 		for _, path := range current.GetImplementsPaths() {
 			implementsString := path.ToString()
-			implementsElement, found := c.lookup[implementsString]
+			implementsElement, found := (*c.lookup)[implementsString]
 
 			if !found {
-				c.err = append(c.err, errElement.CreateErrorElement(current.GetNode(), errors.New("Das implementierte Interface konnte nicht gefunden werden!")))
+				c.elements = append(c.elements, errElement.CreateErrorElement(current.GetNode(), errors.New("Das implementierte Interface konnte nicht gefunden werden!")))
 			} else {
 				switch implementsElement.(type) {
 				case *packages.InterfaceElement:
 				default:
-					c.err = append(c.err, errElement.CreateErrorElementCause(current.GetNode(), errors.New("Das angebene Element ist kein Interface!"), implementsElement.GetBase().Node))
+					c.elements = append(c.elements, errElement.CreateErrorElementCause(current.GetNode(), errors.New("Das angebene Element ist kein Interface!"), implementsElement.GetBase().Node))
 					continue ImplementsLoop
 				}
 				interfaceElement := implementsElement.(*packages.InterfaceElement)
-				subTypes = c.calculateImplementsTypes(fileContent, interfaceElement, subTypes)
+				subTypes = c.calculateImplementsTypes(interfaceElement, subTypes)
 				current.AddImplements(implementsElement)
 			}
 		}
-		c.lookup[current.GetPath().ToString()] = current.GetPackageElement()
+		(*c.lookup)[current.GetPath().ToString()] = current.GetPackageElement()
 	}
 	return subTypes
 }
 
-func (c *checkSuperTypes) handleInterface(fileContent []byte, element *packages.InterfaceElement) {
-	c.calculateImplementsTypes(fileContent, element, make([]string, 0))
-}
-
-func (c *checkSuperTypes) handleImplements(fileContent []byte, implements []base.ModelPath, element base.PackageElement) {
+func (c *computeSuperTypes) handleImplements(implements []base.ModelPath, element base.PackageElement) {
 	if implements != nil {
 		for _, implPath := range implements {
 			if implPath == nil {
 				continue
 			}
 			implString := implPath.ToString()
-			implElement, found := c.lookup[implString]
+			implElement, found := (*c.lookup)[implString]
 			if !found {
-				c.err = append(c.err, errElement.CreateErrorElement(element.Node, errors.New("Das implementierte Interface wurde nicht gefunden!")))
+				c.elements = append(c.elements, errElement.CreateErrorElement(element.Node, errors.New("Das implementierte Interface wurde nicht gefunden!")))
 			} else {
 				_, ok := implElement.(*packages.InterfaceElement)
 				if !ok {
-					c.err = append(c.err, errElement.CreateErrorElement(element.Node, errors.New("Der Implementierte Typ ist kein Interface!")))
+					c.elements = append(c.elements, errElement.CreateErrorElement(element.Node, errors.New("Der Implementierte Typ ist kein Interface!")))
 				} else {
 					if implString == element.Path.ToString() {
-						c.err = append(c.err, errElement.CreateErrorElement(element.Node, errors.New("Ein Interface kann sich nicht selber implementieren!")))
+						c.elements = append(c.elements, errElement.CreateErrorElement(element.Node, errors.New("Ein Interface kann sich nicht selber implementieren!")))
 					}
 				}
 
 			}
 		}
 	}
-}
-
-func (c *checkSuperTypes) handleEnumeration(fileContent []byte, element *packages.EnumElement) {
-
 }

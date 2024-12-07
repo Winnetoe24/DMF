@@ -404,7 +404,6 @@ package de.library.management {
         // Mitarbeiterposition
         enum Position {
             DIRECTOR(_);
-            DIRECTOR(_);
             LIBRARIAN(_);
             ASSISTANT(_);
             IT_STAFF(_);

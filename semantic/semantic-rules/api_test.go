@@ -18,7 +18,7 @@ func TestAPI(t *testing.T) {
 
 	//When
 	models := make(chan<- *sematic_model.Model)
-	errorElements, errPos, err := ParseNewFile(string(file), make(chan<- *tree_sitter.Tree), models, true)
+	errorElements, errPos, err, _ := ParseNewFile(string(file), make(chan<- *tree_sitter.Tree), models)
 	//model := <-models
 	//packages := model.Packages
 	//t.Logf("Size: %v", unsafe.Sizeof(packages))
@@ -50,24 +50,7 @@ func BenchmarkParseNewFile(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			treeChannel := make(chan *tree_sitter.Tree, 1)
 			modelChannel := make(chan *sematic_model.Model, 1)
-			ParseNewFile(string(file), treeChannel, modelChannel, false)
-			_ = <-treeChannel
-			_ = <-modelChannel
-			close(treeChannel)
-			close(modelChannel)
-		}
-		//f, i, err2 := ParseNewFile(string(file), treeChannel, modelChannel)
-		//if err2 != nil {
-		//	b.Errorf("Error parsing at Pos %v %e\n", i, err2)
-		//} else {
-		//	b.Logf("Parsed at Pos %v\n", f)
-		//}
-	})
-	b.Run("ParseNewFileSync", func(b *testing.B) {
-		for i := 0; i < b.N; i++ {
-			treeChannel := make(chan *tree_sitter.Tree, 1)
-			modelChannel := make(chan *sematic_model.Model, 1)
-			ParseNewFile(string(file), treeChannel, modelChannel, true)
+			ParseNewFile(string(file), treeChannel, modelChannel)
 			_ = <-treeChannel
 			_ = <-modelChannel
 			close(treeChannel)

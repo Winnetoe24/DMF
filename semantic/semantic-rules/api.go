@@ -5,11 +5,9 @@ import (
 	tree_sitter_dmf "github.com/Winnetoe24/DMF/grammar/dmf_language"
 	sematic_model "github.com/Winnetoe24/DMF/semantic/semantic-parse"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
-	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	err_element "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
-	"sync"
 )
 
 const (
@@ -17,11 +15,11 @@ const (
 	ERROR_AFTER_SEMANTIC_PARSE     = 2
 )
 
-func ParseNewFile(fileContent string, afterParse chan<- *tree_sitter.Tree, afterSematicModel chan<- *smodel.Model, sync bool) ([]err_element.ErrorElement, int, error) {
+func ParseNewFile(fileContent string, afterParse chan<- *tree_sitter.Tree, afterSematicModel chan<- *smodel.Model) ([]err_element.ErrorElement, int, error, TypeLookUp) {
 
 	tree, err := callTreeSitterParser(fileContent)
 	if err != nil {
-		return nil, ERROR_AFTER_TREE_SITTER_PARSER, err
+		return nil, ERROR_AFTER_TREE_SITTER_PARSER, err, nil
 	}
 	go func() {
 		afterParse <- tree
@@ -29,7 +27,7 @@ func ParseNewFile(fileContent string, afterParse chan<- *tree_sitter.Tree, after
 
 	parsedModel, errorElementsModel, err := sematic_model.Parse([]byte(fileContent), tree)
 	if err != nil {
-		return nil, ERROR_AFTER_SEMANTIC_PARSE, err
+		return nil, ERROR_AFTER_SEMANTIC_PARSE, err, nil
 	}
 	go func() {
 		afterSematicModel <- &parsedModel
@@ -37,13 +35,11 @@ func ParseNewFile(fileContent string, afterParse chan<- *tree_sitter.Tree, after
 
 	var errorElements []err_element.ErrorElement
 
-	if sync {
-		errorElements = runRulesSync([]byte(fileContent), &parsedModel)
-	} else {
-		errorElements = runRules([]byte(fileContent), &parsedModel)
-	}
+	var lookup TypeLookUp
+	errorElements, lookup = runRulesSync(&parsedModel)
+
 	errorElements = append(errorElements, errorElementsModel...)
-	return errorElements, 0, nil
+	return errorElements, 0, nil, lookup
 }
 
 func callTreeSitterParser(fileContent string) (*tree_sitter.Tree, error) {
@@ -62,12 +58,10 @@ func callTreeSitterParser(fileContent string) (*tree_sitter.Tree, error) {
 }
 
 type semanticRule[E any, R any] interface {
-	SemanticRule(fileContent []byte, model *smodel.Model, extra E) ([]err_element.ErrorElement, R)
+	SemanticRule(fileContent []byte, model *smodel.Model, lookup *TypeLookUp) []err_element.ErrorElement
 }
 
 type TypeLookUp map[string]packages.PackageElement
-
-type TypeNodeLookup map[string]base.TypeNode
 
 var _ ITypeLookUp = (TypeLookUp)(nil)
 
@@ -79,66 +73,17 @@ type ITypeLookUp interface {
 	getTypeLookUp() TypeLookUp
 }
 
-func runRules(fileContent []byte, model *smodel.Model) []err_element.ErrorElement {
-	var err []err_element.ErrorElement
-	ret := make(chan []err_element.ErrorElement, 2)
-	group := sync.WaitGroup{}
-	groupRet := sync.WaitGroup{}
-	groupRet.Add(1)
-	go func() {
-		for {
-			neu, more := <-ret
-			if more {
-				err = append(err, neu...)
-			} else {
-				break
-			}
-			//log.Printf("Read\n")
-		}
-		groupRet.Done()
+func runRulesSync(model *smodel.Model) ([]err_element.ErrorElement, TypeLookUp) {
 
-	}()
-	//typeLookUpChan := make(chan TypeLookUp)
-	startRule(fileContent, &group, model, &duplicatePathRule{}, nil, ret, nil)
-	//typeLookUp := <-typeLookUpChan
-	//_ = <-typeLookUpChan
-	//close(typeLookUpChan)
-	group.Wait()
-	close(ret)
+	fillTypeLookUp := newFillTypeLookUp()
+	lookUp, err := fillTypeLookUp.Fill(model)
 
-	groupRet.Wait()
-	return err
-}
-func startRule[E *any, T any](fileContent []byte, group *sync.WaitGroup, model *smodel.Model, rule semanticRule[E, T], extra *chan E, ret chan<- []err_element.ErrorElement, result *chan T) {
-	group.Add(1)
-	go func() {
-		var e E = nil
-		if extra != nil {
-			e = <-*extra
-		}
-		elements, t := rule.SemanticRule(fileContent, model, e)
-		ret <- elements
-		if result != nil {
-			*result <- t
-		}
-		group.Done()
-	}()
-}
-func runRulesSync(fileContent []byte, model *smodel.Model) []err_element.ErrorElement {
-	var err []err_element.ErrorElement
-	duplicatePathRule := &duplicatePathRule{}
-	newErr, lookUp := duplicatePathRule.SemanticRule(fileContent, model, nil)
-	err = append(err, newErr...)
+	err = append(err, newComputeSuperTypes(&lookUp).walk()...)
+	err = append(err, newComputeElements(&lookUp).walk()...)
 
-	newErr, _ = (&modelWithTypesWalker{
-		handler: []walkModelWithTypes{
-			&checkSuperTypes{
-				nodeLookup: make(TypeNodeLookup),
-			},
-			&checkEnumConstants{},
-			&checkEntityIdentifier{},
-		},
-	}).SemanticRule(fileContent, model, lookUp)
-	err = append(err, newErr...)
-	return err
+	// Only Read LookUp
+	err = append(err, newCheckEntityIdentifier(&lookUp).walk()...)
+	err = append(err, newCheckEnumConstants(&lookUp).walk()...)
+
+	return err, lookUp
 }

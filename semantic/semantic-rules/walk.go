@@ -1,59 +1,72 @@
 package semantic_rules
 
 import (
-	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
 	errElement "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 )
 
-type walkModelWithTypes interface {
-	handleStruct(fileContent []byte, element *packages.StructElement, entity *packages.EntityElement)
-	handleInterface(fileContent []byte, element *packages.InterfaceElement)
-	handleEnumeration(fileContent []byte, element *packages.EnumElement)
-	getErrorElements() []errElement.ErrorElement
-	setTypeLookUp(ITypeLookUp)
+type iWalkRule interface {
+	// Verarbeitet ein StructElement. Ist das Struct Element auch eine Entity so wird auch die Entity übergeben.
+	// Wird von walk aufgerufen und von den Regeln implementiert.
+	handleStruct(element *packages.StructElement, entity *packages.EntityElement)
+
+	// Verarbeitet ein InterfaceElement.
+	// Wird von walk aufgerufen und von den Regeln implementiert.
+	handleInterface(element *packages.InterfaceElement)
+
+	// Verarbeitet ein EnumElement.
+	// Wird von walk aufgerufen und von den Regeln implementiert.
+	handleEnumeration(element *packages.EnumElement)
+
+	// Siehe walkRule
+	walk() []errElement.ErrorElement
 }
 
-type modelWithTypesWalker struct {
-	handler []walkModelWithTypes
+// Supertyp alle Regeln, welche alle Typen durchlaufen.
+type walkRule struct {
+	lookup    *TypeLookUp
+	elements  []errElement.ErrorElement
+	iWalkRule iWalkRule
 }
 
-func (c *modelWithTypesWalker) SemanticRule(fileContent []byte, model *smodel.Model, extra ITypeLookUp) ([]errElement.ErrorElement, any) {
-	for _, types := range c.handler {
-		types.setTypeLookUp(extra)
+func newWalkRule(lookup *TypeLookUp) *walkRule {
+	return &walkRule{
+		lookup:    lookup,
+		elements:  make([]errElement.ErrorElement, 0),
+		iWalkRule: nil,
 	}
-	for _, pack := range model.Packages {
-		c.handlePackage(fileContent, &pack)
-	}
-	var errs []errElement.ErrorElement
-	for _, types := range c.handler {
-		errs = append(errs, types.getErrorElements()...)
-	}
-	return errs, nil
 }
 
-func (c *modelWithTypesWalker) handlePackage(fileContent []byte, pack *packages.Package) {
-	for _, elem := range pack.Elements {
-		switch elem.(type) {
-		case *packages.Package:
-			c.handlePackage(fileContent, elem.(*packages.Package))
+var _ iWalkRule = &walkRule{}
+
+// Verarbeitet ein StructElement. Ist das Struct Element auch eine Entity so wird auch die Entity übergeben.
+// Wird von walk aufgerufen und von den Regeln implementiert.
+func (w *walkRule) handleStruct(element *packages.StructElement, entity *packages.EntityElement) {}
+
+// Verarbeitet ein InterfaceElement.
+// Wird von walk aufgerufen und von den Regeln implementiert.
+func (w *walkRule) handleInterface(element *packages.InterfaceElement) {}
+
+// Verarbeitet ein EnumElement.
+// Wird von walk aufgerufen und von den Regeln implementiert.
+func (w *walkRule) handleEnumeration(element *packages.EnumElement) {}
+
+// Durchläuft alle Typen im TypeLookUp und ruft die entsprechenden Regeln auf.
+func (w *walkRule) walk() []errElement.ErrorElement {
+	for _, element := range *w.lookup {
+		switch element := element.(type) {
 		case *packages.StructElement:
-			for _, handler := range c.handler {
-				handler.handleStruct(fileContent, elem.(*packages.StructElement), nil)
-			}
+			w.iWalkRule.handleStruct(element, nil)
 		case *packages.EntityElement:
-			entityElement := elem.(*packages.EntityElement)
-			for _, handler := range c.handler {
-				handler.handleStruct(fileContent, &entityElement.StructElement, entityElement)
-			}
+			structElement := element.StructElement
+			w.iWalkRule.handleStruct(&structElement, element)
 		case *packages.InterfaceElement:
-			for _, handler := range c.handler {
-				handler.handleInterface(fileContent, elem.(*packages.InterfaceElement))
-			}
+			w.iWalkRule.handleInterface(element)
 		case *packages.EnumElement:
-			for _, handler := range c.handler {
-				handler.handleEnumeration(fileContent, elem.(*packages.EnumElement))
-			}
+			w.iWalkRule.handleEnumeration(element)
 		}
 	}
+
+	return w.elements
+
 }

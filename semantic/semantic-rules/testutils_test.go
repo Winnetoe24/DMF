@@ -10,16 +10,11 @@ import (
 	"testing"
 )
 
-func testSemanticRule[E any, R any](t *testing.T, rule semanticRule[E, R], filename string, expectedErrorCount int, extra E, file []byte, model *smodel.Model) R {
-
-	errorElements, r := rule.SemanticRule(file, model, extra)
+func checkErrorCount(t *testing.T, ctx *err_element.ErrorContext, errorElements []err_element.ErrorElement, expectedErrorCount int) {
 	if expectedErrorCount == 0 {
 		if errorElements != nil && len(errorElements) > 0 {
 			for _, element := range errorElements {
-				t.Error(element.ToErrorMsg(&err_element.ErrorContext{
-					Dateiname:   filename,
-					Dateiinhalt: file,
-				}))
+				t.Error(element.ToErrorMsg(ctx))
 			}
 		}
 	} else {
@@ -29,26 +24,19 @@ func testSemanticRule[E any, R any](t *testing.T, rule semanticRule[E, R], filen
 			length := len(errorElements)
 			if length > expectedErrorCount {
 				for _, errorElement := range errorElements {
-					t.Errorf("To many Errors: %s\n", errorElement.ToErrorMsg(&err_element.ErrorContext{
-						Dateiname:   filename,
-						Dateiinhalt: file,
-					}))
+					t.Errorf("To many Errors: %s\n", errorElement.ToErrorMsg(ctx))
 				}
 			} else if length < expectedErrorCount {
 				for _, errorElement := range errorElements {
-					t.Errorf("correct Error: %s\n", errorElement.ToErrorMsg(&err_element.ErrorContext{
-						Dateiname:   filename,
-						Dateiinhalt: file,
-					}))
+					t.Errorf("correct Error: %s\n", errorElement.ToErrorMsg(ctx))
 				}
 				t.Errorf("To less Errors! Expected %v more Errors.\n", expectedErrorCount)
 			}
 		}
 	}
-	return r
 }
 
-func testSetup(t testing.TB, filename string) (file []byte, parsedModel smodel.Model) {
+func testSetup(t testing.TB, filename string) (model smodel.Model, ctx *err_element.ErrorContext) {
 	language := tree_sitter.NewLanguage(tree_sitter_dmf.Language())
 	if language == nil {
 		t.Errorf("Error loading Dmf grammar")
@@ -59,13 +47,13 @@ func testSetup(t testing.TB, filename string) (file []byte, parsedModel smodel.M
 	if err != nil {
 		t.Errorf("Error setting Language: %e", err)
 	}
-	file, err = os.ReadFile(filename)
+	file, err := os.ReadFile(filename)
 	if err != nil {
 		t.Errorf("Error reading file: %e", err)
 	}
 	tree := parser.Parse(file, nil)
 
-	parsedModel, elements, err := sematic_model.Parse(file, tree)
+	model, elements, err := sematic_model.Parse(file, tree)
 	if err != nil {
 		t.Errorf("Error parsing file: %e", err)
 	}
@@ -77,5 +65,8 @@ func testSetup(t testing.TB, filename string) (file []byte, parsedModel smodel.M
 			}))
 		}
 	}
-	return file, parsedModel
+	return model, &err_element.ErrorContext{
+		Dateiname:   filename,
+		Dateiinhalt: file,
+	}
 }
