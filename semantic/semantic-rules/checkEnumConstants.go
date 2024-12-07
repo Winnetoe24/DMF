@@ -41,7 +41,7 @@ func (c *checkEnumConstants) handleEnumeration(fileContent []byte, element *pack
 	for _, konst := range element.Konstanten {
 		duplikat, exists := nameSet[konst.Name.Name]
 		if exists {
-			c.err = append(c.err, errElement.CreateErrorElementFull(fileContent, konst.Name.Node, errors.New("Konstanten-Namen doppelt vergeben!"), konst.Node, duplikat.Name.Node, duplikat.Node))
+			c.err = append(c.err, errElement.CreateErrorElementFull(konst.Name.Node, errors.New("Konstanten-Namen doppelt vergeben!"), konst.Node, duplikat.Name.Node, duplikat.Node))
 		} else {
 			nameSet[konst.Name.Name] = konst
 		}
@@ -49,7 +49,7 @@ func (c *checkEnumConstants) handleEnumeration(fileContent []byte, element *pack
 		for i, value := range konst.Values {
 			if i == 0 {
 				if value.GetDataType() != base.INT {
-					c.err = append(c.err, errElement.CreateErrorElement(fileContent, element.Node, errors.New("eine Konstante muss als ersten Wert einen Integer für den Index beinhalten")))
+					c.err = append(c.err, errElement.CreateErrorElement(element.Node, errors.New("eine Konstante muss als ersten Wert einen Integer für den Index beinhalten")))
 				} else {
 					intValue := value.(values.IntValue)
 					if intValue.Ignored {
@@ -60,19 +60,19 @@ func (c *checkEnumConstants) handleEnumeration(fileContent []byte, element *pack
 
 					duplikat, exists := indexSet[lastIndex]
 					if exists {
-						c.err = append(c.err, errElement.CreateErrorElementFull(fileContent, intValue.Node, errors.New("Konstanten-Index doppelt vergeben!"), konst.Node, duplikat.Values[0].GetNode(), duplikat.Node))
+						c.err = append(c.err, errElement.CreateErrorElementFull(intValue.Node, errors.New("Konstanten-Index doppelt vergeben!"), konst.Node, duplikat.Values[0].GetNode(), duplikat.Node))
 					} else {
 						indexSet[lastIndex] = konst
 					}
 				}
 			} else {
 				if len(element.Argumente) <= i-1 {
-					c.err = append(c.err, errElement.CreateErrorElementCxt(fileContent, value.GetNode(), errors.New("mehr Werte in der Konstante angegeben als im Enum definiert sind"), konst.Node))
+					c.err = append(c.err, errElement.CreateErrorElementCxt(value.GetNode(), errors.New("mehr Werte in der Konstante angegeben als im Enum definiert sind"), konst.Node))
 				} else {
 					argument := element.Argumente[i-1]
 					_, primitivType := argument.GetVariableType()
 					if primitivType == nil || *primitivType != value.GetDataType() {
-						c.err = append(c.err, errElement.CreateErrorElementFull(fileContent, value.GetNode(), errors.New("der Datentyp stimmt nicht mit dem deklarierten Datentyp überein"), konst.Node, argument.Node, argument.Node))
+						c.err = append(c.err, errElement.CreateErrorElementFull(value.GetNode(), errors.New("der Datentyp stimmt nicht mit dem deklarierten Datentyp überein"), konst.Node, argument.Node, argument.Node))
 
 					}
 				}

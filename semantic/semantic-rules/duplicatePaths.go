@@ -47,8 +47,8 @@ func (d *duplicatePathRule) handleElement(fileContent []byte, ePE packages.Packa
 		node := packageElement.GetBase().Node
 		eNode := ePE.GetBase().Node
 		d.err = append(d.err,
-			err_element2.CreateErrorElementCause(fileContent, node, DuplicatePathError, eNode),
-			err_element2.CreateErrorElementCause(fileContent, eNode, DuplicatePathError, node))
+			err_element2.CreateErrorElementCause(node, DuplicatePathError, eNode),
+			err_element2.CreateErrorElementCause(eNode, DuplicatePathError, node))
 	} else {
 		d.finds[path] = ePE
 	}

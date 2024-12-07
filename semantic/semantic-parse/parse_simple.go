@@ -18,7 +18,7 @@ func (S *SemanticContext) parseVersion() ([]int32, []errElement.ErrorElement) {
 	cursor := S.Cursor
 	node := cursor.Node()
 
-	errorElement := assertNodeState(S.Text, node, "Version Node")
+	errorElement := assertNodeState(node, "Version Node")
 	if errorElement != nil {
 		return nil, []errElement.ErrorElement{*errorElement}
 	}
@@ -35,25 +35,25 @@ func (S *SemanticContext) parseVersion() ([]int32, []errElement.ErrorElement) {
 			}
 		}
 		if i > 4 {
-			errorEle = append(errorEle, errElement.CreateErrorElement(S.Text, &child, errors.New("zu Viele Versions Elemente")))
+			errorEle = append(errorEle, errElement.CreateErrorElement(&child, errors.New("zu Viele Versions Elemente")))
 		}
 	}
 	if version == nil {
-		errorEle = append(errorEle, errElement.CreateErrorElement(S.Text, node, errors.New("keine Version angegeben")))
+		errorEle = append(errorEle, errElement.CreateErrorElement(node, errors.New("keine Version angegeben")))
 		version = make([]int32, 0)
 	}
 	return version, errorEle
 }
 
 func (S *SemanticContext) parseNumber(node *tree_sitter.Node) (int32, *errElement.ErrorElement) {
-	errorElement := assertNodeState(S.Text, node, "Number Node")
+	errorElement := assertNodeState(node, "Number Node")
 	if errorElement != nil {
 		return 0, errorElement
 	}
 	utf8Text := node.Utf8Text(S.Text)
 	i, err := strconv.ParseInt(utf8Text, 10, 32)
 	if err != nil {
-		return 0, errElement.CreateErrorElementRef(S.Text, node, err)
+		return 0, errElement.CreateErrorElementRef(node, err)
 	}
 	return int32(i), nil
 }
@@ -61,13 +61,13 @@ func (S *SemanticContext) parseNumber(node *tree_sitter.Node) (int32, *errElemen
 func (S *SemanticContext) parsePackageString(current base.ModelPath, dotForCurrent bool) (base.ModelPath, base.ElementIdentifier, *errElement.ErrorElement) {
 	cursor := S.Cursor
 	node := cursor.Node()
-	errorElement := assertNodeState(S.Text, node, "Package String Node")
+	errorElement := assertNodeState(node, "Package String Node")
 	if errorElement != nil {
 		return nil, base.ElementIdentifier{}, errorElement
 	}
 	hasFirstChild := cursor.GotoFirstChild()
 	if !hasFirstChild {
-		return nil, base.ElementIdentifier{}, errElement.CreateErrorElementRef(S.Text, node, errors.New("keine Elemente im Package String"))
+		return nil, base.ElementIdentifier{}, errElement.CreateErrorElementRef(node, errors.New("keine Elemente im Package String"))
 	}
 	defer cursor.GotoParent()
 
@@ -80,7 +80,7 @@ func (S *SemanticContext) parsePackageString(current base.ModelPath, dotForCurre
 				if len(neuerPath) > 0 {
 					neuerPath = neuerPath[:len(neuerPath)-1]
 				} else {
-					return nil, base.ElementIdentifier{}, errElement.CreateErrorElementCtxRef(S.Text, cNode, errors.New("es existieren nicht genug Parent packages"), node)
+					return nil, base.ElementIdentifier{}, errElement.CreateErrorElementCtxRef(cNode, errors.New("es existieren nicht genug Parent packages"), node)
 				}
 			} else {
 				dotForCurrent = true
@@ -90,7 +90,7 @@ func (S *SemanticContext) parsePackageString(current base.ModelPath, dotForCurre
 			neuerPath = append(neuerPath, elementIdentifier.Name)
 			dotForCurrent = false
 		} else {
-			return nil, base.ElementIdentifier{}, errElement.CreateErrorElementCtxRef(S.Text, cNode, errors.New("falsche Node"), node)
+			return nil, base.ElementIdentifier{}, errElement.CreateErrorElementCtxRef(cNode, errors.New("falsche Node"), node)
 		}
 		if !cursor.GotoNextSibling() {
 			break
@@ -101,7 +101,7 @@ func (S *SemanticContext) parsePackageString(current base.ModelPath, dotForCurre
 
 func (S *SemanticContext) parseStringValue() (values.StringValue, *errElement.ErrorElement) {
 	node := S.Cursor.Node()
-	errorElement := assertNodeState(S.Text, node, "String Value Node")
+	errorElement := assertNodeState(node, "String Value Node")
 	if errorElement != nil {
 		return values.StringValue{}, errorElement
 	}
@@ -123,7 +123,7 @@ func (S *SemanticContext) parseStringValue() (values.StringValue, *errElement.Er
 func (S *SemanticContext) parseComment() (base.Comment, *errElement.ErrorElement) {
 	cursor := S.Cursor
 	node := cursor.Node()
-	errorElement := assertNodeState(S.Text, node, "Comment Block Node")
+	errorElement := assertNodeState(node, "Comment Block Node")
 	if errorElement != nil {
 		return nil, errorElement
 	}
@@ -137,7 +137,7 @@ func (S *SemanticContext) parseComment() (base.Comment, *errElement.ErrorElement
 
 	for {
 		cNode := cursor.Node()
-		errorElement := assertNodeState(S.Text, cNode, "Comment Node")
+		errorElement := assertNodeState(cNode, "Comment Node")
 		if errorElement != nil {
 			return nil, errorElement
 		}
@@ -156,13 +156,13 @@ func (S *SemanticContext) parseComment() (base.Comment, *errElement.ErrorElement
 func (S *SemanticContext) parseRefType(current base.ModelPath) (base.ModelPath, *errElement.ErrorElement) {
 	cursor := S.Cursor
 	node := cursor.Node()
-	errorElement := assertNodeState(S.Text, node, "Ref Type Node")
+	errorElement := assertNodeState(node, "Ref Type Node")
 	if errorElement != nil {
 		return nil, errorElement
 	}
 	hasFirstChild := cursor.GotoFirstChild()
 	if !hasFirstChild {
-		return nil, errElement.CreateErrorElementRef(S.Text, node, errors.New("keine Elemente im Ref Type"))
+		return nil, errElement.CreateErrorElementRef(node, errors.New("keine Elemente im Ref Type"))
 	}
 	defer cursor.GotoParent()
 
@@ -176,7 +176,7 @@ func (S *SemanticContext) parseRefType(current base.ModelPath) (base.ModelPath, 
 			if len(neuerPath) > 0 {
 				neuerPath = neuerPath[:len(neuerPath)-1]
 			} else {
-				return nil, errElement.CreateErrorElementCtxRef(S.Text, cNode, errors.New("es existieren nicht genug Parent packages"), node)
+				return nil, errElement.CreateErrorElementCtxRef(cNode, errors.New("es existieren nicht genug Parent packages"), node)
 			}
 		}
 
@@ -194,14 +194,14 @@ func (S *SemanticContext) parseRefType(current base.ModelPath) (base.ModelPath, 
 
 func (S *SemanticContext) parsePrimitiveType() (base.PrimitivType, *errElement.ErrorElement) {
 	node := S.Cursor.Node()
-	errorElement := assertNodeState(S.Text, node, "Primitive Type Node")
+	errorElement := assertNodeState(node, "Primitive Type Node")
 	if errorElement != nil {
 		return "", errorElement
 	}
 
 	hasFirstChild := S.Cursor.GotoFirstChild()
 	if !hasFirstChild {
-		return "", errElement.CreateErrorElementRef(S.Text, node, errors.New("kein Typ vorhanden"))
+		return "", errElement.CreateErrorElementRef(node, errors.New("kein Typ vorhanden"))
 	}
 	defer S.Cursor.GotoParent()
 
@@ -216,7 +216,7 @@ func (S *SemanticContext) parsePrimitiveType() (base.PrimitivType, *errElement.E
 	case base.DATETIME:
 	case base.DOUBLE:
 	default:
-		return "", errElement.CreateErrorElementCtxRef(S.Text, node, errors.New(S.Cursor.Node().Kind()+" gehört nicht zu den Primitiven Typen"), node.Parent())
+		return "", errElement.CreateErrorElementCtxRef(node, errors.New(S.Cursor.Node().Kind()+" gehört nicht zu den Primitiven Typen"), node.Parent())
 	}
 	return primitivType, nil
 }
@@ -235,7 +235,7 @@ func (S *SemanticContext) parsePrimitiveValue() (values.Value, *errElement.Error
 	}
 	hasFirstChild := S.Cursor.GotoFirstChild()
 	if !hasFirstChild {
-		return nil, errElement.CreateErrorElementRef(S.Text, node, errors.New("kein Wert vorhanden"))
+		return nil, errElement.CreateErrorElementRef(node, errors.New("kein Wert vorhanden"))
 	}
 	defer S.Cursor.GotoParent()
 
@@ -250,7 +250,7 @@ func (S *SemanticContext) parsePrimitiveValue() (values.Value, *errElement.Error
 		dateText := S.Cursor.Node().Utf8Text(S.Text)
 		parse, err := time.Parse("D2006-01-02", dateText)
 		if err != nil {
-			return nil, errElement.CreateErrorElementRef(S.Text, node, err)
+			return nil, errElement.CreateErrorElementRef(node, err)
 		}
 		return values.DateValue{
 			ModelElement: base.ModelElement{
@@ -262,7 +262,7 @@ func (S *SemanticContext) parsePrimitiveValue() (values.Value, *errElement.Error
 		dateText := S.Cursor.Node().Utf8Text(S.Text)
 		parse, err := time.Parse("D2006-01-02T15:04:05", dateText)
 		if err != nil {
-			return nil, errElement.CreateErrorElementRef(S.Text, node, err)
+			return nil, errElement.CreateErrorElementRef(node, err)
 		}
 		return values.DateTimeValue{
 			ModelElement: base.ModelElement{
@@ -276,7 +276,7 @@ func (S *SemanticContext) parsePrimitiveValue() (values.Value, *errElement.Error
 		boolText := S.Cursor.Node().Utf8Text(S.Text)
 		parseBool, err := strconv.ParseBool(boolText)
 		if err != nil {
-			return nil, errElement.CreateErrorElementRef(S.Text, node, err)
+			return nil, errElement.CreateErrorElementRef(node, err)
 		}
 		return values.BooleanValue{
 			ModelElement: base.ModelElement{
@@ -286,14 +286,14 @@ func (S *SemanticContext) parsePrimitiveValue() (values.Value, *errElement.Error
 		}, nil
 
 	}
-	return nil, errElement.CreateErrorElementRef(S.Text, node, errors.New("Unbekannter Wert"))
+	return nil, errElement.CreateErrorElementRef(node, errors.New("Unbekannter Wert"))
 }
 
 func (S *SemanticContext) parseLongValue() (values.LongValue, *errElement.ErrorElement) {
 	node := S.Cursor.Node()
 	hasFirstChild := S.Cursor.GotoFirstChild()
 	if !hasFirstChild {
-		return values.LongValue{}, errElement.CreateErrorElementRef(S.Text, node, errors.New("keine Nummer vorhanden"))
+		return values.LongValue{}, errElement.CreateErrorElementRef(node, errors.New("keine Nummer vorhanden"))
 	}
 	defer S.Cursor.GotoParent()
 
@@ -315,7 +315,7 @@ func (S *SemanticContext) parseDoubleValue() (values.DoubleValue, *errElement.Er
 	node := S.Cursor.Node()
 	hasFirstChild := S.Cursor.GotoFirstChild()
 	if !hasFirstChild {
-		return values.DoubleValue{}, errElement.CreateErrorElementRef(S.Text, node, errors.New("keine Nummer vorhanden"))
+		return values.DoubleValue{}, errElement.CreateErrorElementRef(node, errors.New("keine Nummer vorhanden"))
 	}
 	defer S.Cursor.GotoParent()
 
@@ -325,12 +325,12 @@ func (S *SemanticContext) parseDoubleValue() (values.DoubleValue, *errElement.Er
 	}
 	hasNextSibling := S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
-		return values.DoubleValue{}, errElement.CreateErrorElementRef(S.Text, node, errors.New("kein . vorhanden"))
+		return values.DoubleValue{}, errElement.CreateErrorElementRef(node, errors.New("kein . vorhanden"))
 	}
 
 	hasNextSibling = S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
-		return values.DoubleValue{}, errElement.CreateErrorElementRef(S.Text, node, errors.New("keine Nummer vorhanden"))
+		return values.DoubleValue{}, errElement.CreateErrorElementRef(node, errors.New("keine Nummer vorhanden"))
 	}
 	afterPointValue, errorElement := S.parseIntegerValue()
 	if errorElement != nil {
@@ -351,7 +351,7 @@ func (S *SemanticContext) parseDoubleValue() (values.DoubleValue, *errElement.Er
 		}
 	}
 
-	return values.DoubleValue{}, errElement.CreateErrorElementRef(S.Text, node, errors.New("konnte Integer nicht verarbeiten"))
+	return values.DoubleValue{}, errElement.CreateErrorElementRef(node, errors.New("konnte Integer nicht verarbeiten"))
 }
 
 func (S *SemanticContext) parseIntegerValue() (values.IntValue, *errElement.ErrorElement) {
@@ -364,7 +364,7 @@ func (S *SemanticContext) parseIntegerValue() (values.IntValue, *errElement.Erro
 	}
 	i, err := strconv.ParseInt(stringValue, 10, 64)
 	if err != nil {
-		return values.IntValue{}, errElement.CreateErrorElementRef(S.Text, node, errors.New("Text ist keine Zahl"))
+		return values.IntValue{}, errElement.CreateErrorElementRef(node, errors.New("Text ist keine Zahl"))
 	}
 	return values.IntValue{
 		ModelElement: base.ModelElement{
@@ -380,7 +380,7 @@ func (S *SemanticContext) extractIntegerString() (string, *errElement.ErrorEleme
 	stringValue := ""
 	hasFirstChild := S.Cursor.GotoFirstChild()
 	if !hasFirstChild {
-		return "", errElement.CreateErrorElementRef(S.Text, S.Cursor.Node(), errors.New("keine Nummer vorhanden"))
+		return "", errElement.CreateErrorElementRef(S.Cursor.Node(), errors.New("keine Nummer vorhanden"))
 	}
 
 	for {

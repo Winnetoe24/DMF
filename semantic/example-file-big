@@ -382,8 +382,8 @@ package de.library.management {
             ref .Room room;
             ref ..users.User user;
             arg date bookingDate;
-            arg time startTime;
-            arg time endTime;
+            arg datetime startTime;
+            arg datetime endTime;
             arg int numberOfPeople;
             arg string purpose;
 
@@ -403,6 +403,7 @@ package de.library.management {
 
         // Mitarbeiterposition
         enum Position {
+            DIRECTOR(_);
             DIRECTOR(_);
             LIBRARIAN(_);
             ASSISTANT(_);

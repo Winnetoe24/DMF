@@ -154,7 +154,7 @@ func (d *duplicateElements) addElement(fileContent []byte, namedElements *map[st
 	name := element.GetName()
 	ele, found := (*namedElements)[name]
 	if found {
-		d.err = append(d.err, err_element.CreateErrorElementCause(fileContent, element.Element().Node, errors.New("Name Doppelt Vergeben!"), ele.Element().Node))
+		d.err = append(d.err, err_element.CreateErrorElementCause(element.Element().Node, errors.New("Name Doppelt Vergeben!"), ele.Element().Node))
 	} else {
 		(*namedElements)[name] = element
 	}

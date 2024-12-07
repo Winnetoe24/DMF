@@ -4,6 +4,7 @@ import (
 	tree_sitter_dmf "github.com/Winnetoe24/DMF/grammar/dmf_language"
 	sematic_model "github.com/Winnetoe24/DMF/semantic/semantic-parse"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
+	err_element "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 	"os"
 	"testing"
@@ -15,7 +16,10 @@ func testSemanticRule[E any, R any](t *testing.T, rule semanticRule[E, R], filen
 	if expectedErrorCount == 0 {
 		if errorElements != nil && len(errorElements) > 0 {
 			for _, element := range errorElements {
-				t.Error(element.ToErrorMsg())
+				t.Error(element.ToErrorMsg(&err_element.ErrorContext{
+					Dateiname:   filename,
+					Dateiinhalt: file,
+				}))
 			}
 		}
 	} else {
@@ -25,11 +29,17 @@ func testSemanticRule[E any, R any](t *testing.T, rule semanticRule[E, R], filen
 			length := len(errorElements)
 			if length > expectedErrorCount {
 				for _, errorElement := range errorElements {
-					t.Errorf("To many Errors: %s\n", errorElement.ToErrorMsgFile(filename))
+					t.Errorf("To many Errors: %s\n", errorElement.ToErrorMsg(&err_element.ErrorContext{
+						Dateiname:   filename,
+						Dateiinhalt: file,
+					}))
 				}
 			} else if length < expectedErrorCount {
 				for _, errorElement := range errorElements {
-					t.Errorf("correct Error: %s\n", errorElement.ToErrorMsgFile(filename))
+					t.Errorf("correct Error: %s\n", errorElement.ToErrorMsg(&err_element.ErrorContext{
+						Dateiname:   filename,
+						Dateiinhalt: file,
+					}))
 				}
 				t.Errorf("To less Errors! Expected %v more Errors.\n", expectedErrorCount)
 			}
@@ -61,7 +71,10 @@ func testSetup(t testing.TB, filename string) (file []byte, parsedModel smodel.M
 	}
 	if elements != nil && len(elements) > 0 {
 		for _, element := range elements {
-			t.Error(element.ToErrorMsgFile(filename))
+			t.Error(element.ToErrorMsg(&err_element.ErrorContext{
+				Dateiname:   filename,
+				Dateiinhalt: file,
+			}))
 		}
 	}
 	return file, parsedModel

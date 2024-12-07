@@ -11,7 +11,7 @@ import (
 
 func (S *SemanticContext) parseIdentifier() base.ElementIdentifier {
 	identifierNode := S.Cursor.Node()
-	errorElement := assertNodeState(S.Text, identifierNode, "Identifier Node")
+	errorElement := assertNodeState(identifierNode, "Identifier Node")
 	if errorElement != nil {
 		S.ErrorElements = append(S.ErrorElements, *errorElement)
 	}
@@ -29,7 +29,7 @@ func (S *SemanticContext) parseExtendsBlock(current base.ModelPath) (base.ModelP
 	if extendsNode.Kind() != dmf_language.EXTENDS_BLOCK {
 		return nil, nil
 	}
-	errorElement := assertNodeState(S.Text, extendsNode, "ExtendsPath Block Node")
+	errorElement := assertNodeState(extendsNode, "ExtendsPath Block Node")
 	if errorElement != nil {
 		return nil, errorElement
 	}
@@ -37,14 +37,14 @@ func (S *SemanticContext) parseExtendsBlock(current base.ModelPath) (base.ModelP
 	// 'extends'
 	hasFirstChild := S.Cursor.GotoFirstChild()
 	if !hasFirstChild {
-		return nil, errElement.CreateErrorElementRef(S.Text, extendsNode, errors.New("extends Keyword fehlt"))
+		return nil, errElement.CreateErrorElementRef(extendsNode, errors.New("extends Keyword fehlt"))
 	}
 	defer S.Cursor.GotoParent()
 
 	// refTyp
 	hasNextSibling := S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
-		return nil, errElement.CreateErrorElementRef(S.Text, extendsNode, errors.New("kein Referenzierter Typ"))
+		return nil, errElement.CreateErrorElementRef(extendsNode, errors.New("kein Referenzierter Typ"))
 	}
 	return S.parseRefType(current)
 }
@@ -58,13 +58,13 @@ func (S *SemanticContext) parseImplementsBlock(current base.ModelPath) ([]base.M
 	// 'implements'
 	hasFirstChild := S.Cursor.GotoFirstChild()
 	if !hasFirstChild {
-		return nil, []errElement.ErrorElement{errElement.CreateErrorElement(S.Text, implementsNode, errors.New("implements Keyword fehlt"))}
+		return nil, []errElement.ErrorElement{errElement.CreateErrorElement(implementsNode, errors.New("implements Keyword fehlt"))}
 	}
 	defer S.Cursor.GotoParent()
 
 	hasNextSibling := S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
-		return nil, []errElement.ErrorElement{errElement.CreateErrorElement(S.Text, implementsNode, errors.New("keine Implementierte Typen vorhanden"))}
+		return nil, []errElement.ErrorElement{errElement.CreateErrorElement(implementsNode, errors.New("keine Implementierte Typen vorhanden"))}
 	}
 	implementierteTypen := make([]base.ModelPath, 0)
 	errorsElemente := make([]errElement.ErrorElement, 0)
@@ -88,7 +88,7 @@ func (S *SemanticContext) parseImplementsBlock(current base.ModelPath) ([]base.M
 			}
 			commaMode = false
 		} else {
-			elementError = assertNodeState(S.Text, S.Cursor.Node(), "Comma Node")
+			elementError = assertNodeState(S.Cursor.Node(), "Comma Node")
 			if elementError != nil {
 				errorsElemente = append(errorsElemente, *elementError)
 			}
@@ -110,7 +110,7 @@ func (S *SemanticContext) parseArgBlock(comment base.Comment) packages.Argument 
 		Name: base.ElementIdentifier{},
 	}
 
-	errorElement := assertNodeState(S.Text, node, "Arg Block Node")
+	errorElement := assertNodeState(node, "Arg Block Node")
 	if errorElement != nil {
 		S.ErrorElements = append(S.ErrorElements, *errorElement)
 		return arg
@@ -119,7 +119,7 @@ func (S *SemanticContext) parseArgBlock(comment base.Comment) packages.Argument 
 	// 'arg'
 	hasFirstChild := S.Cursor.GotoFirstChild()
 	if !hasFirstChild {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, S.Cursor.Node(), errors.New("arg Keyword fehlt")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("arg Keyword fehlt")))
 		return arg
 	}
 	defer S.Cursor.GotoParent()
@@ -127,7 +127,7 @@ func (S *SemanticContext) parseArgBlock(comment base.Comment) packages.Argument 
 	// type
 	hasNextSibling := S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, S.Cursor.Node(), errors.New("es fehlt ein Primitive Type")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("es fehlt ein Primitive Type")))
 		return arg
 	}
 	primitiveType, element := S.parsePrimitiveType()
@@ -140,7 +140,7 @@ func (S *SemanticContext) parseArgBlock(comment base.Comment) packages.Argument 
 	// identifier
 	hasNextSibling = S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, S.Cursor.Node(), errors.New("es fehlt ein Identifier")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("es fehlt ein Identifier")))
 		return arg
 	}
 	arg.Name = S.parseIdentifier()
@@ -159,7 +159,7 @@ func (S *SemanticContext) parseRefBlock(current base.ModelPath, comment base.Com
 		Name: base.ElementIdentifier{},
 	}
 
-	errorElement := assertNodeState(S.Text, node, "Ref Block Node")
+	errorElement := assertNodeState(node, "Ref Block Node")
 	if errorElement != nil {
 		S.ErrorElements = append(S.ErrorElements, *errorElement)
 		return referenz
@@ -168,7 +168,7 @@ func (S *SemanticContext) parseRefBlock(current base.ModelPath, comment base.Com
 	// 'ref'
 	hasFirstChild := S.Cursor.GotoFirstChild()
 	if !hasFirstChild {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, S.Cursor.Node(), errors.New("ref Keyword fehlt")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("ref Keyword fehlt")))
 		return referenz
 	}
 	defer S.Cursor.GotoParent()
@@ -176,7 +176,7 @@ func (S *SemanticContext) parseRefBlock(current base.ModelPath, comment base.Com
 	// type
 	hasNextSibling := S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, S.Cursor.Node(), errors.New("es fehlt ein Referenz Typ")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("es fehlt ein Referenz Typ")))
 		return referenz
 	}
 	refType, element := S.parseRefType(current)
@@ -189,7 +189,7 @@ func (S *SemanticContext) parseRefBlock(current base.ModelPath, comment base.Com
 	// identifier
 	hasNextSibling = S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, S.Cursor.Node(), errors.New("es fehlt ein Identifier")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("es fehlt ein Identifier")))
 		return referenz
 	}
 	referenz.Name = S.parseIdentifier()
@@ -210,7 +210,7 @@ func (S *SemanticContext) parseFuncBlock(current base.ModelPath, comment base.Co
 		Parameter:  nil,
 	}
 
-	errorElement := assertNodeState(S.Text, node, "Funktion Block Node")
+	errorElement := assertNodeState(node, "Funktion Block Node")
 	if errorElement != nil {
 		S.ErrorElements = append(S.ErrorElements, *errorElement)
 		return funktion
@@ -219,7 +219,7 @@ func (S *SemanticContext) parseFuncBlock(current base.ModelPath, comment base.Co
 	// 'func'
 	hasFirstChild := cursor.GotoFirstChild()
 	if !hasFirstChild {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, cursor.Node(), errors.New("func Keyword fehlt")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(cursor.Node(), errors.New("func Keyword fehlt")))
 		return funktion
 	}
 	defer cursor.GotoParent()
@@ -227,7 +227,7 @@ func (S *SemanticContext) parseFuncBlock(current base.ModelPath, comment base.Co
 	// Return Type
 	hasNextSibling := cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, cursor.Node(), errors.New("return-Type fehlt")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(cursor.Node(), errors.New("return-Type fehlt")))
 		return funktion
 	}
 	switch cursor.Node().Kind() {
@@ -244,13 +244,13 @@ func (S *SemanticContext) parseFuncBlock(current base.ModelPath, comment base.Co
 		referenz := S.parseReferenz(current)
 		funktion.ReturnType = referenz
 	default:
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(S.Text, cursor.Node(), errors.New("return-Type ungültig"), node))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(cursor.Node(), errors.New("return-Type ungültig"), node))
 	}
 
 	// Funktion GetName
 	hasNextSibling = cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("GetName fehlt")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("GetName fehlt")))
 		return funktion
 	}
 	funktion.Name = S.parseIdentifier()
@@ -258,7 +258,7 @@ func (S *SemanticContext) parseFuncBlock(current base.ModelPath, comment base.Co
 	// '('
 	hasNextSibling = cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("'(' fehlt")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("'(' fehlt")))
 		return funktion
 	}
 
@@ -279,16 +279,16 @@ ParameterSchleife:
 			commaMode = false
 		case ",":
 			if commaMode {
-				S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(S.Text, cursor.Node(), errors.New("es dürfen keine 2 Kommas hintereinander vorkommen"), node))
+				S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(cursor.Node(), errors.New("es dürfen keine 2 Kommas hintereinander vorkommen"), node))
 			}
 			commaMode = !commaMode
 		default:
-			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(S.Text, cursor.Node(), errors.New(cursor.Node().Kind()+" ungültiger Parameter"), node))
+			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(cursor.Node(), errors.New(cursor.Node().Kind()+" ungültiger Parameter"), node))
 		}
 	}
 
 	if !closedParameter {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(S.Text, cursor.Node(), errors.New("parameter nicht beendet. ')' fehlt"), node))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(cursor.Node(), errors.New("parameter nicht beendet. ')' fehlt"), node))
 	}
 
 	return funktion
@@ -332,7 +332,7 @@ func (S *SemanticContext) parseParameterDefinition(current base.ModelPath) (pack
 	// type
 	hasFirstChild := cursor.GotoFirstChild()
 	if !hasFirstChild {
-		sErrors = append(sErrors, errElement.CreateErrorElementCxt(S.Text, cursor.Node(), errors.New("type fehlt"), node))
+		sErrors = append(sErrors, errElement.CreateErrorElementCxt(cursor.Node(), errors.New("type fehlt"), node))
 		return nil, sErrors
 	}
 	defer cursor.GotoParent()
@@ -344,14 +344,14 @@ func (S *SemanticContext) parseParameterDefinition(current base.ModelPath) (pack
 	case dmf_language.REFTYPE:
 		cVar = S.parseReferenz(current)
 	default:
-		sErrors = append(sErrors, errElement.CreateErrorElement(S.Text, node, errors.New(cursor.Node().Kind()+" ist kein gültiger Parameter Typ")))
+		sErrors = append(sErrors, errElement.CreateErrorElement(node, errors.New(cursor.Node().Kind()+" ist kein gültiger Parameter Typ")))
 		return nil, sErrors
 	}
 
 	// Identifier
 	hasNextSibling := cursor.GotoNextSibling()
 	if !hasNextSibling {
-		sErrors = append(sErrors, errElement.CreateErrorElement(S.Text, node, errors.New("GetName fehlt")))
+		sErrors = append(sErrors, errElement.CreateErrorElement(node, errors.New("GetName fehlt")))
 		return nil, sErrors
 	}
 
@@ -364,7 +364,7 @@ func (S *SemanticContext) parseIdentifierStatement() *packages.Identifier {
 	cursor := S.Cursor
 	node := cursor.Node()
 
-	state := assertNodeState(S.Text, node, "Identifier Statement Node")
+	state := assertNodeState(node, "Identifier Statement Node")
 	if state != nil {
 		return nil
 	}
@@ -376,7 +376,7 @@ func (S *SemanticContext) parseIdentifierStatement() *packages.Identifier {
 	// 'identifier'
 	hasFirstChild := cursor.GotoFirstChild()
 	if !hasFirstChild {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("identifier fehlt")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("identifier fehlt")))
 		return iden
 	}
 	defer cursor.GotoParent()
@@ -384,7 +384,7 @@ func (S *SemanticContext) parseIdentifierStatement() *packages.Identifier {
 	// '('
 	hasNextSibling := cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("( fehlt")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("( fehlt")))
 		return iden
 	}
 
@@ -399,13 +399,13 @@ IdentifierLoop:
 			commaMode = false
 		case ",":
 			if commaMode {
-				S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(S.Text, cNode, errors.New("kein zweites komma erlaubt"), node))
+				S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(cNode, errors.New("kein zweites komma erlaubt"), node))
 			}
 			commaMode = true
 		case ")":
 			break IdentifierLoop
 		default:
-			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(S.Text, cNode, errors.New("unbekanntes Element"), node))
+			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(cNode, errors.New("unbekanntes Element"), node))
 		}
 	}
 
@@ -426,7 +426,7 @@ func (S *SemanticContext) parseEnumConstant(comment base.Comment) packages.Konst
 	// 'identifier'
 	hasFirstChild := cursor.GotoFirstChild()
 	if !hasFirstChild {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("identifier fehlt")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("identifier fehlt")))
 		return konstante
 	}
 	defer cursor.GotoParent()
@@ -436,7 +436,7 @@ func (S *SemanticContext) parseEnumConstant(comment base.Comment) packages.Konst
 	// '('
 	hasNextSibling := cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("( fehlt")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("( fehlt")))
 		return konstante
 	}
 
@@ -457,13 +457,13 @@ ValueLoop:
 			commaMode = false
 		case ",":
 			if commaMode {
-				S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(S.Text, cNode, errors.New("kein zweites komma erlaubt"), node))
+				S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(cNode, errors.New("kein zweites komma erlaubt"), node))
 			}
 			commaMode = true
 		case ")":
 			break ValueLoop
 		default:
-			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(S.Text, cNode, errors.New("unbekanntes Element"), node))
+			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(cNode, errors.New("unbekanntes Element"), node))
 		}
 	}
 

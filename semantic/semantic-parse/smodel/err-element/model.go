@@ -6,11 +6,17 @@ import (
 	"strings"
 )
 
+type ErrorContext struct {
+	Dateiname   string `json:"dateiname"`
+	Dateiinhalt []byte `json:"dateiinhalt"`
+}
+
 type ErrorElement struct {
 	Fehler FehlerStelle
 	Error  error
 	// Falls es einen Grund gibt, weshalb ein Fehler aufgetreten ist und dieser Grund an einer anderen Stelle des Codes liegt
-	Cause *FehlerStelle
+	Cause    *FehlerStelle
+	rendered *string
 }
 
 type FehlerStelle struct {
@@ -21,10 +27,18 @@ type FehlerStelle struct {
 	Node        *tree_sitter.Node
 }
 
-func (e ErrorElement) ToErrorMsg() string {
-	return e.ToErrorMsgFile("example-file")
+func (f *FehlerStelle) render(ctx *ErrorContext) {
+	if f.ContextNode != nil {
+		f.ModelCode = f.ContextNode.Utf8Text(ctx.Dateiinhalt)
+	} else if f.Node != nil {
+		f.ModelCode = f.Node.Utf8Text(ctx.Dateiinhalt)
+	}
 }
-func (e ErrorElement) ToErrorMsgFile(filename string) string {
+
+func (e ErrorElement) ToErrorMsg(ctx *ErrorContext) string {
+	if e.rendered != nil {
+		return *e.rendered
+	}
 	var offsetStart int
 	var offsetEnd int
 	if e.Fehler.ContextNode != nil {
@@ -33,10 +47,16 @@ func (e ErrorElement) ToErrorMsgFile(filename string) string {
 			offsetEnd = int(e.Fehler.ContextNode.EndPosition().Column - e.Fehler.Node.EndPosition().Column)
 		}
 	}
+	e.Fehler.render(ctx)
 
 	underline := strings.Repeat(" ", offsetStart) + strings.Repeat("^", len(e.Fehler.ModelCode)-offsetStart-offsetEnd) + strings.Repeat(" ", offsetEnd)
-
-	return fmt.Sprintf("FehlerStelle in Position %v:%v:%v\n%s\n%s\n%v\n", filename, e.Fehler.Node.StartPosition().Row+1, e.Fehler.Node.StartPosition().Column, e.Fehler.ModelCode, underline, e.Error)
+	render := fmt.Sprintf("FehlerStelle in Position %v:%v:%v\n%s\n%s\n%v\n", ctx.Dateiname, e.Fehler.Node.StartPosition().Row+1, e.Fehler.Node.StartPosition().Column, e.Fehler.ModelCode, underline, e.Error)
+	if e.Cause != nil {
+		e.Cause.render(ctx)
+		render += fmt.Sprintf("=> Grund (%v:%v:%v):\n%s\n", ctx.Dateiname, e.Cause.Node.StartPosition().Row+1, e.Cause.Node.StartPosition().Column, "    "+strings.ReplaceAll(e.Cause.ModelCode, "\n", "\n    "))
+	}
+	e.rendered = &render
+	return render
 }
 
 type ErrorCapable interface {

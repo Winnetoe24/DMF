@@ -19,6 +19,7 @@ import (
 // 1581174 ns - Full Parse mit Bugfix for ModelPath (copy)
 // 92380 ns - New Context Calling
 // 91700 ns - Errors in Context
+// 119418 ns - Error rendering after Parse
 func BenchmarkParse(b *testing.B) {
 	b.StopTimer()
 

@@ -31,7 +31,7 @@ func Parse(text []byte, tree *tree_sitter.Tree) (smodel.Model, []errElement.Erro
 func (S *SemanticContext) parseSourceFile() {
 	node := S.Cursor.Node()
 
-	errorElement := assertNodeState(S.Text, node, "oberste Node")
+	errorElement := assertNodeState(node, "oberste Node")
 	if errorElement != nil {
 		S.ErrorElements = append(S.ErrorElements, *errorElement)
 		return
@@ -39,21 +39,21 @@ func (S *SemanticContext) parseSourceFile() {
 
 	hasFirstChild := S.Cursor.GotoFirstChild()
 	if !hasFirstChild {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, S.Cursor.Node(), errors.New("keine DMF Deklaration vorhanden")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("keine DMF Deklaration vorhanden")))
 		return
 	}
 	S.parseDmfDeclaration()
 
 	hasNextSibling := S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, S.Cursor.Node(), errors.New("keine Model Deklaration vorhanden")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("keine Model Deklaration vorhanden")))
 		return
 	}
 	S.parseModelDeclaration()
 
 	hasNextSibling = S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, S.Cursor.Node(), errors.New("keine Model Content vorhanden")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("keine Model Content vorhanden")))
 		return
 	}
 	S.parseModelContent()
@@ -63,19 +63,19 @@ func (S *SemanticContext) parseSourceFile() {
 func (S *SemanticContext) parseDmfDeclaration() {
 	node := S.Cursor.Node()
 
-	errorElement := assertNodeState(S.Text, node, "DMF Declaration Node")
+	errorElement := assertNodeState(node, "DMF Declaration Node")
 	if errorElement != nil {
 		S.ErrorElements = append(S.ErrorElements, *errorElement)
 		return
 	}
 	hasFirstChild := S.Cursor.GotoFirstChild()
 	if !hasFirstChild {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("keine DMF Deklaration vorhanden")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("keine DMF Deklaration vorhanden")))
 		return
 	}
 	hasNextSibling := S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("keine DMF Version vorhanden")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("keine DMF Version vorhanden")))
 		return
 	}
 
@@ -84,12 +84,12 @@ func (S *SemanticContext) parseDmfDeclaration() {
 	S.ErrorElements = append(S.ErrorElements, errorEle...)
 
 	if len(version) != 3 {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("kein gültiges Versionsformat")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("kein gültiges Versionsformat")))
 	} else {
 		if version[0] != 1 ||
 			version[1] != 0 ||
 			version[2] != 0 {
-			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("nicht Unterstützte DMF Version")))
+			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("nicht Unterstützte DMF Version")))
 		}
 	}
 
@@ -97,7 +97,7 @@ func (S *SemanticContext) parseDmfDeclaration() {
 
 func (S *SemanticContext) parseModelDeclaration() {
 	node := S.Cursor.Node()
-	errorElement := assertNodeState(S.Text, node, "Model Declaration Node")
+	errorElement := assertNodeState(node, "Model Declaration Node")
 	if errorElement != nil {
 		S.ErrorElements = append(S.ErrorElements, *errorElement)
 		return
@@ -105,13 +105,13 @@ func (S *SemanticContext) parseModelDeclaration() {
 
 	hasFirstChild := S.Cursor.GotoFirstChild()
 	if !hasFirstChild {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("keine Model Deklaration vorhanden")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("keine Model Deklaration vorhanden")))
 		return
 	}
 	defer S.Cursor.GotoParent()
 	hasNextSibling := S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("kein Modellname vorhanden")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("kein Modellname vorhanden")))
 		return
 	}
 	value, element := S.parseStringValue()
@@ -122,13 +122,13 @@ func (S *SemanticContext) parseModelDeclaration() {
 
 	hasNextSibling = S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("die Modelldeklaration ist unvollständig")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("die Modelldeklaration ist unvollständig")))
 		return
 	}
 
 	hasNextSibling = S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("keine Model Version vorhanden")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("keine Model Version vorhanden")))
 		return
 	}
 	version, errorEle := S.parseVersion()
@@ -141,14 +141,14 @@ func (S *SemanticContext) parseModelDeclaration() {
 func (S *SemanticContext) parseModelContent() {
 	node := S.Cursor.Node()
 
-	errorElement := assertNodeState(S.Text, node, "Model Content Node")
+	errorElement := assertNodeState(node, "Model Content Node")
 	if errorElement != nil {
 		S.ErrorElements = append(S.ErrorElements, *errorElement)
 		return
 	}
 	hasFirstChild := S.Cursor.GotoFirstChild()
 	if !hasFirstChild {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("kein Model Content vorhanden")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("kein Model Content vorhanden")))
 		return
 	}
 	defer S.Cursor.GotoParent()
@@ -159,7 +159,7 @@ func (S *SemanticContext) parseModelContent() {
 			S.ErrorElements = append(S.ErrorElements, *e)
 		} else {
 			if content.GetType() != base.PACKAGE {
-				S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, S.Cursor.Node(), errors.New("alle Elemente müssen Packages untergeordnet sein")))
+				S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("alle Elemente müssen Packages untergeordnet sein")))
 			} else {
 				S.Model.Packages = append(S.Model.Packages, *content.(*packages.Package))
 			}
@@ -172,14 +172,14 @@ func (S *SemanticContext) parseModelContent() {
 
 func (S *SemanticContext) parsePackageContent(current base.ModelPath) (packages.PackageElement, *errElement.ErrorElement) {
 	node := S.Cursor.Node()
-	errorElement := assertNodeState(S.Text, node, "Package Content Node")
+	errorElement := assertNodeState(node, "Package Content Node")
 	if errorElement != nil {
 		return &base.PackageElement{}, errorElement
 	}
 
 	hasFirstChild := S.Cursor.GotoFirstChild()
 	if !hasFirstChild {
-		return &base.PackageElement{}, errElement.CreateErrorElementRef(S.Text, node, errors.New("kein Inhalt im Package"))
+		return &base.PackageElement{}, errElement.CreateErrorElementRef(node, errors.New("kein Inhalt im Package"))
 	}
 	defer S.Cursor.GotoParent()
 	var comment base.Comment
@@ -232,7 +232,7 @@ func (S *SemanticContext) parsePackageBlock(current base.ModelPath, comment *bas
 		},
 		Elements: nil,
 	}
-	errorElement := assertNodeState(S.Text, node, "Package Node")
+	errorElement := assertNodeState(node, "Package Node")
 	if errorElement != nil {
 		S.ErrorElements = append(S.ErrorElements, *errorElement)
 	}
@@ -240,7 +240,7 @@ func (S *SemanticContext) parsePackageBlock(current base.ModelPath, comment *bas
 	// 'package'
 	hasFirstChild := S.Cursor.GotoFirstChild()
 	if !hasFirstChild {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("package Keyword fehlt")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("package Keyword fehlt")))
 		return p
 	}
 	defer S.Cursor.GotoParent()
@@ -248,7 +248,7 @@ func (S *SemanticContext) parsePackageBlock(current base.ModelPath, comment *bas
 	// Package String
 	hasNextSibling := S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("kein Package GetName vorhanden")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("kein Package GetName vorhanden")))
 	}
 	packageString, elementIdentifier, errorElement := S.parsePackageString(current, false)
 	if errorElement != nil {
@@ -259,7 +259,7 @@ func (S *SemanticContext) parsePackageBlock(current base.ModelPath, comment *bas
 
 	hasNextSibling = S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("kein Package Body vorhanden")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("kein Package Body vorhanden")))
 	}
 
 	// Elements in Package
@@ -301,7 +301,7 @@ func (S *SemanticContext) parseStructBlock(current base.ModelPath, comment *base
 	// 'struct'
 	hasFirstChild := cursor.GotoFirstChild()
 	if !hasFirstChild {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("keyword fehlt")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("keyword fehlt")))
 		return structElement, nil
 	}
 	defer cursor.GotoParent()
@@ -309,7 +309,7 @@ func (S *SemanticContext) parseStructBlock(current base.ModelPath, comment *base
 	// identifier
 	hasNextSibling := cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("kein Struct Identifier vorhanden")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("kein Struct Identifier vorhanden")))
 		return structElement, nil
 	}
 	structElement.Identifier = S.parseIdentifier()
@@ -318,7 +318,7 @@ func (S *SemanticContext) parseStructBlock(current base.ModelPath, comment *base
 	// extends
 	hasNextSibling = cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("struct Header unvollständig")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("struct Header unvollständig")))
 		return structElement, nil
 	}
 	extendsPath, errorElement := S.parseExtendsBlock(current)
@@ -332,7 +332,7 @@ func (S *SemanticContext) parseStructBlock(current base.ModelPath, comment *base
 	if extendsPath != nil || errorElement != nil {
 		hasNextSibling = cursor.GotoNextSibling()
 		if !hasNextSibling {
-			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("struct Header unvollständig")))
+			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("struct Header unvollständig")))
 			return structElement, nil
 		}
 	}
@@ -347,7 +347,7 @@ func (S *SemanticContext) parseStructBlock(current base.ModelPath, comment *base
 	if cursor.Node().Kind() != "{" {
 		hasNextSibling = cursor.GotoNextSibling()
 		if !hasNextSibling {
-			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("es fehlt ein {")))
+			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt ein {")))
 			return structElement, nil
 		}
 	}
@@ -363,7 +363,7 @@ func (S *SemanticContext) parseStructBlock(current base.ModelPath, comment *base
 			if entity {
 				identifier = S.parseIdentifierStatement()
 			} else {
-				S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(S.Text, cursor.Node(), errors.New("unbekannte Node"), node))
+				S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(cursor.Node(), errors.New("unbekannte Node"), node))
 			}
 		}
 	}
@@ -374,7 +374,7 @@ func (S *SemanticContext) parseStructBlock(current base.ModelPath, comment *base
 func (S *SemanticContext) parseStructContent(current base.ModelPath, element *packages.StructElement) {
 	cursor := S.Cursor
 	node := cursor.Node()
-	errorElement := assertNodeState(S.Text, node, "Struct Content Node")
+	errorElement := assertNodeState(node, "Struct Content Node")
 	if errorElement != nil {
 		S.ErrorElements = append(S.ErrorElements, *errorElement)
 		return
@@ -383,7 +383,7 @@ func (S *SemanticContext) parseStructContent(current base.ModelPath, element *pa
 	// comment?
 	hasFirstChild := cursor.GotoFirstChild()
 	if !hasFirstChild {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("es fehlt Struct Content")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt Struct Content")))
 	}
 	defer cursor.GotoParent()
 
@@ -396,7 +396,7 @@ func (S *SemanticContext) parseStructContent(current base.ModelPath, element *pa
 
 		hasNextSibling := cursor.GotoNextSibling()
 		if !hasNextSibling {
-			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("es fehlt Struct Content")))
+			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt Struct Content")))
 			return
 		}
 	}
@@ -415,10 +415,10 @@ func (S *SemanticContext) parseStructContent(current base.ModelPath, element *pa
 
 	hasNextSibling := cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("es fehlt ein Semikolon")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt ein Semikolon")))
 		return
 	}
-	errorElement = assertNodeState(S.Text, cursor.Node(), "Semikolon")
+	errorElement = assertNodeState(cursor.Node(), "Semikolon")
 	if errorElement != nil {
 		S.ErrorElements = append(S.ErrorElements, *errorElement)
 	}
@@ -431,7 +431,7 @@ func (S *SemanticContext) parseEntityBlock(current base.ModelPath, comment *base
 		StructElement: block,
 	}
 	if identifier == nil {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("entity muss einen Identifier beinhaltet")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("entity muss einen Identifier beinhaltet")))
 	} else {
 		entityElement.Identifier = *identifier
 	}
@@ -455,7 +455,7 @@ func (S *SemanticContext) parseInterfaceBlock(current base.ModelPath, comment *b
 	// 'interface'
 	hasFirstChild := cursor.GotoFirstChild()
 	if !hasFirstChild {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("keyword fehlt")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("keyword fehlt")))
 		return interfaceElement
 	}
 	defer cursor.GotoParent()
@@ -463,7 +463,7 @@ func (S *SemanticContext) parseInterfaceBlock(current base.ModelPath, comment *b
 	// identifier
 	hasNextSibling := cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("kein Interface Identifier vorhanden")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("kein Interface Identifier vorhanden")))
 		return interfaceElement
 	}
 	interfaceElement.Identifier = S.parseIdentifier()
@@ -472,7 +472,7 @@ func (S *SemanticContext) parseInterfaceBlock(current base.ModelPath, comment *b
 	// implements
 	hasNextSibling = cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("interface Header unvollständig")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("interface Header unvollständig")))
 		return interfaceElement
 	}
 	block, elements := S.parseImplementsBlock(current)
@@ -485,7 +485,7 @@ func (S *SemanticContext) parseInterfaceBlock(current base.ModelPath, comment *b
 	if cursor.Node().Kind() != "{" {
 		hasNextSibling = cursor.GotoNextSibling()
 		if !hasNextSibling {
-			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("es fehlt ein {")))
+			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt ein {")))
 			return interfaceElement
 		}
 	}
@@ -497,7 +497,7 @@ func (S *SemanticContext) parseInterfaceBlock(current base.ModelPath, comment *b
 		if cursor.Node().Kind() == dmf_lang.INTERFACE_CONTENT {
 			S.parseInterfaceContent(current, &interfaceElement)
 		} else {
-			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(S.Text, cursor.Node(), errors.New("unbekannte Node"), node))
+			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(cursor.Node(), errors.New("unbekannte Node"), node))
 		}
 	}
 	return interfaceElement
@@ -506,7 +506,7 @@ func (S *SemanticContext) parseInterfaceBlock(current base.ModelPath, comment *b
 func (S *SemanticContext) parseInterfaceContent(current base.ModelPath, element *packages.InterfaceElement) {
 	cursor := S.Cursor
 	node := cursor.Node()
-	errorElement := assertNodeState(S.Text, node, "Interface Content Node")
+	errorElement := assertNodeState(node, "Interface Content Node")
 	if errorElement != nil {
 		S.ErrorElements = append(S.ErrorElements, *errorElement)
 		return
@@ -515,7 +515,7 @@ func (S *SemanticContext) parseInterfaceContent(current base.ModelPath, element 
 	// comment?
 	hasFirstChild := cursor.GotoFirstChild()
 	if !hasFirstChild {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("es fehlt Interface Content")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt Interface Content")))
 	}
 	defer cursor.GotoParent()
 
@@ -528,7 +528,7 @@ func (S *SemanticContext) parseInterfaceContent(current base.ModelPath, element 
 
 		hasNextSibling := cursor.GotoNextSibling()
 		if !hasNextSibling {
-			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("es fehlt Interface Content")))
+			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt Interface Content")))
 			return
 		}
 	}
@@ -538,10 +538,10 @@ func (S *SemanticContext) parseInterfaceContent(current base.ModelPath, element 
 
 	hasNextSibling := cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("es fehlt ein Semikolon")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt ein Semikolon")))
 		return
 	}
-	errorElement = assertNodeState(S.Text, cursor.Node(), "Semikolon")
+	errorElement = assertNodeState(cursor.Node(), "Semikolon")
 	if errorElement != nil {
 		S.ErrorElements = append(S.ErrorElements, *errorElement)
 	}
@@ -564,7 +564,7 @@ func (S *SemanticContext) parseEnumBlock(current base.ModelPath, comment *base.C
 	// 'enum'
 	hasFirstChild := cursor.GotoFirstChild()
 	if !hasFirstChild {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("keyword fehlt")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("keyword fehlt")))
 		return enumElement
 	}
 	defer cursor.GotoParent()
@@ -572,7 +572,7 @@ func (S *SemanticContext) parseEnumBlock(current base.ModelPath, comment *base.C
 	// identifier
 	hasNextSibling := cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("kein Interface Identifier vorhanden")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("kein Interface Identifier vorhanden")))
 		return enumElement
 	}
 	enumElement.Identifier = S.parseIdentifier()
@@ -581,7 +581,7 @@ func (S *SemanticContext) parseEnumBlock(current base.ModelPath, comment *base.C
 	// '{'
 	hasNextSibling = cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("kein { vorhanden")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("kein { vorhanden")))
 		return enumElement
 	}
 
@@ -592,7 +592,7 @@ func (S *SemanticContext) parseEnumBlock(current base.ModelPath, comment *base.C
 		if cursor.Node().Kind() == dmf_lang.ENUM_CONTENT {
 			S.parseEnumContent(&enumElement)
 		} else {
-			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(S.Text, cursor.Node(), errors.New(cursor.Node().Kind()+" unbekannte Node"), node))
+			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(cursor.Node(), errors.New(cursor.Node().Kind()+" unbekannte Node"), node))
 		}
 	}
 	return enumElement
@@ -601,7 +601,7 @@ func (S *SemanticContext) parseEnumBlock(current base.ModelPath, comment *base.C
 func (S *SemanticContext) parseEnumContent(element *packages.EnumElement) {
 	cursor := S.Cursor
 	node := cursor.Node()
-	errorElement := assertNodeState(S.Text, node, "Enum Content Node")
+	errorElement := assertNodeState(node, "Enum Content Node")
 	if errorElement != nil {
 		S.ErrorElements = append(S.ErrorElements, *errorElement)
 		return
@@ -610,7 +610,7 @@ func (S *SemanticContext) parseEnumContent(element *packages.EnumElement) {
 	// comment?
 	hasFirstChild := cursor.GotoFirstChild()
 	if !hasFirstChild {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("es fehlt Enum Content")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt Enum Content")))
 	}
 	defer cursor.GotoParent()
 
@@ -623,7 +623,7 @@ func (S *SemanticContext) parseEnumContent(element *packages.EnumElement) {
 
 		hasNextSibling := cursor.GotoNextSibling()
 		if !hasNextSibling {
-			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("es fehlt Enum Content")))
+			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt Enum Content")))
 			return
 		}
 	}
@@ -640,10 +640,10 @@ func (S *SemanticContext) parseEnumContent(element *packages.EnumElement) {
 
 	hasNextSibling := cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Text, node, errors.New("es fehlt ein Semikolon")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt ein Semikolon")))
 		return
 	}
-	errorElement = assertNodeState(S.Text, cursor.Node(), "Semikolon")
+	errorElement = assertNodeState(cursor.Node(), "Semikolon")
 	if errorElement != nil {
 		S.ErrorElements = append(S.ErrorElements, *errorElement)
 	}

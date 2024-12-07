@@ -3,6 +3,7 @@ package semantic_parse
 import (
 	"fmt"
 	tree_sitter_dmf "github.com/Winnetoe24/DMF/grammar/dmf_language"
+	err_element "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
 	"github.com/stretchr/testify/assert"
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 	"os"
@@ -50,7 +51,10 @@ func TestParse(t *testing.T) {
 	}
 
 	for _, element := range parseErrElements {
-		t.Error(element.ToErrorMsg())
+		t.Error(element.ToErrorMsg(&err_element.ErrorContext{
+			Dateiname:   "example-file",
+			Dateiinhalt: file,
+		}))
 	}
 
 	t.Logf("%+v", model)

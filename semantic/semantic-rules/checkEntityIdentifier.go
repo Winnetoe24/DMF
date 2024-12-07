@@ -19,7 +19,7 @@ func (c *checkEntityIdentifier) handleStruct(fileContent []byte, element *packag
 		for _, variable := range cEntity.Identifier.Variablen {
 			exists := varNamen[variable.Name]
 			if !exists {
-				c.err = append(c.err, errElement.CreateErrorElementCxt(fileContent, variable.Node, errors.New("Referenzierte Variable nicht gefunden!"), cEntity.Identifier.Node))
+				c.err = append(c.err, errElement.CreateErrorElementCxt(variable.Node, errors.New("Referenzierte Variable nicht gefunden!"), cEntity.Identifier.Node))
 			}
 		}
 	}

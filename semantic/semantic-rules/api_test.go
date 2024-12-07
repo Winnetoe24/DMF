@@ -2,13 +2,13 @@ package semantic_rules
 
 import (
 	sematic_model "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
+	err_element "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 	"os"
 	"testing"
 )
 
 func TestAPI(t *testing.T) {
-	//todo ADD EXTENDS TO MODEL TO FASTER PARSE SHIT like identifier args
 	// Given
 	//file, err := os.ReadFile("./test-resources/duplicate-paths-success.dmf")
 	file, err := os.ReadFile("../example-file-big")
@@ -28,7 +28,10 @@ func TestAPI(t *testing.T) {
 	}
 	if errorElements != nil && len(errorElements) > 0 {
 		for _, element := range errorElements {
-			t.Error(element.ToErrorMsgFile("example-file-big"))
+			t.Error(element.ToErrorMsg(&err_element.ErrorContext{
+				Dateiname:   "example-file-big",
+				Dateiinhalt: file,
+			}))
 		}
 	}
 
@@ -37,6 +40,7 @@ func TestAPI(t *testing.T) {
 // 19084305 ns  - duplicate Path
 // 2228382 ns - New Error Handling
 // 2243490 ns  - New Error Handling
+// 2386012 ns - New Error Rendering
 func BenchmarkParseNewFile(b *testing.B) {
 	file, err := os.ReadFile("../example-file-big")
 	if err != nil {
