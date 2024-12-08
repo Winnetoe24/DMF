@@ -142,4 +142,43 @@ func TestComputeElements(t *testing.T) {
 	})
 }
 
+func TestCheckReferenzen(t *testing.T) {
+	// Given
+
+	t.Run("success", func(t *testing.T) {
+
+		filename := "./test-resources/check-Referenzen-success.dmf"
+		model, ctx := testSetup(t, filename)
+
+		lookup, errorElements := newFillTypeLookUp().Fill(&model)
+		checkErrorCount(t, ctx, errorElements, 0)
+
+		errorElements = newComputeSuperTypes(&lookup).walk()
+		checkErrorCount(t, ctx, errorElements, 0)
+
+		errorElements = newComputeElements(&lookup).walk()
+		checkErrorCount(t, ctx, errorElements, 0)
+
+		errorElements = newCheckReferenzen(&lookup).walk()
+		checkErrorCount(t, ctx, errorElements, 0)
+
+	})
+	t.Run("error", func(t *testing.T) {
+
+		filename := "./test-resources/check-Referenzen-error.dmf"
+		model, ctx := testSetup(t, filename)
+		lookup, errorElements := newFillTypeLookUp().Fill(&model)
+		checkErrorCount(t, ctx, errorElements, 0)
+
+		errorElements = newComputeSuperTypes(&lookup).walk()
+		checkErrorCount(t, ctx, errorElements, 0)
+
+		errorElements = newComputeElements(&lookup).walk()
+		checkErrorCount(t, ctx, errorElements, 0)
+
+		errorElements = newCheckReferenzen(&lookup).walk()
+		checkErrorCount(t, ctx, errorElements, 5)
+	})
+}
+
 //TODO: CheckEnumConstants

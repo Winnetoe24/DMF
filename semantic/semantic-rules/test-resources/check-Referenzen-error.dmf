@@ -1,0 +1,26 @@
+dmf 1.0.0
+model "invalid-references" version 0.0.1
+
+package test.references.invalid {
+
+    struct Person {
+        // NonExistentType will cause a reference check failure
+        ref NonExistentType type;
+        // UnknownStatus will cause another reference check failure
+        ref UnknownStatus status;
+    }
+
+    entity Employee extends Person {
+        // MissingAddress will cause a reference check failure
+        ref MissingAddress address;
+        // NonExistentEnum will cause a reference check failure
+        ref NonExistentEnum category;
+
+        identifier(address);
+    }
+
+    interface Worker {
+        // InvalidType parameter will cause a reference check failure
+        func void work(UnknownType parameter);
+    }
+}

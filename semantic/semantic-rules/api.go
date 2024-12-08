@@ -84,6 +84,25 @@ func runRulesSync(model *smodel.Model) ([]err_element.ErrorElement, TypeLookUp) 
 	// Only Read LookUp
 	err = append(err, newCheckEntityIdentifier(&lookUp).walk()...)
 	err = append(err, newCheckEnumConstants(&lookUp).walk()...)
-
+	err = append(err, newCheckReferenzen(&lookUp).walk()...)
+	//mutex := sync.Mutex{}
+	//group := sync.WaitGroup{}
+	//group.Add(2)
+	//go func() {
+	//	walk := newCheckEntityIdentifier(&lookUp).walk()
+	//	mutex.Lock()
+	//	err = append(err, walk...)
+	//	mutex.Unlock()
+	//	group.Done()
+	//}()
+	//go func() {
+	//	walk := newCheckEnumConstants(&lookUp).walk()
+	//	mutex.Lock()
+	//	err = append(err, walk...)
+	//	mutex.Unlock()
+	//	group.Done()
+	//}()
+	//
+	//group.Wait()
 	return err, lookUp
 }

@@ -14,7 +14,7 @@ package de.alex.brand {
             VOR_HAUS(_);
         }
 
-        entity Person extends ..Test implements Inte, ..grund.IGrund {
+        entity Person extends ..Test implements ..grund.IGrund {
 
             identifier(i, me);
         }
