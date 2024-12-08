@@ -95,3 +95,19 @@ func runRulesSync(model *smodel.Model) ([]err_element.ErrorElement, smodel.TypeL
 	//group.Wait()
 	return err, lookUp
 }
+
+func ParseEdit(fileContent string, edits []*tree_sitter.InputEdit, tree *tree_sitter.Tree, model *smodel.Model, lookup *smodel.TypeLookUp) (smodel.Model, smodel.TypeLookUp, []err_element.ErrorElement) {
+	for _, edit := range edits {
+		tree.Edit(edit)
+	}
+
+	parsedModel, errorElementsModel, err := sematic_model.Parse([]byte(fileContent), tree)
+	if err != nil {
+		panic(err)
+	}
+
+	errorElements, newLookup := runRulesSync(&parsedModel)
+
+	errorElementsModel = append(errorElements, errorElementsModel...)
+	return parsedModel, newLookup, errorElementsModel
+}
