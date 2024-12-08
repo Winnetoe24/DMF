@@ -2,6 +2,7 @@ package semantic_rules
 
 import (
 	"errors"
+	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
 	errElement "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 )
@@ -10,7 +11,7 @@ type checkEntityIdentifier struct {
 	*walkRule
 }
 
-func newCheckEntityIdentifier(lookup *TypeLookUp) *checkEntityIdentifier {
+func newCheckEntityIdentifier(lookup *smodel.TypeLookUp) *checkEntityIdentifier {
 	identifier := checkEntityIdentifier{
 		walkRule: &walkRule{
 			lookup:   lookup,

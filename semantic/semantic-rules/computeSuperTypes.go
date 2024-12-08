@@ -2,6 +2,7 @@ package semantic_rules
 
 import (
 	"errors"
+	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 
@@ -12,7 +13,7 @@ type computeSuperTypes struct {
 	*walkRule
 }
 
-func newComputeSuperTypes(lookup *TypeLookUp) *computeSuperTypes {
+func newComputeSuperTypes(lookup *smodel.TypeLookUp) *computeSuperTypes {
 	types := computeSuperTypes{
 		walkRule: &walkRule{
 			lookup:   lookup,

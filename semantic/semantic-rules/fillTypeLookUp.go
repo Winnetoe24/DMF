@@ -8,17 +8,17 @@ import (
 )
 
 type fillTypeLookUp struct {
-	finds TypeLookUp
+	finds sematic_model.TypeLookUp
 	err   []err_element.ErrorElement
 }
 
 func newFillTypeLookUp() *fillTypeLookUp {
-	return &fillTypeLookUp{finds: make(TypeLookUp, 10), err: make([]err_element.ErrorElement, 0)}
+	return &fillTypeLookUp{finds: make(sematic_model.TypeLookUp, 10), err: make([]err_element.ErrorElement, 0)}
 }
 
 var DuplicatePathError = errors.New("duplicate path error")
 
-func (d *fillTypeLookUp) Fill(model *sematic_model.Model) (TypeLookUp, []err_element.ErrorElement) {
+func (d *fillTypeLookUp) Fill(model *sematic_model.Model) (sematic_model.TypeLookUp, []err_element.ErrorElement) {
 	for _, pack := range model.Packages {
 		d.handlePackage(&pack)
 	}

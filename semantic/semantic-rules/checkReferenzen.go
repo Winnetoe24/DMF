@@ -2,6 +2,7 @@ package semantic_rules
 
 import (
 	"errors"
+	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
 	errElement "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 )
@@ -10,7 +11,7 @@ type checkReferenzen struct {
 	*walkRule
 }
 
-func newCheckReferenzen(lookup *TypeLookUp) *checkReferenzen {
+func newCheckReferenzen(lookup *smodel.TypeLookUp) *checkReferenzen {
 	referenzen := checkReferenzen{
 		walkRule: &walkRule{
 			lookup:   lookup,
@@ -21,7 +22,7 @@ func newCheckReferenzen(lookup *TypeLookUp) *checkReferenzen {
 	return &referenzen
 }
 
-func (c *checkReferenzen) handleStruct(element *packages.StructElement, entity *packages.EntityElement) {
+func (c *checkReferenzen) handleStruct(element *packages.StructElement, _ *packages.EntityElement) {
 	for _, referenz := range element.Referenzen {
 		typString := referenz.Typ.ToString()
 		_, found := (*c.lookup)[typString]

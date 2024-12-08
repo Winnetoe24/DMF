@@ -2,6 +2,7 @@ package semantic_rules
 
 import (
 	"errors"
+	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages/values"
@@ -13,7 +14,7 @@ type checkEnumConstants struct {
 	*walkRule
 }
 
-func newCheckEnumConstants(lookup *TypeLookUp) *checkEnumConstants {
+func newCheckEnumConstants(lookup *smodel.TypeLookUp) *checkEnumConstants {
 	constants := checkEnumConstants{
 		walkRule: &walkRule{
 			lookup:   lookup,

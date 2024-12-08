@@ -6,7 +6,6 @@ import (
 	sematic_model "github.com/Winnetoe24/DMF/semantic/semantic-parse"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
 	err_element "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
-	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 )
 
@@ -15,7 +14,7 @@ const (
 	ERROR_AFTER_SEMANTIC_PARSE     = 2
 )
 
-func ParseNewFile(fileContent string, afterParse chan<- *tree_sitter.Tree, afterSematicModel chan<- *smodel.Model) ([]err_element.ErrorElement, int, error, TypeLookUp) {
+func ParseNewFile(fileContent string, afterParse chan<- *tree_sitter.Tree, afterSematicModel chan<- *smodel.Model) ([]err_element.ErrorElement, int, error, smodel.TypeLookUp) {
 
 	tree, err := callTreeSitterParser(fileContent)
 	if err != nil {
@@ -35,7 +34,7 @@ func ParseNewFile(fileContent string, afterParse chan<- *tree_sitter.Tree, after
 
 	var errorElements []err_element.ErrorElement
 
-	var lookup TypeLookUp
+	var lookup smodel.TypeLookUp
 	errorElements, lookup = runRulesSync(&parsedModel)
 
 	errorElements = append(errorElements, errorElementsModel...)
@@ -57,23 +56,13 @@ func callTreeSitterParser(fileContent string) (*tree_sitter.Tree, error) {
 	return parse, nil
 }
 
-type semanticRule[E any, R any] interface {
-	SemanticRule(fileContent []byte, model *smodel.Model, lookup *TypeLookUp) []err_element.ErrorElement
-}
-
-type TypeLookUp map[string]packages.PackageElement
-
-var _ ITypeLookUp = (TypeLookUp)(nil)
-
-func (t TypeLookUp) getTypeLookUp() TypeLookUp {
-	return t
-}
+var _ ITypeLookUp = (smodel.TypeLookUp)(nil)
 
 type ITypeLookUp interface {
-	getTypeLookUp() TypeLookUp
+	GetTypeLookUp() smodel.TypeLookUp
 }
 
-func runRulesSync(model *smodel.Model) ([]err_element.ErrorElement, TypeLookUp) {
+func runRulesSync(model *smodel.Model) ([]err_element.ErrorElement, smodel.TypeLookUp) {
 
 	fillTypeLookUp := newFillTypeLookUp()
 	lookUp, err := fillTypeLookUp.Fill(model)

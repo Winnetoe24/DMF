@@ -1,6 +1,7 @@
 package semantic_rules
 
 import (
+	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
 	errElement "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 )
@@ -24,12 +25,12 @@ type iWalkRule interface {
 
 // Supertyp alle Regeln, welche alle Typen durchlaufen.
 type walkRule struct {
-	lookup    *TypeLookUp
+	lookup    *smodel.TypeLookUp
 	elements  []errElement.ErrorElement
 	iWalkRule iWalkRule
 }
 
-func newWalkRule(lookup *TypeLookUp) *walkRule {
+func newWalkRule(lookup *smodel.TypeLookUp) *walkRule {
 	return &walkRule{
 		lookup:    lookup,
 		elements:  make([]errElement.ErrorElement, 0),

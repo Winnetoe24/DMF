@@ -2,6 +2,7 @@ package semantic_rules
 
 import (
 	"errors"
+	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	errElement "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
@@ -12,7 +13,7 @@ type computeElements struct {
 	finished map[string]bool
 }
 
-func newComputeElements(lookup *TypeLookUp) *computeElements {
+func newComputeElements(lookup *smodel.TypeLookUp) *computeElements {
 	elements := computeElements{
 		walkRule: newWalkRule(lookup),
 		finished: make(map[string]bool, len(*lookup)),
