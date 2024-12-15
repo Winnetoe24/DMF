@@ -394,7 +394,7 @@ package de.library.management {
         interface MaintenanceService {
             func void scheduleRoutineMaintenance(.Room room);
             func void reportIssue(.Equipment equipment, string issue);
-            func boolean checkAvailability(.Room room, date date, time startTime, time endTime);
+            func boolean checkAvailability(.Room room, date date, datetime startTime, datetime endTime);
         }
     }
 
