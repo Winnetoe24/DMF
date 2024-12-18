@@ -64,3 +64,117 @@ func BenchmarkParseNewFile(b *testing.B) {
 		//}
 	})
 }
+
+func TestAPIEditNothing(t *testing.T) {
+	// Given
+	dateiname := "edit-before.dmf"
+	//file, err := os.ReadFile("./test-resources/duplicate-paths-success.dmf")
+	file, err := os.ReadFile("./test-resources/" + dateiname)
+	if err != nil {
+		t.Errorf("Error reading file: %e", err)
+	}
+
+	//When
+	models := make(chan *sematic_model.Model)
+	trees := make(chan *tree_sitter.Tree)
+	errorElements, errPos, err, lookup := ParseNewFile(string(file), trees, models)
+	model := <-models
+	tree := <-trees
+	//packages := model.Packages
+	//t.Logf("Size: %v", unsafe.Sizeof(packages))
+
+	if err != nil {
+		t.Errorf("Error parsing at Pos %v\n", errPos)
+	}
+	if errPos > 0 {
+		t.Errorf("Error parsing at Pos %v\n", errPos)
+	}
+	if errorElements != nil && len(errorElements) > 0 {
+		for _, element := range errorElements {
+			t.Error(element.ToErrorMsg(&err_element.ErrorContext{
+				Dateiname:   dateiname,
+				Dateiinhalt: file,
+			}))
+		}
+	}
+
+	_, _, _, errorElements = ParseEdit(string(file), make([]*tree_sitter.InputEdit, 0), tree, model, &lookup)
+
+	if errorElements != nil && len(errorElements) > 0 {
+		for _, element := range errorElements {
+			t.Error(element.ToErrorMsg(&err_element.ErrorContext{
+				Dateiname:   dateiname,
+				Dateiinhalt: file,
+			}))
+		}
+	}
+
+}
+
+func TestAPIEdit(t *testing.T) {
+	// Given
+	dateiname := "edit-before-light.dmf"
+	file, err := os.ReadFile("./test-resources/" + dateiname)
+	if err != nil {
+		t.Errorf("Error reading file: %e", err)
+	}
+
+	//When
+	models := make(chan *sematic_model.Model)
+	trees := make(chan *tree_sitter.Tree)
+	errorElements, errPos, err, lookup := ParseNewFile(string(file), trees, models)
+	model := <-models
+	tree := <-trees
+	//packages := model.Packages
+	//t.Logf("Size: %v", unsafe.Sizeof(packages))
+
+	if err != nil {
+		t.Errorf("Error parsing at Pos %v\n", errPos)
+	}
+	if errPos > 0 {
+		t.Errorf("Error parsing at Pos %v\n", errPos)
+	}
+	if errorElements != nil && len(errorElements) > 0 {
+		for _, element := range errorElements {
+			t.Error(element.ToErrorMsg(&err_element.ErrorContext{
+				Dateiname:   dateiname,
+				Dateiinhalt: file,
+			}))
+		}
+	}
+
+	dateiname = "edit-after-light.dmf"
+	file, err = os.ReadFile("./test-resources/" + dateiname)
+	if err != nil {
+		t.Errorf("Error reading file: %e", err)
+	}
+	edits := make([]*tree_sitter.InputEdit, 0)
+	edits = append(edits, &tree_sitter.InputEdit{
+		StartByte:  121,
+		OldEndByte: 121,
+		NewEndByte: 151,
+		StartPosition: tree_sitter.Point{
+			Row:    6,
+			Column: 39,
+		},
+		OldEndPosition: tree_sitter.Point{
+			Row:    6,
+			Column: 39,
+		},
+		NewEndPosition: tree_sitter.Point{
+			Row:    7,
+			Column: 35,
+		},
+	})
+	_, _, _, errorElements = ParseEdit(string(file), edits, tree, model, &lookup)
+
+	if errorElements != nil && len(errorElements) > 0 {
+		for _, element := range errorElements {
+			t.Error(element.ToErrorMsg(&err_element.ErrorContext{
+				Dateiname:   dateiname,
+				Dateiinhalt: file,
+			}))
+		}
+	}
+
+}

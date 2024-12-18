@@ -96,18 +96,28 @@ func runRulesSync(model *smodel.Model) ([]err_element.ErrorElement, smodel.TypeL
 	return err, lookUp
 }
 
-func ParseEdit(fileContent string, edits []*tree_sitter.InputEdit, tree *tree_sitter.Tree, model *smodel.Model, lookup *smodel.TypeLookUp) (smodel.Model, smodel.TypeLookUp, []err_element.ErrorElement) {
+func ParseEdit(fileContent string, edits []*tree_sitter.InputEdit, tree *tree_sitter.Tree, model *smodel.Model, lookup *smodel.TypeLookUp) (*tree_sitter.Tree, smodel.Model, smodel.TypeLookUp, []err_element.ErrorElement) {
+	errorElements := make([]err_element.ErrorElement, 0)
 	for _, edit := range edits {
 		tree.Edit(edit)
 	}
-
-	parsedModel, errorElementsModel, err := sematic_model.Parse([]byte(fileContent), tree)
+	parser := tree_sitter.NewParser()
+	language := tree_sitter.NewLanguage(tree_sitter_dmf.Language())
+	err := parser.SetLanguage(language)
 	if err != nil {
-		panic(err)
+		errorElements = append(errorElements, err_element.CreateErrorElement(nil, err))
+		return nil, smodel.Model{}, nil, errorElements
+	}
+	tree_new := parser.Parse([]byte(fileContent), tree)
+
+	parsedModel, errorElementsModel, err := sematic_model.Parse([]byte(fileContent), tree_new)
+	if err != nil {
+		errorElements = append(errorElements, err_element.CreateErrorElement(nil, err))
+		return tree_new, parsedModel, nil, errorElementsModel
 	}
 
 	errorElements, newLookup := runRulesSync(&parsedModel)
 
 	errorElementsModel = append(errorElements, errorElementsModel...)
-	return parsedModel, newLookup, errorElementsModel
+	return tree_new, parsedModel, newLookup, errorElementsModel
 }

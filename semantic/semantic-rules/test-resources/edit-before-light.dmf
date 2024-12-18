@@ -1,0 +1,19 @@
+dmf 1.0.0
+model "edit" version 1.0.0
+
+package de.library.management {
+
+    // Basispaket für Medienverwaltung
+    package media {
+
+        // Basisstruktur für alle Medientypen
+        struct MediaItem {
+            arg string title;
+            arg string isbn;
+            arg date publishedDate;
+            arg double price;
+            arg int copyNumber;
+            func boolean isAvailable(int copyId);
+        }
+    }
+}
