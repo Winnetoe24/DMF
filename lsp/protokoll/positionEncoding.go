@@ -36,23 +36,6 @@ func DefaultPositionEncoding() PositionEncodingKind {
 	return PosUTF8
 }
 
-// TextDocumentClientCapabilities gets updated to include position encoding support
-type TextDocumentClientCapabilities struct {
-	// Previous fields remain...
-
-	// PositionEncodings is an array of position encodings supported by the client
-	// The first item gives the preferred encoding
-	PositionEncodings []PositionEncodingKind `json:"positionEncodings,omitempty"`
-}
-
-// TextDocumentServerCapabilities gets updated to include position encoding support
-type TextDocumentServerCapabilities struct {
-	// Previous fields remain...
-
-	// PositionEncoding indicates the supported position encoding for the server
-	PositionEncoding PositionEncodingKind `json:"positionEncoding,omitempty"`
-}
-
 // Helper functions for position calculations based on encoding
 
 // CountCodeUnits counts the number of code units in the given text based on the encoding

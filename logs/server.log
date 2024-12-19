@@ -1,0 +1,93 @@
+2024/12/19 11:40:47 server.go:43: ERROR | Error While Reading Message: &{%!e(string=unexpected end of JSON input) %!e(int64=196)}
+2024/12/19 11:40:47 server.go:56: ERROR | Error While Closing Connection: %!e(<nil>)
+2024/12/19 11:43:56 util.go:35: Trace | Read Content-Length: 196 from Content-Length: 196
+2024/12/19 11:43:56 util.go:61: INFO  | Sending message: {"jsonrpc":"2.0","error":{"code":-32601,"message":"method not found"}}
+2024/12/19 11:44:44 util.go:35: Trace | Read Content-Length: 196 from Content-Length: 196
+2024/12/19 11:44:44 util.go:60: INFO  | Sending message: {"jsonrpc":"2.0","error":{"code":-32601,"message":"method not found"}}
+2024/12/19 11:47:43 util.go:35: Trace | Read Content-Length: 196 from Content-Length: 196
+2024/12/19 11:47:43 server.go:50: INFO  | Handle Method: textDocument/didOpen 
+2024/12/19 11:47:43 fileService.go:51: Trace | Create FileHandle for file:///home/alex/IdeaProjects/TestDemo/test.demo
+2024/12/19 11:47:43 fileHandle.go:41: Debug | Error in TextFile:
+FehlerStelle in Position \home\alex\IdeaProjects\TestDemo\test.demo:1:0
+Hello, World! dad
+
+^^^^^^^^^^^^^^^^^^
+oberste Node ist error
+
+2024/12/19 11:47:46 server.go:43: ERROR | Error While Reading Message: &{%!e(string=unexpected end of JSON input) %!e(int64=0)}
+2024/12/19 11:47:46 server.go:56: ERROR | Error While Closing Connection: %!e(<nil>)
+2024/12/19 12:41:12 util.go:35: Trace | Read Content-Length: 1485 from Content-Length: 1485
+2024/12/19 12:41:12 util.go:60: INFO  | Sending message: {"jsonrpc":"2.0","id":"1","result":{"capabilities":{"textDocumentSync":{"openClose":true,"change":2}}}}
+2024/12/19 12:43:27 util.go:35: Trace | Read Content-Length: 1485 from Content-Length: 1485
+2024/12/19 12:43:27 util.go:60: INFO  | Sending message: {"jsonrpc":"2.0","id":"1","result":{"capabilities":{"textDocumentSync":{"openClose":true,"change":2}},"serverInfo":{"name":"DMF LSP Server","version":"0.0.1"}}}
+2024/12/19 12:44:01 util.go:35: Trace | Read Content-Length: 196 from Content-Length: 196
+2024/12/19 12:44:01 server.go:60: INFO  | Handle Method: textDocument/didOpen 
+2024/12/19 12:44:01 fileService.go:59: Trace | Create FileHandle for file:///home/alex/IdeaProjects/TestDemo/test.demo
+2024/12/19 12:44:01 fileHandle.go:41: Debug | Error in TextFile:
+FehlerStelle in Position \home\alex\IdeaProjects\TestDemo\test.demo:1:0
+Hello, World! dad
+
+^^^^^^^^^^^^^^^^^^
+oberste Node ist error
+
+2024/12/19 12:44:07 server.go:53: ERROR | Error While Reading Message: &{%!e(string=unexpected end of JSON input) %!e(int64=0)}
+2024/12/19 12:44:07 server.go:66: ERROR | Error While Closing Connection: %!e(<nil>)
+2024/12/19 12:45:52 util.go:35: Trace | Read Content-Length: 1485 from Content-Length: 1485
+2024/12/19 12:45:52 util.go:60: INFO  | Sending message: {"jsonrpc":"2.0","id":"1","result":{"capabilities":{"textDocumentSync":{"openClose":true,"change":2}},"serverInfo":{"name":"DMF LSP Server","version":"0.0.1"}}}
+2024/12/19 12:46:05 util.go:35: Trace | Read Content-Length: 52 from Content-Length: 52
+2024/12/19 12:47:04 util.go:35: Trace | Read Content-Length: 1485 from Content-Length: 1485
+2024/12/19 12:47:04 util.go:44: Trace | Read content: {"jsonrpc":"2.0","id":"1","method":"initialize","params":{"processId":null,"rootUri":null,"capabilities":{"workspace":{"workspaceEdit":{"documentChanges":true,"resourceOperations":["create"],"failureHandling":"abort"},"didChangeWatchedFiles":{"relativePatternSupport":true,"dynamicRegistration":true},"executeCommand":{"dynamicRegistration":false},"workspaceFolders":true,"semanticTokens":{"refreshSupport":true}},"textDocument":{"completion":{"completionItem":{"snippetSupport":true,"documentationFormat":["markdown","plaintext"],"deprecatedSupport":true,"tagSupport":{"valueSet":[1]},"insertReplaceSupport":true,"resolveSupport":{"properties":["documentation"]},"labelDetailsSupport":true},"completionList":{"itemDefaults":["commitCharacters","editRange","insertTextFormat","insertTextMode","data"]}},"hover":{"contentFormat":["markdown","plaintext"]},"references":{"dynamicRegistration":true},"formatting":{"dynamicRegistration":true},"definition":{"linkSupport":true},"codeAction":{"codeActionLiteralSupport":{"codeActionKind":{"valueSet":["quickfix","","source","refactor"]}},"disabledSupport":true,"dataSupport":true,"resolveSupport":{"properties":["edit"]}},"publishDiagnostics":{"tagSupport":{"valueSet":[1,2]},"versionSupport":true}},"window":{"showMessage":{},"showDocument":{"support":true}},"general":{"staleRequestSupport":{"cancel":true,"retryOnContentModified":[]}}},"clientInfo":{"name":"IntelliJ IDEA Ultimate Edition","version":"242.23339.11"},"workspaceFolders":[]}}
+2024/12/19 12:47:04 util.go:60: INFO  | Sending message: {"jsonrpc":"2.0","id":"1","result":{"capabilities":{"textDocumentSync":{"openClose":true,"change":2}},"serverInfo":{"name":"DMF LSP Server","version":"0.0.1"}}}
+2024/12/19 12:47:18 util.go:35: Trace | Read Content-Length: 52 from Content-Length: 52
+2024/12/19 12:47:18 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"initialized","params":{}}
+2024/12/19 12:47:38 util.go:35: Trace | Read Content-Length: 52 from Content-Length: 52
+2024/12/19 12:47:38 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"initialized","params":{}}
+2024/12/19 12:47:38 util.go:60: INFO  | Sending message: {"jsonrpc":"2.0","error":{"code":-32601,"message":"method not found"}}
+2024/12/19 12:47:38 util.go:35: Trace | Read Content-Length: 196 from Content-Length: 196
+2024/12/19 12:47:38 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"uri":"file:///home/alex/IdeaProjects/TestDemo/test.demo","languageId":"demo","version":0,"text":"Hello, World! dad\n"}}}
+2024/12/19 12:47:38 server.go:60: INFO  | Handle Method: textDocument/didOpen 
+2024/12/19 12:47:38 fileService.go:59: Trace | Create FileHandle for file:///home/alex/IdeaProjects/TestDemo/test.demo
+2024/12/19 12:47:38 fileHandle.go:41: Debug | Error in TextFile:
+FehlerStelle in Position \home\alex\IdeaProjects\TestDemo\test.demo:1:0
+Hello, World! dad
+
+^^^^^^^^^^^^^^^^^^
+oberste Node ist error
+
+2024/12/19 12:50:07 util.go:35: Trace | Read Content-Length: 1485 from Content-Length: 1485
+2024/12/19 12:50:07 util.go:44: Trace | Read content: {"jsonrpc":"2.0","id":"1","method":"initialize","params":{"processId":null,"rootUri":null,"capabilities":{"workspace":{"workspaceEdit":{"documentChanges":true,"resourceOperations":["create"],"failureHandling":"abort"},"didChangeWatchedFiles":{"relativePatternSupport":true,"dynamicRegistration":true},"executeCommand":{"dynamicRegistration":false},"workspaceFolders":true,"semanticTokens":{"refreshSupport":true}},"textDocument":{"completion":{"completionItem":{"snippetSupport":true,"documentationFormat":["markdown","plaintext"],"deprecatedSupport":true,"tagSupport":{"valueSet":[1]},"insertReplaceSupport":true,"resolveSupport":{"properties":["documentation"]},"labelDetailsSupport":true},"completionList":{"itemDefaults":["commitCharacters","editRange","insertTextFormat","insertTextMode","data"]}},"hover":{"contentFormat":["markdown","plaintext"]},"references":{"dynamicRegistration":true},"formatting":{"dynamicRegistration":true},"definition":{"linkSupport":true},"codeAction":{"codeActionLiteralSupport":{"codeActionKind":{"valueSet":["quickfix","","source","refactor"]}},"disabledSupport":true,"dataSupport":true,"resolveSupport":{"properties":["edit"]}},"publishDiagnostics":{"tagSupport":{"valueSet":[1,2]},"versionSupport":true}},"window":{"showMessage":{},"showDocument":{"support":true}},"general":{"staleRequestSupport":{"cancel":true,"retryOnContentModified":[]}}},"clientInfo":{"name":"IntelliJ IDEA Ultimate Edition","version":"242.23339.11"},"workspaceFolders":[]}}
+2024/12/19 12:50:07 util.go:60: INFO  | Sending message: {"jsonrpc":"2.0","id":"1","result":{"capabilities":{"textDocumentSync":{"openClose":true,"change":2}},"serverInfo":{"name":"DMF LSP Server","version":"0.0.1"}}}
+2024/12/19 12:50:22 util.go:35: Trace | Read Content-Length: 52 from Content-Length: 52
+2024/12/19 12:50:22 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"initialized","params":{}}
+2024/12/19 12:51:35 util.go:35: Trace | Read Content-Length: 52 from Content-Length: 52
+2024/12/19 12:51:35 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"initialized","params":{}}
+2024/12/19 12:51:35 server.go:58: ERROR | Method not Found: {2.0 [] initialized [123 125] <nil> <nil>}
+2024/12/19 12:51:35 util.go:60: INFO  | Sending message: {"jsonrpc":"2.0","error":{"code":-32601,"message":"method not found"}}
+2024/12/19 12:51:35 util.go:35: Trace | Read Content-Length: 196 from Content-Length: 196
+2024/12/19 12:51:35 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"uri":"file:///home/alex/IdeaProjects/TestDemo/test.demo","languageId":"demo","version":0,"text":"Hello, World! dad\n"}}}
+2024/12/19 12:51:35 server.go:61: INFO  | Handle Method: textDocument/didOpen 
+2024/12/19 12:51:35 fileService.go:59: Trace | Create FileHandle for file:///home/alex/IdeaProjects/TestDemo/test.demo
+2024/12/19 12:51:35 fileHandle.go:41: Debug | Error in TextFile:
+FehlerStelle in Position \home\alex\IdeaProjects\TestDemo\test.demo:1:0
+Hello, World! dad
+
+^^^^^^^^^^^^^^^^^^
+oberste Node ist error
+
+2024/12/19 12:52:48 util.go:35: Trace | Read Content-Length: 1485 from Content-Length: 1485
+2024/12/19 12:52:48 util.go:44: Trace | Read content: {"jsonrpc":"2.0","id":"1","method":"initialize","params":{"processId":null,"rootUri":null,"capabilities":{"workspace":{"workspaceEdit":{"documentChanges":true,"resourceOperations":["create"],"failureHandling":"abort"},"didChangeWatchedFiles":{"relativePatternSupport":true,"dynamicRegistration":true},"executeCommand":{"dynamicRegistration":false},"workspaceFolders":true,"semanticTokens":{"refreshSupport":true}},"textDocument":{"completion":{"completionItem":{"snippetSupport":true,"documentationFormat":["markdown","plaintext"],"deprecatedSupport":true,"tagSupport":{"valueSet":[1]},"insertReplaceSupport":true,"resolveSupport":{"properties":["documentation"]},"labelDetailsSupport":true},"completionList":{"itemDefaults":["commitCharacters","editRange","insertTextFormat","insertTextMode","data"]}},"hover":{"contentFormat":["markdown","plaintext"]},"references":{"dynamicRegistration":true},"formatting":{"dynamicRegistration":true},"definition":{"linkSupport":true},"codeAction":{"codeActionLiteralSupport":{"codeActionKind":{"valueSet":["quickfix","","source","refactor"]}},"disabledSupport":true,"dataSupport":true,"resolveSupport":{"properties":["edit"]}},"publishDiagnostics":{"tagSupport":{"valueSet":[1,2]},"versionSupport":true}},"window":{"showMessage":{},"showDocument":{"support":true}},"general":{"staleRequestSupport":{"cancel":true,"retryOnContentModified":[]}}},"clientInfo":{"name":"IntelliJ IDEA Ultimate Edition","version":"242.23339.11"},"workspaceFolders":[]}}
+2024/12/19 12:52:48 util.go:60: INFO  | Sending message: {"jsonrpc":"2.0","id":"1","result":{"capabilities":{"textDocumentSync":{"openClose":true,"change":2}},"serverInfo":{"name":"DMF LSP Server","version":"0.0.1"}}}
+2024/12/19 12:52:48 util.go:35: Trace | Read Content-Length: 52 from Content-Length: 52
+2024/12/19 12:52:48 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"initialized","params":{}}
+2024/12/19 12:52:48 server.go:114: Trace | Initialized Message: {2.0  initialized {} <nil> %!s(*protokoll.Error=<nil>)}
+2024/12/19 12:53:09 util.go:35: Trace | Read Content-Length: 196 from Content-Length: 196
+2024/12/19 12:53:09 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"uri":"file:///home/alex/IdeaProjects/TestDemo/test.demo","languageId":"demo","version":0,"text":"Hello, World! dad\n"}}}
+2024/12/19 12:53:09 server.go:61: INFO  | Handle Method: textDocument/didOpen 
+2024/12/19 12:53:09 fileService.go:59: Trace | Create FileHandle for file:///home/alex/IdeaProjects/TestDemo/test.demo
+2024/12/19 12:53:09 fileHandle.go:41: Debug | Error in TextFile:
+FehlerStelle in Position \home\alex\IdeaProjects\TestDemo\test.demo:1:0
+Hello, World! dad
+
+^^^^^^^^^^^^^^^^^^
+oberste Node ist error
+
