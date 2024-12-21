@@ -15,6 +15,13 @@ type DidChangeTextDocumentParams struct {
 	ContentChanges []TextDocumentContentChangeEvent          `json:"contentChanges"`
 }
 
+// DidCloseTextDocumentParams represents the parameters sent when a text document
+// is closed in the LSP specification.
+type DidCloseTextDocumentParams struct {
+	// TextDocument is the document that was closed
+	TextDocument protokoll.TextDocumentIdentifier `json:"textDocument"`
+}
+
 // TextDocumentContentChangeEvent represents a change to a text document
 type TextDocumentContentChangeEvent struct {
 	Range       *protokoll.Range `json:"range,omitempty"`

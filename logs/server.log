@@ -91,3 +91,254 @@ Hello, World! dad
 ^^^^^^^^^^^^^^^^^^
 oberste Node ist error
 
+----2024/12/20 22:06:42 util.go:35: Trace | Read Content-Length: 3626 from Content-Length: 3626
+2024/12/20 22:06:42 util.go:44: Trace | Read content: {"jsonrpc":"2.0","id":"1","method":"initialize","params":{"processId":25904,"rootPath":"C:/Code/DMF/intellijTest","rootUri":"file:///C:/Code/DMF/intellijTest","initializationOptions":{},"capabilities":{"workspace":{"applyEdit":true,"workspaceEdit":{"documentChanges":true,"resourceOperations":["create","delete","rename"]},"didChangeConfiguration":{"dynamicRegistration":true},"didChangeWatchedFiles":{"dynamicRegistration":true},"symbol":{},"executeCommand":{"dynamicRegistration":true},"workspaceFolders":true,"configuration":true,"semanticTokens":{"refreshSupport":true},"codeLens":{"refreshSupport":true},"fileOperations":{"didRename":true,"willRename":true,"dynamicRegistration":true},"inlayHint":{"refreshSupport":true}},"textDocument":{"synchronization":{"willSave":true,"willSaveWaitUntil":true,"didSave":true},"completion":{"completionItem":{"snippetSupport":true,"documentationFormat":["markdown","plaintext"],"deprecatedSupport":true,"resolveSupport":{"properties":["documentation","detail","additionalTextEdits"]},"insertTextModeSupport":{"valueSet":[1,2]},"labelDetailsSupport":true},"completionList":{"itemDefaults":["editRange"]},"dynamicRegistration":true},"hover":{"contentFormat":["markdown","plaintext"],"dynamicRegistration":true},"signatureHelp":{"signatureInformation":{"parameterInformation":{"labelOffsetSupport":true}},"dynamicRegistration":true},"references":{"dynamicRegistration":true},"documentHighlight":{"dynamicRegistration":true},"documentSymbol":{"symbolKind":{"valueSet":[18,17,5,14,9,10,22,24,8,1,12,11,20,6,2,3,21,16,19,25,4,7,15,23,26,13]},"hierarchicalDocumentSymbolSupport":true,"dynamicRegistration":true},"formatting":{"dynamicRegistration":true},"rangeFormatting":{"dynamicRegistration":true},"declaration":{"linkSupport":true,"dynamicRegistration":true},"definition":{"linkSupport":true,"dynamicRegistration":true},"typeDefinition":{"linkSupport":true,"dynamicRegistration":true},"implementation":{"linkSupport":true,"dynamicRegistration":true},"codeAction":{"codeActionLiteralSupport":{"codeActionKind":{"valueSet":["quickfix","refactor","refactor.extract","refactor.inline","refactor.rewrite","source","source.organizeImports"]}},"dataSupport":true,"resolveSupport":{"properties":["edit"]},"dynamicRegistration":true},"codeLens":{"dynamicRegistration":true},"documentLink":{"dynamicRegistration":true},"colorProvider":{"dynamicRegistration":true},"rename":{"prepareSupport":true,"dynamicRegistration":true},"publishDiagnostics":{"relatedInformation":true,"tagSupport":{"valueSet":[1,2]},"codeDescriptionSupport":true,"dataSupport":true},"foldingRange":{"dynamicRegistration":true},"typeHierarchy":{"dynamicRegistration":true},"callHierarchy":{"dynamicRegistration":true},"semanticTokens":{"requests":{"range":false,"full":true},"tokenTypes":["namespace","type","class","enum","interface","struct","typeParameter","parameter","variable","property","enumMember","event","function","method","macro","keyword","modifier","comment","string","number","regexp","operator","decorator","label"],"tokenModifiers":["declaration","definition","readonly","static"],"formats":["relative"],"multilineTokenSupport":true,"serverCancelSupport":true,"dynamicRegistration":true},"inlayHint":{"dynamicRegistration":true}},"window":{"workDoneProgress":true,"showMessage":{},"showDocument":{"support":true}},"general":{"staleRequestSupport":{"cancel":true,"retryOnContentModified":[]},"positionEncodings":["utf-16"]}},"clientInfo":{"name":"IntelliJ","version":"IntelliJ IDEA (build IU-241.15989.150)"},"trace":"off","workspaceFolders":[{"uri":"file:///C:/Code/DMF/intellijTest","name":"intellijTest"}]}}
+2024/12/20 22:06:42 util.go:60: INFO  | Sending message: {"jsonrpc":"2.0","id":"1","result":{"capabilities":{"textDocumentSync":{"openClose":true,"change":2}},"serverInfo":{"name":"DMF LSP Server","version":"0.0.1"}}}
+2024/12/20 22:06:42 util.go:35: Trace | Read Content-Length: 52 from Content-Length: 52
+2024/12/20 22:06:42 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"initialized","params":{}}
+2024/12/20 22:06:42 server.go:131: Trace | Initialized Message: {2.0 [] initialized [123 125] <nil> <nil>}
+2024/12/20 22:06:42 util.go:35: Trace | Read Content-Length: 86 from Content-Length: 86
+2024/12/20 22:06:42 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"workspace/didChangeConfiguration","params":{"settings":{}}}
+2024/12/20 22:06:42 server.go:72: ERROR | Method not Found: {2.0 [] workspace/didChangeConfiguration [123 34 115 101 116 116 105 110 103 115 34 58 123 125 125] <nil> <nil>}
+2024/12/20 22:06:42 util.go:60: INFO  | Sending message: {"jsonrpc":"2.0","error":{"code":-32601,"message":"method not found"}}
+2024/12/20 22:06:42 util.go:35: Trace | Read Content-Length: 168 from Content-Length: 168
+2024/12/20 22:06:42 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","languageId":"dmf","version":1,"text":""}}}
+2024/12/20 22:06:42 server.go:75: INFO  | Handle Method: textDocument/didOpen 
+2024/12/20 22:06:42 fileService.go:79: Trace | Create FileHandle for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:06:42 fileHandle.go:41: Debug | Error in TextFile:
+FehlerStelle in Position C:\Code\DMF\intellijTest\test.dmf:1:0
+
+
+oberste Node ist error
+
+2024/12/20 22:06:54 util.go:35: Trace | Read Content-Length: 263 from Content-Length: 263
+2024/12/20 22:06:54 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":2,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":0,"character":0},"end":{"line":0,"character":0}},"rangeLength":0,"text":"d"}]}}
+2024/12/20 22:06:54 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:06:54 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:06:54 util.go:35: Trace | Read Content-Length: 263 from Content-Length: 263
+2024/12/20 22:06:54 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":3,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":0,"character":1},"end":{"line":0,"character":1}},"rangeLength":0,"text":"m"}]}}
+2024/12/20 22:06:54 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:06:54 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:06:54 util.go:35: Trace | Read Content-Length: 263 from Content-Length: 263
+2024/12/20 22:06:54 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":4,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":0,"character":2},"end":{"line":0,"character":2}},"rangeLength":0,"text":"f"}]}}
+2024/12/20 22:06:54 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:06:54 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:06:54 util.go:35: Trace | Read Content-Length: 263 from Content-Length: 263
+2024/12/20 22:06:54 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":5,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":0,"character":3},"end":{"line":0,"character":3}},"rangeLength":0,"text":" "}]}}
+2024/12/20 22:06:54 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:06:54 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:06:54 util.go:35: Trace | Read Content-Length: 263 from Content-Length: 263
+2024/12/20 22:06:54 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":6,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":0,"character":4},"end":{"line":0,"character":4}},"rangeLength":0,"text":"1"}]}}
+2024/12/20 22:06:54 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:06:54 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:06:55 util.go:35: Trace | Read Content-Length: 263 from Content-Length: 263
+2024/12/20 22:06:55 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":7,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":0,"character":5},"end":{"line":0,"character":5}},"rangeLength":0,"text":"."}]}}
+2024/12/20 22:06:55 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:06:55 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:06:55 util.go:35: Trace | Read Content-Length: 263 from Content-Length: 263
+2024/12/20 22:06:55 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":8,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":0,"character":6},"end":{"line":0,"character":6}},"rangeLength":0,"text":"0"}]}}
+2024/12/20 22:06:55 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:06:55 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:06:55 util.go:35: Trace | Read Content-Length: 263 from Content-Length: 263
+2024/12/20 22:06:55 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":9,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":0,"character":7},"end":{"line":0,"character":7}},"rangeLength":0,"text":"."}]}}
+2024/12/20 22:06:55 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:06:55 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:06:55 util.go:35: Trace | Read Content-Length: 264 from Content-Length: 264
+2024/12/20 22:06:55 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":10,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":0,"character":8},"end":{"line":0,"character":8}},"rangeLength":0,"text":"0"}]}}
+2024/12/20 22:06:55 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:06:55 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:07:03 util.go:35: Trace | Read Content-Length: 265 from Content-Length: 265
+2024/12/20 22:07:03 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":11,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":0,"character":9},"end":{"line":0,"character":9}},"rangeLength":0,"text":"\n"}]}}
+2024/12/20 22:07:03 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:07:03 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:07:04 util.go:35: Trace | Read Content-Length: 264 from Content-Length: 264
+2024/12/20 22:07:04 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":12,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":1,"character":0},"end":{"line":1,"character":0}},"rangeLength":0,"text":"m"}]}}
+2024/12/20 22:07:04 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:07:04 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:07:04 util.go:35: Trace | Read Content-Length: 264 from Content-Length: 264
+2024/12/20 22:07:04 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":13,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":1,"character":1},"end":{"line":1,"character":1}},"rangeLength":0,"text":"o"}]}}
+2024/12/20 22:07:04 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:07:04 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:07:04 util.go:35: Trace | Read Content-Length: 264 from Content-Length: 264
+2024/12/20 22:07:04 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":14,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":1,"character":2},"end":{"line":1,"character":2}},"rangeLength":0,"text":"d"}]}}
+2024/12/20 22:07:04 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:07:04 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:07:04 util.go:35: Trace | Read Content-Length: 264 from Content-Length: 264
+2024/12/20 22:07:04 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":15,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":1,"character":3},"end":{"line":1,"character":3}},"rangeLength":0,"text":"e"}]}}
+2024/12/20 22:07:04 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:07:04 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:07:05 util.go:35: Trace | Read Content-Length: 264 from Content-Length: 264
+2024/12/20 22:07:05 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":16,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":1,"character":4},"end":{"line":1,"character":4}},"rangeLength":0,"text":"l"}]}}
+2024/12/20 22:07:05 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:07:05 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:07:06 util.go:35: Trace | Read Content-Length: 264 from Content-Length: 264
+2024/12/20 22:07:06 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":17,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":1,"character":5},"end":{"line":1,"character":5}},"rangeLength":0,"text":" "}]}}
+2024/12/20 22:07:06 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:07:06 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:20:44 util.go:35: Trace | Read Content-Length: 128 from Content-Length: 128
+2024/12/20 22:20:44 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didClose","params":{"textDocument":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"}}}
+2024/12/20 22:20:44 server.go:75: INFO  | Handle Method: textDocument/didClose 
+2024/12/20 22:20:49 util.go:35: Trace | Read Content-Length: 60 from Content-Length: 60
+2024/12/20 22:20:49 util.go:44: Trace | Read content: {"jsonrpc":"2.0","id":"2","method":"shutdown","params":null}
+2024/12/20 22:20:49 server.go:59: INFO  | Received Shutdown Request
+2024/12/20 22:20:49 util.go:60: INFO  | Sending message: {"jsonrpc":"2.0","id":"2"}
+2024/12/20 22:20:49 server.go:72: ERROR | Method not Found: {2.0 [34 50 34] shutdown [110 117 108 108] <nil> <nil>}
+2024/12/20 22:20:49 util.go:60: INFO  | Sending message: {"jsonrpc":"2.0","id":"2","error":{"code":-32601,"message":"method not found"}}
+2024/12/20 22:20:49 util.go:35: Trace | Read Content-Length: 47 from Content-Length: 47
+2024/12/20 22:20:49 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"exit","params":null}
+2024/12/20 22:20:49 server.go:72: ERROR | Method not Found: {2.0 [] exit [110 117 108 108] <nil> <nil>}
+2024/12/20 22:20:49 util.go:60: INFO  | Sending message: {"jsonrpc":"2.0","error":{"code":-32601,"message":"method not found"}}
+2024/12/20 22:22:58 util.go:35: Trace | Read Content-Length: 3626 from Content-Length: 3626
+2024/12/20 22:22:58 util.go:44: Trace | Read content: {"jsonrpc":"2.0","id":"1","method":"initialize","params":{"processId":25904,"rootPath":"C:/Code/DMF/intellijTest","rootUri":"file:///C:/Code/DMF/intellijTest","initializationOptions":{},"capabilities":{"workspace":{"applyEdit":true,"workspaceEdit":{"documentChanges":true,"resourceOperations":["create","delete","rename"]},"didChangeConfiguration":{"dynamicRegistration":true},"didChangeWatchedFiles":{"dynamicRegistration":true},"symbol":{},"executeCommand":{"dynamicRegistration":true},"workspaceFolders":true,"configuration":true,"semanticTokens":{"refreshSupport":true},"codeLens":{"refreshSupport":true},"fileOperations":{"didRename":true,"willRename":true,"dynamicRegistration":true},"inlayHint":{"refreshSupport":true}},"textDocument":{"synchronization":{"willSave":true,"willSaveWaitUntil":true,"didSave":true},"completion":{"completionItem":{"snippetSupport":true,"documentationFormat":["markdown","plaintext"],"deprecatedSupport":true,"resolveSupport":{"properties":["documentation","detail","additionalTextEdits"]},"insertTextModeSupport":{"valueSet":[1,2]},"labelDetailsSupport":true},"completionList":{"itemDefaults":["editRange"]},"dynamicRegistration":true},"hover":{"contentFormat":["markdown","plaintext"],"dynamicRegistration":true},"signatureHelp":{"signatureInformation":{"parameterInformation":{"labelOffsetSupport":true}},"dynamicRegistration":true},"references":{"dynamicRegistration":true},"documentHighlight":{"dynamicRegistration":true},"documentSymbol":{"symbolKind":{"valueSet":[18,17,5,14,9,10,22,24,8,1,12,11,20,6,2,3,21,16,19,25,4,7,15,23,26,13]},"hierarchicalDocumentSymbolSupport":true,"dynamicRegistration":true},"formatting":{"dynamicRegistration":true},"rangeFormatting":{"dynamicRegistration":true},"declaration":{"linkSupport":true,"dynamicRegistration":true},"definition":{"linkSupport":true,"dynamicRegistration":true},"typeDefinition":{"linkSupport":true,"dynamicRegistration":true},"implementation":{"linkSupport":true,"dynamicRegistration":true},"codeAction":{"codeActionLiteralSupport":{"codeActionKind":{"valueSet":["quickfix","refactor","refactor.extract","refactor.inline","refactor.rewrite","source","source.organizeImports"]}},"dataSupport":true,"resolveSupport":{"properties":["edit"]},"dynamicRegistration":true},"codeLens":{"dynamicRegistration":true},"documentLink":{"dynamicRegistration":true},"colorProvider":{"dynamicRegistration":true},"rename":{"prepareSupport":true,"dynamicRegistration":true},"publishDiagnostics":{"relatedInformation":true,"tagSupport":{"valueSet":[1,2]},"codeDescriptionSupport":true,"dataSupport":true},"foldingRange":{"dynamicRegistration":true},"typeHierarchy":{"dynamicRegistration":true},"callHierarchy":{"dynamicRegistration":true},"semanticTokens":{"requests":{"range":false,"full":true},"tokenTypes":["namespace","type","class","enum","interface","struct","typeParameter","parameter","variable","property","enumMember","event","function","method","macro","keyword","modifier","comment","string","number","regexp","operator","decorator","label"],"tokenModifiers":["declaration","definition","readonly","static"],"formats":["relative"],"multilineTokenSupport":true,"serverCancelSupport":true,"dynamicRegistration":true},"inlayHint":{"dynamicRegistration":true}},"window":{"workDoneProgress":true,"showMessage":{},"showDocument":{"support":true}},"general":{"staleRequestSupport":{"cancel":true,"retryOnContentModified":[]},"positionEncodings":["utf-16"]}},"clientInfo":{"name":"IntelliJ","version":"IntelliJ IDEA (build IU-241.15989.150)"},"trace":"off","workspaceFolders":[{"uri":"file:///C:/Code/DMF/intellijTest","name":"intellijTest"}]}}
+2024/12/20 22:22:58 util.go:60: INFO  | Sending message: {"jsonrpc":"2.0","id":"1","result":{"capabilities":{"textDocumentSync":{"openClose":true,"change":2}},"serverInfo":{"name":"DMF LSP Server","version":"0.0.1"}}}
+2024/12/20 22:22:58 util.go:35: Trace | Read Content-Length: 52 from Content-Length: 52
+2024/12/20 22:22:58 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"initialized","params":{}}
+2024/12/20 22:22:58 server.go:131: Trace | Initialized Message: {2.0 [] initialized [123 125] <nil> <nil>}
+2024/12/20 22:22:58 util.go:35: Trace | Read Content-Length: 86 from Content-Length: 86
+2024/12/20 22:22:58 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"workspace/didChangeConfiguration","params":{"settings":{}}}
+2024/12/20 22:22:58 server.go:72: ERROR | Method not Found: {2.0 [] workspace/didChangeConfiguration [123 34 115 101 116 116 105 110 103 115 34 58 123 125 125] <nil> <nil>}
+2024/12/20 22:22:58 util.go:60: INFO  | Sending message: {"jsonrpc":"2.0","error":{"code":-32601,"message":"method not found"}}
+2024/12/20 22:22:58 util.go:35: Trace | Read Content-Length: 184 from Content-Length: 184
+2024/12/20 22:22:58 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","languageId":"dmf","version":1,"text":"dmf 1.0.0\nmodel"}}}
+2024/12/20 22:22:58 server.go:75: INFO  | Handle Method: textDocument/didOpen 
+2024/12/20 22:22:58 fileService.go:79: Trace | Create FileHandle for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:22:58 fileHandle.go:41: Debug | Error in TextFile:
+FehlerStelle in Position C:\Code\DMF\intellijTest\test.dmf:1:0
+dmf 1.0.0
+model
+^^^^^^^^^^^^^^^
+oberste Node ist error
+
+2024/12/20 22:23:02 util.go:35: Trace | Read Content-Length: 263 from Content-Length: 263
+2024/12/20 22:23:02 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":2,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":1,"character":5},"end":{"line":1,"character":5}},"rangeLength":0,"text":" "}]}}
+2024/12/20 22:23:02 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:23:02 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:23:02 fileHandle.go:89: Debug | Error in TextFile:
+FehlerStelle in Position C:\Code\DMF\intellijTest\test.dmf:1:0
+dmf 1.0.0
+model 
+^^^^^^^^^^^^^^^^
+oberste Node ist error
+
+2024/12/20 22:23:02 fileHandle.go:92: Trace | Neuer File Content: 
+dmf 1.0.0
+model 
+2024/12/20 22:23:02 util.go:35: Trace | Read Content-Length: 263 from Content-Length: 263
+2024/12/20 22:23:02 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":3,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":1,"character":6},"end":{"line":1,"character":6}},"rangeLength":0,"text":"1"}]}}
+2024/12/20 22:23:02 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:23:02 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:23:02 fileService.go:98: ERROR | Error Editing FileHandle for file:///C:/Code/DMF/intellijTest/test.dmf: &{%!e(string=start offset calculation failed: character number 6 exceeds line length 5) %!e(*errors.errorString=&{character number 6 exceeds line length 5})}
+2024/12/20 22:23:02 util.go:35: Trace | Read Content-Length: 263 from Content-Length: 263
+2024/12/20 22:23:02 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":4,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":1,"character":7},"end":{"line":1,"character":7}},"rangeLength":0,"text":"."}]}}
+2024/12/20 22:23:02 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:23:02 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:23:02 fileService.go:98: ERROR | Error Editing FileHandle for file:///C:/Code/DMF/intellijTest/test.dmf: &{%!e(string=start offset calculation failed: character number 7 exceeds line length 5) %!e(*errors.errorString=&{character number 7 exceeds line length 5})}
+2024/12/20 22:23:02 util.go:35: Trace | Read Content-Length: 263 from Content-Length: 263
+2024/12/20 22:23:02 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":5,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":1,"character":8},"end":{"line":1,"character":8}},"rangeLength":0,"text":"0"}]}}
+2024/12/20 22:23:02 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:23:02 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:23:02 fileService.go:98: ERROR | Error Editing FileHandle for file:///C:/Code/DMF/intellijTest/test.dmf: &{%!e(string=start offset calculation failed: character number 8 exceeds line length 5) %!e(*errors.errorString=&{character number 8 exceeds line length 5})}
+2024/12/20 22:23:02 util.go:35: Trace | Read Content-Length: 263 from Content-Length: 263
+2024/12/20 22:23:02 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":6,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":1,"character":9},"end":{"line":1,"character":9}},"rangeLength":0,"text":"."}]}}
+2024/12/20 22:23:02 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:23:02 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:23:02 fileService.go:98: ERROR | Error Editing FileHandle for file:///C:/Code/DMF/intellijTest/test.dmf: &{%!e(string=start offset calculation failed: character number 9 exceeds line length 5) %!e(*errors.errorString=&{character number 9 exceeds line length 5})}
+2024/12/20 22:23:02 util.go:35: Trace | Read Content-Length: 265 from Content-Length: 265
+2024/12/20 22:23:02 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":7,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":1,"character":10},"end":{"line":1,"character":10}},"rangeLength":0,"text":"0"}]}}
+2024/12/20 22:23:02 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:23:02 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:23:02 fileService.go:98: ERROR | Error Editing FileHandle for file:///C:/Code/DMF/intellijTest/test.dmf: &{%!e(string=start offset calculation failed: character number 10 exceeds line length 5) %!e(*errors.errorString=&{character number 10 exceeds line length 5})}
+2024/12/20 22:25:20 util.go:35: Trace | Read Content-Length: 128 from Content-Length: 128
+2024/12/20 22:25:20 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didClose","params":{"textDocument":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"}}}
+2024/12/20 22:25:20 server.go:75: INFO  | Handle Method: textDocument/didClose 
+2024/12/20 22:25:25 util.go:35: Trace | Read Content-Length: 60 from Content-Length: 60
+2024/12/20 22:25:25 util.go:44: Trace | Read content: {"jsonrpc":"2.0","id":"2","method":"shutdown","params":null}
+2024/12/20 22:25:25 server.go:59: INFO  | Received Shutdown Request
+2024/12/20 22:25:25 util.go:60: INFO  | Sending message: {"jsonrpc":"2.0","id":"2"}
+2024/12/20 22:25:25 server.go:72: ERROR | Method not Found: {2.0 [34 50 34] shutdown [110 117 108 108] <nil> <nil>}
+2024/12/20 22:25:25 util.go:60: INFO  | Sending message: {"jsonrpc":"2.0","id":"2","error":{"code":-32601,"message":"method not found"}}
+2024/12/20 22:25:25 util.go:35: Trace | Read Content-Length: 47 from Content-Length: 47
+2024/12/20 22:25:25 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"exit","params":null}
+2024/12/20 22:25:25 server.go:72: ERROR | Method not Found: {2.0 [] exit [110 117 108 108] <nil> <nil>}
+2024/12/20 22:25:25 util.go:60: INFO  | Sending message: {"jsonrpc":"2.0","error":{"code":-32601,"message":"method not found"}}
+2024/12/20 22:25:28 util.go:35: Trace | Read Content-Length: 3626 from Content-Length: 3626
+2024/12/20 22:25:28 util.go:44: Trace | Read content: {"jsonrpc":"2.0","id":"1","method":"initialize","params":{"processId":25904,"rootPath":"C:/Code/DMF/intellijTest","rootUri":"file:///C:/Code/DMF/intellijTest","initializationOptions":{},"capabilities":{"workspace":{"applyEdit":true,"workspaceEdit":{"documentChanges":true,"resourceOperations":["create","delete","rename"]},"didChangeConfiguration":{"dynamicRegistration":true},"didChangeWatchedFiles":{"dynamicRegistration":true},"symbol":{},"executeCommand":{"dynamicRegistration":true},"workspaceFolders":true,"configuration":true,"semanticTokens":{"refreshSupport":true},"codeLens":{"refreshSupport":true},"fileOperations":{"didRename":true,"willRename":true,"dynamicRegistration":true},"inlayHint":{"refreshSupport":true}},"textDocument":{"synchronization":{"willSave":true,"willSaveWaitUntil":true,"didSave":true},"completion":{"completionItem":{"snippetSupport":true,"documentationFormat":["markdown","plaintext"],"deprecatedSupport":true,"resolveSupport":{"properties":["documentation","detail","additionalTextEdits"]},"insertTextModeSupport":{"valueSet":[1,2]},"labelDetailsSupport":true},"completionList":{"itemDefaults":["editRange"]},"dynamicRegistration":true},"hover":{"contentFormat":["markdown","plaintext"],"dynamicRegistration":true},"signatureHelp":{"signatureInformation":{"parameterInformation":{"labelOffsetSupport":true}},"dynamicRegistration":true},"references":{"dynamicRegistration":true},"documentHighlight":{"dynamicRegistration":true},"documentSymbol":{"symbolKind":{"valueSet":[18,17,5,14,9,10,22,24,8,1,12,11,20,6,2,3,21,16,19,25,4,7,15,23,26,13]},"hierarchicalDocumentSymbolSupport":true,"dynamicRegistration":true},"formatting":{"dynamicRegistration":true},"rangeFormatting":{"dynamicRegistration":true},"declaration":{"linkSupport":true,"dynamicRegistration":true},"definition":{"linkSupport":true,"dynamicRegistration":true},"typeDefinition":{"linkSupport":true,"dynamicRegistration":true},"implementation":{"linkSupport":true,"dynamicRegistration":true},"codeAction":{"codeActionLiteralSupport":{"codeActionKind":{"valueSet":["quickfix","refactor","refactor.extract","refactor.inline","refactor.rewrite","source","source.organizeImports"]}},"dataSupport":true,"resolveSupport":{"properties":["edit"]},"dynamicRegistration":true},"codeLens":{"dynamicRegistration":true},"documentLink":{"dynamicRegistration":true},"colorProvider":{"dynamicRegistration":true},"rename":{"prepareSupport":true,"dynamicRegistration":true},"publishDiagnostics":{"relatedInformation":true,"tagSupport":{"valueSet":[1,2]},"codeDescriptionSupport":true,"dataSupport":true},"foldingRange":{"dynamicRegistration":true},"typeHierarchy":{"dynamicRegistration":true},"callHierarchy":{"dynamicRegistration":true},"semanticTokens":{"requests":{"range":false,"full":true},"tokenTypes":["namespace","type","class","enum","interface","struct","typeParameter","parameter","variable","property","enumMember","event","function","method","macro","keyword","modifier","comment","string","number","regexp","operator","decorator","label"],"tokenModifiers":["declaration","definition","readonly","static"],"formats":["relative"],"multilineTokenSupport":true,"serverCancelSupport":true,"dynamicRegistration":true},"inlayHint":{"dynamicRegistration":true}},"window":{"workDoneProgress":true,"showMessage":{},"showDocument":{"support":true}},"general":{"staleRequestSupport":{"cancel":true,"retryOnContentModified":[]},"positionEncodings":["utf-16"]}},"clientInfo":{"name":"IntelliJ","version":"IntelliJ IDEA (build IU-241.15989.150)"},"trace":"off","workspaceFolders":[{"uri":"file:///C:/Code/DMF/intellijTest","name":"intellijTest"}]}}
+2024/12/20 22:25:28 util.go:60: INFO  | Sending message: {"jsonrpc":"2.0","id":"1","result":{"capabilities":{"textDocumentSync":{"openClose":true,"change":2}},"serverInfo":{"name":"DMF LSP Server","version":"0.0.1"}}}
+2024/12/20 22:25:28 util.go:35: Trace | Read Content-Length: 52 from Content-Length: 52
+2024/12/20 22:25:28 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"initialized","params":{}}
+2024/12/20 22:25:28 server.go:131: Trace | Initialized Message: {2.0 [] initialized [123 125] <nil> <nil>}
+2024/12/20 22:25:28 util.go:35: Trace | Read Content-Length: 86 from Content-Length: 86
+2024/12/20 22:25:28 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"workspace/didChangeConfiguration","params":{"settings":{}}}
+2024/12/20 22:25:28 server.go:72: ERROR | Method not Found: {2.0 [] workspace/didChangeConfiguration [123 34 115 101 116 116 105 110 103 115 34 58 123 125 125] <nil> <nil>}
+2024/12/20 22:25:28 util.go:60: INFO  | Sending message: {"jsonrpc":"2.0","error":{"code":-32601,"message":"method not found"}}
+2024/12/20 22:25:28 util.go:35: Trace | Read Content-Length: 190 from Content-Length: 190
+2024/12/20 22:25:28 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","languageId":"dmf","version":1,"text":"dmf 1.0.0\nmodel 1.0.0"}}}
+2024/12/20 22:25:28 server.go:75: INFO  | Handle Method: textDocument/didOpen 
+2024/12/20 22:25:28 fileService.go:79: Trace | Create FileHandle for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:25:28 fileHandle.go:41: Debug | Error in TextFile:
+FehlerStelle in Position C:\Code\DMF\intellijTest\test.dmf:1:0
+dmf 1.0.0
+model 1.0.0
+^^^^^^^^^^^^^^^^^^^^^
+oberste Node ist error
+
+2024/12/20 22:25:31 util.go:35: Trace | Read Content-Length: 266 from Content-Length: 266
+2024/12/20 22:25:31 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":2,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":1,"character":11},"end":{"line":1,"character":11}},"rangeLength":0,"text":"\n"}]}}
+2024/12/20 22:25:31 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:25:31 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:25:31 fileService.go:98: ERROR | Error Editing FileHandle for file:///C:/Code/DMF/intellijTest/test.dmf: &{%!e(string=start offset calculation failed: character number 10 exceeds line length 9) %!e(*errors.errorString=&{character number 10 exceeds line length 9})}
+2024/12/20 22:25:31 util.go:35: Trace | Read Content-Length: 264 from Content-Length: 264
+2024/12/20 22:25:31 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":3,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":2,"character":0},"end":{"line":2,"character":0}},"rangeLength":0,"text":"\n"}]}}
+2024/12/20 22:25:31 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:25:31 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:25:31 fileService.go:98: ERROR | Error Editing FileHandle for file:///C:/Code/DMF/intellijTest/test.dmf: &{%!e(string=start offset calculation failed: character number 4294967295 exceeds line length 11) %!e(*errors.errorString=&{character number 4294967295 exceeds line length 11})}
+2024/12/20 22:25:31 util.go:35: Trace | Read Content-Length: 263 from Content-Length: 263
+2024/12/20 22:25:31 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":4,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":3,"character":0},"end":{"line":3,"character":0}},"rangeLength":0,"text":"p"}]}}
+2024/12/20 22:25:31 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:25:31 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:25:31 fileService.go:98: ERROR | Error Editing FileHandle for file:///C:/Code/DMF/intellijTest/test.dmf: &{%!e(string=start offset calculation failed: line number 2 exceeds content lines 2) %!e(*errors.errorString=&{line number 2 exceeds content lines 2})}
+2024/12/20 22:25:32 util.go:35: Trace | Read Content-Length: 263 from Content-Length: 263
+2024/12/20 22:25:32 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":5,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":3,"character":1},"end":{"line":3,"character":1}},"rangeLength":0,"text":"a"}]}}
+2024/12/20 22:25:32 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:25:32 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:25:32 fileService.go:98: ERROR | Error Editing FileHandle for file:///C:/Code/DMF/intellijTest/test.dmf: &{%!e(string=start offset calculation failed: line number 2 exceeds content lines 2) %!e(*errors.errorString=&{line number 2 exceeds content lines 2})}
+2024/12/20 22:25:32 util.go:35: Trace | Read Content-Length: 263 from Content-Length: 263
+2024/12/20 22:25:32 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":6,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":3,"character":2},"end":{"line":3,"character":2}},"rangeLength":0,"text":"c"}]}}
+2024/12/20 22:25:32 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:25:32 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:25:32 fileService.go:98: ERROR | Error Editing FileHandle for file:///C:/Code/DMF/intellijTest/test.dmf: &{%!e(string=start offset calculation failed: line number 2 exceeds content lines 2) %!e(*errors.errorString=&{line number 2 exceeds content lines 2})}
+2024/12/20 22:25:32 util.go:35: Trace | Read Content-Length: 263 from Content-Length: 263
+2024/12/20 22:25:32 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":7,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":3,"character":3},"end":{"line":3,"character":3}},"rangeLength":0,"text":"l"}]}}
+2024/12/20 22:25:32 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:25:32 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:25:32 fileService.go:98: ERROR | Error Editing FileHandle for file:///C:/Code/DMF/intellijTest/test.dmf: &{%!e(string=start offset calculation failed: line number 2 exceeds content lines 2) %!e(*errors.errorString=&{line number 2 exceeds content lines 2})}
+2024/12/20 22:25:35 util.go:35: Trace | Read Content-Length: 262 from Content-Length: 262
+2024/12/20 22:25:35 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":8,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":3,"character":3},"end":{"line":3,"character":4}},"rangeLength":1,"text":""}]}}
+2024/12/20 22:25:35 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:25:35 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:25:35 fileService.go:98: ERROR | Error Editing FileHandle for file:///C:/Code/DMF/intellijTest/test.dmf: &{%!e(string=start offset calculation failed: line number 2 exceeds content lines 2) %!e(*errors.errorString=&{line number 2 exceeds content lines 2})}
+2024/12/20 22:26:02 util.go:35: Trace | Read Content-Length: 262 from Content-Length: 262
+2024/12/20 22:26:02 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":9,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":3,"character":2},"end":{"line":3,"character":3}},"rangeLength":1,"text":""}]}}
+2024/12/20 22:26:02 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:26:02 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:26:02 fileService.go:98: ERROR | Error Editing FileHandle for file:///C:/Code/DMF/intellijTest/test.dmf: &{%!e(string=start offset calculation failed: line number 2 exceeds content lines 2) %!e(*errors.errorString=&{line number 2 exceeds content lines 2})}
+2024/12/20 22:26:02 util.go:35: Trace | Read Content-Length: 263 from Content-Length: 263
+2024/12/20 22:26:02 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":10,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":3,"character":1},"end":{"line":3,"character":2}},"rangeLength":1,"text":""}]}}
+2024/12/20 22:26:02 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:26:02 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:26:02 fileService.go:98: ERROR | Error Editing FileHandle for file:///C:/Code/DMF/intellijTest/test.dmf: &{%!e(string=start offset calculation failed: line number 2 exceeds content lines 2) %!e(*errors.errorString=&{line number 2 exceeds content lines 2})}
+2024/12/20 22:26:03 util.go:35: Trace | Read Content-Length: 263 from Content-Length: 263
+2024/12/20 22:26:03 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":11,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":3,"character":0},"end":{"line":3,"character":1}},"rangeLength":1,"text":""}]}}
+2024/12/20 22:26:03 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:26:03 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:26:03 fileService.go:98: ERROR | Error Editing FileHandle for file:///C:/Code/DMF/intellijTest/test.dmf: &{%!e(string=start offset calculation failed: line number 2 exceeds content lines 2) %!e(*errors.errorString=&{line number 2 exceeds content lines 2})}
+2024/12/20 22:26:03 util.go:35: Trace | Read Content-Length: 263 from Content-Length: 263
+2024/12/20 22:26:03 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":12,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":2,"character":0},"end":{"line":3,"character":0}},"rangeLength":1,"text":""}]}}
+2024/12/20 22:26:03 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:26:03 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:26:03 fileService.go:98: ERROR | Error Editing FileHandle for file:///C:/Code/DMF/intellijTest/test.dmf: &{%!e(string=start offset calculation failed: character number 4294967295 exceeds line length 11) %!e(*errors.errorString=&{character number 4294967295 exceeds line length 11})}
+2024/12/20 22:26:03 util.go:35: Trace | Read Content-Length: 264 from Content-Length: 264
+2024/12/20 22:26:03 util.go:44: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":13,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":1,"character":11},"end":{"line":2,"character":0}},"rangeLength":1,"text":""}]}}
+2024/12/20 22:26:03 server.go:75: INFO  | Handle Method: textDocument/didChange 
+2024/12/20 22:26:03 fileService.go:95: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2024/12/20 22:26:03 fileService.go:98: ERROR | Error Editing FileHandle for file:///C:/Code/DMF/intellijTest/test.dmf: &{%!e(string=start offset calculation failed: character number 10 exceeds line length 9) %!e(*errors.errorString=&{character number 10 exceeds line length 9})}

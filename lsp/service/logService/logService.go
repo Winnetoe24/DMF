@@ -18,7 +18,10 @@ func init() {
 	// Set up logging to file
 	var err error
 	logsDir := os.Getenv("DMF_LSP_LOG")
-	println(logsDir)
+	if logsDir == "" {
+		logsDir = "C:\\Code\\DMF\\logs"
+	}
+	//println(logsDir)
 	logFile, err = os.OpenFile(logsDir+string(os.PathSeparator)+"server.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 	if err != nil {
 		_, _ = fmt.Fprintf(os.Stderr, "Failed to open log file: %v\n", err)

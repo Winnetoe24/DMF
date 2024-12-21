@@ -45,7 +45,7 @@ func (s *Server) MessageLoop() {
 		//TODO Exit
 		return
 	}
-
+MessageLoop:
 	for {
 		message, err := s.con.WaitForMessage()
 
@@ -65,7 +65,7 @@ func (s *Server) MessageLoop() {
 					Result:  nil,
 					Error:   nil,
 				})
-				break
+				break MessageLoop
 			}
 			handler, found := s.methodMap[message.Method]
 			if !found {
@@ -128,6 +128,6 @@ func (s *Server) initialize(logger *log.Logger) bool {
 		logger.Printf("%sSecond Message isn't initialized: %v\n", logService.ERROR, message)
 		return false
 	}
-	logger.Printf("%sInitialized Message: %s\n", logService.TRACE, initializedMessage)
+	logger.Printf("%sInitialized Message: %v\n", logService.TRACE, initializedMessage)
 	return true
 }

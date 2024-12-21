@@ -11,6 +11,10 @@ import (
 	"github.com/Winnetoe24/DMF/lsp/service/logService"
 )
 
+const didOpenMethod = "textDocument/didOpen"
+const didChangeMethod = "textDocument/didChange"
+const didCloseMethod = "textDocument/didClose"
+
 var logger = logService.GetLogger()
 var _ service.MethodHandler = &FileService{}
 
@@ -36,7 +40,7 @@ func (receiver *FileService) Initialize(params *initialize.InitializeParams, res
 
 func (receiver *FileService) HandleMethod(message protokoll.Message) {
 	switch message.Method {
-	case "textDocument/didOpen":
+	case didOpenMethod:
 		params := textEdit.DidOpenTextDocumentParams{}
 		err := json.Unmarshal(message.Params, &params)
 		if err != nil {
@@ -44,11 +48,27 @@ func (receiver *FileService) HandleMethod(message protokoll.Message) {
 			return
 		}
 		receiver.OpenFile(params)
+	case didChangeMethod:
+		params := textEdit.DidChangeTextDocumentParams{}
+		err := json.Unmarshal(message.Params, &params)
+		if err != nil {
+			connectUtils.WriteErrorToCon(receiver.con, message.ID, err, protokoll.ParseError)
+			return
+		}
+		receiver.EditFile(params)
+	case didCloseMethod:
+		params := textEdit.DidCloseTextDocumentParams{}
+		err := json.Unmarshal(message.Params, &params)
+		if err != nil {
+			connectUtils.WriteErrorToCon(receiver.con, message.ID, err, protokoll.ParseError)
+			return
+		}
+		delete(receiver.handleMap, string(params.TextDocument.URI))
 	}
 }
 
 func (receiver *FileService) GetMethods() []string {
-	return []string{"textDocument/didOpen"}
+	return []string{didOpenMethod, didChangeMethod, didCloseMethod}
 }
 
 func (receiver *FileService) OpenFile(params textEdit.DidOpenTextDocumentParams) {
@@ -73,7 +93,10 @@ func (receiver *FileService) EditFile(params textEdit.DidChangeTextDocumentParam
 
 	if found {
 		logger.Printf("%sEdit File for %v\n", logService.TRACE, params.TextDocument.URI)
-		handle.EditFile(params)
+		err := handle.editFileHandle(params)
+		if err != nil {
+			logger.Printf("%sError Editing FileHandle for %v: %e\n", logService.ERROR, params.TextDocument.URI, err)
+		}
 	} else {
 		logger.Panicf("%sFileHandle for file(%v) doesn't exists!\n", logService.ERROR, params.TextDocument.URI)
 	}

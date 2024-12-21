@@ -206,7 +206,7 @@ expand package de.alex.brand {
 				Version:     tt.initialVersion,
 			}
 
-			got := doc.ApplyChanges(&tt.changes)
+			got := doc.applyChanges(&tt.changes)
 
 			if tt.wantError {
 				if got.Error == nil {

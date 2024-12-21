@@ -59,19 +59,43 @@ func openFileHandle(params textEdit.DidOpenTextDocumentParams) (fileHandle, erro
 		LookUp:      &up,
 	}, nil
 }
-func (receiver *fileHandle) EditFile(params textEdit.DidChangeTextDocumentParams) {
-
-}
 
 // InputEditResult contains the new content and the generated tree-sitter edits
 type InputEditResult struct {
 	NewContent      string
-	TreeSitterEdits []tree_sitter.InputEdit
+	TreeSitterEdits []*tree_sitter.InputEdit
 	Error           error
 }
 
-// ApplyChanges applies the LSP changes to the document content and generates tree-sitter input edits
-func (doc *fileHandle) ApplyChanges(params *textEdit.DidChangeTextDocumentParams) InputEditResult {
+func (doc *fileHandle) editFileHandle(params textEdit.DidChangeTextDocumentParams) error {
+	changes := doc.applyChanges(&params)
+	doc.FileContent = changes.NewContent
+	if changes.Error != nil {
+		return changes.Error
+	}
+
+	ast, model, up, errorElements := semantic_rules.ParseEdit(changes.NewContent, changes.TreeSitterEdits, doc.Ast, doc.Model, doc.LookUp)
+	doc.Ast = ast
+	doc.Model = &model
+	doc.LookUp = &up
+	// TODO Handle Error Elements DiagnosenService
+	if errorElements != nil {
+		path, _ := params.TextDocument.URI.ToFilePath()
+		var ctx = &errElement.ErrorContext{
+			Dateiname:   path,
+			Dateiinhalt: []byte(changes.NewContent),
+		}
+		for _, element := range errorElements {
+			logger.Printf("%sError in TextFile:\n%s\n", logService.DEBUG, element.ToErrorMsg(ctx))
+		}
+	}
+	logger.Printf("%sNeuer File Content: \n%s\n", logService.TRACE, doc.FileContent)
+
+	return nil
+}
+
+// applyChanges applies the LSP changes to the document content and generates tree-sitter input edits
+func (doc *fileHandle) applyChanges(params *textEdit.DidChangeTextDocumentParams) InputEditResult {
 	if doc.Version >= params.TextDocument.Version {
 		return InputEditResult{
 			Error: fmt.Errorf("version conflict: document version %d is newer than change version %d",
@@ -80,7 +104,7 @@ func (doc *fileHandle) ApplyChanges(params *textEdit.DidChangeTextDocumentParams
 	}
 
 	content := doc.FileContent
-	var tsEdits []tree_sitter.InputEdit
+	var tsEdits []*tree_sitter.InputEdit
 
 	// Apply changes in order
 	for _, change := range params.ContentChanges {
@@ -88,6 +112,10 @@ func (doc *fileHandle) ApplyChanges(params *textEdit.DidChangeTextDocumentParams
 		var err error
 
 		if change.Range != nil {
+			change.Range.Start.Line--
+			change.Range.Start.Character--
+			change.Range.End.Line--
+			change.Range.End.Character--
 			// Calculate byte offsets for the range
 			startIndex, err = getByteOffset(content, change.Range.Start)
 			if err != nil {
@@ -113,7 +141,7 @@ func (doc *fileHandle) ApplyChanges(params *textEdit.DidChangeTextDocumentParams
 			OldEndPosition: pointFromPosition(change.Range.End),
 			NewEndPosition: calculateNewEndPoint(content, startIndex, change.Text),
 		}
-		tsEdits = append(tsEdits, tsEdit)
+		tsEdits = append(tsEdits, &tsEdit)
 
 		// Apply the change to the content
 		content = content[:startIndex] + change.Text + content[endIndex:]
