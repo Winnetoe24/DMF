@@ -9,6 +9,7 @@ import (
 	"github.com/Winnetoe24/DMF/lsp/server/connect/connectUtils"
 	"github.com/Winnetoe24/DMF/lsp/service"
 	"github.com/Winnetoe24/DMF/lsp/service/cancelService"
+	"github.com/Winnetoe24/DMF/lsp/service/diagnosticsService"
 	"github.com/Winnetoe24/DMF/lsp/service/fileService"
 	"github.com/Winnetoe24/DMF/lsp/service/logService"
 	"log"
@@ -22,7 +23,10 @@ type Server struct {
 func NewServer(con connect.Connection) *Server {
 	s := &Server{con: con, methodMap: make(map[string]service.MethodHandler)}
 
-	fileServiceHandler := fileService.NewFileService(con)
+	newDiagnosticsService := diagnosticsService.NewDiagnosticsService(con)
+	s.addHandler(newDiagnosticsService)
+
+	fileServiceHandler := fileService.NewFileService(con, newDiagnosticsService)
 	s.addHandler(fileServiceHandler)
 
 	newCancelService := cancelService.NewCancelService(con)

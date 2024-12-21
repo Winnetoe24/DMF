@@ -1,0 +1,74 @@
+dmf 1.0.0
+model "vererbung" version 0.0.1
+
+
+package base {
+    package transport {
+            // Base vehicle interface
+            interface Vehicle {
+                func void startEngine();
+                func void stopEngine();
+                func boolean isRunning();
+            }
+
+            // Base vehicle struct with common properties
+             struct BaseVehicle implements Vehicle {
+                arg string manufacturer;
+                arg string model;
+                arg int yearOfManufacture;
+                arg boolean engineRunning;
+            }
+    }
+
+    package land {
+            // First level of inheritance
+             struct LandVehicle extends ..transport.BaseVehicle {
+                arg int numberOfWheels;
+                arg string licenseNumber;
+                arg date registrationDate;
+
+                func boolean isValidRegistration();
+            }
+
+            // Second level of inheritance
+             struct Car extends LandVehicle {
+                arg int numberOfDoors;
+                arg string fuelType;
+                arg long mileage;
+
+                func double calculateFuelEfficiency();
+            }
+
+            // Third level of inheritance
+             struct ElectricCar extends Car {
+                arg int batteryCapacity;
+                arg datetime lastCharged;
+                arg long rangeInKm;
+
+                func double getBatteryLevel();
+                func void charge();
+            }
+
+            // Enum for vehicle categories
+            enum VehicleCategory {
+                arg string code;
+                arg string description;
+                arg date validFrom;
+
+                PERSONAL(1, "P", "Personal Vehicle", D2024-01-01);
+                COMMERCIAL(2, "C", "Commercial Vehicle", D2024-01-01);
+                UTILITY(3, "U", "Utility Vehicle", D2024-01-01);
+            }
+
+            // Entity for vehicle registration
+            entity VehicleRegistration {
+                ref .VehicleCategory category;
+                ref .ElectricCar vehicle;
+                arg datetime registrationDate;
+                arg string registrationNumber;
+                arg long fee;
+
+                identifier(registrationNumber);
+            }
+        }
+}

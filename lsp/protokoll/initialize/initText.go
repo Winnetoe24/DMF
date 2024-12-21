@@ -62,8 +62,8 @@ type TextDocumentClientCapabilities struct {
 	//// Rename capabilities of the client
 	//Rename *RenameClientCapabilities `json:"rename,omitempty"`
 	//
-	//// PublishDiagnostics capabilities of the client
-	//PublishDiagnostics *PublishDiagnosticsClientCapabilities `json:"publishDiagnostics,omitempty"`
+	// PublishDiagnostics capabilities of the client
+	PublishDiagnostics *PublishDiagnosticsClientCapabilities `json:"publishDiagnostics,omitempty"`
 	//
 	//// FoldingRange capabilities of the client
 	//FoldingRange *FoldingRangeClientCapabilities `json:"foldingRange,omitempty"`

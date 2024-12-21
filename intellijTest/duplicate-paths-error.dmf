@@ -1,0 +1,37 @@
+dmf 1.0.0
+model "dp_success" version 0.0.1
+
+package de.alex.brand {
+    package other {
+
+        struct Test {
+
+
+        }
+        enum Test {}
+        enum Ort {
+
+
+            VOR_HAUS(_);
+        }
+
+        entity Person {
+
+            identifier(i, me);
+        }
+
+        interface Inte  {
+
+        }
+
+    }
+    package other {
+        entity Person {
+
+                identifier(i, me);
+            }
+    }
+
+
+
+}

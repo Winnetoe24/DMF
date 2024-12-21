@@ -21,12 +21,18 @@ var _ service.MethodHandler = &FileService{}
 type FileService struct {
 	//mapMutex  sync.RWMutex
 	handleMap map[string]fileHandle
+	listeners []FileChangeListener
 	con       connect.Connection
 }
 
-func NewFileService(con connect.Connection) *FileService {
+func NewFileService(con connect.Connection, listeners ...FileChangeListener) *FileService {
+	if listeners == nil {
+		listeners = make([]FileChangeListener, 0)
+	}
+	logService.GetLogger().Printf("%sFileChangeListeners: %+v\n", logService.TRACE, listeners)
 	return &FileService{
 		handleMap: make(map[string]fileHandle),
+		listeners: listeners,
 		con:       con,
 	}
 }
@@ -77,7 +83,7 @@ func (receiver *FileService) OpenFile(params textEdit.DidOpenTextDocumentParams)
 
 	if !found {
 		logger.Printf("%sCreate FileHandle for %v\n", logService.TRACE, params.TextDocument.URI)
-		handle, err := openFileHandle(params)
+		handle, err := openFileHandle(params, receiver.listeners)
 		if err != nil {
 			logger.Printf("%sError Creating FileHandle for %v: %e\n", logService.ERROR, params.TextDocument.URI, err)
 		} else {
@@ -93,7 +99,7 @@ func (receiver *FileService) EditFile(params textEdit.DidChangeTextDocumentParam
 
 	if found {
 		logger.Printf("%sEdit File for %v\n", logService.TRACE, params.TextDocument.URI)
-		err := handle.editFileHandle(params)
+		err := handle.editFileHandle(params, receiver.listeners)
 		if err != nil {
 			logger.Printf("%sError Editing FileHandle for %v: %e\n", logService.ERROR, params.TextDocument.URI, err)
 		}

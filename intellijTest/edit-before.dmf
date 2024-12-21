@@ -1,0 +1,105 @@
+dmf 1.0.0
+model "edit" version 1.0.0
+
+package de.library.management {
+
+    // Basispaket für Medienverwaltung
+    package media {
+
+        // Basisstruktur für alle Medientypen
+        struct MediaItem {
+            arg string title;
+            arg string isbn;
+            arg date publishedDate;
+            arg double price;
+            arg int copyNumber;
+            func boolean isAvailable(int copyId);
+        }
+
+        // Verschiedene Medientypen
+        enum MediaType {
+            BOOK(_);
+            EBOOK(_);
+            AUDIO_BOOK(_);
+            DVD(_);
+            MAGAZINE(_);
+            NEWSPAPER(_);
+        }
+
+        // Kategorisierung der Medien
+        enum Category {
+            arg string name;
+            FICTION(1, "Belletristik");
+            NON_FICTION(2, "Sachbuch");
+            CHILDREN(3, "Kinderbuch");
+            SCIENCE(4, "Wissenschaft");
+            HISTORY(5, "Geschichte");
+        }
+
+        // Detaillierte Buchinformationen
+        entity Book extends MediaItem {
+            arg string author;
+            ref .Category category;
+            ref .MediaType type;
+            arg int pageCount;
+            arg string publisher;
+            arg string language;
+
+            identifier(isbn, copyNumber);
+        }
+
+        // Verwaltung von Zeitschriften
+        entity Magazine extends MediaItem {
+            arg int issueNumber;
+            arg string publisher;
+            arg boolean isSubscription;
+            arg date validUntil;
+
+            identifier(isbn, issueNumber);
+        }
+    }
+
+    // Benutzerverwaltung
+    package users {
+
+        // Adressinformationen
+        struct Address {
+            arg string street;
+            arg string houseNumber;
+            arg string postalCode;
+            arg string city;
+            arg string country;
+        }
+
+        // Verschiedene Mitgliedsarten
+        enum MembershipType {
+            arg int preis;
+            arg date startdatum;
+            STANDARD(1, 10, D2024-01-01);
+            PREMIUM(2, 20, D2024-01-01);
+            STUDENT(3, 15, D2024-01-01);
+        }
+
+        // Benutzerstatus
+        enum UserStatus {
+            ACTIVE(_);
+            SUSPENDED(_);
+            EXPIRED(_);
+        }
+
+        // Benutzerentität
+        entity User {
+            arg string firstName;
+            arg string lastName;
+            arg date dateOfBirth;
+            arg string email;
+            ref .Address address;
+            ref .MembershipType membershipType;
+            ref .UserStatus status;
+            arg date memberSince;
+            arg date membershipExpiry;
+
+            identifier(email);
+        }
+    }
+}

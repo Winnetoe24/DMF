@@ -23,14 +23,13 @@ type fileHandle struct {
 	Version     int32
 }
 
-func openFileHandle(params textEdit.DidOpenTextDocumentParams) (fileHandle, error) {
+func openFileHandle(params textEdit.DidOpenTextDocumentParams, listeners []FileChangeListener) (fileHandle, error) {
 
 	afterTree := make(chan *tree_sitter.Tree)
 	afterModel := make(chan *smodel.Model)
 
 	errorElements, errPos, err, up := semantic.ParseNewFile(params.TextDocument.Text, afterTree, afterModel)
 
-	// TODO Handle Error Elements DiagnosenService
 	if errorElements != nil {
 		path, _ := params.TextDocument.URI.ToFilePath()
 		var ctx = &errElement.ErrorContext{
@@ -52,11 +51,17 @@ func openFileHandle(params textEdit.DidOpenTextDocumentParams) (fileHandle, erro
 	}
 	tree := <-afterTree
 	model := <-afterModel
+
+	for _, listener := range listeners {
+		listener.HandleFileChange(params.TextDocument.URI, params.TextDocument.Text, *tree, *model, up, errorElements, params.TextDocument.Version)
+	}
+
 	return fileHandle{
 		FileContent: params.TextDocument.Text,
 		Ast:         tree,
 		Model:       model,
 		LookUp:      &up,
+		Version:     params.TextDocument.Version,
 	}, nil
 }
 
@@ -67,7 +72,7 @@ type InputEditResult struct {
 	Error           error
 }
 
-func (doc *fileHandle) editFileHandle(params textEdit.DidChangeTextDocumentParams) error {
+func (doc *fileHandle) editFileHandle(params textEdit.DidChangeTextDocumentParams, listeners []FileChangeListener) error {
 	changes := doc.applyChanges(&params)
 	doc.FileContent = changes.NewContent
 	if changes.Error != nil {
@@ -78,7 +83,10 @@ func (doc *fileHandle) editFileHandle(params textEdit.DidChangeTextDocumentParam
 	doc.Ast = ast
 	doc.Model = &model
 	doc.LookUp = &up
-	// TODO Handle Error Elements DiagnosenService
+	doc.Version = params.TextDocument.Version
+	for _, listener := range listeners {
+		listener.HandleFileChange(params.TextDocument.URI, doc.FileContent, *doc.Ast, *doc.Model, up, errorElements, params.TextDocument.Version)
+	}
 	if errorElements != nil {
 		path, _ := params.TextDocument.URI.ToFilePath()
 		var ctx = &errElement.ErrorContext{
@@ -112,10 +120,10 @@ func (doc *fileHandle) applyChanges(params *textEdit.DidChangeTextDocumentParams
 		var err error
 
 		if change.Range != nil {
-			change.Range.Start.Line--
-			change.Range.Start.Character--
-			change.Range.End.Line--
-			change.Range.End.Character--
+			//change.Range.Start.Line--
+			//change.Range.Start.Character--
+			//change.Range.End.Line--
+			//change.Range.End.Character--
 			// Calculate byte offsets for the range
 			startIndex, err = getByteOffset(content, change.Range.Start)
 			if err != nil {

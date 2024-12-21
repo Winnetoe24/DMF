@@ -4,7 +4,7 @@ model "dp_success" version 0.0.1
 package de.alex.brand {
     package other {
 
-        struct Test extends .Tests {
+        struct Test extends ..Tests {
 
 
         }
@@ -31,7 +31,7 @@ package de.alex.brand {
         struct One extends .Two {
         }
         struct Two extends .One {
-
+        }
         entity OneE extends .TwoE {
            identifier(i, me);
         }

@@ -1,15 +1,31 @@
 package protokoll
 
+import tree_sitter "github.com/tree-sitter/go-tree-sitter"
+
 // Position represents a position in a text document
 type Position struct {
 	Line      uint32 `json:"line"`      // Line position in a document (zero-based)
 	Character uint32 `json:"character"` // Character offset on a line (zero-based)
 }
 
+func ToPosition(point tree_sitter.Point) Position {
+	return Position{
+		Line:      uint32(point.Row),
+		Character: uint32(point.Column),
+	}
+}
+
 // Range represents a range in a text document
 type Range struct {
 	Start Position `json:"start"`
 	End   Position `json:"end"`
+}
+
+func ToRange(r tree_sitter.Range) Range {
+	return Range{
+		Start: ToPosition(r.StartPoint),
+		End:   ToPosition(r.EndPoint),
+	}
 }
 
 // Location represents a location inside a resource
@@ -41,25 +57,6 @@ type VersionedTextDocumentIdentifier struct {
 type TextDocumentPositionParams struct {
 	TextDocument TextDocumentIdentifier `json:"textDocument"`
 	Position     Position               `json:"position"`
-}
-
-// DiagnosticSeverity represents the severity of diagnostics
-type DiagnosticSeverity int
-
-const (
-	DiagnosticSeverityError       DiagnosticSeverity = 1
-	DiagnosticSeverityWarning     DiagnosticSeverity = 2
-	DiagnosticSeverityInformation DiagnosticSeverity = 3
-	DiagnosticSeverityHint        DiagnosticSeverity = 4
-)
-
-// Diagnostic represents a diagnostic, such as a compiler error or warning
-type Diagnostic struct {
-	Range    Range              `json:"range"`
-	Severity DiagnosticSeverity `json:"severity,omitempty"`
-	Code     interface{}        `json:"code,omitempty"`
-	Source   string             `json:"source,omitempty"`
-	Message  string             `json:"message"`
 }
 
 // CompletionItemKind indicates the type of a completion item

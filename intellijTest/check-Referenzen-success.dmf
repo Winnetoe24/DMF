@@ -1,0 +1,34 @@
+dmf 1.0.0
+model "valid-references" version 0.0.1
+
+expand package test.references.valid {
+
+    enum Status {
+        arg string name;
+        ACTIVE(_, "active");
+        INACTIVE(_, "inactive");
+    }
+
+    struct Address {
+        arg string street;
+        arg string city;
+    }
+
+    entity Person {
+        arg string name;
+        ref Status status;
+        ref Address address;
+
+        identifier(name);
+    }
+
+    interface Manageable {
+        func void setStatus(Status newStatus);
+    }
+
+    entity Employee extends Person implements Manageable {
+        arg string employeeId;
+
+        identifier(name);
+    }
+}

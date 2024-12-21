@@ -168,6 +168,8 @@ type ServerCapabilities struct {
 	// The server provides moniker support
 	MonikerProvider interface{} `json:"monikerProvider,omitempty"`
 
+	DiagnosticOptions *DiagnosticOptions `json:"diagnosticProvider,omitempty"`
+
 	// Workspace specific server capabilities
 	Workspace *WorkspaceServerCapabilities `json:"workspace,omitempty"`
 
