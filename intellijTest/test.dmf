@@ -1,10 +1,10 @@
 dmf 1.0.0
-model "dp_success" version 0.0.1
+model "dp_success" version 0.0.0
 
 package de.alex.brand {
     package other {
 
-        struct Test extends .Tests {
+        struct Test{
 
 
         }
@@ -14,8 +14,9 @@ package de.alex.brand {
             VOR_HAUS(_);
         }
 
-        entity Person extends ..Tests implements Inte, ..grund.IGrunds {
-
+        entity Person extends Test implements Inte {
+            arg int i;
+            arg string me;
             identifier(i, me);
         }
 
@@ -28,11 +29,12 @@ package de.alex.brand {
     }
 
    package rekur {
-        struct One extends .Two {
+        struct One  {
         }
-        struct Two extends .One {
 
-        entity OneE extends .TwoE {
+        entity OneE {
+            arg int i;
+            arg string me;
            identifier(i, me);
         }
         entity TwoE extends .OneE {

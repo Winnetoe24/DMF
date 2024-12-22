@@ -2,6 +2,7 @@ package fileService
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/Winnetoe24/DMF/lsp/protokoll"
 	"github.com/Winnetoe24/DMF/lsp/protokoll/initialize"
 	"github.com/Winnetoe24/DMF/lsp/protokoll/textEdit"
@@ -20,7 +21,7 @@ var _ service.MethodHandler = &FileService{}
 
 type FileService struct {
 	//mapMutex  sync.RWMutex
-	handleMap map[string]fileHandle
+	handleMap map[string]*fileHandle
 	listeners []FileChangeListener
 	con       connect.Connection
 }
@@ -31,7 +32,7 @@ func NewFileService(con connect.Connection, listeners ...FileChangeListener) *Fi
 	}
 	logService.GetLogger().Printf("%sFileChangeListeners: %+v\n", logService.TRACE, listeners)
 	return &FileService{
-		handleMap: make(map[string]fileHandle),
+		handleMap: make(map[string]*fileHandle),
 		listeners: listeners,
 		con:       con,
 	}
@@ -87,7 +88,7 @@ func (receiver *FileService) OpenFile(params textEdit.DidOpenTextDocumentParams)
 		if err != nil {
 			logger.Printf("%sError Creating FileHandle for %v: %e\n", logService.ERROR, params.TextDocument.URI, err)
 		} else {
-			receiver.handleMap[string(params.TextDocument.URI)] = handle
+			receiver.handleMap[string(params.TextDocument.URI)] = &handle
 		}
 	} else {
 		logger.Panicf("%sFileHandle for opened file(%v) arleady exists!\n", logService.ERROR, params.TextDocument.URI)
@@ -105,5 +106,21 @@ func (receiver *FileService) EditFile(params textEdit.DidChangeTextDocumentParam
 		}
 	} else {
 		logger.Panicf("%sFileHandle for file(%v) doesn't exists!\n", logService.ERROR, params.TextDocument.URI)
+	}
+}
+
+type FileContent struct {
+	Content string `json:"content"`
+	Version int    `json:"version"`
+}
+
+func (receiver *FileService) GetFileContent(uri protokoll.DocumentURI) (FileContent, error) {
+	handle, found := receiver.handleMap[string(uri)]
+
+	if found {
+		return handle.ToContent(), nil
+	} else {
+		logger.Printf("%sFileHandle for file(%v) doesn't exists!\n", logService.ERROR, uri)
+		return FileContent{}, errors.New("file is unknown")
 	}
 }

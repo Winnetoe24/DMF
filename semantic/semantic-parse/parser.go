@@ -29,13 +29,13 @@ func Parse(text []byte, tree *tree_sitter.Tree) (smodel.Model, []errElement.Erro
 }
 
 func (S *SemanticContext) parseSourceFile() {
-	node := S.Cursor.Node()
+	//node := S.Cursor.Node()
 
-	errorElement := assertNodeState(node, "oberste Node")
-	if errorElement != nil {
-		S.ErrorElements = append(S.ErrorElements, *errorElement)
-		return
-	}
+	//errorElement := assertNodeState(node, "oberste Node")
+	//if errorElement != nil {
+	//	S.ErrorElements = append(S.ErrorElements, *errorElement)
+	//	return
+	//}
 
 	hasFirstChild := S.Cursor.GotoFirstChild()
 	if !hasFirstChild {

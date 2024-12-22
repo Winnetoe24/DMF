@@ -51,34 +51,8 @@ func (s *Server) MessageLoop() {
 	}
 MessageLoop:
 	for {
-		message, err := s.con.WaitForMessage()
-
-		if err != nil {
-			logger.Printf("%sError While Reading Message: %e\n", logService.ERROR, err)
-			break
-		} else {
-			// Lifecycle Methods
-			switch message.Method {
-			case "shutdown":
-				logger.Printf("%sReceived Shutdown Request\n", logService.INFO)
-				s.con.WriteMessage(protokoll.Message{
-					JsonRPC: "2.0",
-					ID:      message.ID,
-					Method:  "",
-					Params:  nil,
-					Result:  nil,
-					Error:   nil,
-				})
-				break MessageLoop
-			}
-			handler, found := s.methodMap[message.Method]
-			if !found {
-				logger.Printf("%sMethod not Found: %v\n", logService.ERROR, message)
-				connectUtils.WriteErrorToCon(s.con, message.ID, errors.New("method not found"), protokoll.MethodNotFound)
-			} else {
-				logger.Printf("%sHandle Method: %s \n", logService.INFO, message.Method)
-				handler.HandleMethod(message)
-			}
+		if s.nextMethod(logger) {
+			break MessageLoop
 		}
 	}
 	err := s.con.Close()
@@ -86,6 +60,39 @@ MessageLoop:
 		logger.Printf("%sError While Closing Connection: %e\n", logService.ERROR, err)
 	}
 	logger.Printf("%sServer Closed\n", logService.INFO)
+}
+
+func (s *Server) nextMethod(logger *log.Logger) bool {
+	message, err := s.con.WaitForMessage()
+
+	if err != nil {
+		logger.Printf("%sError While Reading Message: %e\n", logService.ERROR, err)
+		return false
+	} else {
+		// Lifecycle Methods
+		switch message.Method {
+		case "shutdown":
+			logger.Printf("%sReceived Shutdown Request\n", logService.INFO)
+			s.con.WriteMessage(protokoll.Message{
+				JsonRPC: "2.0",
+				ID:      message.ID,
+				Method:  "",
+				Params:  nil,
+				Result:  nil,
+				Error:   nil,
+			})
+			return true
+		}
+		handler, found := s.methodMap[message.Method]
+		if !found {
+			logger.Printf("%sMethod not Found: %v\n", logService.ERROR, message)
+			connectUtils.WriteErrorToCon(s.con, message.ID, errors.New("method not found"), protokoll.MethodNotFound)
+		} else {
+			logger.Printf("%sHandle Method: %s \n", logService.INFO, message.Method)
+			handler.HandleMethod(message)
+		}
+	}
+	return false
 }
 
 func (s *Server) initialize(logger *log.Logger) bool {

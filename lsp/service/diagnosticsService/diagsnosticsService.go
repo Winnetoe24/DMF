@@ -43,8 +43,8 @@ func (d *DiagnosticsService) Initialize(params *initialize.InitializeParams, res
 func (d *DiagnosticsService) HandleFileChange(file protokoll.DocumentURI, fileContent string, ast tree_sitter.Tree, model smodel.Model, lookup smodel.TypeLookUp, errorElements []errElement.ErrorElement, version int32) {
 	logService.GetLogger().Printf("%sHandleFileChange Diagnostics: %v\n", logService.TRACE, d)
 	// Publish Diagnostics
+	foundDiagnostics := make([]protokoll.Diagnostic, 0, len(errorElements))
 	if errorElements != nil && len(errorElements) > 0 {
-		foundDiagnostics := make([]protokoll.Diagnostic, 0, len(errorElements))
 
 		context := errElement.ErrorContext{
 			Dateiname:   string(file),
@@ -75,31 +75,31 @@ func (d *DiagnosticsService) HandleFileChange(file protokoll.DocumentURI, fileCo
 			foundDiagnostics = append(foundDiagnostics, diagnostic)
 		}
 
-		params := diagnostics.PublishDiagnosticsParams{
-			URI:         string(file),
-			Version:     nil,
-			Diagnostics: foundDiagnostics,
-		}
-		if d.publishCapabilities == nil || d.publishCapabilities.VersionSupport {
-			params.Version = &version
-		}
+	}
+	params := diagnostics.PublishDiagnosticsParams{
+		URI:         string(file),
+		Version:     nil,
+		Diagnostics: foundDiagnostics,
+	}
+	if d.publishCapabilities == nil || d.publishCapabilities.VersionSupport {
+		params.Version = &version
+	}
 
-		marshal, err := json.Marshal(params)
-		logger := logService.GetLogger()
-		if err != nil {
-			logger.Printf("%sError while parsing PublishDiagnosticsParams. Error: %e Value: %v\n", logService.ERROR, err, params)
-		} else {
-			message := protokoll.Message{
-				JsonRPC: "2.0",
-				ID:      nil,
-				Method:  "textDocument/publishDiagnostics",
-				Params:  marshal,
-				Result:  nil,
-				Error:   nil,
-			}
-			d.con.WriteMessage(message)
-			logger.Printf("%sPublished Diagnostics: %v\n", logService.INFO, message)
+	marshal, err := json.Marshal(params)
+	logger := logService.GetLogger()
+	if err != nil {
+		logger.Printf("%sError while parsing PublishDiagnosticsParams. Error: %e Value: %v\n", logService.ERROR, err, params)
+	} else {
+		message := protokoll.Message{
+			JsonRPC: "2.0",
+			ID:      nil,
+			Method:  "textDocument/publishDiagnostics",
+			Params:  marshal,
+			Result:  nil,
+			Error:   nil,
 		}
+		d.con.WriteMessage(message)
+		logger.Printf("%sPublished Diagnostics: %v\n", logService.INFO, message)
 	}
 }
 

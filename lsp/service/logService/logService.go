@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"time"
 )
 
 var TRACE = "Trace | "
@@ -28,12 +29,39 @@ func init() {
 		os.Exit(1)
 	}
 	baseLogger = log.New(logFile, "", log.Ldate|log.Ltime|log.Lshortfile)
+
+	logPath := logsDir + string(os.PathSeparator) + "connection_in_" + time.Now().Format("2006_01_02_15_04_05") + ".log"
+	conLogFile, err := os.Create(logPath)
+	if err != nil {
+		_, _ = fmt.Fprintf(os.Stderr, "Failed to open log file: %v\n", err)
+		os.Exit(1)
+	}
+	connectionLoggerIn = log.New(conLogFile, "LSPMESSAGE", log.Ltime|log.Lmicroseconds)
+
+	logPath = logsDir + string(os.PathSeparator) + "connection_out_" + time.Now().Format("2006_01_02_15_04_05") + ".log"
+	conLogFile, err = os.Create(logPath)
+	if err != nil {
+		_, _ = fmt.Fprintf(os.Stderr, "Failed to open log file: %v\n", err)
+		os.Exit(1)
+	}
+	connectionLoggerOut = log.New(conLogFile, "LSPMESSAGE", log.Ltime|log.Lmicroseconds)
 }
 
 func GetLogger() *log.Logger {
 	return baseLogger
 }
 
+var connectionLoggerOut *log.Logger
+
+func GetConnectionLoggerOut() *log.Logger {
+	return connectionLoggerOut
+}
+
+var connectionLoggerIn *log.Logger
+
+func GetConnectionLoggerIn() *log.Logger {
+	return connectionLoggerIn
+}
 func Close() {
 	err := logFile.Close()
 	if err != nil {

@@ -74,15 +74,25 @@ type InputEditResult struct {
 
 func (doc *fileHandle) editFileHandle(params textEdit.DidChangeTextDocumentParams, listeners []FileChangeListener) error {
 	changes := doc.applyChanges(&params)
-	doc.FileContent = changes.NewContent
 	if changes.Error != nil {
 		return changes.Error
 	}
 
-	ast, model, up, errorElements := semantic_rules.ParseEdit(changes.NewContent, changes.TreeSitterEdits, doc.Ast, doc.Model, doc.LookUp)
-	doc.Ast = ast
-	doc.Model = &model
+	afterTree := make(chan *tree_sitter.Tree)
+	afterModel := make(chan *smodel.Model)
+
+	errorElements, _, _, up := semantic.ParseNewFile(changes.NewContent, afterTree, afterModel)
+	tree := <-afterTree
+	model := <-afterModel
+	doc.Ast = tree
+	doc.Model = model
 	doc.LookUp = &up
+
+	//
+	//ast, model, up, errorElements := semantic_rules.ParseEdit(changes.NewContent, changes.TreeSitterEdits, doc.Ast, doc.Model, doc.LookUp)
+	//doc.Ast = ast
+	//doc.Model = &model
+	//doc.LookUp = &up
 	doc.Version = params.TextDocument.Version
 	for _, listener := range listeners {
 		listener.HandleFileChange(params.TextDocument.URI, doc.FileContent, *doc.Ast, *doc.Model, up, errorElements, params.TextDocument.Version)
@@ -162,6 +172,13 @@ func (doc *fileHandle) applyChanges(params *textEdit.DidChangeTextDocumentParams
 	return InputEditResult{
 		NewContent:      content,
 		TreeSitterEdits: tsEdits,
+	}
+}
+
+func (doc *fileHandle) ToContent() FileContent {
+	return FileContent{
+		Content: doc.FileContent,
+		Version: int(doc.Version),
 	}
 }
 

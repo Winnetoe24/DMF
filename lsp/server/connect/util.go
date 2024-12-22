@@ -20,6 +20,7 @@ func readMessage(reader *bufio.Reader) ([]byte, error) {
 		if err != nil {
 			return nil, err
 		}
+		logService.GetConnectionLoggerIn().Println(line)
 		line = strings.TrimSpace(line)
 
 		if line == "" {
@@ -38,6 +39,7 @@ func readMessage(reader *bufio.Reader) ([]byte, error) {
 
 	content := make([]byte, contentLength)
 	_, err := io.ReadFull(reader, content)
+	logService.GetConnectionLoggerIn().Println(string(content))
 	if err != nil {
 		return nil, err
 	}
@@ -58,6 +60,7 @@ func writeMessage(writer io.Writer, msg protokoll.Message, logger *log.Logger) e
 	}
 
 	logger.Printf("%sSending message: %s\n", logService.INFO, string(data))
+	logService.GetConnectionLoggerOut().Println(string(data))
 	_, err = writer.Write(data)
 	return err
 }
