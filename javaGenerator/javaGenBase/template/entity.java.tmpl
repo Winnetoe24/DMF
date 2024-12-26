@@ -1,0 +1,19 @@
+{{define "entity"}}package {{packagePath .Path}};
+
+import java.util.Objects;
+{{$fields := toFields .Argumente .Referenzen}}
+{{template "comment" .Kommentar}}public class {{nameFromPath .Path}} {
+{{range $index, $field := $fields}}{{template "field" $field}}{{end}}
+{{range $index, $method := .Funktionen}}{{template "method" $method}}{{end}}
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        {{nameFromPath .Path}} entity = ({{nameFromPath .Path}}) o;
+        return {{range $index, $field := $fields}}Objects.equals({{$field.Name}}, entity.{{$field.Name}}) {{if ne $index (subtract (len $fields) 1)}} && {{end}}{{end}};
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash({{range $index, $field := $fields}}{{$field.Name}}{{if ne $index (subtract (len $fields) 1)}}, {{end}}{{end}});
+    }
+}{{end}}

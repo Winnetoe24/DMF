@@ -1,0 +1,6 @@
+{{define "interface_method"}}{{template "method_header" .}};
+{{end}}
+{{define "interface"}}package {{packagePath .Path}};
+public interface  {{nameFromPath .Path}} {
+{{range $index, $method := .Funktionen}}{{template "interface_method" $method}}{{end}}
+}{{end}}

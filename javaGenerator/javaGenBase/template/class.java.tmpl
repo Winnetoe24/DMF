@@ -1,0 +1,5 @@
+{{define "class"}}package {{packagePath .Path}};
+{{template "comment" .Kommentar}}public class {{nameFromPath .Path}} {
+{{range $index, $field := toFields .Argumente .Referenzen}}{{template "field" $field}}{{end}}
+{{range $index, $method := .Funktionen}}{{template "method" $method}}{{end}}
+}{{end}}

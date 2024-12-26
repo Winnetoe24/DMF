@@ -32,7 +32,7 @@ func (c *computeElements) walk() []errElement.ErrorElement {
 	return c.elements
 }
 
-func (c *computeElements) handleStruct(element *packages.StructElement, _ *packages.EntityElement) {
+func (c *computeElements) handleStruct(element *packages.StructElement, entity *packages.EntityElement) {
 
 	if element.NamedElements != nil {
 		return
@@ -48,7 +48,12 @@ func (c *computeElements) handleStruct(element *packages.StructElement, _ *packa
 	for _, funktion := range element.Funktionen {
 		c.addElement(&element.NamedElements, &funktion)
 	}
-	(*c.lookup)[element.GetPath().ToString()] = element
+	if entity != nil {
+		//entity.StructElement = *element
+		(*c.lookup)[element.GetPath().ToString()] = entity
+	} else {
+		(*c.lookup)[element.GetPath().ToString()] = element
+	}
 }
 
 func (c *computeElements) handleInterface(element *packages.InterfaceElement) {
