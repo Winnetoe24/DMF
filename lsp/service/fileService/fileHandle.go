@@ -107,7 +107,7 @@ func (doc *fileHandle) editFileHandle(params textEdit.DidChangeTextDocumentParam
 			logger.Printf("%sError in TextFile:\n%s\n", logService.DEBUG, element.ToErrorMsg(ctx))
 		}
 	}
-	logger.Printf("%sNeuer File Content: \n%s\n", logService.TRACE, doc.FileContent)
+	//logger.Printf("%sNeuer File Content: \n%s\n", logService.TRACE, doc.FileContent)
 
 	return nil
 }
@@ -179,6 +179,9 @@ func (doc *fileHandle) ToContent() FileContent {
 	return FileContent{
 		Content: doc.FileContent,
 		Version: int(doc.Version),
+		Model:   *doc.Model,
+		Ast:     *doc.Ast,
+		LookUp:  *doc.LookUp,
 	}
 }
 

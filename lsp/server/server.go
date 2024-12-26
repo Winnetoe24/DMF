@@ -9,6 +9,7 @@ import (
 	"github.com/Winnetoe24/DMF/lsp/server/connect/connectUtils"
 	"github.com/Winnetoe24/DMF/lsp/service"
 	"github.com/Winnetoe24/DMF/lsp/service/cancelService"
+	"github.com/Winnetoe24/DMF/lsp/service/completionService"
 	"github.com/Winnetoe24/DMF/lsp/service/diagnosticsService"
 	"github.com/Winnetoe24/DMF/lsp/service/fileService"
 	"github.com/Winnetoe24/DMF/lsp/service/logService"
@@ -31,6 +32,9 @@ func NewServer(con connect.Connection) *Server {
 
 	newCancelService := cancelService.NewCancelService(con)
 	s.addHandler(newCancelService)
+
+	completionService := completionService.NewCompletionService(con, fileServiceHandler)
+	s.addHandler(completionService)
 
 	return s
 }
@@ -139,6 +143,6 @@ func (s *Server) initialize(logger *log.Logger) bool {
 		logger.Printf("%sSecond Message isn't initialized: %v\n", logService.ERROR, message)
 		return false
 	}
-	logger.Printf("%sInitialized Message: %v\n", logService.TRACE, initializedMessage)
+	//logger.Printf("%sInitialized Message: %v\n", logService.TRACE, initializedMessage)
 	return true
 }

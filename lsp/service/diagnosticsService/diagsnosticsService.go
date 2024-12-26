@@ -41,7 +41,7 @@ func (d *DiagnosticsService) Initialize(params *initialize.InitializeParams, res
 }
 
 func (d *DiagnosticsService) HandleFileChange(file protokoll.DocumentURI, fileContent string, ast tree_sitter.Tree, model smodel.Model, lookup smodel.TypeLookUp, errorElements []errElement.ErrorElement, version int32) {
-	logService.GetLogger().Printf("%sHandleFileChange Diagnostics: %v\n", logService.TRACE, d)
+	//logService.GetLogger().Printf("%sHandleFileChange Diagnostics: %v\n", logService.TRACE, d)
 	// Publish Diagnostics
 	foundDiagnostics := make([]protokoll.Diagnostic, 0, len(errorElements))
 	if errorElements != nil && len(errorElements) > 0 {

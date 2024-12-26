@@ -23,7 +23,24 @@ func init() {
 		logsDir = "C:\\Code\\DMF\\logs"
 	}
 	//println(logsDir)
-	logFile, err = os.OpenFile(logsDir+string(os.PathSeparator)+"server.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	prefix := logsDir + string(os.PathSeparator) + "server"
+	//i := 0
+	//logname := prefix
+	//for {
+	//	if _, err := os.Stat(logname + ".log"); err == nil {
+	//		i++
+	//		logname = prefix + "_" + strconv.Itoa(i)
+	//	} else {
+	//		if prefix != logname {
+	//			err := os.Rename(prefix+".log", logname+".log")
+	//			if err != nil {
+	//				panic(err)
+	//			}
+	//		}
+	//		break
+	//	}
+	//}
+	logFile, err = os.OpenFile(prefix+".log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
 	if err != nil {
 		_, _ = fmt.Fprintf(os.Stderr, "Failed to open log file: %v\n", err)
 		os.Exit(1)

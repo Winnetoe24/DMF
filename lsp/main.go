@@ -20,4 +20,5 @@ func main() {
 	} else {
 		// TODO Handle Internet Connections
 	}
+	logService.GetLogger().Println("Server Shutdown")
 }

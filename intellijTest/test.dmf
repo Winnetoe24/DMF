@@ -16,6 +16,7 @@ package de.alex.brand {
 
         entity Person extends Test implements Inte {
             arg int i;
+            args
             arg string me;
             identifier(i, me);
         }

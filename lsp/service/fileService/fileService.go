@@ -10,6 +10,8 @@ import (
 	"github.com/Winnetoe24/DMF/lsp/server/connect/connectUtils"
 	"github.com/Winnetoe24/DMF/lsp/service"
 	"github.com/Winnetoe24/DMF/lsp/service/logService"
+	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
+	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 )
 
 const didOpenMethod = "textDocument/didOpen"
@@ -111,7 +113,10 @@ func (receiver *FileService) EditFile(params textEdit.DidChangeTextDocumentParam
 
 type FileContent struct {
 	Content string `json:"content"`
-	Version int    `json:"version"`
+	Ast     tree_sitter.Tree
+	Model   smodel.Model
+	LookUp  smodel.TypeLookUp
+	Version int `json:"version"`
 }
 
 func (receiver *FileService) GetFileContent(uri protokoll.DocumentURI) (FileContent, error) {
