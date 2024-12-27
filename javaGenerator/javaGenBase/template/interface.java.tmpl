@@ -1,6 +1,7 @@
 {{define "interface_method"}}{{template "method_header" .}};
 {{end}}
 {{define "interface"}}package {{packagePath .Path}};
-public interface  {{nameFromPath .Path}} {
-{{range $index, $method := .Funktionen}}{{template "interface_method" $method}}{{end}}
+{{$importKontext := createImportKontext .Path keineArgumente keineReferenzen .Funktionen}}{{template "imports" $importKontext}}
+public interface {{nameFromPath .Path}} {
+{{range $index, $method := .Funktionen}}{{template "interface_method" createFunktionKontext $method $importKontext}}{{end}}
 }{{end}}

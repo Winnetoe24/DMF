@@ -1,3 +1,4 @@
 /.idea/
 /grammar/node_modules/
 /grammar/build/
+logs/connection*.log

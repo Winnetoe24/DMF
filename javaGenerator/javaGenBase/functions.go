@@ -31,11 +31,16 @@ func variableName(variable packages.Variable) string {
 func removeNewLine(input string) string {
 	return strings.TrimSuffix(input, "\n")
 }
-func variableType(variable packages.Variable) string {
+func variableType(variable packages.Variable, kontext ImportKontext) string {
 	switch element := variable.(type) {
 	case *packages.Argument:
-		return javaPrimitiveTypeMapping(element.Typ)
+		return javaPrimitiveTypeMapping(element.Typ, kontext)
 	case *packages.Referenz:
+		name := element.Typ[len(element.Typ)-1]
+		path, found := kontext.ImportLookUp[name]
+		if found && path.OriginalName.ToString() == element.Typ.ToString() {
+			return name
+		}
 		return element.Typ.ToString()
 	case packages.VoidElement:
 		return "void"
@@ -72,10 +77,10 @@ func variableDefaultValue(variable packages.Variable) string {
 		return ""
 	}
 }
-func toArgs(argumente []packages.Argument) []FieldData {
-	return toFields(argumente, make([]packages.Referenz, 0))
+func toArgs(argumente []packages.Argument, kontext ImportKontext) []FieldData {
+	return toFields(argumente, make([]packages.Referenz, 0), kontext)
 }
-func toFields(argumente []packages.Argument, referenzen []packages.Referenz) []FieldData {
+func toFields(argumente []packages.Argument, referenzen []packages.Referenz, kontext ImportKontext) []FieldData {
 	data := make([]FieldData, 0)
 	lookup := make(map[uint]packages.Variable)
 	keys := make([]uint, 0, len(argumente)+len(referenzen))
@@ -104,15 +109,22 @@ func toFields(argumente []packages.Argument, referenzen []packages.Referenz) []F
 		variable := lookup[key]
 		switch element := variable.(type) {
 		case *packages.Argument:
-			typ := javaPrimitiveTypeMapping(element.Typ)
+			typ := javaPrimitiveTypeMapping(element.Typ, kontext)
 			data = append(data, FieldData{
 				Typ:       typ,
 				Name:      element.Name.Name,
 				Kommentar: element.Kommentar,
 			})
 		case *packages.Referenz:
+			lImport, found := kontext.ImportLookUp[element.Typ[len(element.Typ)-1]]
+			var typ string
+			if found && lImport.OriginalName.ToString() == element.Typ.ToString() {
+				typ = element.Typ[len(element.Typ)-1]
+			} else {
+				typ = element.Typ.ToString()
+			}
 			data = append(data, FieldData{
-				Typ:       element.Typ.ToString(),
+				Typ:       typ,
 				Name:      element.Name.Name,
 				Kommentar: element.Kommentar,
 			})
@@ -121,23 +133,34 @@ func toFields(argumente []packages.Argument, referenzen []packages.Referenz) []F
 	return data
 }
 
-func javaPrimitiveTypeMapping(primitivType base.PrimitivType) string {
+func javaPrimitiveTypeMapping(primitivType base.PrimitivType, kontext ImportKontext) string {
 	typ := string(primitivType)
 	switch typ {
 	case string(base.STRING):
 		typ = "String"
 	case string(base.DATE):
-		typ = "java.time.LocalDate"
+		lImport, found := kontext.ImportLookUp["LocalDate"]
+		if found && lImport.OriginalName.ToString() == "java.time.LocalDate" {
+			typ = "LocalDate"
+		} else {
+			typ = "java.time.LocalDate"
+		}
 	case string(base.DATETIME):
-		typ = "java.time.LocalDateTime"
+		lImport, found := kontext.ImportLookUp["LocalDateTime"]
+		if found && lImport.OriginalName.ToString() == "java.time.LocalDateTime" {
+			typ = "LocalDateTime"
+		} else {
+			typ = "java.time.LocalDateTime"
+		}
 	}
 	return typ
 }
 
-func toConstructor(packageElement packages.PackageElement) KonstruktorData {
+func toConstructor(packageElement packages.PackageElement, kontext ImportKontext) KonstruktorData {
 	data := KonstruktorData{
-		Name:      packageElement.GetBase().Path[len(packageElement.GetBase().Path)-1],
-		Parameter: nil,
+		Name:          packageElement.GetBase().Path[len(packageElement.GetBase().Path)-1],
+		Parameter:     nil,
+		ImportKontext: kontext,
 	}
 	lookup := make(map[uint]packages.Variable)
 	keys := make([]uint, 0)
@@ -196,9 +219,12 @@ func toConstructor(packageElement packages.PackageElement) KonstruktorData {
 			lookup[startByte] = &argument
 		}
 	}
-	data.Parameter = make([]packages.Variable, len(keys))
+	data.Parameter = make([]VariableKontext, len(keys))
 	for i, key := range keys {
-		data.Parameter[i] = lookup[key]
+		data.Parameter[i] = VariableKontext{
+			Variable:      lookup[key],
+			ImportKontext: kontext,
+		}
 	}
 	return data
 }

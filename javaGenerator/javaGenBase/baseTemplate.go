@@ -20,9 +20,33 @@ type FieldData struct {
 	Name      string
 	Kommentar *base.Comment
 }
+type VariableKontext struct {
+	Variable      packages.Variable
+	ImportKontext ImportKontext
+}
 type KonstruktorData struct {
-	Name      string
-	Parameter []packages.Variable
+	Name          string
+	Parameter     []VariableKontext
+	ImportKontext ImportKontext
+}
+
+type ImportLookUp map[string]Import
+type ImportKontext struct {
+	ImportLookUp ImportLookUp
+	Path         base.ModelPath
+}
+type Import struct {
+	OriginalName base.ModelPath
+}
+
+// ParameterKontext kann genauso wie KonstruktorData für die Parameter genutzt werden
+type ParameterKontext struct {
+	Parameter     []VariableKontext
+	ImportKontext ImportKontext
+}
+type FunktionKontext struct {
+	Funktion      packages.Funktion
+	ImportKontext ImportKontext
 }
 
 func NewTemplate() JavaTemplate {
@@ -33,16 +57,24 @@ func NewTemplate() JavaTemplate {
 		"nameFromPath": func(path base.ModelPath) string {
 			return path[len(path)-1]
 		},
-		"packagePath":          packagePath,
-		"toFields":             toFields,
-		"toArgs":               toArgs,
-		"variableName":         variableName,
-		"variableType":         variableType,
-		"removeNewLine":        removeNewLine,
-		"variableDefaultValue": variableDefaultValue,
-		"toConstructor":        toConstructor,
-		"toUpperCase":          toUpperCase,
-		"valueInit":            valueInit,
+		"packagePath":            packagePath,
+		"toFields":               toFields,
+		"toArgs":                 toArgs,
+		"variableName":           variableName,
+		"variableType":           variableType,
+		"removeNewLine":          removeNewLine,
+		"variableDefaultValue":   variableDefaultValue,
+		"toConstructor":          toConstructor,
+		"toUpperCase":            toUpperCase,
+		"valueInit":              valueInit,
+		"createImportKontext":    createImportKontext,
+		"getImports":             getImports,
+		"getImportedName":        getImportedName,
+		"createFunktionKontext":  createFunktionKontext,
+		"createParameterKontext": createParameterKontext,
+		"keineReferenzen":        func() []packages.Referenz { return make([]packages.Referenz, 0) },
+		"keineArgumente":         func() []packages.Argument { return make([]packages.Argument, 0) },
+		"keineFunktionen":        func() []packages.Funktion { return make([]packages.Funktion, 0) },
 	}
 	must := template.Must(template.New("").Funcs(funcMap).ParseFS(tmplFiles, "template/*"))
 	return JavaTemplate{template: must}

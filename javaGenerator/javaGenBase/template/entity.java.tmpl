@@ -1,10 +1,9 @@
 {{define "entity"}}package {{packagePath .Path}};
+{{$importKontext := createImportKontext .Path .Argumente .Referenzen .Funktionen}}{{template "imports" $importKontext}}{{$fields := toFields .Argumente .Referenzen $importKontext}}import java.util.Objects;
 
-import java.util.Objects;
-{{$fields := toFields .Argumente .Referenzen}}
 {{template "comment" .Kommentar}}public class {{nameFromPath .Path}} {
 {{range $index, $field := $fields}}{{template "field" $field}}{{end}}
-{{range $index, $method := .Funktionen}}{{template "method" $method}}{{end}}
+{{range $index, $method := .Funktionen}}{{template "method" createFunktionKontext $method $importKontext}}{{end}}
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

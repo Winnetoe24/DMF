@@ -1,0 +1,97 @@
+dmf 1.0.0
+model "beispiel" version 0.0.1
+
+// Das ist das oberste Package
+package de.beispiel {
+
+
+    // Das ist ein Package im Package de.beispiel
+    // Diese Kommentare können mehrere Zeilen beinhalten
+    package hotel {
+
+        // Das ist ein Kommentar über einem Struct
+        // Alle Kommentare können mehrere Zeilen beinhalten
+        struct Buchungszeitraum implements Zeitraum {
+            // Kommentar über einem Argument
+            arg datetime start;
+            arg datetime end;
+
+            arg long zimmernummer;
+
+            // Kommentar über Funktion
+            func Zimmer getZimmer(Hotel hotel);
+
+        }
+        interface Zeitraum {
+            func boolean contains(datetime zeitpunkt);
+            func datetime start();
+            func datetime end();
+        }
+
+        entity Hotel {
+            // Kommentar über Referenz
+            ref Zimmer zimmer;
+            arg string name;
+            ref ..other.Beispiel bsp;
+
+            identifier(name);
+
+        }
+        entity Zimmer {
+            arg long zimmernummer;
+            identifier(zimmernummer);
+        }
+
+        enum Ort {
+            arg int i;
+            arg boolean b;
+            arg string s;
+            arg date d;
+            arg datetime dt;
+            arg long l;
+
+            VOR_HAUS(_, 1, true, 'd', D2012-12-12, D2012-01-01T00:00:00, 123L);
+        }
+
+        //Kommentar über Entität Person
+        entity Person {
+            ref .Ort o;
+            arg date beispieldate;
+            arg int me;
+
+            identifier(i, me);
+        }
+
+    }
+
+     package other {
+        interface Blo {
+
+        }
+        interface Blup {
+
+        }
+        struct o {
+
+        }
+        struct Beispiel {
+            arg int i;
+            arg boolean b;
+            arg string s;
+            arg date d;
+            arg datetime dt;
+            arg long l;
+            ref o object;
+
+            func ..hotel.Person createPerson();
+        }
+        //Kommentar über Interface
+        interface Inte implements Blo, Blup {
+            //Kommentar über Funktion
+            func void hi(boolean param, ..hotel.Person objekt);
+        }
+
+    }
+
+}
+

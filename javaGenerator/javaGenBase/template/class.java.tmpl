@@ -1,5 +1,6 @@
 {{define "class"}}package {{packagePath .Path}};
+{{$importKontext := createImportKontext .Path .Argumente .Referenzen .Funktionen}}{{template "imports" $importKontext}}
 {{template "comment" .Kommentar}}public class {{nameFromPath .Path}} {
-{{range $index, $field := toFields .Argumente .Referenzen}}{{template "field" $field}}{{end}}
-{{range $index, $method := .Funktionen}}{{template "method" $method}}{{end}}
+{{range $index, $field := toFields .Argumente .Referenzen $importKontext}}{{template "field" $field}}{{end}}
+{{range $index, $method := .Funktionen}}{{template "method" createFunktionKontext $method $importKontext}}{{end}}
 }{{end}}
