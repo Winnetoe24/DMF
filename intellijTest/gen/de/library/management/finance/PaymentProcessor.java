@@ -1,8 +1,10 @@
 package de.library.management.finance;
 
-public interface  PaymentProcessor {
-    public boolean processPayment(de.library.management.users.User user, de.library.management.finance.Transaction transaction);
-    public void generateInvoice(de.library.management.finance.Transaction transaction);
-    public boolean refundPayment(de.library.management.finance.Transaction transaction, double amount);
+import de.library.management.users.User;
+
+public interface PaymentProcessor {
+    public boolean processPayment(User user, Transaction transaction);
+    public void generateInvoice(Transaction transaction);
+    public boolean refundPayment(Transaction transaction, double amount);
 
 }

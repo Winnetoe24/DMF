@@ -1,7 +1,7 @@
 {{define "entity"}}package {{packagePath .Path}};
 {{$importKontext := createImportKontext .Path .Argumente .Referenzen .Funktionen}}{{template "imports" $importKontext}}{{$fields := toFields .Argumente .Referenzen $importKontext}}import java.util.Objects;
 
-{{template "comment" .Kommentar}}public class {{nameFromPath .Path}} {
+{{template "comment" .Kommentar}}public class {{nameFromPath .Path}} {{template "extends" createVererbungKontext .ExtendsPath .ImplementsPaths $importKontext}}{
 {{range $index, $field := $fields}}{{template "field" $field}}{{end}}
 {{range $index, $method := .Funktionen}}{{template "method" createFunktionKontext $method $importKontext}}{{end}}
     @Override

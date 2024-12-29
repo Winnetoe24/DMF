@@ -2,6 +2,7 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"flag"
 	"github.com/Winnetoe24/DMF/javaGenerator/javaGenBase"
 	"github.com/Winnetoe24/DMF/semantic"
@@ -37,7 +38,7 @@ func main() {
 func Generate(basePath string, lookup smodel.TypeLookUp) {
 	for _, pElement := range lookup {
 		operations.Add(1)
-		
+
 		switch element := pElement.(type) {
 		case *packages.EnumElement:
 			go generateJavaFile(createFile(basePath, element.Path), apply(template.GenerateEnum, element))
@@ -83,7 +84,7 @@ func generateJavaFile(file *os.File, f func(writer io.Writer) error) {
 	writer := bufio.NewWriter(file)
 	err := f(writer)
 	if err != nil {
-		panic(err)
+		panic(errors.Join(err, errors.New(file.Name())))
 	}
 	err = writer.Flush()
 	if err != nil {

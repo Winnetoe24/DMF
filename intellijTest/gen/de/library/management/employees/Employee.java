@@ -1,7 +1,7 @@
 package de.library.management.employees;
 
-import de.library.management.facilities.Building;
 import java.time.LocalDate;
+import de.library.management.facilities.Building;
 import java.util.Objects;
 
 public class Employee {

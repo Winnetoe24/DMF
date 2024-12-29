@@ -92,3 +92,11 @@ func createParameterKontext(variablen []packages.Variable, kontext ImportKontext
 		ImportKontext: kontext,
 	}
 }
+
+func createVererbungKontext(extendsPath *base.ModelPath, implPaths []base.ModelPath, kontext ImportKontext) VererbungKontext {
+	return VererbungKontext{
+		ImportKontext:   kontext,
+		ExtendsPath:     extendsPath,
+		ImplementsPaths: implPaths,
+	}
+}

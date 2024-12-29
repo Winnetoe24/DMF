@@ -39,6 +39,12 @@ type Import struct {
 	OriginalName base.ModelPath
 }
 
+type VererbungKontext struct {
+	ImportKontext   ImportKontext
+	ExtendsPath     *base.ModelPath
+	ImplementsPaths []base.ModelPath
+}
+
 // ParameterKontext kann genauso wie KonstruktorData für die Parameter genutzt werden
 type ParameterKontext struct {
 	Parameter     []VariableKontext
@@ -72,6 +78,8 @@ func NewTemplate() JavaTemplate {
 		"getImportedName":        getImportedName,
 		"createFunktionKontext":  createFunktionKontext,
 		"createParameterKontext": createParameterKontext,
+		"pathType":               pathType,
+		"createVererbungKontext": createVererbungKontext,
 		"keineReferenzen":        func() []packages.Referenz { return make([]packages.Referenz, 0) },
 		"keineArgumente":         func() []packages.Argument { return make([]packages.Argument, 0) },
 		"keineFunktionen":        func() []packages.Funktion { return make([]packages.Funktion, 0) },

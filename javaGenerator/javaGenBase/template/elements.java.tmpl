@@ -2,6 +2,8 @@
 {{end}}{{range $index, $import := $importSlice}}import {{$import}};
 {{end}}{{end}}
 
+{{define "extends"}}{{if .ExtendsPath}}extends {{pathType .ExtendsPath .ImportKontext}} {{end}}{{if .ImplementsPaths}}implements {{range $index, $implPath := .ImplementsPaths}}{{pathType $implPath $.ImportKontext}}{{if ne $index (subtract (len $.ImplementsPaths) 1)}}, {{end}}{{end}} {{end}}{{end}}
+
 {{define "constructor"}}{{.Name}}({{template "parameter_list" .}}){
         {{range $index, $parameter := .Parameter}}
         this.{{variableName $parameter.Variable}} = {{variableName $parameter.Variable}};{{end}}

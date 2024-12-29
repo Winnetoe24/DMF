@@ -3,7 +3,7 @@ package de.library.management.media;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class Magazine {
+public class Magazine extends de.library.management.media.MediaItem {
     protected int issueNumber;
     protected String publisher;
     protected boolean isSubscription;

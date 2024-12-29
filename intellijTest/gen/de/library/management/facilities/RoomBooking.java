@@ -1,8 +1,8 @@
 package de.library.management.facilities;
 
-import de.library.management.users.User;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import de.library.management.users.User;
 import java.util.Objects;
 
 public class RoomBooking {

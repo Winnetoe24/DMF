@@ -77,6 +77,15 @@ func variableDefaultValue(variable packages.Variable) string {
 		return ""
 	}
 }
+
+func pathType(pPath base.ModelPath, kontext ImportKontext) string {
+	name := pPath[len(pPath)-1]
+	path, found := kontext.ImportLookUp[name]
+	if found && path.OriginalName.ToString() == pPath.ToString() {
+		return name
+	}
+	return pPath.ToString()
+}
 func toArgs(argumente []packages.Argument, kontext ImportKontext) []FieldData {
 	return toFields(argumente, make([]packages.Referenz, 0), kontext)
 }
