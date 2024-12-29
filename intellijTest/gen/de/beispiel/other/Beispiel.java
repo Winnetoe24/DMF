@@ -1,8 +1,8 @@
 package de.beispiel.other;
 
-import de.beispiel.hotel.Person;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import de.beispiel.hotel.Person;
 
 /**
  **/

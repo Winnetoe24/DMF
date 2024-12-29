@@ -13,6 +13,7 @@ public class Reservation {
     protected boolean isActive;
 
 
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

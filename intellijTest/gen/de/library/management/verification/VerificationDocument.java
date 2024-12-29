@@ -13,4 +13,5 @@ public class VerificationDocument {
     protected String documentImage;
 
 
+
 }

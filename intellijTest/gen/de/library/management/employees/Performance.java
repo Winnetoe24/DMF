@@ -12,6 +12,7 @@ public class Performance {
     protected String goals;
 
 
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

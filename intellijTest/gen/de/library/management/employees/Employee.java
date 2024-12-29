@@ -1,7 +1,7 @@
 package de.library.management.employees;
 
-import java.time.LocalDate;
 import de.library.management.facilities.Building;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Employee {
@@ -18,6 +18,7 @@ public class Employee {
     protected LocalDate hireDate;
     protected String email;
     protected String phone;
+
 
 
     @Override

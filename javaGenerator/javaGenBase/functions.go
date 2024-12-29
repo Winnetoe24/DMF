@@ -238,6 +238,41 @@ func toConstructor(packageElement packages.PackageElement, kontext ImportKontext
 	return data
 }
 
+func findImplementedFunctions(pElement packages.PackageElement) []packages.Funktion {
+	funktionen := make([]packages.Funktion, 0)
+	switch element := pElement.(type) {
+	case *packages.EntityElement:
+		for s, namedElement := range element.NamedElements {
+			switch namedFunktion := namedElement.(type) {
+			case *packages.Funktion:
+				if element.Extends != nil {
+					_, found := element.Extends.GetBase().NamedElements[s]
+					if !found {
+						funktionen = append(funktionen, *namedFunktion)
+					}
+				} else {
+					funktionen = append(funktionen, *namedFunktion)
+				}
+			}
+		}
+	case *packages.StructElement:
+		for s, namedElement := range element.NamedElements {
+			switch namedFunktion := namedElement.(type) {
+			case *packages.Funktion:
+				if element.Extends != nil {
+					_, found := element.Extends.GetBase().NamedElements[s]
+					if !found {
+						funktionen = append(funktionen, *namedFunktion)
+					}
+				} else {
+					funktionen = append(funktionen, *namedFunktion)
+				}
+			}
+		}
+	}
+	return funktionen
+}
+
 func valueInit(value values.Value) string {
 	switch value := value.(type) {
 	case values.IntValue:

@@ -20,4 +20,16 @@ public class Buchungszeitraum implements Zeitraum {
     public Zimmer getZimmer(Hotel hotel){
         return null;
     }
+
+    public boolean contains(LocalDateTime zeitpunkt){
+        return false;
+    }
+
+    public LocalDateTime startPunkt(){
+        return null;
+    }
+
+    public LocalDateTime endPunkt(){
+        return null;
+    }
 }

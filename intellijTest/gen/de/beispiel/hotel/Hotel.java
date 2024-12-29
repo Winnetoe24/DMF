@@ -12,6 +12,7 @@ public class Hotel {
     protected Beispiel bsp;
 
 
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

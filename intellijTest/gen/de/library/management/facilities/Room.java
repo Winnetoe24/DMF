@@ -11,6 +11,7 @@ public class Room {
     protected String specialEquipment;
 
 
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

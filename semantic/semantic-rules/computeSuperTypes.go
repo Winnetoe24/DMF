@@ -50,7 +50,11 @@ func (c *computeSuperTypes) handleStruct(element *packages.StructElement, entity
 			}
 		}
 	}
-	c.handleImplements(element.ImplementsPaths, element.PackageElement)
+	if entity != nil {
+		c.calculateImplementsTypes(entity, nil)
+	} else {
+		c.calculateImplementsTypes(element, nil)
+	}
 }
 
 func (c *computeSuperTypes) handleInterface(element *packages.InterfaceElement) {
@@ -159,7 +163,8 @@ func (c *computeSuperTypes) calculateImplementsTypes(current packages.Implementa
 				current.AddImplements(implementsElement)
 			}
 		}
-		(*c.lookup)[current.GetPath().ToString()] = current.GetPackageElement()
+		//element := current.GetPackageElement()
+		//(*c.lookup)[current.GetPath().ToString()] = element
 	}
 	return subTypes
 }

@@ -10,6 +10,7 @@ public class Book extends MediaItem {
     protected String language;
 
 
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

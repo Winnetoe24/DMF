@@ -3,7 +3,10 @@
 
 {{template "comment" .Kommentar}}public class {{nameFromPath .Path}} {{template "extends" createVererbungKontext .ExtendsPath .ImplementsPaths $importKontext}}{
 {{range $index, $field := $fields}}{{template "field" $field}}{{end}}
-{{range $index, $method := .Funktionen}}{{template "method" createFunktionKontext $method $importKontext}}{{end}}
+{{$funktionen := findImplementedFunctions .}}{{range $index, $method := $funktionen}}{{template "method" createFunktionKontext $method $importKontext}}{{if ne $index (subtract (len $funktionen) 1)}}
+
+{{end}}{{end}}
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

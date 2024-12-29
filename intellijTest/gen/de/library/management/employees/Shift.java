@@ -1,8 +1,8 @@
 package de.library.management.employees;
 
-import java.time.LocalDateTime;
 import de.library.management.facilities.Building;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Shift {
@@ -12,6 +12,7 @@ public class Shift {
     protected LocalDateTime startTime;
     protected LocalDateTime endTime;
     protected String responsibilities;
+
 
 
     @Override

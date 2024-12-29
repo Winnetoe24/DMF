@@ -10,6 +10,7 @@ public class Magazine extends MediaItem {
     protected LocalDate validUntil;
 
 
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

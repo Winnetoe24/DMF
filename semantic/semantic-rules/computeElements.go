@@ -49,7 +49,7 @@ func (c *computeElements) handleStruct(element *packages.StructElement, entity *
 		c.addElement(&element.NamedElements, &funktion)
 	}
 	if entity != nil {
-		//entity.StructElement = *element
+		entity.StructElement = *element
 		(*c.lookup)[element.GetPath().ToString()] = entity
 	} else {
 		(*c.lookup)[element.GetPath().ToString()] = element

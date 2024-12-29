@@ -24,8 +24,8 @@ package de.beispiel {
         }
         interface Zeitraum {
             func boolean contains(datetime zeitpunkt);
-            func datetime start();
-            func datetime end();
+            func datetime startPunkt();
+            func datetime endPunkt();
         }
 
         entity Hotel {
@@ -37,7 +37,7 @@ package de.beispiel {
             identifier(name);
 
         }
-        entity Zimmer {
+        entity Zimmer implements Zeitraum {
             arg long zimmernummer;
             identifier(zimmernummer);
         }
@@ -58,6 +58,7 @@ package de.beispiel {
             ref .Ort o;
             arg date beispieldate;
             arg int me;
+            arg int i;
 
             identifier(i, me);
         }

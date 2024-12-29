@@ -15,6 +15,7 @@ public class Transaction {
     protected String reference;
 
 
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

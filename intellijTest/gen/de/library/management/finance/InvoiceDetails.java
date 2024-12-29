@@ -15,4 +15,5 @@ public class InvoiceDetails {
     protected TaxRate taxRate;
 
 
+
 }

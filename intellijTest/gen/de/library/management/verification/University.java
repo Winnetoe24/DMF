@@ -11,4 +11,5 @@ public class University {
     protected boolean hasDirectVerification;
 
 
+
 }

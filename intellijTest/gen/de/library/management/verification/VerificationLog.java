@@ -13,6 +13,7 @@ public class VerificationLog {
     protected boolean isSuccessful;
 
 
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
