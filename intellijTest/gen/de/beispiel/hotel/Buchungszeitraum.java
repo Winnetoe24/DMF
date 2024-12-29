@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
  * Das ist ein Kommentar über einem Struct
  * Alle Kommentare können mehrere Zeilen beinhalten
  **/
-public class Buchungszeitraum implements de.beispiel.hotel.Zeitraum {
+public class Buchungszeitraum implements Zeitraum {
     /**
      * Kommentar über einem Argument
      **/
@@ -18,21 +18,6 @@ public class Buchungszeitraum implements de.beispiel.hotel.Zeitraum {
      * Kommentar über Funktion
      **/
     public Zimmer getZimmer(Hotel hotel){
-        return null;
-    }
-
-    @Override
-    public boolean contains(LocalDateTime zeitpunkt) {
-        return false;
-    }
-
-    @Override
-    public LocalDateTime start() {
-        return null;
-    }
-
-    @Override
-    public LocalDateTime end() {
         return null;
     }
 }

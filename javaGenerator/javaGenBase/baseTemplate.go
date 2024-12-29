@@ -80,9 +80,6 @@ func NewTemplate() JavaTemplate {
 		"createParameterKontext": createParameterKontext,
 		"pathType":               pathType,
 		"createVererbungKontext": createVererbungKontext,
-		"keineReferenzen":        func() []packages.Referenz { return make([]packages.Referenz, 0) },
-		"keineArgumente":         func() []packages.Argument { return make([]packages.Argument, 0) },
-		"keineFunktionen":        func() []packages.Funktion { return make([]packages.Funktion, 0) },
 	}
 	must := template.Must(template.New("").Funcs(funcMap).ParseFS(tmplFiles, "template/*"))
 	return JavaTemplate{template: must}

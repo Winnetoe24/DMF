@@ -1,7 +1,7 @@
 package de.library.management.media;
 import java.util.Objects;
 
-public class Book extends de.library.management.media.MediaItem {
+public class Book extends MediaItem {
     protected String author;
     protected Category category;
     protected MediaType type;

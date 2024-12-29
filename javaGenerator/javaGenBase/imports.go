@@ -5,35 +5,82 @@ import (
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 )
 
-func createImportKontext(path base.ModelPath, argumente []packages.Argument, referenzen []packages.Referenz, funktionen []packages.Funktion) ImportKontext {
+func createImportKontext(pElement packages.PackageElement) ImportKontext {
+	var path base.ModelPath
 	up := make(ImportLookUp)
-	basePath := path[:len(path)-1]
-	for _, argument := range argumente {
-		if argument.Typ == base.DATE {
-			up["LocalDate"] = Import{OriginalName: []string{"java", "time", "LocalDate"}}
-		} else if argument.Typ == base.DATETIME {
-			up["LocalDateTime"] = Import{OriginalName: []string{"java", "time", "LocalDateTime"}}
+	var basePath base.ModelPath
+	switch element := pElement.(type) {
+	case *packages.EntityElement:
+		path = element.Path
+		basePath = path[:len(path)-1]
+
+		handleArgumente(&up, element.Argumente)
+		for _, referenz := range element.Referenzen {
+			handleImport(&up, basePath, referenz.Typ)
+		}
+		handleFunktionen(&up, basePath, path, element.Funktionen)
+		if element.ExtendsPath != nil {
+			handleImport(&up, basePath, *element.ExtendsPath)
+		}
+		for _, implementsPath := range element.ImplementsPaths {
+			handleImport(&up, basePath, implementsPath)
+		}
+	case *packages.StructElement:
+		path = element.Path
+		basePath = path[:len(path)-1]
+
+		handleArgumente(&up, element.Argumente)
+		for _, referenz := range element.Referenzen {
+			handleImport(&up, basePath, referenz.Typ)
+		}
+		handleFunktionen(&up, basePath, path, element.Funktionen)
+		if element.ExtendsPath != nil {
+			handleImport(&up, basePath, *element.ExtendsPath)
+		}
+		for _, implementsPath := range element.ImplementsPaths {
+			handleImport(&up, basePath, implementsPath)
+		}
+	case *packages.EnumElement:
+		path = element.Path
+		basePath = path[:len(path)-1]
+
+		handleArgumente(&up, element.Argumente)
+	case *packages.InterfaceElement:
+		path = element.Path
+		basePath = path[:len(path)-1]
+		handleFunktionen(&up, basePath, path, element.Funktionen)
+		for _, implementsPath := range element.ImplementsPaths {
+			handleImport(&up, basePath, implementsPath)
 		}
 	}
-	for _, referenz := range referenzen {
-		handleImport(&up, basePath, referenz.Typ)
+
+	return ImportKontext{
+		ImportLookUp: up,
+		Path:         path,
 	}
+}
+func handleArgumente(up *ImportLookUp, argumente []packages.Argument) {
+	for _, argument := range argumente {
+		if argument.Typ == base.DATE {
+			(*up)["LocalDate"] = Import{OriginalName: []string{"java", "time", "LocalDate"}}
+		} else if argument.Typ == base.DATETIME {
+			(*up)["LocalDateTime"] = Import{OriginalName: []string{"java", "time", "LocalDateTime"}}
+		}
+	}
+}
+func handleFunktionen(up *ImportLookUp, basePath base.ModelPath, path base.ModelPath, funktionen []packages.Funktion) {
 	for _, funktion := range funktionen {
 		returnModelPath, _ := funktion.ReturnType.GetVariableType()
 		if returnModelPath != nil {
-			handleImport(&up, basePath, *returnModelPath)
+			handleImport(up, basePath, *returnModelPath)
 		}
 
 		for _, variable := range funktion.Parameter {
 			variablePath, _ := variable.GetVariableType()
 			if variablePath != nil {
-				handleImport(&up, basePath, *variablePath)
+				handleImport(up, basePath, *variablePath)
 			}
 		}
-	}
-	return ImportKontext{
-		ImportLookUp: up,
-		Path:         path,
 	}
 }
 func handleImport(up *ImportLookUp, basePath base.ModelPath, path base.ModelPath) {

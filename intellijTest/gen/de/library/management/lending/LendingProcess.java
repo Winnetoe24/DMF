@@ -1,8 +1,8 @@
 package de.library.management.lending;
 
-import java.time.LocalDate;
 import de.library.management.users.User;
 import de.library.management.media.MediaItem;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class LendingProcess {
