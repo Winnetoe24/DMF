@@ -297,3 +297,29 @@ func valueInit(value values.Value) string {
 		return "null"
 	}
 }
+
+func generateIdentifier(pElement packages.PackageElement) []FieldData {
+	switch element := pElement.(type) {
+	case *packages.EntityElement:
+		data := make([]FieldData, len(element.Identifier.Variablen))
+		for i, identifier := range element.Identifier.Variablen {
+			data[i] = FieldData{
+				Name: identifier.Name,
+			}
+		}
+		return data
+	case *packages.StructElement:
+		data := make([]FieldData, 0)
+		for name, namedElement := range element.NamedElements {
+			switch namedElement.(type) {
+			case *packages.Argument:
+				data = append(data, FieldData{Name: name})
+			case *packages.Referenz:
+
+				data = append(data, FieldData{Name: name})
+			}
+		}
+		return data
+	}
+	return nil
+}

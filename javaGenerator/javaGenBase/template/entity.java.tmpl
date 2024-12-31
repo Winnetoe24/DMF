@@ -6,16 +6,16 @@
 {{$funktionen := findImplementedFunctions .}}{{range $index, $method := $funktionen}}{{template "method" createFunktionKontext $method $importKontext}}{{if ne $index (subtract (len $funktionen) 1)}}
 
 {{end}}{{end}}
-
+{{$identifier := generateIdentifier .}}
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         {{nameFromPath .Path}} entity = ({{nameFromPath .Path}}) o;
-        return {{range $index, $field := $fields}}Objects.equals({{$field.Name}}, entity.{{$field.Name}}) {{if ne $index (subtract (len $fields) 1)}} && {{end}}{{end}};
+        return {{range $index, $field := $identifier}}Objects.equals({{$field.Name}}, entity.{{$field.Name}}) {{if ne $index (subtract (len $identifier) 1)}} && {{end}}{{end}};
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash({{range $index, $field := $fields}}{{$field.Name}}{{if ne $index (subtract (len $fields) 1)}}, {{end}}{{end}});
+        return Objects.hash({{range $index, $field := $identifier}}{{$field.Name}}{{if ne $index (subtract (len $identifier) 1)}}, {{end}}{{end}});
     }
 }{{end}}

@@ -62,11 +62,57 @@ func (c *computeSuperTypes) handleInterface(element *packages.InterfaceElement) 
 }
 
 func (c *computeSuperTypes) calculateSuperTypes(current *packages.StructElement, currentEntity *packages.EntityElement, subTypes []string, interfaceSubtypes []string) {
-	if current.Extends != nil || (current.ExtendsPath == nil && len(current.ImplementsPaths) == 0) {
+	if current.Extends != nil || (current.ExtendsPath == nil && len(current.ImplementsPaths) == 0) || (len(current.ImplementsPaths) > 0 && len(current.ImplementsPaths) == len(current.Implements)) {
 		return
 	}
 
 	currentPath := current.Path.ToString()
+
+	// Der return findet nach dem Loop statt, damit alle Fehler hinzugefügt werden können
+	if c.isRekursiv(current, subTypes, currentPath) {
+		return
+	}
+	if currentEntity != nil {
+		interfaceSubtypes = c.calculateImplementsTypes(currentEntity, interfaceSubtypes)
+		(*c.lookup)[currentPath] = currentEntity
+	} else {
+		interfaceSubtypes = c.calculateImplementsTypes(current, interfaceSubtypes)
+		(*c.lookup)[currentPath] = current
+	}
+
+	if current.ExtendsPath != nil && len(*current.ExtendsPath) > 0 {
+		extendsString := current.ExtendsPath.ToString()
+		extendsElement, found := (*c.lookup)[extendsString]
+
+		if !found {
+			c.elements = append(c.elements, errElement.CreateErrorElement(current.Node, errors.New("Der Supertyp konnte nicht gefunden werden!")))
+		} else {
+
+			switch element := extendsElement.(type) {
+			case *packages.EntityElement:
+				if currentEntity == nil {
+					c.elements = append(c.elements, errElement.CreateErrorElement(current.Node, errors.New("Ein Struct darf nur von einem Struct erben!")))
+				}
+				if element.Extends == nil {
+					c.calculateSuperTypes(&element.StructElement, element, append(subTypes, currentPath), interfaceSubtypes)
+				}
+				currentEntity.Extends = (*c.lookup)[extendsString]
+				(*c.lookup)[currentPath] = currentEntity
+			case *packages.StructElement:
+				if element.Extends == nil {
+					c.calculateSuperTypes(element, nil, append(subTypes, currentPath), interfaceSubtypes)
+				}
+				current.Extends = element
+				(*c.lookup)[currentPath] = (*c.lookup)[extendsString]
+			default:
+				c.elements = append(c.elements, errElement.CreateErrorElement(current.Node, errors.New("Der Supertyp muss ein Struct oder eine Entity sein!")))
+			}
+		}
+	}
+
+}
+
+func (c *computeSuperTypes) isRekursiv(current *packages.StructElement, subTypes []string, currentPath string) bool {
 	rekursiv := false
 	for _, subType := range subTypes {
 		if subType == currentPath {
@@ -74,58 +120,7 @@ func (c *computeSuperTypes) calculateSuperTypes(current *packages.StructElement,
 			rekursiv = true
 		}
 	}
-
-	// Der return findet nach dem Loop statt, damit alle Fehler hinzugefügt werden können
-	if rekursiv {
-		return
-	}
-
-	interfaceSubtypes = c.calculateImplementsTypes(current, interfaceSubtypes)
-
-	if current.ExtendsPath != nil && len(*current.ExtendsPath) > 0 && !rekursiv {
-		extendsString := current.ExtendsPath.ToString()
-		extendsElement, found := (*c.lookup)[extendsString]
-
-		if !found {
-			c.elements = append(c.elements, errElement.CreateErrorElement(current.Node, errors.New("Der Supertyp konnte nicht gefunden werden!")))
-		} else {
-			var entityElement *packages.EntityElement
-			var structElement *packages.StructElement
-			switch extendsElement.(type) {
-			case *packages.EntityElement:
-				element := extendsElement.(*packages.EntityElement)
-				entityElement = element
-				if element.Extends == nil {
-					c.calculateSuperTypes(&entityElement.StructElement, entityElement, append(subTypes, currentPath), interfaceSubtypes)
-				}
-
-			case *packages.StructElement:
-				element := extendsElement.(*packages.StructElement)
-				structElement = element
-				if element.Extends == nil {
-					c.calculateSuperTypes(structElement, nil, append(subTypes, currentPath), interfaceSubtypes)
-				}
-			}
-			if entityElement != nil {
-				if currentEntity == nil {
-					c.elements = append(c.elements, errElement.CreateErrorElement(current.Node, errors.New("Ein Struct darf nur von einem Struct erben!")))
-				} else {
-					structElement = &entityElement.StructElement
-				}
-			}
-			if structElement == nil {
-				c.elements = append(c.elements, errElement.CreateErrorElement(current.Node, errors.New("Der Supertyp muss ein Struct oder eine Entity sein!")))
-			}
-
-			current.Extends = extendsElement
-		}
-		if currentEntity != nil {
-			(*c.lookup)[currentPath] = currentEntity
-		} else {
-			(*c.lookup)[currentPath] = current
-		}
-	}
-
+	return rekursiv
 }
 
 func (c *computeSuperTypes) calculateImplementsTypes(current packages.Implementable, subTypes []string) (newSubtypes []string) {

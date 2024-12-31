@@ -15,11 +15,11 @@ public class Person {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Person entity = (Person) o;
-        return Objects.equals(o, entity.o)  && Objects.equals(beispieldate, entity.beispieldate)  && Objects.equals(me, entity.me)  && Objects.equals(i, entity.i) ;
+        return Objects.equals(i, entity.i)  && Objects.equals(me, entity.me) ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(o, beispieldate, me, i);
+        return Objects.hash(i, me);
     }
 }

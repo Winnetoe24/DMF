@@ -81,6 +81,7 @@ func NewTemplate() JavaTemplate {
 		"pathType":                 pathType,
 		"createVererbungKontext":   createVererbungKontext,
 		"findImplementedFunctions": findImplementedFunctions,
+		"generateIdentifier":       generateIdentifier,
 	}
 	must := template.Must(template.New("").Funcs(funcMap).ParseFS(tmplFiles, "template/*"))
 	return JavaTemplate{template: must}
@@ -88,7 +89,7 @@ func NewTemplate() JavaTemplate {
 
 func (receiver JavaTemplate) GenerateStruct(writer io.Writer, element *packages.StructElement) error {
 	println("Generate Struct: " + element.Path.ToString())
-	return receiver.template.ExecuteTemplate(writer, "class", element)
+	return receiver.template.ExecuteTemplate(writer, "entity", element)
 }
 
 func (receiver JavaTemplate) GenerateEntity(writer io.Writer, element *packages.EntityElement) error {

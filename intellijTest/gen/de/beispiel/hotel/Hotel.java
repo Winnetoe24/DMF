@@ -17,11 +17,11 @@ public class Hotel {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Hotel entity = (Hotel) o;
-        return Objects.equals(zimmer, entity.zimmer)  && Objects.equals(name, entity.name)  && Objects.equals(bsp, entity.bsp) ;
+        return Objects.equals(name, entity.name) ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(zimmer, name, bsp);
+        return Objects.hash(name);
     }
 }

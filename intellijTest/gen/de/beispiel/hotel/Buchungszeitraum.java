@@ -1,6 +1,7 @@
 package de.beispiel.hotel;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * Das ist ein Kommentar über einem Struct
@@ -31,5 +32,17 @@ public class Buchungszeitraum implements Zeitraum {
 
     public LocalDateTime endPunkt(){
         return null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Buchungszeitraum entity = (Buchungszeitraum) o;
+        return Objects.equals(zimmernummer, entity.zimmernummer)  && Objects.equals(start, entity.start)  && Objects.equals(end, entity.end) ;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(zimmernummer, start, end);
     }
 }

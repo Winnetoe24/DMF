@@ -86,57 +86,55 @@ func (c *computeElements) handleEnumeration(element *packages.EnumElement) {
 }
 
 // Zweiter Durchlauf der Elemente. Verarbeitet Extends und Implements.
-func (c *computeElements) handleAbstraction(element packages.PackageElement) *map[string]base.NamedElement {
-	_, found := c.finished[element.GetBase().Identifier.Name]
+func (c *computeElements) handleAbstraction(pElement packages.PackageElement) *map[string]base.NamedElement {
+	_, found := c.finished[pElement.GetBase().Identifier.Name]
 
-	switch element.(type) {
-	case *packages.StructElement:
-		structElement := element.(*packages.StructElement)
+	switch element := pElement.(type) {
+	case *packages.EntityElement:
 		if found {
-			return &structElement.NamedElements
+			return &element.NamedElements
 		}
-		if structElement.Extends != nil {
-			extendsElements := c.handleAbstraction(structElement.Extends)
-			c.addElements(&structElement.NamedElements, extendsElements)
+		if element.Extends != nil {
+			extendsElements := c.handleAbstraction(element.Extends)
+			c.addElements(&element.NamedElements, extendsElements)
 		}
-		if structElement.Implements != nil {
-			for _, implement := range structElement.Implements {
+		if element.Implements != nil {
+			for _, implement := range element.Implements {
 				implementElements := c.handleAbstraction(implement)
-				c.addElements(&structElement.NamedElements, implementElements)
+				c.addElements(&element.NamedElements, implementElements)
 			}
 		}
 		c.finished[element.GetBase().Identifier.Name] = true
-		return &structElement.NamedElements
-	case *packages.EntityElement:
-		entityElement := element.(*packages.EntityElement)
+		return &element.NamedElements
+	case *packages.StructElement:
 		if found {
-			return &entityElement.NamedElements
+			return &element.NamedElements
 		}
-		if entityElement.Extends != nil {
-			extendsElements := c.handleAbstraction(entityElement.Extends)
-			c.addElements(&entityElement.NamedElements, extendsElements)
+		if element.Extends != nil {
+			extendsElements := c.handleAbstraction(element.Extends)
+			c.addElements(&element.NamedElements, extendsElements)
 		}
-		if entityElement.Implements != nil {
-			for _, implement := range entityElement.Implements {
+		if element.Implements != nil {
+			for _, implement := range element.Implements {
 				implementElements := c.handleAbstraction(implement)
-				c.addElements(&entityElement.NamedElements, implementElements)
+				c.addElements(&element.NamedElements, implementElements)
 			}
 		}
-		c.finished[entityElement.GetBase().Identifier.Name] = true
-		return &entityElement.NamedElements
+		c.finished[pElement.GetBase().Identifier.Name] = true
+		return &element.NamedElements
+
 	case *packages.InterfaceElement:
-		interfaceElement := element.(*packages.InterfaceElement)
 		if found {
-			return &interfaceElement.NamedElements
+			return &element.NamedElements
 		}
-		if interfaceElement.Implements != nil {
-			for _, implement := range interfaceElement.Implements {
+		if element.Implements != nil {
+			for _, implement := range element.Implements {
 				implementElements := c.handleAbstraction(implement)
-				c.addElements(&interfaceElement.NamedElements, implementElements)
+				c.addElements(&element.NamedElements, implementElements)
 			}
 		}
-		c.finished[interfaceElement.GetBase().Identifier.Name] = true
-		return &interfaceElement.NamedElements
+		c.finished[element.GetBase().Identifier.Name] = true
+		return &element.NamedElements
 	}
 	return nil
 }
