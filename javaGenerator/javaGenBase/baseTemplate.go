@@ -104,3 +104,11 @@ func (receiver JavaTemplate) GenerateEnum(writer io.Writer, element *packages.En
 func (receiver JavaTemplate) GenerateInterface(writer io.Writer, element *packages.InterfaceElement) error {
 	return receiver.template.ExecuteTemplate(writer, "interface", element)
 }
+
+func (receiver JavaTemplate) GenerateDelegate(writer io.Writer, element packages.PackageElement) error {
+	var e packages.PackageElement
+	delegate := CreateDelegate(element)
+	e = delegate
+	println("Generate Delegate: " + delegate.Path.ToString())
+	return receiver.template.ExecuteTemplate(writer, "delegate", e)
+}

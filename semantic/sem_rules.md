@@ -6,3 +6,4 @@
 6. Identifier müssen Variablen namen Referenzieren
 7. Implements darf sich nicht selber Referenzieren
 8. Alle Referenzierten Pfade müssen existieren und den richtigen Typ besitzen
+9. TODO caller darf nicht als Parametername genutzt werden

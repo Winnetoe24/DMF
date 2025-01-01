@@ -1,0 +1,7 @@
+{{define "delegate"}}package {{packagePath .Path}};
+{{$importKontext := createImportKontext .}}{{template "imports" $importKontext}}
+{{template "comment" .Kommentar}}public class {{nameFromPath .Path}} {
+{{$funktionen := findImplementedFunctions .}}{{range $index, $method := $funktionen}}{{template "method" createFunktionKontext $method $importKontext}}{{if ne $index (subtract (len $funktionen) 1)}}
+
+{{end}}{{end}}
+}{{end}}

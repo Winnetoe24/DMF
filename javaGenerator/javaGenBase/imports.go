@@ -52,6 +52,20 @@ func createImportKontext(pElement packages.PackageElement) ImportKontext {
 		for _, implementsPath := range element.ImplementsPaths {
 			handleImport(&up, basePath, implementsPath)
 		}
+	case *DelegateElement:
+		path = element.Path
+		basePath = path[:len(path)-1]
+		for _, namedElement := range element.NamedElements {
+			switch nElement := namedElement.(type) {
+			case *packages.Funktion:
+				handleFunktion(&up, basePath, *nElement)
+			case *packages.Referenz:
+				handleImport(&up, basePath, nElement.Typ)
+			case *packages.Argument:
+				handleArgument(&up, *nElement)
+			}
+		}
+		handleImport(&up, basePath, element.Caller)
 	}
 
 	return ImportKontext{
@@ -61,25 +75,33 @@ func createImportKontext(pElement packages.PackageElement) ImportKontext {
 }
 func handleArgumente(up *ImportLookUp, argumente []packages.Argument) {
 	for _, argument := range argumente {
-		if argument.Typ == base.DATE {
-			(*up)["LocalDate"] = Import{OriginalName: []string{"java", "time", "LocalDate"}}
-		} else if argument.Typ == base.DATETIME {
-			(*up)["LocalDateTime"] = Import{OriginalName: []string{"java", "time", "LocalDateTime"}}
-		}
+		handleArgument(up, argument)
+	}
+}
+
+func handleArgument(up *ImportLookUp, argument packages.Argument) {
+	if argument.Typ == base.DATE {
+		(*up)["LocalDate"] = Import{OriginalName: []string{"java", "time", "LocalDate"}}
+	} else if argument.Typ == base.DATETIME {
+		(*up)["LocalDateTime"] = Import{OriginalName: []string{"java", "time", "LocalDateTime"}}
 	}
 }
 func handleFunktionen(up *ImportLookUp, basePath base.ModelPath, path base.ModelPath, funktionen []packages.Funktion) {
 	for _, funktion := range funktionen {
-		returnModelPath, _ := funktion.ReturnType.GetVariableType()
-		if returnModelPath != nil {
-			handleImport(up, basePath, *returnModelPath)
-		}
+		handleFunktion(up, basePath, funktion)
+	}
+}
 
-		for _, variable := range funktion.Parameter {
-			variablePath, _ := variable.GetVariableType()
-			if variablePath != nil {
-				handleImport(up, basePath, *variablePath)
-			}
+func handleFunktion(up *ImportLookUp, basePath base.ModelPath, funktion packages.Funktion) {
+	returnModelPath, _ := funktion.ReturnType.GetVariableType()
+	if returnModelPath != nil {
+		handleImport(up, basePath, *returnModelPath)
+	}
+
+	for _, variable := range funktion.Parameter {
+		variablePath, _ := variable.GetVariableType()
+		if variablePath != nil {
+			handleImport(up, basePath, *variablePath)
 		}
 	}
 }

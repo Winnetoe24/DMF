@@ -238,6 +238,8 @@ func toConstructor(packageElement packages.PackageElement, kontext ImportKontext
 	return data
 }
 
+// Findet alle implementierten Funktionen
+// Für Delegates wird der Caller als erster Parameter hinzugefügt
 func findImplementedFunctions(pElement packages.PackageElement) []packages.Funktion {
 	funktionen := make([]packages.Funktion, 0)
 	switch element := pElement.(type) {
@@ -266,6 +268,20 @@ func findImplementedFunctions(pElement packages.PackageElement) []packages.Funkt
 					}
 				} else {
 					funktionen = append(funktionen, *namedFunktion)
+				}
+			}
+		}
+	case *DelegateElement:
+		for s, namedElement := range element.NamedElements {
+			switch namedFunktion := namedElement.(type) {
+			case *packages.Funktion:
+				if element.ExtendsNamedElements != nil {
+					_, found := (*element.ExtendsNamedElements)[s]
+					if !found {
+						funktionen = append(funktionen, element.createDelegateFunktion(*namedFunktion))
+					}
+				} else {
+					funktionen = append(funktionen, element.createDelegateFunktion(*namedFunktion))
 				}
 			}
 		}
