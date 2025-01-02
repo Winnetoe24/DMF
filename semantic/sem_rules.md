@@ -8,3 +8,5 @@
 8. Alle Referenzierten Pfade müssen existieren und den richtigen Typ besitzen
 9. TODO caller darf nicht als Parametername genutzt werden
 9. TODO delegate darf nicht als Parametername, Argumentname oder Referenzname genutzt werden.
+9. TODO getter und setter dürfen nicht als Namen benutzt werden
+9. TODO "equals" und "hashcode" dürfen nicht als Namen benutzt werden

@@ -16,24 +16,49 @@ public class Buchungszeitraum implements Zeitraum {
     protected LocalDateTime end;
     protected long zimmernummer;
 
+    public boolean contains(LocalDateTime zeitpunkt){
+        return delegate.contains(this, zeitpunkt);
+    }
+
     /**
      * Kommentar über Funktion
      **/
     public Zimmer getZimmer(Hotel hotel){
-        return delegate(this, hotel);
-    }
-
-    public boolean contains(LocalDateTime zeitpunkt){
-        return delegate(this, zeitpunkt);
+        return delegate.getZimmer(this, hotel);
     }
 
     public LocalDateTime startPunkt(){
-        return delegate(this);
+        return delegate.startPunkt(this);
     }
 
     public LocalDateTime endPunkt(){
-        return delegate(this);
+        return delegate.endPunkt(this);
     }
+    /**
+     * Kommentar über einem Argument
+     **/
+    public LocalDateTime getStart() {
+        return this.start;
+    }
+    /**
+     * Kommentar über einem Argument
+     **/
+    public void setStart(LocalDateTime start) {
+        this.start = start;
+    }
+    public LocalDateTime getEnd() {
+        return this.end;
+    }
+    public void setEnd(LocalDateTime end) {
+        this.end = end;
+    }
+    public long getZimmernummer() {
+        return this.zimmernummer;
+    }
+    public void setZimmernummer(long zimmernummer) {
+        this.zimmernummer = zimmernummer;
+    }
+
 
     @Override
     public boolean equals(Object o) {

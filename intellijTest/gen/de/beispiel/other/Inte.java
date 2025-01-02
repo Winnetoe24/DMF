@@ -2,7 +2,7 @@ package de.beispiel.other;
 
 import de.beispiel.hotel.Person;
 
-public interface Inte implements Blo, Blup {
+public interface Inte extends Blo, Blup {
     /**
      * Kommentar über Funktion
      **/

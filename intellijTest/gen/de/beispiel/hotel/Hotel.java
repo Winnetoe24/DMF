@@ -13,6 +13,31 @@ public class Hotel {
     protected Beispiel bsp;
 
 
+    /**
+     * Kommentar über Referenz
+     **/
+    public Zimmer getZimmer() {
+        return this.zimmer;
+    }
+    /**
+     * Kommentar über Referenz
+     **/
+    public void setZimmer(Zimmer zimmer) {
+        this.zimmer = zimmer;
+    }
+    public String getName() {
+        return this.name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+    public Beispiel getBsp() {
+        return this.bsp;
+    }
+    public void setBsp(Beispiel bsp) {
+        this.bsp = bsp;
+    }
+
 
     @Override
     public boolean equals(Object o) {

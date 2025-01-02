@@ -71,6 +71,7 @@ func NewTemplate() JavaTemplate {
 		"variableName":                    variableName,
 		"variableType":                    variableType,
 		"removeNewLine":                   removeNewLine,
+		"capitalize":                      capitalize,
 		"variableDefaultValue":            variableDefaultValue,
 		"toConstructor":                   toConstructor,
 		"toUpperCase":                     toUpperCase,

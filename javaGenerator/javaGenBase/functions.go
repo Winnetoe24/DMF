@@ -18,6 +18,9 @@ func toUpperCase(name string) string {
 	return strings.ToUpper(name)
 }
 
+func capitalize(name string) string {
+	return strings.ToUpper(name[:1]) + name[1:]
+}
 func variableName(variable packages.Variable) string {
 	switch element := variable.(type) {
 	case *packages.Argument:

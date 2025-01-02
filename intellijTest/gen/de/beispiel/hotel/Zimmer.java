@@ -6,16 +6,23 @@ public class Zimmer implements Zeitraum {
     protected long zimmernummer;
 
     public boolean contains(java.time.LocalDateTime zeitpunkt){
-        return delegate(this, zeitpunkt);
+        return delegate.contains(this, zeitpunkt);
     }
 
     public java.time.LocalDateTime startPunkt(){
-        return delegate(this);
+        return delegate.startPunkt(this);
     }
 
     public java.time.LocalDateTime endPunkt(){
-        return delegate(this);
+        return delegate.endPunkt(this);
     }
+    public long getZimmernummer() {
+        return this.zimmernummer;
+    }
+    public void setZimmernummer(long zimmernummer) {
+        this.zimmernummer = zimmernummer;
+    }
+
 
     @Override
     public boolean equals(Object o) {

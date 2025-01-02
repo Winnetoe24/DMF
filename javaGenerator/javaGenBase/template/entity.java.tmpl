@@ -7,6 +7,9 @@
 {{$funktionen := findImplementedFunctions .}}{{range $index, $method := $funktionen}}{{template "method" createFunktionKontext $method $importKontext}}{{if ne $index (subtract (len $funktionen) 1)}}
 
 {{end}}{{end}}
+{{range $index, $field := $fields}}
+{{template "getter_und_setter" $field}}{{if ne $index (subtract (len $funktionen) 1)}}
+{{end}}{{end}}
 {{$identifier := generateIdentifier .}}
     @Override
     public boolean equals(Object o) {
