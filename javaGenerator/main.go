@@ -60,9 +60,9 @@ func Generate(basePath string, lookup smodel.TypeLookUp) {
 		case *packages.EnumElement:
 			go generateJavaFile(createFile(basePath, element.Path), apply(template.GenerateEnum, element))
 		case *packages.EntityElement:
-			go generateJavaFile(createFile(basePath, javaGenBase.CreateDelegateInterfacePath(slices.Clone(element.Path))), apply(template.GenerateDelegateInterface, pElement))
-			operations.Add(1)
 			go generateJavaFile(createFile(basePath, element.Path), apply(template.GenerateEntity, element))
+			operations.Add(1)
+			go generateJavaFile(createFile(basePath, javaGenBase.CreateDelegateInterfacePath(slices.Clone(element.Path))), apply(template.GenerateDelegateInterface, pElement))
 		case *packages.StructElement:
 			go generateJavaFile(createFile(basePath, element.Path), apply(template.GenerateStruct, element))
 			operations.Add(1)

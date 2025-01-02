@@ -141,6 +141,11 @@ func getImportedName(up ImportLookUp, path base.ModelPath) string {
 	return path.ToString()
 }
 
+func createFunktionKontextOverride(funktion packages.Funktion, kontext ImportKontext) FunktionKontext {
+	funktionKontext := createFunktionKontext(funktion, kontext)
+	funktionKontext.Override = true
+	return funktionKontext
+}
 func createFunktionKontext(funktion packages.Funktion, kontext ImportKontext) FunktionKontext {
 	return FunktionKontext{
 		Funktion:      funktion,

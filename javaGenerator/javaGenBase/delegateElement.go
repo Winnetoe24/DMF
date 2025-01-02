@@ -13,7 +13,7 @@ type DelegateElement struct {
 }
 
 func CreateDelegate(pElement packages.PackageElement) *DelegateElement {
-	kommentar := []string{"Delegate von ", "Wird nur initial generiert.", "Methoden müssen implementiert werden."}
+	kommentar := []string{"Delegate von ", "Wird nur initial generiert.\n\n", "Methoden müssen implementiert werden.\n\n"}
 
 	switch element := pElement.(type) {
 	case *packages.EntityElement:
@@ -30,7 +30,7 @@ func CreateDelegate(pElement packages.PackageElement) *DelegateElement {
 				},
 				Path: CreateDelegatePath(element.Path),
 				Identifier: base.ElementIdentifier{
-					Name: element.StructElement.Identifier.Name + "Delegate",
+					Name: element.StructElement.Identifier.Name + "Delegate\n\n",
 				},
 				NamedElements: element.NamedElements,
 				Expand:        element.Expand,

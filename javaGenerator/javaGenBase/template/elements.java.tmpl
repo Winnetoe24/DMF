@@ -15,7 +15,8 @@
 
 {{define "parameter"}}{{variableType .Variable .ImportKontext}} {{variableName .Variable}}{{end}}
 
-{{define "method_header"}}{{template "comment_tab" .Funktion.Kommentar}}    public {{variableType .Funktion.ReturnType .ImportKontext}} {{.Funktion.Name.Name}}({{template "parameter_list" createParameterKontext .Funktion.Parameter .ImportKontext}}){{end}}
+{{define "method_header"}}{{template "comment_tab" .Funktion.Kommentar}}{{if .Override}}    @Override
+{{end}}    public {{variableType .Funktion.ReturnType .ImportKontext}} {{.Funktion.Name.Name}}({{template "parameter_list" createParameterKontext .Funktion.Parameter .ImportKontext}}){{end}}
 {{define "method"}}{{template "method_header" .}}{
         return {{variableDefaultValue .Funktion.ReturnType}};
     }{{end}}
