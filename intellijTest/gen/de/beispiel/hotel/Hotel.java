@@ -3,7 +3,7 @@ package de.beispiel.hotel;
 import de.beispiel.other.Beispiel;
 import java.util.Objects;
 
-public class Hotel {
+public class HotelDelegate {
     /**
      * Kommentar über Referenz
      **/
@@ -16,7 +16,7 @@ public class Hotel {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Hotel entity = (Hotel) o;
+        HotelDelegate entity = (HotelDelegate) o;
         return Objects.equals(name, entity.name) ;
     }
 

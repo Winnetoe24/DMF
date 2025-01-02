@@ -115,7 +115,7 @@ func (receiver JavaTemplate) GenerateDelegate(writer io.Writer, element packages
 func (receiver JavaTemplate) GenerateDelegateInterface(writer io.Writer, element packages.PackageElement) error {
 	var e packages.PackageElement
 	delegate := CreateDelegate(element)
-	if delegate != nil {
+	if delegate == nil {
 		println("No Delegate found")
 		return nil
 	}

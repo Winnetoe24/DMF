@@ -1,7 +1,7 @@
 package de.beispiel.hotel;
 import java.util.Objects;
 
-public class Zimmer implements Zeitraum {
+public class ZimmerDelegate implements Zeitraum {
     protected long zimmernummer;
 
     public boolean contains(java.time.LocalDateTime zeitpunkt){

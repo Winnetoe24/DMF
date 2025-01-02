@@ -1,8 +1,8 @@
 package de.beispiel.other;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import de.beispiel.hotel.Person;
-import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -24,11 +24,11 @@ public class Beispiel {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Beispiel entity = (Beispiel) o;
-        return Objects.equals(s, entity.s)  && Objects.equals(d, entity.d)  && Objects.equals(dt, entity.dt)  && Objects.equals(l, entity.l)  && Objects.equals(object, entity.object)  && Objects.equals(i, entity.i)  && Objects.equals(b, entity.b) ;
+        return Objects.equals(l, entity.l)  && Objects.equals(object, entity.object)  && Objects.equals(i, entity.i)  && Objects.equals(b, entity.b)  && Objects.equals(s, entity.s)  && Objects.equals(d, entity.d)  && Objects.equals(dt, entity.dt) ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(s, d, dt, l, object, i, b);
+        return Objects.hash(l, object, i, b, s, d, dt);
     }
 }
