@@ -112,3 +112,14 @@ func (receiver JavaTemplate) GenerateDelegate(writer io.Writer, element packages
 	println("Generate Delegate: " + delegate.Path.ToString())
 	return receiver.template.ExecuteTemplate(writer, "delegate", e)
 }
+func (receiver JavaTemplate) GenerateDelegateInterface(writer io.Writer, element packages.PackageElement) error {
+	var e packages.PackageElement
+	delegate := CreateDelegate(element)
+	if delegate != nil {
+		println("No Delegate found")
+		return nil
+	}
+	e = delegate
+	println("Generate Delegate Interface: " + delegate.Path.ToString())
+	return receiver.template.ExecuteTemplate(writer, "delegateInterface", e)
+}

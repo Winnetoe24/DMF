@@ -15,6 +15,14 @@ public class Buchungszeitraum implements Zeitraum {
     protected LocalDateTime end;
     protected long zimmernummer;
 
+    public LocalDateTime startPunkt(){
+        return null;
+    }
+
+    public LocalDateTime endPunkt(){
+        return null;
+    }
+
     /**
      * Kommentar über Funktion
      **/
@@ -26,23 +34,15 @@ public class Buchungszeitraum implements Zeitraum {
         return false;
     }
 
-    public LocalDateTime startPunkt(){
-        return null;
-    }
-
-    public LocalDateTime endPunkt(){
-        return null;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Buchungszeitraum entity = (Buchungszeitraum) o;
-        return Objects.equals(zimmernummer, entity.zimmernummer)  && Objects.equals(start, entity.start)  && Objects.equals(end, entity.end) ;
+        return Objects.equals(start, entity.start)  && Objects.equals(end, entity.end)  && Objects.equals(zimmernummer, entity.zimmernummer) ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(zimmernummer, start, end);
+        return Objects.hash(start, end, zimmernummer);
     }
 }

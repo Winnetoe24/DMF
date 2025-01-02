@@ -19,7 +19,7 @@ public class Zimmer implements Zeitraum {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Zimmer entity = (Zimmer) o;
+        ZimmerDelegate entity = (ZimmerDelegate) o;
         return Objects.equals(zimmernummer, entity.zimmernummer) ;
     }
 

@@ -1,17 +1,30 @@
 package de.beispiel.hotel;
+import java.util.Objects;
 
-/**
- * Delegate von Zimmer * Wird nur initial generiert. * Methoden müssen implementiert werden. **/
-public class ZimmerDelegate {
-    public boolean contains(Zimmer caller, java.time.LocalDateTime zeitpunkt){
+public class ZimmerDelegate implements Zeitraum {
+    protected long zimmernummer;
+
+    public java.time.LocalDateTime endPunkt(){
+        return null;
+    }
+
+    public boolean contains(java.time.LocalDateTime zeitpunkt){
         return false;
     }
 
-    public java.time.LocalDateTime startPunkt(Zimmer caller){
+    public java.time.LocalDateTime startPunkt(){
         return null;
     }
 
-    public java.time.LocalDateTime endPunkt(Zimmer caller){
-        return null;
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        ZimmerDelegate entity = (ZimmerDelegate) o;
+        return Objects.equals(zimmernummer, entity.zimmernummer) ;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(zimmernummer);
     }
 }

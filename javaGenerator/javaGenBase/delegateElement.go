@@ -76,11 +76,14 @@ func CreateDelegate(pElement packages.PackageElement) *DelegateElement {
 			},
 		}
 	}
-	panic("Delegate von falschen Element erstellt")
+	return nil
 }
 
 func CreateDelegatePath(path base.ModelPath) base.ModelPath {
 	return append(path[:len(path)-1], path[len(path)-1]+"Delegate")
+}
+func CreateDelegateInterfacePath(path base.ModelPath) base.ModelPath {
+	return append(path[:len(path)-1], "I"+path[len(path)-1]+"Delegate")
 }
 
 func (d *DelegateElement) createDelegateFunktion(funktion packages.Funktion) packages.Funktion {
