@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 /**
  **/
 public enum Ort {
-    VOR_HAUS(1, true, "TODO", java.time.LocalDate.of(2012, 12, 12), java.time.LocalDateTime.of(2012, 1, 1, 0, 0, 0, 0), 123L);
+    VOR_HAUS(1, true, "d\u00D6b", java.time.LocalDate.of(2012, 12, 12), java.time.LocalDateTime.of(2012, 1, 1, 0, 0, 0, 0), 123L);
 
     protected int i;
     protected boolean b;

@@ -16,9 +16,11 @@ public class Zimmer implements Zeitraum {
     public java.time.LocalDateTime endPunkt(){
         return delegate.endPunkt(this);
     }
+
     public long getZimmernummer() {
         return this.zimmernummer;
     }
+
     public void setZimmernummer(long zimmernummer) {
         this.zimmernummer = zimmernummer;
     }

@@ -68,6 +68,10 @@
         {
           "type": "string_content_double_quote",
           "named": true
+        },
+        {
+          "type": "string_content_single_quote",
+          "named": true
         }
       ]
     }
@@ -740,21 +744,7 @@
   {
     "type": "stringValue",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "escape_sequence",
-          "named": true
-        },
-        {
-          "type": "string_content_single_quote",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
   },
   {
     "type": "struct_block",

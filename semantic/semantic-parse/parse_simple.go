@@ -111,12 +111,22 @@ func (S *SemanticContext) parseStringValue() (values.StringValue, *errElement.Er
 	}
 	defer S.Cursor.GotoParent()
 
-	valueNode := S.Cursor.Node()
+	var lastValue, value = "", ""
+
+	for {
+		hasSibling := S.Cursor.GotoNextSibling()
+		if !hasSibling {
+			break
+		}
+
+		value += lastValue
+		lastValue = S.Cursor.Node().Utf8Text(S.Text)
+	}
 	return values.StringValue{
 		ModelElement: base.ModelElement{
 			Node: node,
 		},
-		Value: valueNode.Utf8Text(S.Text),
+		Value: value,
 	}, nil
 }
 

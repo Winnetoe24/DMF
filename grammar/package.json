@@ -46,7 +46,7 @@
     "prestart": "tree-sitter build --wasm",
     "start": "tree-sitter playground",
     "playground": "tree-sitter generate && tree-sitter build --wasm && tree-sitter playground -q",
-    "playground2": "rm ./src/parser2.c && tree-sitter generate && tree-sitter build --wasm && tree-sitter playground -q",
+    "playground2": "rm ./src/parser.c && tree-sitter generate && tree-sitter build --wasm && tree-sitter playground -q",
     "test": "node --test bindings/node/*_test.js"
   }
 }

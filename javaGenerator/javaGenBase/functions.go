@@ -307,7 +307,7 @@ func valueInit(value values.Value) string {
 	case values.DoubleValue:
 		return fmt.Sprintf("%g", value.Value) + "d"
 	case values.StringValue:
-		return "\"" + "TODO" + "\"" // TODO Fix String Value
+		return "\"" + value.Value + "\""
 	case values.DateValue:
 		return fmt.Sprintf("java.time.LocalDate.of(%v, %v, %v)", value.Value.Year(), int(value.Value.Month()), value.Value.Day())
 	case values.DateTimeValue:

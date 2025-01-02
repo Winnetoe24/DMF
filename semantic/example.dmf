@@ -50,7 +50,7 @@ package de.beispiel {
             arg datetime dt;
             arg long l;
 
-            VOR_HAUS(_, 1, true, 'd', D2012-12-12, D2012-01-01T00:00:00, 123L);
+            VOR_HAUS(_, 1, true, 'd\u00D6b', D2012-12-12, D2012-01-01T00:00:00, 123L);
         }
 
         //Kommentar über Entität Person

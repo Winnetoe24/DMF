@@ -299,10 +299,10 @@ module.exports = grammar({
       // Single quoted string
       seq(
         "'",
-        repeat(choice(
+        alias(repeat(choice(
           $.string_content_single_quote, // Any chars except quotes or backslash
           $.escape_sequence
-        )),
+        )),"content"),
         "'"
       )
     ),
