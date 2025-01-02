@@ -2,23 +2,23 @@
 {{end}}{{range $index, $import := $importSlice}}import {{$import}};
 {{end}}{{end}}
 
-{{define "extends"}}{{if .ExtendsPath}}extends {{pathType .ExtendsPath .ImportKontext}} {{end}}{{if .ImplementsPaths}}implements {{range $index, $implPath := .ImplementsPaths}}{{pathType $implPath $.ImportKontext}}{{if ne $index (subtract (len $.ImplementsPaths) 1)}}, {{end}}{{end}} {{end}}{{end}}
+{{define "extends"}}{{if .ExtendsPath}}extends {{pathType .ExtendsPath .ImportKontext}} {{end}}{{if .ImplementsPaths}}{{if .Interface}}extends{{else}}implements{{end}} {{range $index, $implPath := .ImplementsPaths}}{{pathType $implPath $.ImportKontext}}{{if ne $index (subtract (len $.ImplementsPaths) 1)}}, {{end}}{{end}} {{end}}{{end}}
 
 {{define "constructor"}}{{.Name}}({{template "parameter_list" .}}){
         {{range $index, $parameter := .Parameter}}
         this.{{variableName $parameter.Variable}} = {{variableName $parameter.Variable}};{{end}}
     }{{end}}
 {{define "parameter_list"}}{{range $index, $element := .Parameter}}{{template "parameter" $element}}{{if ne $index (subtract (len $.Parameter) 1)}}, {{end}}{{end}}{{end}}
+{{define "parameter_call_list"}}{{range $index, $element := .Parameter}}{{variableName $element.Variable}}{{if ne $index (subtract (len $.Parameter) 1)}}, {{end}}{{end}}{{end}}
 {{define "field"}}{{template "comment_tab" .Kommentar}}    protected {{.Typ}} {{.Name}};
 {{end}}
 
 
 {{define "parameter"}}{{variableType .Variable .ImportKontext}} {{variableName .Variable}}{{end}}
 
-{{define "method_header"}}{{template "comment_tab" .Funktion.Kommentar}}{{if .Override}}    @Override
-{{end}}    public {{variableType .Funktion.ReturnType .ImportKontext}} {{.Funktion.Name.Name}}({{template "parameter_list" createParameterKontext .Funktion.Parameter .ImportKontext}}){{end}}
+{{define "method_header"}}{{template "comment_tab" .Funktion.Kommentar}}    public {{variableType .Funktion.ReturnType .ImportKontext}} {{.Funktion.Name.Name}}({{template "parameter_list" createParameterKontext .Funktion.Parameter .ImportKontext}}){{end}}
 {{define "method"}}{{template "method_header" .}}{
-        return {{variableDefaultValue .Funktion.ReturnType}};
+        return {{if .UseDelegate}}delegate.{{.Funktion.Name.Name}}({{template "parameter_call_list" createParameterKontext (prependThis .Funktion.Parameter) .ImportKontext}}){{else}}{{variableDefaultValue .Funktion.ReturnType}}{{end}};
     }{{end}}
 
 {{define "constant"}}{{template "comment_tab" .Kommentar}}    {{toUpperCase .Name.Name}}({{range $index, $value := .Values}}{{if ne $index 0}}{{valueInit $value}}{{if ne $index (subtract (len $.Values) 1)}}, {{end}}{{end}}{{end}}){{end}}

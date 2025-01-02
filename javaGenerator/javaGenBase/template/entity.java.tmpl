@@ -12,7 +12,7 @@
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         {{nameFromPath .Path}} entity = ({{nameFromPath .Path}}) o;
-        return {{range $index, $field := $identifier}}Objects.equals({{$field.Name}}, entity.{{$field.Name}}) {{if ne $index (subtract (len $identifier) 1)}} && {{end}}{{end}};
+        return {{if eq (len $identifier) 0}}true{{end}}{{range $index, $field := $identifier}}Objects.equals({{$field.Name}}, entity.{{$field.Name}}) {{if ne $index (subtract (len $identifier) 1)}} && {{end}}{{end}};
     }
 
     @Override

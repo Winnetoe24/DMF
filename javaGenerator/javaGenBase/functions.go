@@ -308,7 +308,7 @@ func valueInit(value values.Value) string {
 	case values.DateValue:
 		return fmt.Sprintf("java.time.LocalDate.of(%v, %v, %v)", value.Value.Year(), int(value.Value.Month()), value.Value.Day())
 	case values.DateTimeValue:
-		return fmt.Sprintf("java.time.LocalDateTime.of(%v, %v, %v, %v, %v, %v, %v)", value.Value.Year(), int(value.Value.Month()), value.Value.Day(), value.Value.Hour(), value.Value.Month(), value.Value.Second(), value.Value.Nanosecond())
+		return fmt.Sprintf("java.time.LocalDateTime.of(%v, %v, %v, %v, %v, %v, %v)", value.Value.Year(), int(value.Value.Month()), value.Value.Day(), value.Value.Hour(), value.Value.Minute(), value.Value.Second(), value.Value.Nanosecond())
 	default:
 		return "null"
 	}

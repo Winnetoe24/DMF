@@ -43,6 +43,7 @@ type VererbungKontext struct {
 	ImportKontext   ImportKontext
 	ExtendsPath     *base.ModelPath
 	ImplementsPaths []base.ModelPath
+	Interface       bool
 }
 
 // ParameterKontext kann genauso wie KonstruktorData für die Parameter genutzt werden
@@ -53,7 +54,7 @@ type ParameterKontext struct {
 type FunktionKontext struct {
 	Funktion      packages.Funktion
 	ImportKontext ImportKontext
-	Override      bool
+	UseDelegate   bool
 }
 
 func NewTemplate() JavaTemplate {
@@ -64,26 +65,28 @@ func NewTemplate() JavaTemplate {
 		"nameFromPath": func(path base.ModelPath) string {
 			return path[len(path)-1]
 		},
-		"packagePath":                   packagePath,
-		"toFields":                      toFields,
-		"toArgs":                        toArgs,
-		"variableName":                  variableName,
-		"variableType":                  variableType,
-		"removeNewLine":                 removeNewLine,
-		"variableDefaultValue":          variableDefaultValue,
-		"toConstructor":                 toConstructor,
-		"toUpperCase":                   toUpperCase,
-		"valueInit":                     valueInit,
-		"createImportKontext":           createImportKontext,
-		"getImports":                    getImports,
-		"getImportedName":               getImportedName,
-		"createFunktionKontext":         createFunktionKontext,
-		"createFunktionKontextOverride": createFunktionKontextOverride,
-		"createParameterKontext":        createParameterKontext,
-		"pathType":                      pathType,
-		"createVererbungKontext":        createVererbungKontext,
-		"findImplementedFunctions":      findImplementedFunctions,
-		"generateIdentifier":            generateIdentifier,
+		"packagePath":                     packagePath,
+		"toFields":                        toFields,
+		"toArgs":                          toArgs,
+		"variableName":                    variableName,
+		"variableType":                    variableType,
+		"removeNewLine":                   removeNewLine,
+		"variableDefaultValue":            variableDefaultValue,
+		"toConstructor":                   toConstructor,
+		"toUpperCase":                     toUpperCase,
+		"valueInit":                       valueInit,
+		"createImportKontext":             createImportKontext,
+		"getImports":                      getImports,
+		"getImportedName":                 getImportedName,
+		"createFunktionKontext":           createFunktionKontext,
+		"createFunktionKontextDelegate":   createFunktionKontextDelegate,
+		"prependThis":                     prependThis,
+		"createParameterKontext":          createParameterKontext,
+		"pathType":                        pathType,
+		"createVererbungKontext":          createVererbungKontext,
+		"createVererbungKontextInterface": createVererbungKontextInterface,
+		"findImplementedFunctions":        findImplementedFunctions,
+		"generateIdentifier":              generateIdentifier,
 	}
 	must := template.Must(template.New("").Funcs(funcMap).ParseFS(tmplFiles, "template/*"))
 	return JavaTemplate{template: must}

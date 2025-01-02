@@ -141,16 +141,28 @@ func getImportedName(up ImportLookUp, path base.ModelPath) string {
 	return path.ToString()
 }
 
-func createFunktionKontextOverride(funktion packages.Funktion, kontext ImportKontext) FunktionKontext {
+func createFunktionKontextDelegate(funktion packages.Funktion, kontext ImportKontext) FunktionKontext {
 	funktionKontext := createFunktionKontext(funktion, kontext)
-	funktionKontext.Override = true
+	funktionKontext.UseDelegate = false
 	return funktionKontext
 }
 func createFunktionKontext(funktion packages.Funktion, kontext ImportKontext) FunktionKontext {
 	return FunktionKontext{
 		Funktion:      funktion,
 		ImportKontext: kontext,
+		UseDelegate:   true,
 	}
+}
+
+func prependThis(variablen []packages.Variable) []packages.Variable {
+	return append([]packages.Variable{&packages.Referenz{
+		ModelElement: base.ModelElement{},
+		Typ:          nil,
+		Name: base.ElementIdentifier{
+			ModelElement: base.ModelElement{},
+			Name:         "this",
+		},
+	}}, variablen...)
 }
 
 func createParameterKontext(variablen []packages.Variable, kontext ImportKontext) ParameterKontext {
@@ -172,5 +184,13 @@ func createVererbungKontext(extendsPath *base.ModelPath, implPaths []base.ModelP
 		ImportKontext:   kontext,
 		ExtendsPath:     extendsPath,
 		ImplementsPaths: implPaths,
+	}
+}
+func createVererbungKontextInterface(extendsPath *base.ModelPath, implPaths []base.ModelPath, kontext ImportKontext) VererbungKontext {
+	return VererbungKontext{
+		ImportKontext:   kontext,
+		ExtendsPath:     extendsPath,
+		ImplementsPaths: implPaths,
+		Interface:       true,
 	}
 }

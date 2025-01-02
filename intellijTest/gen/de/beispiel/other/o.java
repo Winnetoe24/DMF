@@ -4,6 +4,7 @@ import java.util.Objects;
 /**
  **/
 public class o {
+    protected static oDelegate delegate;
 
 
 

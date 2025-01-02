@@ -1,5 +1,0 @@
-{{define "delegateInterface"}}package {{packagePath .Path}};
-{{$importKontext := createImportKontext .}}{{template "imports" $importKontext}}
-public interface I{{nameFromPath .Path}} {
-{{range $index, $method := findImplementedFunctions .}}{{template "interface_method" createFunktionKontext $method $importKontext}}{{end}}
-}{{end}}

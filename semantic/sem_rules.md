@@ -7,3 +7,4 @@
 7. Implements darf sich nicht selber Referenzieren
 8. Alle Referenzierten Pfade müssen existieren und den richtigen Typ besitzen
 9. TODO caller darf nicht als Parametername genutzt werden
+9. TODO delegate darf nicht als Parametername, Argumentname oder Referenzname genutzt werden.
