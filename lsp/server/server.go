@@ -9,9 +9,9 @@ import (
 	"github.com/Winnetoe24/DMF/lsp/server/connect/connectUtils"
 	"github.com/Winnetoe24/DMF/lsp/service"
 	"github.com/Winnetoe24/DMF/lsp/service/cancelService"
-	"github.com/Winnetoe24/DMF/lsp/service/completionService"
 	"github.com/Winnetoe24/DMF/lsp/service/diagnosticsService"
 	"github.com/Winnetoe24/DMF/lsp/service/fileService"
+	"github.com/Winnetoe24/DMF/lsp/service/hoverService"
 	"github.com/Winnetoe24/DMF/lsp/service/logService"
 	"log"
 )
@@ -33,8 +33,11 @@ func NewServer(con connect.Connection) *Server {
 	newCancelService := cancelService.NewCancelService(con)
 	s.addHandler(newCancelService)
 
-	completionService := completionService.NewCompletionService(con, fileServiceHandler)
-	s.addHandler(completionService)
+	//completionService := completionService.NewCompletionService(con, fileServiceHandler)
+	//s.addHandler(completionService)
+
+	newHoverService := hoverService.NewHoverService(con, fileServiceHandler)
+	s.addHandler(newHoverService)
 
 	return s
 }

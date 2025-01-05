@@ -1,6 +1,9 @@
 package initialize
 
-import "github.com/Winnetoe24/DMF/lsp/protokoll/textEdit"
+import (
+	"github.com/Winnetoe24/DMF/lsp/protokoll/hover"
+	"github.com/Winnetoe24/DMF/lsp/protokoll/textEdit"
+)
 
 // TextDocumentClientCapabilities describes capabilities the editor / tool provides
 // related to text documents.
@@ -11,9 +14,9 @@ type TextDocumentClientCapabilities struct {
 	//// Completion capabilities of the client
 	//Completion *CompletionClientCapabilities `json:"completion,omitempty"`
 	//
-	//// Hover capabilities of the client
-	//Hover *HoverClientCapabilities `json:"hover,omitempty"`
-	//
+	// Hover capabilities of the client
+	Hover *hover.HoverClientCapabilities `json:"hover,omitempty"`
+
 	//// SignatureHelp capabilities of the client
 	//SignatureHelp *SignatureHelpClientCapabilities `json:"signatureHelp,omitempty"`
 	//
@@ -93,7 +96,7 @@ type TextDocumentServerCapabilities struct {
 	// Completion provider options
 	CompletionProvider *CompletionOptions `json:"completionProvider,omitempty"`
 
-	// Hover provider options
+	// HoverResult provider options
 	HoverProvider interface{} `json:"hoverProvider,omitempty"` // can be bool or HoverOptions
 
 	// SignatureHelp provider options

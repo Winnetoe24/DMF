@@ -20,7 +20,7 @@ func readMessage(reader *bufio.Reader) ([]byte, error) {
 		if err != nil {
 			return nil, err
 		}
-		logService.GetConnectionLoggerIn().Println(line)
+		//logService.GetConnectionLoggerIn().Println(line)
 		line = strings.TrimSpace(line)
 
 		if line == "" {

@@ -27,6 +27,8 @@ func NewCompletionService(con connect.Connection, fs *fileService.FileService) *
 	}
 }
 
+var _ service.MethodHandler = &CompletionService{}
+
 func (c CompletionService) Initialize(params *initialize.InitializeParams, result *initialize.InitializeResult) {
 	result.Capabilities.CompletionProvider = &initialize.CompletionOptions{
 		ResolveProvider:     false,
@@ -75,8 +77,6 @@ func (c CompletionService) HandleMethod(message protokoll.Message) {
 	}
 
 }
-
-var _ service.MethodHandler = &CompletionService{}
 
 func findCompletionNode(cursor *tree_sitter.TreeCursor, node *tree_sitter.Node, position protokoll.Position) *tree_sitter.Node {
 	if isInRange(node.Range(), position) {

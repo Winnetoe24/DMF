@@ -14,14 +14,14 @@ package de.alex.brand {
             VOR_HAUS(_);
         }
 
-        entity Person extends Test implements Inte {
+        entity Person extends Test implements Intes {
             arg int i;
-            args
+            arg date d;
             arg string me;
             identifier(i, me);
         }
 
-        interface Inte  {
+        interface Intes  {
 
         }
 
