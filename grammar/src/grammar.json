@@ -384,29 +384,33 @@
               "name": "func_block"
             }
           ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_semicolon"
         }
       ]
     },
     "arg_block": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "arg"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "primitive_type"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        }
-      ]
+      "type": "PREC_LEFT",
+      "value": 0,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "arg"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "primitive_type"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "identifier"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_semicolon"
+          }
+        ]
+      }
     },
     "ref_block": {
       "type": "SEQ",
@@ -422,6 +426,10 @@
         {
           "type": "SYMBOL",
           "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_semicolon"
         }
       ]
     },
@@ -493,6 +501,10 @@
         {
           "type": "SYMBOL",
           "name": "_right_paren"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_semicolon"
         }
       ]
     },
@@ -561,10 +573,6 @@
               "name": "enum_constant"
             }
           ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_semicolon"
         }
       ]
     },
@@ -614,6 +622,10 @@
         {
           "type": "SYMBOL",
           "name": "_right_paren"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_semicolon"
         }
       ]
     },
