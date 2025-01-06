@@ -14,9 +14,13 @@ import (
 	"github.com/Winnetoe24/DMF/lsp/service/fileService"
 	"github.com/Winnetoe24/DMF/lsp/service/logService"
 	"github.com/Winnetoe24/DMF/lsp/util"
+	semantic_parse "github.com/Winnetoe24/DMF/semantic/semantic-parse"
+	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
 	base2 "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
+	err_element "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
+	"strconv"
 	"strings"
 	"text/template"
 )
@@ -70,13 +74,22 @@ func (h *HoverService) GetMethods() []string {
 }
 
 const (
-	variable       = iota
-	identifier     = iota
-	kommentar      = iota
-	packageElement = iota
+	variable        = iota
+	identifier      = iota
+	kommentar       = iota
+	packageElement  = iota
+	importStatement = iota
+	modelStatement  = iota
+	dmfStatement    = iota
 )
 
-var nodeFilter = [][]string{{"arg_block", "ref_block"}, {"identifier_statement"}, {"comment_block"}, {"package_block", "struct_block", "enum_block", "entity_block", "interface_block"}}
+var nodeFilter = [][]string{{"arg_block", "ref_block"},
+	{"identifier_statement"},
+	{"comment_block"},
+	{"package_block", "struct_block", "enum_block", "entity_block", "interface_block"},
+	{"import_statement"},
+	{"model_declaration"},
+	{"dmf_declaration"}}
 
 func (h *HoverService) HandleMethod(message protokoll.Message) {
 	switch message.Method {
@@ -137,13 +150,19 @@ func (h *HoverService) renderContent(nodesAroundPosition []*tree_sitter.Node, fi
 		case identifier:
 			return h.renderIdentifierElementMarkdown(file, node, content, rekursiv)
 		case kommentar:
-
+			return h.renderKommentarPlaintext(file, node, content)
 		case packageElement:
 			if h.preferredHoverFormat == hover.Markdown {
 				return h.renderPackageElementMarkdown(file, node, content)
 			} else {
 				return h.renderPackageElementPlainText(node, content)
 			}
+		case importStatement:
+			return h.renderImportStatementMarkdown(node, content)
+		case modelStatement:
+			return h.renderModelStatementMarkdown(content)
+		case dmfStatement:
+			return h.renderDmfStatementPlaintext(content)
 		default:
 			return "Found: " + node.GrammarName()
 		}
@@ -157,9 +176,16 @@ type VariableElementTemplateData struct {
 	Link      string
 	Typ       string
 	Kommentar string
+	Uses      []UseTemplateData
+}
+
+type UseTemplateData struct {
+	Code string
+	Link string
 }
 
 func (h *HoverService) renderVariableElementMarkdown(file protokoll.DocumentURI, nodeVariable *tree_sitter.Node, packageElementNode *tree_sitter.Node, content fileService.FileContent, rekursiv bool) string {
+
 	for _, element := range content.LookUp {
 		base := element.GetBase()
 		if base.Node.Id() != packageElementNode.Id() {
@@ -173,17 +199,35 @@ func (h *HoverService) renderVariableElementMarkdown(file protokoll.DocumentURI,
 				break
 			}
 		}
+		switch pElement := element.(type) {
+		case *packages.EnumElement:
+			for _, konstante := range pElement.Konstanten {
+				data.Uses = append(data.Uses, UseTemplateData{
+					Code: konstante.Node.Utf8Text([]byte(content.Content)),
+					Link: util.CreateMarkdownLinkFromNode(file, konstante.Node),
+				})
+			}
+		case *packages.EntityElement:
+			for _, elementIdentifier := range pElement.Identifier.Variablen {
+				if elementIdentifier.Name == namedElement.GetName() {
+					data.Uses = append(data.Uses, UseTemplateData{
+						Code: pElement.Identifier.Node.Utf8Text([]byte(content.Content)),
+						Link: util.CreateMarkdownLinkFromNode(file, pElement.Identifier.Node),
+					})
+				}
+			}
+		}
 		switch cElement := namedElement.(type) {
 		case *packages.Argument:
 			data.Typ = string(cElement.Typ)
 			data.Name = cElement.Name.Name
 			if cElement.Kommentar != nil {
-				data.Kommentar = strings.Join(*cElement.Kommentar, "")
+				data.Kommentar = h.renderComment(*cElement.Kommentar)
 			}
 		case *packages.Referenz:
 			data.Name = cElement.Name.Name
 			if cElement.Kommentar != nil {
-				data.Kommentar = strings.Join(*cElement.Kommentar, "")
+				data.Kommentar = h.renderComment(*cElement.Kommentar)
 			}
 			referenzierterTyp, found := content.LookUp[cElement.Typ.ToString()]
 			if found {
@@ -228,7 +272,7 @@ func (h *HoverService) renderIdentifierElementMarkdown(file protokoll.DocumentUR
 
 			identifier := entityElement.Identifier
 			if identifier.Kommentar != nil {
-				data.Kommentar = strings.Join(*identifier.Kommentar, "")
+				data.Kommentar = h.renderComment(*identifier.Kommentar)
 			}
 			for _, variable := range identifier.Variablen {
 				namedElement := entityElement.NamedElements[variable.Name]
@@ -240,12 +284,12 @@ func (h *HoverService) renderIdentifierElementMarkdown(file protokoll.DocumentUR
 					typeName = string(cElement.Typ)
 					link = util.CreateMarkdownLinkFromNode(file, cElement.Node)
 					if cElement.Kommentar != nil {
-						kommentar = strings.Join(*cElement.Kommentar, "")
+						kommentar = h.renderComment(*cElement.Kommentar)
 					}
 				case *packages.Referenz:
 					link = util.CreateMarkdownLinkFromNode(file, cElement.Node)
 					if cElement.Kommentar != nil {
-						kommentar = strings.Join(*cElement.Kommentar, "")
+						kommentar = h.renderComment(*cElement.Kommentar)
 					}
 					referenzierterTyp, found := content.LookUp[cElement.Typ.ToString()]
 					if found {
@@ -260,6 +304,9 @@ func (h *HoverService) renderIdentifierElementMarkdown(file protokoll.DocumentUR
 					}
 				}
 
+				if kommentar != "" {
+					kommentar = "<br>" + kommentar
+				}
 				data.Elemente = append(data.Elemente, VariableElementTemplateData{
 					Name:      variable.Name,
 					Link:      link,
@@ -278,6 +325,23 @@ func (h *HoverService) renderIdentifierElementMarkdown(file protokoll.DocumentUR
 	return "Ein Identifier einer Entity welcher die Identität bestimmt."
 }
 
+func (h *HoverService) renderKommentarPlaintext(file protokoll.DocumentURI, node *tree_sitter.Node, content fileService.FileContent) string {
+	context := semantic_parse.SemanticContext{
+		ErrorElements: nil,
+		Model:         smodel.Model{},
+		Text:          []byte(content.Content),
+		Cursor:        node.Walk(),
+	}
+	comment, element := context.ParseComment()
+	if element != nil {
+		return element.ToErrorMsg(&err_element.ErrorContext{
+			Dateiname:   string(file),
+			Dateiinhalt: []byte(content.Content),
+		})
+	}
+	return h.renderComment(comment)
+}
+
 type PackageElementTemplateData struct {
 	Name     string
 	TypeName string
@@ -294,7 +358,7 @@ func (h *HoverService) renderPackageElementMarkdown(file protokoll.DocumentURI, 
 		base := element.GetBase()
 		if base.Node.Id() == node.Id() {
 			if base.Kommentar != nil {
-				data.Kommentar = strings.Join(*base.Kommentar, "")
+				data.Kommentar = h.renderComment(*base.Kommentar)
 			}
 			data.Name = base.Path[len(base.Path)-1]
 			data.Package = base.Path[:len(base.Path)-1].ToString()
@@ -334,6 +398,7 @@ func (h *HoverService) renderPackageElementMarkdown(file protokoll.DocumentURI, 
 	}
 	return buffer.String()
 }
+
 func (h *HoverService) renderPackageElementPlainText(node *tree_sitter.Node, content fileService.FileContent) string {
 	debugString := ""
 	for _, element := range content.LookUp {
@@ -363,6 +428,82 @@ func (h *HoverService) renderPackageElementPlainText(node *tree_sitter.Node, con
 		debugString += base.Path.ToString() + " => " + base.Node.GrammarName() + "\n"
 	}
 	return "didnt find PackageElement:\n\n" + debugString
+}
+
+func (h *HoverService) renderDmfStatementPlaintext(content fileService.FileContent) string {
+	return fmt.Sprintf("DMF Modell mit der Version %s", h.renderVersion(content.Model.DMFVersion))
+}
+
+type ModelTemplateData struct {
+	Name    string
+	Version string
+}
+
+func (h *HoverService) renderModelStatementMarkdown(content fileService.FileContent) string {
+	data := ModelTemplateData{
+		Name:    content.Model.Name,
+		Version: h.renderVersion(content.Model.Version),
+	}
+	buffer := bytes.NewBuffer(make([]byte, 0))
+	err := h.templates.ExecuteTemplate(buffer, "model", data)
+	if err != nil {
+		panic(err)
+	}
+	return buffer.String()
+}
+
+type ImportStatementTemplateData struct {
+	Package   string
+	Dateiname string
+	DateiLink string
+	ModelName *string
+}
+
+func (h *HoverService) renderImportStatementMarkdown(node *tree_sitter.Node, content fileService.FileContent) string {
+	for _, statement := range content.Model.ImportStatements {
+		if statement.Node.Id() != node.Id() {
+			continue
+		}
+
+		data := ImportStatementTemplateData{
+			Package:   statement.Package.ToString(),
+			Dateiname: statement.FileName.Value,
+			DateiLink: statement.FileName.Value,
+			ModelName: nil,
+		}
+		if statement.ModelName != nil {
+			data.ModelName = &statement.ModelName.Value
+		}
+
+		buffer := bytes.NewBuffer(make([]byte, 0))
+		err := h.templates.ExecuteTemplate(buffer, "import", data)
+		if err != nil {
+			panic(err)
+		}
+		return buffer.String()
+	}
+	return "Import Statement nicht gefunden. Import Statements können packages aus anderen Modellen importieren."
+}
+
+func (h *HoverService) renderVersion(version []int32) string {
+	builder := strings.Builder{}
+	for index, i := range version {
+		builder.WriteString(strconv.Itoa(int(i)))
+		if index != len(version)-1 {
+			builder.WriteString(".")
+		}
+	}
+	return builder.String()
+}
+func (h *HoverService) renderComment(comment base2.Comment) string {
+	builder := strings.Builder{}
+	for i, s := range comment {
+		if i > 0 {
+			builder.WriteString("<br>")
+		}
+		builder.WriteString(strings.TrimSuffix(s, "\n"))
+	}
+	return builder.String()
 }
 
 // Helper function to create properly formatted markup content

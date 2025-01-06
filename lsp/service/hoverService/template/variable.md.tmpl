@@ -1,4 +1,7 @@
 {{define "variable"}}
-### {{.Typ}} {{.Name}}
+#### {{.Typ}} {{.Name}}
 {{.Kommentar}}
+{{if .Uses}}
+{{range $index, $use := .Uses}}[```{{$use.Code}}```]({{$use.Link}})<br>{{end}}
+{{end}}
 {{end}}

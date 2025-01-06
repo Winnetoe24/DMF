@@ -7,6 +7,7 @@ import (
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	errElement "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
+	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages/values"
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 	"slices"
 )
@@ -92,6 +93,7 @@ func (S *SemanticContext) parseDmfDeclaration() {
 			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("nicht Unterstützte DMF Version")))
 		}
 	}
+	S.Model.DMFVersion = version
 
 }
 
@@ -138,6 +140,117 @@ func (S *SemanticContext) parseModelDeclaration() {
 
 }
 
+func (S *SemanticContext) parseImportStatements() {
+	node := S.Cursor.Node()
+	if node.GrammarName() != "import_block" {
+		return
+	}
+	errorElement := assertNodeState(node, "Import Block Node")
+	if errorElement != nil {
+		S.ErrorElements = append(S.ErrorElements, *errorElement)
+		return
+	}
+	hasFirstChild := S.Cursor.GotoFirstChild()
+	if !hasFirstChild {
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("kein Import Statement vorhanden")))
+		return
+	}
+	defer S.Cursor.GotoParent()
+
+	for {
+		statement, element := S.parseImportStatement()
+		if element != nil {
+			S.ErrorElements = append(S.ErrorElements, *element)
+		} else {
+			S.Model.ImportStatements = append(S.Model.ImportStatements, statement)
+		}
+		if !S.Cursor.GotoNextSibling() {
+			break
+		}
+	}
+}
+
+func (S *SemanticContext) parseImportStatement() (smodel.ImportStatement, *errElement.ErrorElement) {
+	node := S.Cursor.Node()
+
+	errorElement := assertNodeState(node, "Import Statement Node")
+	if errorElement != nil {
+		return smodel.ImportStatement{}, errorElement
+	}
+	hasFirstChild := S.Cursor.GotoFirstChild()
+	if !hasFirstChild {
+		return smodel.ImportStatement{}, errElement.CreateErrorElementRef(node, errors.New("kein Package String vorhanden"))
+	}
+	defer S.Cursor.GotoParent()
+	data := smodel.ImportStatement{
+		ModelElement: base.ModelElement{
+			Node: node,
+		},
+	}
+	packagePath, _, element := S.parsePackageString(make(base.ModelPath, 0), false)
+	if element != nil {
+		return smodel.ImportStatement{}, errorElement
+	}
+	data.Package = packagePath
+
+	nextSibling := S.Cursor.GotoNextSibling()
+	if !nextSibling {
+		return smodel.ImportStatement{}, errElement.CreateErrorElementRef(node, errors.New("Import Statement unvollständig"))
+	}
+
+	nextSibling = S.Cursor.GotoNextSibling()
+	if !nextSibling {
+		return smodel.ImportStatement{}, errElement.CreateErrorElementRef(node, errors.New("kein Dateiname vorhanden"))
+	}
+	value, errorElement := S.parseStringValue()
+	if errorElement != nil {
+		return smodel.ImportStatement{}, errorElement
+	}
+	data.FileName = value
+
+	// modelIdentifier der Optional ist
+	nextSibling = S.Cursor.GotoNextSibling()
+	if !nextSibling {
+		return data, nil
+	}
+
+	identifier, errorElement := S.parseModelIdentifier()
+	if errorElement != nil {
+		return smodel.ImportStatement{}, errorElement
+	}
+	data.ModelName = &identifier
+
+	return data, nil
+}
+
+func (S *SemanticContext) parseModelIdentifier() (values.StringValue, *errElement.ErrorElement) {
+	node := S.Cursor.Node()
+
+	errorElement := assertNodeState(node, "Model Identifier Node")
+	if errorElement != nil {
+		return values.StringValue{}, errorElement
+	}
+	// (
+	hasFirstChild := S.Cursor.GotoFirstChild()
+	if !hasFirstChild {
+		return values.StringValue{}, errElement.CreateErrorElementRef(node, errors.New("kein ( vorhanden"))
+	}
+	defer S.Cursor.GotoParent()
+
+	// model
+	nextSibling := S.Cursor.GotoNextSibling()
+	if !nextSibling {
+		return values.StringValue{}, errElement.CreateErrorElementRef(node, errors.New("Model Identifier unvollständig"))
+	}
+
+	// StringValue
+	nextSibling = S.Cursor.GotoNextSibling()
+	if !nextSibling {
+		return values.StringValue{}, errElement.CreateErrorElementRef(node, errors.New("Model Identifier unvollständig"))
+	}
+
+	return S.parseStringValue()
+}
 func (S *SemanticContext) parseModelContent() {
 	node := S.Cursor.Node()
 
@@ -188,7 +301,7 @@ func (S *SemanticContext) parsePackageContent(current base.ModelPath) (packages.
 	for {
 		switch S.Cursor.Node().Kind() {
 		case dmf_lang.COMMENT_BLOCK:
-			comment, errorElement = S.parseComment()
+			comment, errorElement = S.ParseComment()
 			if errorElement != nil {
 				return &base.PackageElement{}, errorElement
 			}
@@ -389,7 +502,7 @@ func (S *SemanticContext) parseStructContent(current base.ModelPath, element *pa
 
 	var comment base.Comment
 	if cursor.Node().Kind() == dmf_lang.COMMENT_BLOCK {
-		comment, errorElement = S.parseComment()
+		comment, errorElement = S.ParseComment()
 		if errorElement != nil {
 			S.ErrorElements = append(S.ErrorElements, *errorElement)
 		}
@@ -521,7 +634,7 @@ func (S *SemanticContext) parseInterfaceContent(current base.ModelPath, element 
 
 	var comment base.Comment
 	if cursor.Node().Kind() == dmf_lang.COMMENT_BLOCK {
-		comment, errorElement = S.parseComment()
+		comment, errorElement = S.ParseComment()
 		if errorElement != nil {
 			S.ErrorElements = append(S.ErrorElements, *errorElement)
 		}
@@ -616,7 +729,7 @@ func (S *SemanticContext) parseEnumContent(element *packages.EnumElement) {
 
 	var comment base.Comment
 	if cursor.Node().Kind() == dmf_lang.COMMENT_BLOCK {
-		comment, errorElement = S.parseComment()
+		comment, errorElement = S.ParseComment()
 		if errorElement != nil {
 			S.ErrorElements = append(S.ErrorElements, *errorElement)
 		}

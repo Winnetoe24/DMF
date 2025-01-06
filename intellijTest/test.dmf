@@ -2,6 +2,7 @@ dmf 1.0.0
 model "dp_success" version 0.0.0
 
 package de.alex.brand {
+    // Comment over other
     package other {
 
         struct Test{
@@ -36,8 +37,10 @@ package de.alex.brand {
         struct One  {
         }
 
+
         entity OneE {
             // Kommentar
+            // Hallo
             arg int i;
             arg string me;
             // Kommentar von One

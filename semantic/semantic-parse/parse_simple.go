@@ -130,7 +130,7 @@ func (S *SemanticContext) parseStringValue() (values.StringValue, *errElement.Er
 	}, nil
 }
 
-func (S *SemanticContext) parseComment() (base.Comment, *errElement.ErrorElement) {
+func (S *SemanticContext) ParseComment() (base.Comment, *errElement.ErrorElement) {
 	cursor := S.Cursor
 	node := cursor.Node()
 	errorElement := assertNodeState(node, "Comment Block Node")
