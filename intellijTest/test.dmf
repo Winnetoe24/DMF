@@ -9,12 +9,14 @@ package de.alex.brand {
 
         }
 
+        // Kommentar von Ort
         enum Ort {
 
             VOR_HAUS(_);
         }
 
-        entity Person extends Test implements Intes {
+        //Kommentar über Person
+        entity Person  {
             arg int i;
             arg date d;
             arg string me;
@@ -30,13 +32,17 @@ package de.alex.brand {
     }
 
    package rekur {
+        // Das ist das Struct One
         struct One  {
         }
 
         entity OneE {
+            // Kommentar
             arg int i;
             arg string me;
-           identifier(i, me);
+            // Kommentar von One
+            ref One o;
+           identifier(i, me, o);
         }
         entity TwoE extends .OneE {
            identifier(i, me);

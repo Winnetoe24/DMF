@@ -1,0 +1,11 @@
+{{define "identifier"}}
+### Identifier von [{{.Name}}]({{.NameLink}})
+{{.Kommentar}}
+---
+{{range $index, $element :=  .Elemente}}
+{{$element.Kommentar}}
+
+* ##### {{$element.Typ}} **[{{$element.Name}}]({{$element.Link}})**
+
+{{end}}
+{{end}}
