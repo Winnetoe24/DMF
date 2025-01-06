@@ -76,6 +76,7 @@ func (h *HoverService) GetMethods() []string {
 const (
 	variable        = iota
 	identifier      = iota
+	konstante       = iota
 	kommentar       = iota
 	packageElement  = iota
 	importStatement = iota
@@ -85,6 +86,7 @@ const (
 
 var nodeFilter = [][]string{{"arg_block", "ref_block"},
 	{"identifier_statement"},
+	{"enum_constant"},
 	{"comment_block"},
 	{"package_block", "struct_block", "enum_block", "entity_block", "interface_block"},
 	{"import_statement"},
@@ -149,6 +151,9 @@ func (h *HoverService) renderContent(nodesAroundPosition []*tree_sitter.Node, fi
 			return h.renderVariableElementMarkdown(file, node, nodesAroundPosition[packageElement], content, rekursiv)
 		case identifier:
 			return h.renderIdentifierElementMarkdown(file, node, content, rekursiv)
+		case konstante:
+			logService.GetLogger().Printf("%sStart Render Hover Text Konstante Markdown\n", logService.TRACE)
+			return h.renderKonstanteMarkdown(file, node, nodesAroundPosition[packageElement], content, rekursiv)
 		case kommentar:
 			return h.renderKommentarPlaintext(file, node, content)
 		case packageElement:
@@ -323,6 +328,70 @@ func (h *HoverService) renderIdentifierElementMarkdown(file protokoll.DocumentUR
 		}
 	}
 	return "Ein Identifier einer Entity welcher die Identität bestimmt."
+}
+
+type KonstanteTemplateData struct {
+	Name      string
+	Enum      string
+	EnumLink  string
+	Kommentar string
+	Values    []ValueTemplateData
+}
+type ValueTemplateData struct {
+	Name  string
+	Link  string
+	Value string
+}
+
+func (h *HoverService) renderKonstanteMarkdown(file protokoll.DocumentURI, node *tree_sitter.Node, enumNode *tree_sitter.Node, content fileService.FileContent, rekursiv bool) string {
+	for _, element := range content.LookUp {
+		base := element.GetBase()
+		if base.Node.Id() != enumNode.Id() {
+			continue
+		}
+		enumElement := element.(*packages.EnumElement)
+		for _, konstante := range enumElement.Konstanten {
+			if konstante.Node.Id() != node.Id() {
+				continue
+			}
+
+			data := KonstanteTemplateData{
+				Name:      konstante.Name.Name,
+				Enum:      enumElement.Identifier.Name,
+				EnumLink:  util.CreateMarkdownLinkFromNode(file, enumNode),
+				Kommentar: "",
+				Values:    nil,
+			}
+			if konstante.Kommentar != nil {
+				data.Kommentar = h.renderComment(*konstante.Kommentar)
+			}
+			for i, value := range konstante.Values {
+				logService.GetLogger().Printf("%sIndex %v Argumente: %v\n", logService.TRACE, i, len(enumElement.Argumente))
+				logService.GetLogger().Printf("%sValue: %+v\n", logService.TRACE, value)
+
+				valueTemplateData := ValueTemplateData{
+					Name:  "Index",
+					Link:  "",
+					Value: fmt.Sprintf("%v", value.GetValue()), //TODO Fix Index Value
+				}
+				if i != 0 {
+					argument := enumElement.Argumente[i-1]
+					valueTemplateData.Name = argument.Name.Name
+					valueTemplateData.Link = util.CreateMarkdownLinkFromNode(file, argument.Node)
+				}
+				data.Values = append(data.Values, valueTemplateData)
+			}
+
+			buffer := bytes.NewBuffer(make([]byte, 0))
+			err := h.templates.ExecuteTemplate(buffer, "konstante", data)
+			if err != nil {
+				panic(err)
+			}
+			return buffer.String()
+		}
+		return "Es wurde keine passende Konstante gefunden"
+	}
+	return "Eine Konstante ist eine Variante eines Enums."
 }
 
 func (h *HoverService) renderKommentarPlaintext(file protokoll.DocumentURI, node *tree_sitter.Node, content fileService.FileContent) string {

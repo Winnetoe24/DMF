@@ -1,0 +1,8 @@
+{{define "konstante"}}
+#### {{.Name}}
+###### In [{{.Enum}}]({{.EnumLink}})
+{{.Kommentar}}
+
+{{range $index, $value := .Values}}**[{{$value.Name}}]({{$value.Link}})**: {{$value.Value}}<br>
+{{end}}
+{{end}}
