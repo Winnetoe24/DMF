@@ -2,6 +2,7 @@ package initialize
 
 import (
 	"github.com/Winnetoe24/DMF/lsp/protokoll/hover"
+	"github.com/Winnetoe24/DMF/lsp/protokoll/reference"
 	"github.com/Winnetoe24/DMF/lsp/protokoll/textEdit"
 )
 
@@ -32,9 +33,9 @@ type TextDocumentClientCapabilities struct {
 	//// Implementation capabilities of the client
 	//Implementation *ImplementationClientCapabilities `json:"implementation,omitempty"`
 	//
-	//// References capabilities of the client
-	//References *ReferenceClientCapabilities `json:"references,omitempty"`
-	//
+	// References capabilities of the client
+	References *reference.ReferenceClientCapabilities `json:"references,omitempty"`
+
 	//// DocumentHighlight capabilities of the client
 	//DocumentHighlight *DocumentHighlightClientCapabilities `json:"documentHighlight,omitempty"`
 	//
