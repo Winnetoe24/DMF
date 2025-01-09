@@ -32,6 +32,7 @@ package de.alex.brand {
 
     }
 
+
    package rekur {
         // Das ist das Struct One
         struct One  {
@@ -52,7 +53,7 @@ package de.alex.brand {
         }
     }
     package grund {
-         interface IGrund  {
+         interface IGrund {
 
          }
     }

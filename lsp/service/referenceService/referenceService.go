@@ -14,6 +14,7 @@ import (
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
+	"strings"
 )
 
 const referenceMethod = "textDocument/references"
@@ -142,6 +143,32 @@ func (r *ReferenceService) findReferencesFromPath(path base.ModelPath, namePtr *
 		// --> Interface -> extends in InterfaceElementen und implements
 		// --> Struct -> extends in StructElementen & EntityElementen
 		// --> Entity -> extends in EntityElementen
+		// --> Package -> All Elements
+		var f func(element packages.PackageElement, node *tree_sitter.Node) *tree_sitter.Node
+		if element.GetType() == base.PACKAGE {
+			f = func(element packages.PackageElement, node *tree_sitter.Node) *tree_sitter.Node {
+				return node
+			}
+		} else {
+			finder := util.NewNodeFinder(make([]byte, 0))
+			// Find Node
+			f = func(foundElement packages.PackageElement, node *tree_sitter.Node) *tree_sitter.Node {
+				nodes := finder.FindChildrenInSet(node, []string{"reftype"})
+				for _, fNode := range nodes {
+					if fNode == nil || fNode.Parent() == nil {
+						continue
+					}
+					parentGrammarName := fNode.Parent().GrammarName()
+					if parentGrammarName != "implements_block" && parentGrammarName != "extends_block" {
+						continue
+					}
+					if strings.Contains(fNode.Utf8Text([]byte(content.Content)), element.GetBase().Identifier.Name) {
+						return fNode
+					}
+				}
+				return node
+			}
+		}
 	} else {
 		// Variable References
 		// -> References in own PackageElement
@@ -150,9 +177,12 @@ func (r *ReferenceService) findReferencesFromPath(path base.ModelPath, namePtr *
 	return nil
 }
 
+// findSubelements macht aus jedem Subelement ein Element E mithilfe der Funktion f. "f" bekommt das gefundene Element und die Node des gefundenen Elements.
+// f ist gedacht um entweder direkt die Nodes( oder SubNodes) oder die PackageElemente zurückzugeben. Nodes werden direkt für Referenzen genutzt, PackageElements können weiter verarbeitet werden.
 func findSubelements[E interface{}](path base.ModelPath, content fileService.FileContent, element packages.PackageElement, f func(element packages.PackageElement, node *tree_sitter.Node) E) []E {
 	ret := make([]E, 0)
 	switch element.(type) {
+	// Find all Subelements for an InterfaceElement
 	case *packages.InterfaceElement:
 		for _, lElement := range content.LookUp {
 			if lElement == element {
@@ -163,10 +193,60 @@ func findSubelements[E interface{}](path base.ModelPath, content fileService.Fil
 			case *packages.InterfaceElement:
 				for _, implement := range pElement.Implements {
 					if implement == element {
-						//ret f(implement, lElement.GetBase().Node)
+						ret = append(ret, f(implement, pElement.Node))
+					}
+				}
+			case *packages.EntityElement:
+				for _, implement := range pElement.Implements {
+					if implement == element {
+						ret = append(ret, f(implement, pElement.Node))
+					}
+				}
+			case *packages.StructElement:
+				for _, implement := range pElement.Implements {
+					if implement == element {
+						ret = append(ret, f(implement, pElement.Node))
 					}
 				}
 			}
+		}
+	// Find all SubElements of StructElement
+	case *packages.EntityElement:
+		for _, lElement := range content.LookUp {
+			if lElement == element {
+				continue
+			}
+
+			switch pElement := lElement.(type) {
+			case *packages.EntityElement:
+				if pElement.Extends == element {
+					ret = append(ret, f(pElement, pElement.Node))
+				}
+			}
+		}
+	// Find all SubElements of StructElement
+	case *packages.StructElement:
+		for _, lElement := range content.LookUp {
+			if lElement == element {
+				continue
+			}
+
+			switch pElement := lElement.(type) {
+			case *packages.EntityElement:
+				if pElement.Extends == element {
+					ret = append(ret, f(pElement, pElement.Node))
+				}
+			case *packages.StructElement:
+				if pElement.Extends == element {
+					ret = append(ret, f(pElement, pElement.Node))
+				}
+			}
+		}
+	// Find all SubElements of Package
+	case *packages.Package:
+		pElement := element.(*packages.Package)
+		for _, p := range pElement.Elements {
+			ret = append(ret, f(p, p.GetBase().Node))
 		}
 	}
 	return ret

@@ -6890,3 +6890,561 @@ Benutzerstatus
 **[startdatum](file:///home/alex/LocalNAS/Bachelorarbeit/DMF/intellijTest/edit-after.dmf#L79)**: 2024-01-01 00:00:00 +0000 UTC<br>
 
 
+2025/01/08 13:49:03 fileService.go:35: Trace | FileChangeListeners: [0xc000008048]
+2025/01/08 13:49:03 util.go:36: Trace | Read Content-Length: 3626 from Content-Length: 3626
+2025/01/08 13:49:03 util.go:46: Trace | Read content: {"jsonrpc":"2.0","id":"1","method":"initialize","params":{"processId":28236,"rootPath":"C:/Code/DMF/intellijTest","rootUri":"file:///C:/Code/DMF/intellijTest","initializationOptions":{},"capabilities":{"workspace":{"applyEdit":true,"workspaceEdit":{"documentChanges":true,"resourceOperations":["create","delete","rename"]},"didChangeConfiguration":{"dynamicRegistration":true},"didChangeWatchedFiles":{"dynamicRegistration":true},"symbol":{},"executeCommand":{"dynamicRegistration":true},"workspaceFolders":true,"configuration":true,"semanticTokens":{"refreshSupport":true},"codeLens":{"refreshSupport":true},"fileOperations":{"didRename":true,"willRename":true,"dynamicRegistration":true},"inlayHint":{"refreshSupport":true}},"textDocument":{"synchronization":{"willSave":true,"willSaveWaitUntil":true,"didSave":true},"completion":{"completionItem":{"snippetSupport":true,"documentationFormat":["markdown","plaintext"],"deprecatedSupport":true,"resolveSupport":{"properties":["documentation","detail","additionalTextEdits"]},"insertTextModeSupport":{"valueSet":[1,2]},"labelDetailsSupport":true},"completionList":{"itemDefaults":["editRange"]},"dynamicRegistration":true},"hover":{"contentFormat":["markdown","plaintext"],"dynamicRegistration":true},"signatureHelp":{"signatureInformation":{"parameterInformation":{"labelOffsetSupport":true}},"dynamicRegistration":true},"references":{"dynamicRegistration":true},"documentHighlight":{"dynamicRegistration":true},"documentSymbol":{"symbolKind":{"valueSet":[18,17,5,14,9,10,22,24,8,1,12,11,20,6,2,3,21,16,19,25,4,7,15,23,26,13]},"hierarchicalDocumentSymbolSupport":true,"dynamicRegistration":true},"formatting":{"dynamicRegistration":true},"rangeFormatting":{"dynamicRegistration":true},"declaration":{"linkSupport":true,"dynamicRegistration":true},"definition":{"linkSupport":true,"dynamicRegistration":true},"typeDefinition":{"linkSupport":true,"dynamicRegistration":true},"implementation":{"linkSupport":true,"dynamicRegistration":true},"codeAction":{"codeActionLiteralSupport":{"codeActionKind":{"valueSet":["quickfix","refactor","refactor.extract","refactor.inline","refactor.rewrite","source","source.organizeImports"]}},"dataSupport":true,"resolveSupport":{"properties":["edit"]},"dynamicRegistration":true},"codeLens":{"dynamicRegistration":true},"documentLink":{"dynamicRegistration":true},"colorProvider":{"dynamicRegistration":true},"rename":{"prepareSupport":true,"dynamicRegistration":true},"publishDiagnostics":{"relatedInformation":true,"tagSupport":{"valueSet":[1,2]},"codeDescriptionSupport":true,"dataSupport":true},"foldingRange":{"dynamicRegistration":true},"typeHierarchy":{"dynamicRegistration":true},"callHierarchy":{"dynamicRegistration":true},"semanticTokens":{"requests":{"range":false,"full":true},"tokenTypes":["namespace","type","class","enum","interface","struct","typeParameter","parameter","variable","property","enumMember","event","function","method","macro","keyword","modifier","comment","string","number","regexp","operator","decorator","label"],"tokenModifiers":["declaration","definition","readonly","static"],"formats":["relative"],"multilineTokenSupport":true,"serverCancelSupport":true,"dynamicRegistration":true},"inlayHint":{"dynamicRegistration":true}},"window":{"workDoneProgress":true,"showMessage":{},"showDocument":{"support":true}},"general":{"staleRequestSupport":{"cancel":true,"retryOnContentModified":[]},"positionEncodings":["utf-16"]}},"clientInfo":{"name":"IntelliJ","version":"IntelliJ IDEA (build IU-243.22562.218)"},"trace":"off","workspaceFolders":[{"uri":"file:///C:/Code/DMF/intellijTest","name":"intellijTest"}]}}
+2025/01/08 13:49:03 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","id":"1","result":{"capabilities":{"textDocumentSync":{"openClose":true,"change":2},"completionProvider":{}},"serverInfo":{"name":"DMF LSP Server","version":"0.0.1"}}}
+2025/01/08 13:49:03 util.go:36: Trace | Read Content-Length: 52 from Content-Length: 52
+2025/01/08 13:49:03 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"initialized","params":{}}
+2025/01/08 13:49:03 util.go:36: Trace | Read Content-Length: 86 from Content-Length: 86
+2025/01/08 13:49:03 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"workspace/didChangeConfiguration","params":{"settings":{}}}
+2025/01/08 13:49:03 server.go:92: ERROR | Method not Found: {2.0 [] workspace/didChangeConfiguration [123 34 115 101 116 116 105 110 103 115 34 58 123 125 125] <nil> <nil>}
+2025/01/08 13:49:03 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","error":{"code":-32601,"message":"method not found"}}
+2025/01/08 13:49:03 util.go:36: Trace | Read Content-Length: 1138 from Content-Length: 1138
+2025/01/08 13:49:03 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","languageId":"dmf","version":1,"text":"dmf 1.0.0\nmodel \"dp_success\" version 0.0.0\n\npackage de.alex.brand {\n    // Comment over other\n    package other {\n\n        struct Test{\n\n\n        }\n\n        // Kommentar von Ort\n        enum Ort {\n\n            VOR_HAUS(_);\n        }\n\n        //Kommentar über Person\n        entity Person  {\n            arg int i;\n            arg date d;\n            arg string me;\n            identifier(i, me);\n        }\n\n        interface Intes  {\n\n        }\n\n\n\n    }\n\n   package rekur {\n        // Das ist das Struct One\n        struct One  {\n        }\n\n\n        entity OneE {\n            // Kommentar\n            // Hallo\n            arg int i;\n            arg string me;\n            // Kommentar von One\n            ref One o;\n           identifier(i, me, o);\n        }\n        entity TwoE extends .OneE {\n           identifier(i, me);\n        }\n    }\n    package grund {\n         interface IGrund  {\n\n         }\n    }\n}"}}}
+2025/01/08 13:49:03 server.go:95: INFO  | Handle Method: textDocument/didOpen 
+2025/01/08 13:49:03 fileService.go:88: Trace | Create FileHandle for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:49:03 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":1,"diagnostics":[]}}
+2025/01/08 13:49:03 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 49 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:49:21 util.go:36: Trace | Read Content-Length: 266 from Content-Length: 266
+2025/01/08 13:49:21 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":2,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":20,"character":21},"end":{"line":20,"character":22}},"rangeLength":1,"text":""}]}}
+2025/01/08 13:49:21 server.go:95: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:49:21 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:49:21 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":2,"diagnostics":[]}}
+2025/01/08 13:49:21 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 50 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:49:26 util.go:36: Trace | Read Content-Length: 267 from Content-Length: 267
+2025/01/08 13:49:26 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":3,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":20,"character":21},"end":{"line":20,"character":21}},"rangeLength":0,"text":";"}]}}
+2025/01/08 13:49:26 server.go:95: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:49:26 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:49:26 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":3,"diagnostics":[]}}
+2025/01/08 13:49:26 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 51 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:50:20 util.go:36: Trace | Read Content-Length: 60 from Content-Length: 60
+2025/01/08 13:50:20 util.go:46: Trace | Read content: {"jsonrpc":"2.0","id":"2","method":"shutdown","params":null}
+2025/01/08 13:50:20 server.go:79: INFO  | Received Shutdown Request
+2025/01/08 13:50:20 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","id":"2"}
+2025/01/08 13:50:20 server.go:66: INFO  | Server Closed
+2025/01/08 13:50:20 main.go:23: Server Shutdown
+2025/01/08 13:50:21 fileService.go:35: Trace | FileChangeListeners: [0xc000008078]
+2025/01/08 13:50:22 util.go:36: Trace | Read Content-Length: 3626 from Content-Length: 3626
+2025/01/08 13:50:22 util.go:46: Trace | Read content: {"jsonrpc":"2.0","id":"1","method":"initialize","params":{"processId":28236,"rootPath":"C:/Code/DMF/intellijTest","rootUri":"file:///C:/Code/DMF/intellijTest","initializationOptions":{},"capabilities":{"workspace":{"applyEdit":true,"workspaceEdit":{"documentChanges":true,"resourceOperations":["create","delete","rename"]},"didChangeConfiguration":{"dynamicRegistration":true},"didChangeWatchedFiles":{"dynamicRegistration":true},"symbol":{},"executeCommand":{"dynamicRegistration":true},"workspaceFolders":true,"configuration":true,"semanticTokens":{"refreshSupport":true},"codeLens":{"refreshSupport":true},"fileOperations":{"didRename":true,"willRename":true,"dynamicRegistration":true},"inlayHint":{"refreshSupport":true}},"textDocument":{"synchronization":{"willSave":true,"willSaveWaitUntil":true,"didSave":true},"completion":{"completionItem":{"snippetSupport":true,"documentationFormat":["markdown","plaintext"],"deprecatedSupport":true,"resolveSupport":{"properties":["documentation","detail","additionalTextEdits"]},"insertTextModeSupport":{"valueSet":[1,2]},"labelDetailsSupport":true},"completionList":{"itemDefaults":["editRange"]},"dynamicRegistration":true},"hover":{"contentFormat":["markdown","plaintext"],"dynamicRegistration":true},"signatureHelp":{"signatureInformation":{"parameterInformation":{"labelOffsetSupport":true}},"dynamicRegistration":true},"references":{"dynamicRegistration":true},"documentHighlight":{"dynamicRegistration":true},"documentSymbol":{"symbolKind":{"valueSet":[18,17,5,14,9,10,22,24,8,1,12,11,20,6,2,3,21,16,19,25,4,7,15,23,26,13]},"hierarchicalDocumentSymbolSupport":true,"dynamicRegistration":true},"formatting":{"dynamicRegistration":true},"rangeFormatting":{"dynamicRegistration":true},"declaration":{"linkSupport":true,"dynamicRegistration":true},"definition":{"linkSupport":true,"dynamicRegistration":true},"typeDefinition":{"linkSupport":true,"dynamicRegistration":true},"implementation":{"linkSupport":true,"dynamicRegistration":true},"codeAction":{"codeActionLiteralSupport":{"codeActionKind":{"valueSet":["quickfix","refactor","refactor.extract","refactor.inline","refactor.rewrite","source","source.organizeImports"]}},"dataSupport":true,"resolveSupport":{"properties":["edit"]},"dynamicRegistration":true},"codeLens":{"dynamicRegistration":true},"documentLink":{"dynamicRegistration":true},"colorProvider":{"dynamicRegistration":true},"rename":{"prepareSupport":true,"dynamicRegistration":true},"publishDiagnostics":{"relatedInformation":true,"tagSupport":{"valueSet":[1,2]},"codeDescriptionSupport":true,"dataSupport":true},"foldingRange":{"dynamicRegistration":true},"typeHierarchy":{"dynamicRegistration":true},"callHierarchy":{"dynamicRegistration":true},"semanticTokens":{"requests":{"range":false,"full":true},"tokenTypes":["namespace","type","class","enum","interface","struct","typeParameter","parameter","variable","property","enumMember","event","function","method","macro","keyword","modifier","comment","string","number","regexp","operator","decorator","label"],"tokenModifiers":["declaration","definition","readonly","static"],"formats":["relative"],"multilineTokenSupport":true,"serverCancelSupport":true,"dynamicRegistration":true},"inlayHint":{"dynamicRegistration":true}},"window":{"workDoneProgress":true,"showMessage":{},"showDocument":{"support":true}},"general":{"staleRequestSupport":{"cancel":true,"retryOnContentModified":[]},"positionEncodings":["utf-16"]}},"clientInfo":{"name":"IntelliJ","version":"IntelliJ IDEA (build IU-243.22562.218)"},"trace":"off","workspaceFolders":[{"uri":"file:///C:/Code/DMF/intellijTest","name":"intellijTest"}]}}
+2025/01/08 13:50:22 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","id":"1","result":{"capabilities":{"textDocumentSync":{"openClose":true,"change":2},"hoverProvider":true},"serverInfo":{"name":"DMF LSP Server","version":"0.0.1"}}}
+2025/01/08 13:50:22 util.go:36: Trace | Read Content-Length: 52 from Content-Length: 52
+2025/01/08 13:50:22 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"initialized","params":{}}
+2025/01/08 13:50:22 util.go:36: Trace | Read Content-Length: 86 from Content-Length: 86
+2025/01/08 13:50:22 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"workspace/didChangeConfiguration","params":{"settings":{}}}
+2025/01/08 13:50:22 server.go:95: ERROR | Method not Found: {2.0 [] workspace/didChangeConfiguration [123 34 115 101 116 116 105 110 103 115 34 58 123 125 125] <nil> <nil>}
+2025/01/08 13:50:22 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","error":{"code":-32601,"message":"method not found"}}
+2025/01/08 13:50:22 util.go:36: Trace | Read Content-Length: 1138 from Content-Length: 1138
+2025/01/08 13:50:22 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didOpen","params":{"textDocument":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","languageId":"dmf","version":1,"text":"dmf 1.0.0\nmodel \"dp_success\" version 0.0.0\n\npackage de.alex.brand {\n    // Comment over other\n    package other {\n\n        struct Test{\n\n\n        }\n\n        // Kommentar von Ort\n        enum Ort {\n\n            VOR_HAUS(_);\n        }\n\n        //Kommentar über Person\n        entity Person  {\n            arg int i;\n            arg date d;\n            arg string me;\n            identifier(i, me);\n        }\n\n        interface Intes  {\n\n        }\n\n\n\n    }\n\n   package rekur {\n        // Das ist das Struct One\n        struct One  {\n        }\n\n\n        entity OneE {\n            // Kommentar\n            // Hallo\n            arg int i;\n            arg string me;\n            // Kommentar von One\n            ref One o;\n           identifier(i, me, o);\n        }\n        entity TwoE extends .OneE {\n           identifier(i, me);\n        }\n    }\n    package grund {\n         interface IGrund  {\n\n         }\n    }\n}"}}}
+2025/01/08 13:50:22 server.go:98: INFO  | Handle Method: textDocument/didOpen 
+2025/01/08 13:50:22 fileService.go:88: Trace | Create FileHandle for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:50:22 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":1,"diagnostics":[]}}
+2025/01/08 13:50:22 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 49 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:50:24 util.go:36: Trace | Read Content-Length: 266 from Content-Length: 266
+2025/01/08 13:50:24 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":2,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":20,"character":21},"end":{"line":20,"character":22}},"rangeLength":1,"text":""}]}}
+2025/01/08 13:50:24 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:50:24 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:50:24 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":2,"diagnostics":[{"range":{"start":{"line":23,"character":23},"end":{"line":23,"character":24}},"severity":1,"source":"FehlerStelle in Position file:///C:/Code/DMF/intellijTest/test.dmf:24:23\nidentifier(i, me);\n           ^      \nReferenzierte Variable nicht gefunden!\n","message":"Referenzierte Variable nicht gefunden!"}]}}
+2025/01/08 13:50:24 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 50 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 123 34 114 97 110 103 101 34 58 123 34 115 116 97 114 116 34 58 123 34 108 105 110 101 34 58 50 51 44 34 99 104 97 114 97 99 116 101 114 34 58 50 51 125 44 34 101 110 100 34 58 123 34 108 105 110 101 34 58 50 51 44 34 99 104 97 114 97 99 116 101 114 34 58 50 52 125 125 44 34 115 101 118 101 114 105 116 121 34 58 49 44 34 115 111 117 114 99 101 34 58 34 70 101 104 108 101 114 83 116 101 108 108 101 32 105 110 32 80 111 115 105 116 105 111 110 32 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 58 50 52 58 50 51 92 110 105 100 101 110 116 105 102 105 101 114 40 105 44 32 109 101 41 59 92 110 32 32 32 32 32 32 32 32 32 32 32 94 32 32 32 32 32 32 92 110 82 101 102 101 114 101 110 122 105 101 114 116 101 32 86 97 114 105 97 98 108 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 92 110 34 44 34 109 101 115 115 97 103 101 34 58 34 82 101 102 101 114 101 110 122 105 101 114 116 101 32 86 97 114 105 97 98 108 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 34 125 93 125] <nil> <nil>}
+2025/01/08 13:50:24 fileHandle.go:107: Debug | Error in TextFile:
+FehlerStelle in Position C:\Code\DMF\intellijTest\test.dmf:24:23
+identifier(i, me);
+           ^      
+Referenzierte Variable nicht gefunden!
+
+2025/01/08 13:50:27 util.go:36: Trace | Read Content-Length: 172 from Content-Length: 172
+2025/01/08 13:50:27 util.go:46: Trace | Read content: {"jsonrpc":"2.0","id":"2","method":"textDocument/hover","params":{"textDocument":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"position":{"line":23,"character":23}}}
+2025/01/08 13:50:27 server.go:98: INFO  | Handle Method: textDocument/hover 
+2025/01/08 13:50:27 hoverService.go:106: Trace | Start Get File Content
+2025/01/08 13:50:27 hoverService.go:112: %!S(string=Trace | )tart Find Node
+2025/01/08 13:50:27 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","id":"2","result":{"contents":{"kind":"markdown","value":"\r\n#### Identifier von [Person](file:///C:/Code/DMF/intellijTest/test.dmf#L20)\r\n\r\n---\r\n* **unknown [i](file:///C:/Code/DMF/intellijTest/test.dmf#L24)**\r\n\r\n* **string [me](file:///C:/Code/DMF/intellijTest/test.dmf#L23)**\r\n\r\n\r\n"},"range":{"start":{"line":23,"character":23},"end":{"line":23,"character":23}}}}
+2025/01/08 13:50:27 hoverService.go:136: Trace | Finished Hover with Content: 
+#### Identifier von [Person](file:///C:/Code/DMF/intellijTest/test.dmf#L20)
+
+---
+* **unknown [i](file:///C:/Code/DMF/intellijTest/test.dmf#L24)**
+
+* **string [me](file:///C:/Code/DMF/intellijTest/test.dmf#L23)**
+
+
+
+2025/01/08 13:50:31 util.go:36: Trace | Read Content-Length: 267 from Content-Length: 267
+2025/01/08 13:50:31 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":3,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":20,"character":21},"end":{"line":20,"character":21}},"rangeLength":0,"text":";"}]}}
+2025/01/08 13:50:31 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:50:31 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:50:31 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":3,"diagnostics":[]}}
+2025/01/08 13:50:31 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 51 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:50:33 util.go:36: Trace | Read Content-Length: 266 from Content-Length: 266
+2025/01/08 13:50:33 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":4,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":23,"character":29},"end":{"line":23,"character":30}},"rangeLength":1,"text":""}]}}
+2025/01/08 13:50:33 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:50:33 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:50:33 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":4,"diagnostics":[]}}
+2025/01/08 13:50:33 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 52 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:50:36 util.go:36: Trace | Read Content-Length: 267 from Content-Length: 267
+2025/01/08 13:50:36 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":5,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":23,"character":29},"end":{"line":23,"character":29}},"rangeLength":0,"text":";"}]}}
+2025/01/08 13:50:36 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:50:36 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:50:36 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":5,"diagnostics":[]}}
+2025/01/08 13:50:36 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 53 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:50:37 util.go:36: Trace | Read Content-Length: 266 from Content-Length: 266
+2025/01/08 13:50:37 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":6,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":23,"character":29},"end":{"line":23,"character":30}},"rangeLength":1,"text":""}]}}
+2025/01/08 13:50:37 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:50:37 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:50:37 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":6,"diagnostics":[]}}
+2025/01/08 13:50:37 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 54 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:50:37 util.go:36: Trace | Read Content-Length: 266 from Content-Length: 266
+2025/01/08 13:50:37 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":7,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":23,"character":28},"end":{"line":23,"character":29}},"rangeLength":1,"text":""}]}}
+2025/01/08 13:50:37 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:50:37 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:50:37 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":7,"diagnostics":[]}}
+2025/01/08 13:50:37 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 55 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:50:38 util.go:36: Trace | Read Content-Length: 267 from Content-Length: 267
+2025/01/08 13:50:38 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":8,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":23,"character":28},"end":{"line":23,"character":28}},"rangeLength":0,"text":")"}]}}
+2025/01/08 13:50:38 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:50:38 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:50:38 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":8,"diagnostics":[]}}
+2025/01/08 13:50:38 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 56 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:50:39 util.go:36: Trace | Read Content-Length: 267 from Content-Length: 267
+2025/01/08 13:50:39 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":9,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":23,"character":29},"end":{"line":23,"character":29}},"rangeLength":0,"text":";"}]}}
+2025/01/08 13:50:39 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:50:39 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:50:39 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":9,"diagnostics":[]}}
+2025/01/08 13:50:39 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 57 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:50:42 util.go:36: Trace | Read Content-Length: 172 from Content-Length: 172
+2025/01/08 13:50:42 util.go:46: Trace | Read content: {"jsonrpc":"2.0","id":"3","method":"textDocument/hover","params":{"textDocument":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"position":{"line":19,"character":19}}}
+2025/01/08 13:50:42 server.go:98: INFO  | Handle Method: textDocument/hover 
+2025/01/08 13:50:42 hoverService.go:106: Trace | Start Get File Content
+2025/01/08 13:50:42 hoverService.go:112: %!S(string=Trace | )tart Find Node
+2025/01/08 13:50:42 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","id":"3","result":{"contents":{"kind":"markdown","value":"\r\n#### Person\r\n###### Entity in Package [de.alex.brand.other](file:///C:/Code/DMF/intellijTest/test.dmf#L6)\r\nKommentar über Person\n\r\n"},"range":{"start":{"line":19,"character":19},"end":{"line":19,"character":19}}}}
+2025/01/08 13:50:42 hoverService.go:136: Trace | Finished Hover with Content: 
+#### Person
+###### Entity in Package [de.alex.brand.other](file:///C:/Code/DMF/intellijTest/test.dmf#L6)
+Kommentar über Person
+
+
+2025/01/08 13:50:49 util.go:36: Trace | Read Content-Length: 172 from Content-Length: 172
+2025/01/08 13:50:49 util.go:46: Trace | Read content: {"jsonrpc":"2.0","id":"4","method":"textDocument/hover","params":{"textDocument":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"position":{"line":23,"character":16}}}
+2025/01/08 13:50:49 server.go:98: INFO  | Handle Method: textDocument/hover 
+2025/01/08 13:50:49 hoverService.go:106: Trace | Start Get File Content
+2025/01/08 13:50:49 hoverService.go:112: %!S(string=Trace | )tart Find Node
+2025/01/08 13:50:49 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","id":"4","result":{"contents":{"kind":"markdown","value":"\r\n#### Identifier von [Person](file:///C:/Code/DMF/intellijTest/test.dmf#L20)\r\n\r\n---\r\n* **int [i](file:///C:/Code/DMF/intellijTest/test.dmf#L21)**\r\n\r\n* **string [me](file:///C:/Code/DMF/intellijTest/test.dmf#L23)**\r\n\r\n\r\n"},"range":{"start":{"line":23,"character":16},"end":{"line":23,"character":16}}}}
+2025/01/08 13:50:49 hoverService.go:136: Trace | Finished Hover with Content: 
+#### Identifier von [Person](file:///C:/Code/DMF/intellijTest/test.dmf#L20)
+
+---
+* **int [i](file:///C:/Code/DMF/intellijTest/test.dmf#L21)**
+
+* **string [me](file:///C:/Code/DMF/intellijTest/test.dmf#L23)**
+
+
+
+2025/01/08 13:50:56 util.go:36: Trace | Read Content-Length: 172 from Content-Length: 172
+2025/01/08 13:50:56 util.go:46: Trace | Read content: {"jsonrpc":"2.0","id":"5","method":"textDocument/hover","params":{"textDocument":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"position":{"line":23,"character":20}}}
+2025/01/08 13:50:56 server.go:98: INFO  | Handle Method: textDocument/hover 
+2025/01/08 13:50:56 hoverService.go:106: Trace | Start Get File Content
+2025/01/08 13:50:56 hoverService.go:112: %!S(string=Trace | )tart Find Node
+2025/01/08 13:50:56 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","id":"5","result":{"contents":{"kind":"markdown","value":"\r\n#### Identifier von [Person](file:///C:/Code/DMF/intellijTest/test.dmf#L20)\r\n\r\n---\r\n* **int [i](file:///C:/Code/DMF/intellijTest/test.dmf#L21)**\r\n\r\n* **string [me](file:///C:/Code/DMF/intellijTest/test.dmf#L23)**\r\n\r\n\r\n"},"range":{"start":{"line":23,"character":20},"end":{"line":23,"character":20}}}}
+2025/01/08 13:50:56 hoverService.go:136: Trace | Finished Hover with Content: 
+#### Identifier von [Person](file:///C:/Code/DMF/intellijTest/test.dmf#L20)
+
+---
+* **int [i](file:///C:/Code/DMF/intellijTest/test.dmf#L21)**
+
+* **string [me](file:///C:/Code/DMF/intellijTest/test.dmf#L23)**
+
+
+
+2025/01/08 13:51:06 util.go:36: Trace | Read Content-Length: 172 from Content-Length: 172
+2025/01/08 13:51:06 util.go:46: Trace | Read content: {"jsonrpc":"2.0","id":"6","method":"textDocument/hover","params":{"textDocument":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"position":{"line":49,"character":32}}}
+2025/01/08 13:51:06 server.go:98: INFO  | Handle Method: textDocument/hover 
+2025/01/08 13:51:06 hoverService.go:106: Trace | Start Get File Content
+2025/01/08 13:51:06 hoverService.go:112: %!S(string=Trace | )tart Find Node
+2025/01/08 13:51:06 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","id":"6","result":{"contents":{"kind":"markdown","value":"\r\n#### TwoE\r\n###### Entity in Package [de.alex.brand.rekur](file:///C:/Code/DMF/intellijTest/test.dmf#L35)\r\n\r\n"},"range":{"start":{"line":49,"character":32},"end":{"line":49,"character":32}}}}
+2025/01/08 13:51:06 hoverService.go:136: Trace | Finished Hover with Content: 
+#### TwoE
+###### Entity in Package [de.alex.brand.rekur](file:///C:/Code/DMF/intellijTest/test.dmf#L35)
+
+
+2025/01/08 13:51:08 util.go:36: Trace | Read Content-Length: 172 from Content-Length: 172
+2025/01/08 13:51:08 util.go:46: Trace | Read content: {"jsonrpc":"2.0","id":"7","method":"textDocument/hover","params":{"textDocument":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"position":{"line":50,"character":16}}}
+2025/01/08 13:51:08 server.go:98: INFO  | Handle Method: textDocument/hover 
+2025/01/08 13:51:08 hoverService.go:106: Trace | Start Get File Content
+2025/01/08 13:51:08 hoverService.go:112: %!S(string=Trace | )tart Find Node
+2025/01/08 13:51:08 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","id":"7","result":{"contents":{"kind":"markdown","value":"\r\n#### Identifier von [TwoE](file:///C:/Code/DMF/intellijTest/test.dmf#L50)\r\n\r\n---\r\n* **int [i](file:///C:/Code/DMF/intellijTest/test.dmf#L44)**\r\n\u003cbr\u003eKommentar\n\u003cbr\u003eHallo\n\r\n* **string [me](file:///C:/Code/DMF/intellijTest/test.dmf#L45)**\r\n\r\n\r\n"},"range":{"start":{"line":50,"character":16},"end":{"line":50,"character":16}}}}
+2025/01/08 13:51:08 hoverService.go:136: Trace | Finished Hover with Content: 
+#### Identifier von [TwoE](file:///C:/Code/DMF/intellijTest/test.dmf#L50)
+
+---
+* **int [i](file:///C:/Code/DMF/intellijTest/test.dmf#L44)**
+<br>Kommentar
+<br>Hallo
+
+* **string [me](file:///C:/Code/DMF/intellijTest/test.dmf#L45)**
+
+
+
+2025/01/08 13:51:14 util.go:36: Trace | Read Content-Length: 172 from Content-Length: 172
+2025/01/08 13:51:14 util.go:46: Trace | Read content: {"jsonrpc":"2.0","id":"8","method":"textDocument/hover","params":{"textDocument":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"position":{"line":49,"character":16}}}
+2025/01/08 13:51:14 server.go:98: INFO  | Handle Method: textDocument/hover 
+2025/01/08 13:51:14 hoverService.go:106: Trace | Start Get File Content
+2025/01/08 13:51:14 hoverService.go:112: %!S(string=Trace | )tart Find Node
+2025/01/08 13:51:14 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","id":"8","result":{"contents":{"kind":"markdown","value":"\r\n#### TwoE\r\n###### Entity in Package [de.alex.brand.rekur](file:///C:/Code/DMF/intellijTest/test.dmf#L35)\r\n\r\n"},"range":{"start":{"line":49,"character":16},"end":{"line":49,"character":16}}}}
+2025/01/08 13:51:14 hoverService.go:136: Trace | Finished Hover with Content: 
+#### TwoE
+###### Entity in Package [de.alex.brand.rekur](file:///C:/Code/DMF/intellijTest/test.dmf#L35)
+
+
+2025/01/08 13:51:19 util.go:36: Trace | Read Content-Length: 172 from Content-Length: 172
+2025/01/08 13:51:19 util.go:46: Trace | Read content: {"jsonrpc":"2.0","id":"9","method":"textDocument/hover","params":{"textDocument":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"position":{"line":54,"character":20}}}
+2025/01/08 13:51:19 server.go:98: INFO  | Handle Method: textDocument/hover 
+2025/01/08 13:51:19 hoverService.go:106: Trace | Start Get File Content
+2025/01/08 13:51:19 hoverService.go:112: %!S(string=Trace | )tart Find Node
+2025/01/08 13:51:19 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","id":"9","result":{"contents":{"kind":"markdown","value":"\r\n#### IGrund\r\n###### Interface in Package [de.alex.brand.grund](file:///C:/Code/DMF/intellijTest/test.dmf#L54)\r\n\r\n"},"range":{"start":{"line":54,"character":20},"end":{"line":54,"character":20}}}}
+2025/01/08 13:51:19 hoverService.go:136: Trace | Finished Hover with Content: 
+#### IGrund
+###### Interface in Package [de.alex.brand.grund](file:///C:/Code/DMF/intellijTest/test.dmf#L54)
+
+
+2025/01/08 13:51:24 util.go:36: Trace | Read Content-Length: 172 from Content-Length: 172
+2025/01/08 13:51:24 util.go:46: Trace | Read content: {"jsonrpc":"2.0","id":"10","method":"textDocument/hover","params":{"textDocument":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"position":{"line":3,"character":15}}}
+2025/01/08 13:51:24 server.go:98: INFO  | Handle Method: textDocument/hover 
+2025/01/08 13:51:24 hoverService.go:106: Trace | Start Get File Content
+2025/01/08 13:51:24 hoverService.go:112: %!S(string=Trace | )tart Find Node
+2025/01/08 13:51:24 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","id":"10","result":{"contents":{"kind":"markdown","value":"\r\n#### brand\r\n###### Package in Package [de.alex]()\r\n\r\n"},"range":{"start":{"line":3,"character":15},"end":{"line":3,"character":15}}}}
+2025/01/08 13:51:24 hoverService.go:136: Trace | Finished Hover with Content: 
+#### brand
+###### Package in Package [de.alex]()
+
+
+2025/01/08 13:51:26 util.go:36: Trace | Read Content-Length: 171 from Content-Length: 171
+2025/01/08 13:51:26 util.go:46: Trace | Read content: {"jsonrpc":"2.0","id":"11","method":"textDocument/hover","params":{"textDocument":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"position":{"line":5,"character":9}}}
+2025/01/08 13:51:26 server.go:98: INFO  | Handle Method: textDocument/hover 
+2025/01/08 13:51:26 hoverService.go:106: Trace | Start Get File Content
+2025/01/08 13:51:26 hoverService.go:112: %!S(string=Trace | )tart Find Node
+2025/01/08 13:51:26 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","id":"11","result":{"contents":{"kind":"markdown","value":"\r\n#### other\r\n###### Package in Package [de.alex.brand](file:///C:/Code/DMF/intellijTest/test.dmf#L4)\r\nComment over other\n\r\n"},"range":{"start":{"line":5,"character":9},"end":{"line":5,"character":9}}}}
+2025/01/08 13:51:26 hoverService.go:136: Trace | Finished Hover with Content: 
+#### other
+###### Package in Package [de.alex.brand](file:///C:/Code/DMF/intellijTest/test.dmf#L4)
+Comment over other
+
+
+2025/01/08 13:51:34 util.go:36: Trace | Read Content-Length: 266 from Content-Length: 266
+2025/01/08 13:51:34 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":10,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":56,"character":9},"end":{"line":56,"character":10}},"rangeLength":1,"text":""}]}}
+2025/01/08 13:51:34 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:51:34 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:51:34 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":10,"diagnostics":[]}}
+2025/01/08 13:51:34 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 49 48 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:51:39 util.go:36: Trace | Read Content-Length: 266 from Content-Length: 266
+2025/01/08 13:51:39 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":11,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":56,"character":9},"end":{"line":56,"character":9}},"rangeLength":0,"text":"}"}]}}
+2025/01/08 13:51:39 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:51:39 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:51:39 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":11,"diagnostics":[]}}
+2025/01/08 13:51:39 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 49 49 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:51:43 util.go:36: Trace | Read Content-Length: 173 from Content-Length: 173
+2025/01/08 13:51:43 util.go:46: Trace | Read content: {"jsonrpc":"2.0","id":"12","method":"textDocument/hover","params":{"textDocument":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"position":{"line":53,"character":15}}}
+2025/01/08 13:51:43 server.go:98: INFO  | Handle Method: textDocument/hover 
+2025/01/08 13:51:43 hoverService.go:106: Trace | Start Get File Content
+2025/01/08 13:51:43 hoverService.go:112: %!S(string=Trace | )tart Find Node
+2025/01/08 13:51:43 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","id":"12","result":{"contents":{"kind":"markdown","value":"\r\n#### grund\r\n###### Package in Package [de.alex.brand](file:///C:/Code/DMF/intellijTest/test.dmf#L4)\r\n\r\n"},"range":{"start":{"line":53,"character":15},"end":{"line":53,"character":15}}}}
+2025/01/08 13:51:43 hoverService.go:136: Trace | Finished Hover with Content: 
+#### grund
+###### Package in Package [de.alex.brand](file:///C:/Code/DMF/intellijTest/test.dmf#L4)
+
+
+2025/01/08 13:51:56 util.go:36: Trace | Read Content-Length: 267 from Content-Length: 267
+2025/01/08 13:51:56 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":12,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":49,"character":31},"end":{"line":49,"character":32}},"rangeLength":1,"text":""}]}}
+2025/01/08 13:51:56 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:51:56 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:51:56 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":12,"diagnostics":[{"range":{"start":{"line":49,"character":8},"end":{"line":51,"character":9}},"severity":1,"source":"FehlerStelle in Position file:///C:/Code/DMF/intellijTest/test.dmf:50:8\nentity TwoE extends .OnE {\n           identifier(i, me);\n        }\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nDer Supertyp wurde nicht gefunden!\n","message":"Der Supertyp wurde nicht gefunden!"},{"range":{"start":{"line":50,"character":22},"end":{"line":50,"character":23}},"severity":1,"source":"FehlerStelle in Position file:///C:/Code/DMF/intellijTest/test.dmf:51:22\nidentifier(i, me);\n           ^      \nReferenzierte Variable nicht gefunden!\n","message":"Referenzierte Variable nicht gefunden!"},{"range":{"start":{"line":50,"character":25},"end":{"line":50,"character":27}},"severity":1,"source":"FehlerStelle in Position file:///C:/Code/DMF/intellijTest/test.dmf:51:25\nidentifier(i, me);\n              ^^  \nReferenzierte Variable nicht gefunden!\n","message":"Referenzierte Variable nicht gefunden!"}]}}
+2025/01/08 13:51:56 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 49 50 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 123 34 114 97 110 103 101 34 58 123 34 115 116 97 114 116 34 58 123 34 108 105 110 101 34 58 52 57 44 34 99 104 97 114 97 99 116 101 114 34 58 56 125 44 34 101 110 100 34 58 123 34 108 105 110 101 34 58 53 49 44 34 99 104 97 114 97 99 116 101 114 34 58 57 125 125 44 34 115 101 118 101 114 105 116 121 34 58 49 44 34 115 111 117 114 99 101 34 58 34 70 101 104 108 101 114 83 116 101 108 108 101 32 105 110 32 80 111 115 105 116 105 111 110 32 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 58 53 48 58 56 92 110 101 110 116 105 116 121 32 84 119 111 69 32 101 120 116 101 110 100 115 32 46 79 110 69 32 123 92 110 32 32 32 32 32 32 32 32 32 32 32 105 100 101 110 116 105 102 105 101 114 40 105 44 32 109 101 41 59 92 110 32 32 32 32 32 32 32 32 125 92 110 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 92 110 68 101 114 32 83 117 112 101 114 116 121 112 32 119 117 114 100 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 92 110 34 44 34 109 101 115 115 97 103 101 34 58 34 68 101 114 32 83 117 112 101 114 116 121 112 32 119 117 114 100 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 34 125 44 123 34 114 97 110 103 101 34 58 123 34 115 116 97 114 116 34 58 123 34 108 105 110 101 34 58 53 48 44 34 99 104 97 114 97 99 116 101 114 34 58 50 50 125 44 34 101 110 100 34 58 123 34 108 105 110 101 34 58 53 48 44 34 99 104 97 114 97 99 116 101 114 34 58 50 51 125 125 44 34 115 101 118 101 114 105 116 121 34 58 49 44 34 115 111 117 114 99 101 34 58 34 70 101 104 108 101 114 83 116 101 108 108 101 32 105 110 32 80 111 115 105 116 105 111 110 32 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 58 53 49 58 50 50 92 110 105 100 101 110 116 105 102 105 101 114 40 105 44 32 109 101 41 59 92 110 32 32 32 32 32 32 32 32 32 32 32 94 32 32 32 32 32 32 92 110 82 101 102 101 114 101 110 122 105 101 114 116 101 32 86 97 114 105 97 98 108 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 92 110 34 44 34 109 101 115 115 97 103 101 34 58 34 82 101 102 101 114 101 110 122 105 101 114 116 101 32 86 97 114 105 97 98 108 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 34 125 44 123 34 114 97 110 103 101 34 58 123 34 115 116 97 114 116 34 58 123 34 108 105 110 101 34 58 53 48 44 34 99 104 97 114 97 99 116 101 114 34 58 50 53 125 44 34 101 110 100 34 58 123 34 108 105 110 101 34 58 53 48 44 34 99 104 97 114 97 99 116 101 114 34 58 50 55 125 125 44 34 115 101 118 101 114 105 116 121 34 58 49 44 34 115 111 117 114 99 101 34 58 34 70 101 104 108 101 114 83 116 101 108 108 101 32 105 110 32 80 111 115 105 116 105 111 110 32 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 58 53 49 58 50 53 92 110 105 100 101 110 116 105 102 105 101 114 40 105 44 32 109 101 41 59 92 110 32 32 32 32 32 32 32 32 32 32 32 32 32 32 94 94 32 32 92 110 82 101 102 101 114 101 110 122 105 101 114 116 101 32 86 97 114 105 97 98 108 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 92 110 34 44 34 109 101 115 115 97 103 101 34 58 34 82 101 102 101 114 101 110 122 105 101 114 116 101 32 86 97 114 105 97 98 108 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 34 125 93 125] <nil> <nil>}
+2025/01/08 13:51:56 fileHandle.go:107: Debug | Error in TextFile:
+FehlerStelle in Position C:\Code\DMF\intellijTest\test.dmf:50:8
+entity TwoE extends .OnE {
+           identifier(i, me);
+        }
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Der Supertyp wurde nicht gefunden!
+
+2025/01/08 13:51:56 fileHandle.go:107: Debug | Error in TextFile:
+FehlerStelle in Position C:\Code\DMF\intellijTest\test.dmf:51:22
+identifier(i, me);
+           ^      
+Referenzierte Variable nicht gefunden!
+
+2025/01/08 13:51:56 fileHandle.go:107: Debug | Error in TextFile:
+FehlerStelle in Position C:\Code\DMF\intellijTest\test.dmf:51:25
+identifier(i, me);
+              ^^  
+Referenzierte Variable nicht gefunden!
+
+2025/01/08 13:52:05 util.go:36: Trace | Read Content-Length: 268 from Content-Length: 268
+2025/01/08 13:52:05 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":13,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":49,"character":31},"end":{"line":49,"character":31}},"rangeLength":0,"text":"e"}]}}
+2025/01/08 13:52:05 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:52:05 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:52:05 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":13,"diagnostics":[]}}
+2025/01/08 13:52:05 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 49 51 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:52:06 util.go:36: Trace | Read Content-Length: 267 from Content-Length: 267
+2025/01/08 13:52:06 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":14,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":49,"character":31},"end":{"line":49,"character":32}},"rangeLength":1,"text":""}]}}
+2025/01/08 13:52:06 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:52:06 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:52:06 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":14,"diagnostics":[{"range":{"start":{"line":49,"character":8},"end":{"line":51,"character":9}},"severity":1,"source":"FehlerStelle in Position file:///C:/Code/DMF/intellijTest/test.dmf:50:8\nentity TwoE extends .OnE {\n           identifier(i, me);\n        }\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nDer Supertyp wurde nicht gefunden!\n","message":"Der Supertyp wurde nicht gefunden!"},{"range":{"start":{"line":50,"character":22},"end":{"line":50,"character":23}},"severity":1,"source":"FehlerStelle in Position file:///C:/Code/DMF/intellijTest/test.dmf:51:22\nidentifier(i, me);\n           ^      \nReferenzierte Variable nicht gefunden!\n","message":"Referenzierte Variable nicht gefunden!"},{"range":{"start":{"line":50,"character":25},"end":{"line":50,"character":27}},"severity":1,"source":"FehlerStelle in Position file:///C:/Code/DMF/intellijTest/test.dmf:51:25\nidentifier(i, me);\n              ^^  \nReferenzierte Variable nicht gefunden!\n","message":"Referenzierte Variable nicht gefunden!"}]}}
+2025/01/08 13:52:06 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 49 52 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 123 34 114 97 110 103 101 34 58 123 34 115 116 97 114 116 34 58 123 34 108 105 110 101 34 58 52 57 44 34 99 104 97 114 97 99 116 101 114 34 58 56 125 44 34 101 110 100 34 58 123 34 108 105 110 101 34 58 53 49 44 34 99 104 97 114 97 99 116 101 114 34 58 57 125 125 44 34 115 101 118 101 114 105 116 121 34 58 49 44 34 115 111 117 114 99 101 34 58 34 70 101 104 108 101 114 83 116 101 108 108 101 32 105 110 32 80 111 115 105 116 105 111 110 32 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 58 53 48 58 56 92 110 101 110 116 105 116 121 32 84 119 111 69 32 101 120 116 101 110 100 115 32 46 79 110 69 32 123 92 110 32 32 32 32 32 32 32 32 32 32 32 105 100 101 110 116 105 102 105 101 114 40 105 44 32 109 101 41 59 92 110 32 32 32 32 32 32 32 32 125 92 110 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 92 110 68 101 114 32 83 117 112 101 114 116 121 112 32 119 117 114 100 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 92 110 34 44 34 109 101 115 115 97 103 101 34 58 34 68 101 114 32 83 117 112 101 114 116 121 112 32 119 117 114 100 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 34 125 44 123 34 114 97 110 103 101 34 58 123 34 115 116 97 114 116 34 58 123 34 108 105 110 101 34 58 53 48 44 34 99 104 97 114 97 99 116 101 114 34 58 50 50 125 44 34 101 110 100 34 58 123 34 108 105 110 101 34 58 53 48 44 34 99 104 97 114 97 99 116 101 114 34 58 50 51 125 125 44 34 115 101 118 101 114 105 116 121 34 58 49 44 34 115 111 117 114 99 101 34 58 34 70 101 104 108 101 114 83 116 101 108 108 101 32 105 110 32 80 111 115 105 116 105 111 110 32 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 58 53 49 58 50 50 92 110 105 100 101 110 116 105 102 105 101 114 40 105 44 32 109 101 41 59 92 110 32 32 32 32 32 32 32 32 32 32 32 94 32 32 32 32 32 32 92 110 82 101 102 101 114 101 110 122 105 101 114 116 101 32 86 97 114 105 97 98 108 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 92 110 34 44 34 109 101 115 115 97 103 101 34 58 34 82 101 102 101 114 101 110 122 105 101 114 116 101 32 86 97 114 105 97 98 108 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 34 125 44 123 34 114 97 110 103 101 34 58 123 34 115 116 97 114 116 34 58 123 34 108 105 110 101 34 58 53 48 44 34 99 104 97 114 97 99 116 101 114 34 58 50 53 125 44 34 101 110 100 34 58 123 34 108 105 110 101 34 58 53 48 44 34 99 104 97 114 97 99 116 101 114 34 58 50 55 125 125 44 34 115 101 118 101 114 105 116 121 34 58 49 44 34 115 111 117 114 99 101 34 58 34 70 101 104 108 101 114 83 116 101 108 108 101 32 105 110 32 80 111 115 105 116 105 111 110 32 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 58 53 49 58 50 53 92 110 105 100 101 110 116 105 102 105 101 114 40 105 44 32 109 101 41 59 92 110 32 32 32 32 32 32 32 32 32 32 32 32 32 32 94 94 32 32 92 110 82 101 102 101 114 101 110 122 105 101 114 116 101 32 86 97 114 105 97 98 108 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 92 110 34 44 34 109 101 115 115 97 103 101 34 58 34 82 101 102 101 114 101 110 122 105 101 114 116 101 32 86 97 114 105 97 98 108 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 34 125 93 125] <nil> <nil>}
+2025/01/08 13:52:06 fileHandle.go:107: Debug | Error in TextFile:
+FehlerStelle in Position C:\Code\DMF\intellijTest\test.dmf:50:8
+entity TwoE extends .OnE {
+           identifier(i, me);
+        }
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Der Supertyp wurde nicht gefunden!
+
+2025/01/08 13:52:06 fileHandle.go:107: Debug | Error in TextFile:
+FehlerStelle in Position C:\Code\DMF\intellijTest\test.dmf:51:22
+identifier(i, me);
+           ^      
+Referenzierte Variable nicht gefunden!
+
+2025/01/08 13:52:06 fileHandle.go:107: Debug | Error in TextFile:
+FehlerStelle in Position C:\Code\DMF\intellijTest\test.dmf:51:25
+identifier(i, me);
+              ^^  
+Referenzierte Variable nicht gefunden!
+
+2025/01/08 13:52:07 util.go:36: Trace | Read Content-Length: 173 from Content-Length: 173
+2025/01/08 13:52:07 util.go:46: Trace | Read content: {"jsonrpc":"2.0","id":"13","method":"textDocument/hover","params":{"textDocument":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"position":{"line":49,"character":28}}}
+2025/01/08 13:52:07 server.go:98: INFO  | Handle Method: textDocument/hover 
+2025/01/08 13:52:07 hoverService.go:106: Trace | Start Get File Content
+2025/01/08 13:52:07 hoverService.go:112: %!S(string=Trace | )tart Find Node
+2025/01/08 13:52:07 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","id":"13","result":{"contents":{"kind":"markdown","value":"\r\n#### TwoE\r\n###### Entity in Package [de.alex.brand.rekur](file:///C:/Code/DMF/intellijTest/test.dmf#L35)\r\n\r\n"},"range":{"start":{"line":49,"character":28},"end":{"line":49,"character":28}}}}
+2025/01/08 13:52:07 hoverService.go:136: Trace | Finished Hover with Content: 
+#### TwoE
+###### Entity in Package [de.alex.brand.rekur](file:///C:/Code/DMF/intellijTest/test.dmf#L35)
+
+
+2025/01/08 13:52:12 util.go:36: Trace | Read Content-Length: 268 from Content-Length: 268
+2025/01/08 13:52:12 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":15,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":49,"character":28},"end":{"line":49,"character":28}},"rangeLength":0,"text":"e"}]}}
+2025/01/08 13:52:12 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:52:12 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:52:12 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":15,"diagnostics":[{"range":{"start":{"line":49,"character":8},"end":{"line":51,"character":9}},"severity":1,"source":"FehlerStelle in Position file:///C:/Code/DMF/intellijTest/test.dmf:50:8\nentity TwoE extends e.OnE {\n           identifier(i, me);\n        }\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nDer Supertyp wurde nicht gefunden!\n","message":"Der Supertyp wurde nicht gefunden!"},{"range":{"start":{"line":50,"character":22},"end":{"line":50,"character":23}},"severity":1,"source":"FehlerStelle in Position file:///C:/Code/DMF/intellijTest/test.dmf:51:22\nidentifier(i, me);\n           ^      \nReferenzierte Variable nicht gefunden!\n","message":"Referenzierte Variable nicht gefunden!"},{"range":{"start":{"line":50,"character":25},"end":{"line":50,"character":27}},"severity":1,"source":"FehlerStelle in Position file:///C:/Code/DMF/intellijTest/test.dmf:51:25\nidentifier(i, me);\n              ^^  \nReferenzierte Variable nicht gefunden!\n","message":"Referenzierte Variable nicht gefunden!"}]}}
+2025/01/08 13:52:12 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 49 53 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 123 34 114 97 110 103 101 34 58 123 34 115 116 97 114 116 34 58 123 34 108 105 110 101 34 58 52 57 44 34 99 104 97 114 97 99 116 101 114 34 58 56 125 44 34 101 110 100 34 58 123 34 108 105 110 101 34 58 53 49 44 34 99 104 97 114 97 99 116 101 114 34 58 57 125 125 44 34 115 101 118 101 114 105 116 121 34 58 49 44 34 115 111 117 114 99 101 34 58 34 70 101 104 108 101 114 83 116 101 108 108 101 32 105 110 32 80 111 115 105 116 105 111 110 32 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 58 53 48 58 56 92 110 101 110 116 105 116 121 32 84 119 111 69 32 101 120 116 101 110 100 115 32 101 46 79 110 69 32 123 92 110 32 32 32 32 32 32 32 32 32 32 32 105 100 101 110 116 105 102 105 101 114 40 105 44 32 109 101 41 59 92 110 32 32 32 32 32 32 32 32 125 92 110 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 92 110 68 101 114 32 83 117 112 101 114 116 121 112 32 119 117 114 100 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 92 110 34 44 34 109 101 115 115 97 103 101 34 58 34 68 101 114 32 83 117 112 101 114 116 121 112 32 119 117 114 100 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 34 125 44 123 34 114 97 110 103 101 34 58 123 34 115 116 97 114 116 34 58 123 34 108 105 110 101 34 58 53 48 44 34 99 104 97 114 97 99 116 101 114 34 58 50 50 125 44 34 101 110 100 34 58 123 34 108 105 110 101 34 58 53 48 44 34 99 104 97 114 97 99 116 101 114 34 58 50 51 125 125 44 34 115 101 118 101 114 105 116 121 34 58 49 44 34 115 111 117 114 99 101 34 58 34 70 101 104 108 101 114 83 116 101 108 108 101 32 105 110 32 80 111 115 105 116 105 111 110 32 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 58 53 49 58 50 50 92 110 105 100 101 110 116 105 102 105 101 114 40 105 44 32 109 101 41 59 92 110 32 32 32 32 32 32 32 32 32 32 32 94 32 32 32 32 32 32 92 110 82 101 102 101 114 101 110 122 105 101 114 116 101 32 86 97 114 105 97 98 108 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 92 110 34 44 34 109 101 115 115 97 103 101 34 58 34 82 101 102 101 114 101 110 122 105 101 114 116 101 32 86 97 114 105 97 98 108 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 34 125 44 123 34 114 97 110 103 101 34 58 123 34 115 116 97 114 116 34 58 123 34 108 105 110 101 34 58 53 48 44 34 99 104 97 114 97 99 116 101 114 34 58 50 53 125 44 34 101 110 100 34 58 123 34 108 105 110 101 34 58 53 48 44 34 99 104 97 114 97 99 116 101 114 34 58 50 55 125 125 44 34 115 101 118 101 114 105 116 121 34 58 49 44 34 115 111 117 114 99 101 34 58 34 70 101 104 108 101 114 83 116 101 108 108 101 32 105 110 32 80 111 115 105 116 105 111 110 32 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 58 53 49 58 50 53 92 110 105 100 101 110 116 105 102 105 101 114 40 105 44 32 109 101 41 59 92 110 32 32 32 32 32 32 32 32 32 32 32 32 32 32 94 94 32 32 92 110 82 101 102 101 114 101 110 122 105 101 114 116 101 32 86 97 114 105 97 98 108 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 92 110 34 44 34 109 101 115 115 97 103 101 34 58 34 82 101 102 101 114 101 110 122 105 101 114 116 101 32 86 97 114 105 97 98 108 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 34 125 93 125] <nil> <nil>}
+2025/01/08 13:52:12 fileHandle.go:107: Debug | Error in TextFile:
+FehlerStelle in Position C:\Code\DMF\intellijTest\test.dmf:50:8
+entity TwoE extends e.OnE {
+           identifier(i, me);
+        }
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Der Supertyp wurde nicht gefunden!
+
+2025/01/08 13:52:12 fileHandle.go:107: Debug | Error in TextFile:
+FehlerStelle in Position C:\Code\DMF\intellijTest\test.dmf:51:22
+identifier(i, me);
+           ^      
+Referenzierte Variable nicht gefunden!
+
+2025/01/08 13:52:12 fileHandle.go:107: Debug | Error in TextFile:
+FehlerStelle in Position C:\Code\DMF\intellijTest\test.dmf:51:25
+identifier(i, me);
+              ^^  
+Referenzierte Variable nicht gefunden!
+
+2025/01/08 13:52:13 util.go:36: Trace | Read Content-Length: 267 from Content-Length: 267
+2025/01/08 13:52:13 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":16,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":49,"character":28},"end":{"line":49,"character":29}},"rangeLength":1,"text":""}]}}
+2025/01/08 13:52:13 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:52:13 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:52:13 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":16,"diagnostics":[{"range":{"start":{"line":49,"character":8},"end":{"line":51,"character":9}},"severity":1,"source":"FehlerStelle in Position file:///C:/Code/DMF/intellijTest/test.dmf:50:8\nentity TwoE extends .OnE {\n           identifier(i, me);\n        }\n^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nDer Supertyp wurde nicht gefunden!\n","message":"Der Supertyp wurde nicht gefunden!"},{"range":{"start":{"line":50,"character":22},"end":{"line":50,"character":23}},"severity":1,"source":"FehlerStelle in Position file:///C:/Code/DMF/intellijTest/test.dmf:51:22\nidentifier(i, me);\n           ^      \nReferenzierte Variable nicht gefunden!\n","message":"Referenzierte Variable nicht gefunden!"},{"range":{"start":{"line":50,"character":25},"end":{"line":50,"character":27}},"severity":1,"source":"FehlerStelle in Position file:///C:/Code/DMF/intellijTest/test.dmf:51:25\nidentifier(i, me);\n              ^^  \nReferenzierte Variable nicht gefunden!\n","message":"Referenzierte Variable nicht gefunden!"}]}}
+2025/01/08 13:52:13 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 49 54 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 123 34 114 97 110 103 101 34 58 123 34 115 116 97 114 116 34 58 123 34 108 105 110 101 34 58 52 57 44 34 99 104 97 114 97 99 116 101 114 34 58 56 125 44 34 101 110 100 34 58 123 34 108 105 110 101 34 58 53 49 44 34 99 104 97 114 97 99 116 101 114 34 58 57 125 125 44 34 115 101 118 101 114 105 116 121 34 58 49 44 34 115 111 117 114 99 101 34 58 34 70 101 104 108 101 114 83 116 101 108 108 101 32 105 110 32 80 111 115 105 116 105 111 110 32 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 58 53 48 58 56 92 110 101 110 116 105 116 121 32 84 119 111 69 32 101 120 116 101 110 100 115 32 46 79 110 69 32 123 92 110 32 32 32 32 32 32 32 32 32 32 32 105 100 101 110 116 105 102 105 101 114 40 105 44 32 109 101 41 59 92 110 32 32 32 32 32 32 32 32 125 92 110 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 94 92 110 68 101 114 32 83 117 112 101 114 116 121 112 32 119 117 114 100 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 92 110 34 44 34 109 101 115 115 97 103 101 34 58 34 68 101 114 32 83 117 112 101 114 116 121 112 32 119 117 114 100 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 34 125 44 123 34 114 97 110 103 101 34 58 123 34 115 116 97 114 116 34 58 123 34 108 105 110 101 34 58 53 48 44 34 99 104 97 114 97 99 116 101 114 34 58 50 50 125 44 34 101 110 100 34 58 123 34 108 105 110 101 34 58 53 48 44 34 99 104 97 114 97 99 116 101 114 34 58 50 51 125 125 44 34 115 101 118 101 114 105 116 121 34 58 49 44 34 115 111 117 114 99 101 34 58 34 70 101 104 108 101 114 83 116 101 108 108 101 32 105 110 32 80 111 115 105 116 105 111 110 32 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 58 53 49 58 50 50 92 110 105 100 101 110 116 105 102 105 101 114 40 105 44 32 109 101 41 59 92 110 32 32 32 32 32 32 32 32 32 32 32 94 32 32 32 32 32 32 92 110 82 101 102 101 114 101 110 122 105 101 114 116 101 32 86 97 114 105 97 98 108 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 92 110 34 44 34 109 101 115 115 97 103 101 34 58 34 82 101 102 101 114 101 110 122 105 101 114 116 101 32 86 97 114 105 97 98 108 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 34 125 44 123 34 114 97 110 103 101 34 58 123 34 115 116 97 114 116 34 58 123 34 108 105 110 101 34 58 53 48 44 34 99 104 97 114 97 99 116 101 114 34 58 50 53 125 44 34 101 110 100 34 58 123 34 108 105 110 101 34 58 53 48 44 34 99 104 97 114 97 99 116 101 114 34 58 50 55 125 125 44 34 115 101 118 101 114 105 116 121 34 58 49 44 34 115 111 117 114 99 101 34 58 34 70 101 104 108 101 114 83 116 101 108 108 101 32 105 110 32 80 111 115 105 116 105 111 110 32 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 58 53 49 58 50 53 92 110 105 100 101 110 116 105 102 105 101 114 40 105 44 32 109 101 41 59 92 110 32 32 32 32 32 32 32 32 32 32 32 32 32 32 94 94 32 32 92 110 82 101 102 101 114 101 110 122 105 101 114 116 101 32 86 97 114 105 97 98 108 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 92 110 34 44 34 109 101 115 115 97 103 101 34 58 34 82 101 102 101 114 101 110 122 105 101 114 116 101 32 86 97 114 105 97 98 108 101 32 110 105 99 104 116 32 103 101 102 117 110 100 101 110 33 34 125 93 125] <nil> <nil>}
+2025/01/08 13:52:13 fileHandle.go:107: Debug | Error in TextFile:
+FehlerStelle in Position C:\Code\DMF\intellijTest\test.dmf:50:8
+entity TwoE extends .OnE {
+           identifier(i, me);
+        }
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Der Supertyp wurde nicht gefunden!
+
+2025/01/08 13:52:13 fileHandle.go:107: Debug | Error in TextFile:
+FehlerStelle in Position C:\Code\DMF\intellijTest\test.dmf:51:22
+identifier(i, me);
+           ^      
+Referenzierte Variable nicht gefunden!
+
+2025/01/08 13:52:13 fileHandle.go:107: Debug | Error in TextFile:
+FehlerStelle in Position C:\Code\DMF\intellijTest\test.dmf:51:25
+identifier(i, me);
+              ^^  
+Referenzierte Variable nicht gefunden!
+
+2025/01/08 13:52:14 util.go:36: Trace | Read Content-Length: 268 from Content-Length: 268
+2025/01/08 13:52:14 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":17,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":49,"character":31},"end":{"line":49,"character":31}},"rangeLength":0,"text":"e"}]}}
+2025/01/08 13:52:14 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:52:14 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:52:14 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":17,"diagnostics":[]}}
+2025/01/08 13:52:14 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 49 55 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:52:19 util.go:36: Trace | Read Content-Length: 268 from Content-Length: 268
+2025/01/08 13:52:19 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":18,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":54,"character":26},"end":{"line":56,"character":10}},"rangeLength":14,"text":""}]}}
+2025/01/08 13:52:19 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:52:19 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:52:19 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":18,"diagnostics":[]}}
+2025/01/08 13:52:19 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 49 56 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:52:20 util.go:36: Trace | Read Content-Length: 267 from Content-Length: 267
+2025/01/08 13:52:20 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":19,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":54,"character":25},"end":{"line":54,"character":26}},"rangeLength":1,"text":""}]}}
+2025/01/08 13:52:20 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:52:20 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:52:20 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":19,"diagnostics":[]}}
+2025/01/08 13:52:20 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 49 57 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:52:20 util.go:36: Trace | Read Content-Length: 267 from Content-Length: 267
+2025/01/08 13:52:20 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":20,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":54,"character":24},"end":{"line":54,"character":25}},"rangeLength":1,"text":""}]}}
+2025/01/08 13:52:20 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:52:20 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:52:20 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":20,"diagnostics":[]}}
+2025/01/08 13:52:20 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 50 48 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:52:21 util.go:36: Trace | Read Content-Length: 268 from Content-Length: 268
+2025/01/08 13:52:21 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":21,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":54,"character":24},"end":{"line":54,"character":24}},"rangeLength":0,"text":"d"}]}}
+2025/01/08 13:52:21 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:52:21 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:52:21 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":21,"diagnostics":[]}}
+2025/01/08 13:52:21 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 50 49 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:52:21 util.go:36: Trace | Read Content-Length: 268 from Content-Length: 268
+2025/01/08 13:52:21 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":22,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":54,"character":25},"end":{"line":54,"character":25}},"rangeLength":0,"text":" "}]}}
+2025/01/08 13:52:21 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:52:21 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:52:21 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":22,"diagnostics":[]}}
+2025/01/08 13:52:21 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 50 50 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:52:22 util.go:36: Trace | Read Content-Length: 268 from Content-Length: 268
+2025/01/08 13:52:22 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":23,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":54,"character":26},"end":{"line":54,"character":26}},"rangeLength":0,"text":"{"}]}}
+2025/01/08 13:52:22 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:52:22 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:52:22 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":23,"diagnostics":[]}}
+2025/01/08 13:52:22 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 50 51 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:52:22 util.go:36: Trace | Read Content-Length: 378 from Content-Length: 378
+2025/01/08 13:52:22 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":24,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":54,"character":27},"end":{"line":54,"character":27}},"rangeLength":0,"text":"\n}"},{"range":{"start":{"line":54,"character":27},"end":{"line":54,"character":27}},"rangeLength":0,"text":"\n"}]}}
+2025/01/08 13:52:22 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:52:22 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:52:22 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":24,"diagnostics":[]}}
+2025/01/08 13:52:22 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 50 52 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:52:22 util.go:36: Trace | Read Content-Length: 496 from Content-Length: 496
+2025/01/08 13:52:22 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":25,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":54,"character":27},"end":{"line":55,"character":0}},"rangeLength":1,"text":""},{"range":{"start":{"line":55,"character":0},"end":{"line":55,"character":0}},"rangeLength":0,"text":"         "},{"range":{"start":{"line":54,"character":27},"end":{"line":54,"character":27}},"rangeLength":0,"text":"\n         "}]}}
+2025/01/08 13:52:22 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:52:22 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:52:22 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":25,"diagnostics":[]}}
+2025/01/08 13:52:22 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 50 53 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:52:25 util.go:36: Trace | Read Content-Length: 267 from Content-Length: 267
+2025/01/08 13:52:25 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":26,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":54,"character":17},"end":{"line":54,"character":18}},"rangeLength":1,"text":""}]}}
+2025/01/08 13:52:25 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:52:25 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:52:25 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":26,"diagnostics":[]}}
+2025/01/08 13:52:25 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 50 54 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:52:27 util.go:36: Trace | Read Content-Length: 268 from Content-Length: 268
+2025/01/08 13:52:27 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":27,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":54,"character":17},"end":{"line":54,"character":17}},"rangeLength":0,"text":"e"}]}}
+2025/01/08 13:52:27 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:52:27 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:52:27 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":27,"diagnostics":[]}}
+2025/01/08 13:52:27 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 50 55 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:52:29 util.go:36: Trace | Read Content-Length: 267 from Content-Length: 267
+2025/01/08 13:52:29 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":28,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":54,"character":17},"end":{"line":54,"character":18}},"rangeLength":1,"text":""}]}}
+2025/01/08 13:52:29 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:52:29 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:52:29 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":28,"diagnostics":[]}}
+2025/01/08 13:52:29 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 50 56 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:52:29 util.go:36: Trace | Read Content-Length: 268 from Content-Length: 268
+2025/01/08 13:52:29 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":29,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":54,"character":17},"end":{"line":54,"character":17}},"rangeLength":0,"text":"e"}]}}
+2025/01/08 13:52:29 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:52:29 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:52:29 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":29,"diagnostics":[]}}
+2025/01/08 13:52:29 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 50 57 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:52:36 util.go:36: Trace | Read Content-Length: 267 from Content-Length: 267
+2025/01/08 13:52:36 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":30,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":49,"character":13},"end":{"line":49,"character":14}},"rangeLength":1,"text":""}]}}
+2025/01/08 13:52:36 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:52:36 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:52:36 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":30,"diagnostics":[]}}
+2025/01/08 13:52:36 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 51 48 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:52:36 util.go:36: Trace | Read Content-Length: 267 from Content-Length: 267
+2025/01/08 13:52:36 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":31,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":49,"character":12},"end":{"line":49,"character":13}},"rangeLength":1,"text":""}]}}
+2025/01/08 13:52:36 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:52:36 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:52:36 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":31,"diagnostics":[]}}
+2025/01/08 13:52:36 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 51 49 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:52:36 util.go:36: Trace | Read Content-Length: 267 from Content-Length: 267
+2025/01/08 13:52:36 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":32,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":49,"character":11},"end":{"line":49,"character":12}},"rangeLength":1,"text":""}]}}
+2025/01/08 13:52:36 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:52:36 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:52:36 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":32,"diagnostics":[]}}
+2025/01/08 13:52:36 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 51 50 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:52:41 util.go:36: Trace | Read Content-Length: 270 from Content-Length: 270
+2025/01/08 13:52:41 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":33,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":49,"character":11},"end":{"line":49,"character":11}},"rangeLength":0,"text":"ity"}]}}
+2025/01/08 13:52:41 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:52:41 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:52:41 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":33,"diagnostics":[]}}
+2025/01/08 13:52:41 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 51 51 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:52:58 util.go:36: Trace | Read Content-Length: 265 from Content-Length: 265
+2025/01/08 13:52:58 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":34,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":55,"character":0},"end":{"line":55,"character":9}},"rangeLength":9,"text":""}]}}
+2025/01/08 13:52:58 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:52:58 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:52:58 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":34,"diagnostics":[]}}
+2025/01/08 13:52:58 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 51 52 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:53:17 util.go:36: Trace | Read Content-Length: 173 from Content-Length: 173
+2025/01/08 13:53:17 util.go:46: Trace | Read content: {"jsonrpc":"2.0","id":"14","method":"textDocument/hover","params":{"textDocument":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"position":{"line":34,"character":13}}}
+2025/01/08 13:53:17 server.go:98: INFO  | Handle Method: textDocument/hover 
+2025/01/08 13:53:17 hoverService.go:106: Trace | Start Get File Content
+2025/01/08 13:53:17 hoverService.go:112: %!S(string=Trace | )tart Find Node
+2025/01/08 13:53:17 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","id":"14","result":{"contents":{"kind":"markdown","value":"\r\n#### rekur\r\n###### Package in Package [de.alex.brand](file:///C:/Code/DMF/intellijTest/test.dmf#L4)\r\n\r\n"},"range":{"start":{"line":34,"character":13},"end":{"line":34,"character":13}}}}
+2025/01/08 13:53:17 hoverService.go:136: Trace | Finished Hover with Content: 
+#### rekur
+###### Package in Package [de.alex.brand](file:///C:/Code/DMF/intellijTest/test.dmf#L4)
+
+
+2025/01/08 13:53:20 util.go:36: Trace | Read Content-Length: 271 from Content-Length: 271
+2025/01/08 13:53:20 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":35,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":32,"character":5},"end":{"line":32,"character":5}},"rangeLength":0,"text":"\n    "}]}}
+2025/01/08 13:53:20 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:53:20 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:53:20 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":35,"diagnostics":[]}}
+2025/01/08 13:53:20 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 51 53 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:53:21 util.go:36: Trace | Read Content-Length: 271 from Content-Length: 271
+2025/01/08 13:53:21 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":36,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":33,"character":4},"end":{"line":33,"character":4}},"rangeLength":0,"text":"\n    "}]}}
+2025/01/08 13:53:21 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:53:21 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:53:21 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":36,"diagnostics":[]}}
+2025/01/08 13:53:21 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 51 54 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:53:22 util.go:36: Trace | Read Content-Length: 265 from Content-Length: 265
+2025/01/08 13:53:22 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":37,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":34,"character":3},"end":{"line":34,"character":4}},"rangeLength":1,"text":""}]}}
+2025/01/08 13:53:22 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:53:22 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:53:22 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":37,"diagnostics":[]}}
+2025/01/08 13:53:22 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 51 55 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:53:22 util.go:36: Trace | Read Content-Length: 265 from Content-Length: 265
+2025/01/08 13:53:22 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":38,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":34,"character":2},"end":{"line":34,"character":3}},"rangeLength":1,"text":""}]}}
+2025/01/08 13:53:22 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:53:22 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:53:22 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":38,"diagnostics":[]}}
+2025/01/08 13:53:22 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 51 56 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:53:22 util.go:36: Trace | Read Content-Length: 265 from Content-Length: 265
+2025/01/08 13:53:22 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":39,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":34,"character":0},"end":{"line":34,"character":2}},"rangeLength":2,"text":""}]}}
+2025/01/08 13:53:22 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:53:22 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:53:22 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":39,"diagnostics":[]}}
+2025/01/08 13:53:22 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 51 57 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:53:23 util.go:36: Trace | Read Content-Length: 265 from Content-Length: 265
+2025/01/08 13:53:23 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":40,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":33,"character":4},"end":{"line":34,"character":0}},"rangeLength":1,"text":""}]}}
+2025/01/08 13:53:23 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:53:23 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:53:23 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":40,"diagnostics":[]}}
+2025/01/08 13:53:23 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 52 48 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:53:23 util.go:36: Trace | Read Content-Length: 265 from Content-Length: 265
+2025/01/08 13:53:23 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":41,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":33,"character":3},"end":{"line":33,"character":4}},"rangeLength":1,"text":""}]}}
+2025/01/08 13:53:23 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:53:23 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:53:23 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":41,"diagnostics":[]}}
+2025/01/08 13:53:23 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 52 49 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}
+2025/01/08 13:53:32 util.go:36: Trace | Read Content-Length: 173 from Content-Length: 173
+2025/01/08 13:53:32 util.go:46: Trace | Read content: {"jsonrpc":"2.0","id":"15","method":"textDocument/hover","params":{"textDocument":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"position":{"line":42,"character":20}}}
+2025/01/08 13:53:32 server.go:98: INFO  | Handle Method: textDocument/hover 
+2025/01/08 13:53:32 hoverService.go:106: Trace | Start Get File Content
+2025/01/08 13:53:32 hoverService.go:112: %!S(string=Trace | )tart Find Node
+2025/01/08 13:53:32 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","id":"15","result":{"contents":{"kind":"markdown","value":"Kommentar\n\u003cbr\u003eHallo\n"},"range":{"start":{"line":42,"character":20},"end":{"line":42,"character":20}}}}
+2025/01/08 13:53:32 hoverService.go:136: Trace | Finished Hover with Content: Kommentar
+<br>Hallo
+
+2025/01/08 13:54:01 util.go:36: Trace | Read Content-Length: 265 from Content-Length: 265
+2025/01/08 13:54:01 util.go:46: Trace | Read content: {"jsonrpc":"2.0","method":"textDocument/didChange","params":{"textDocument":{"version":42,"uri":"file:///C:/Code/DMF/intellijTest/test.dmf"},"contentChanges":[{"range":{"start":{"line":33,"character":0},"end":{"line":33,"character":3}},"rangeLength":3,"text":""}]}}
+2025/01/08 13:54:01 server.go:98: INFO  | Handle Method: textDocument/didChange 
+2025/01/08 13:54:01 fileService.go:104: Trace | Edit File for file:///C:/Code/DMF/intellijTest/test.dmf
+2025/01/08 13:54:01 util.go:62: INFO  | Sending message: {"jsonrpc":"2.0","method":"textDocument/publishDiagnostics","params":{"uri":"file:///C:/Code/DMF/intellijTest/test.dmf","version":42,"diagnostics":[]}}
+2025/01/08 13:54:01 diagsnosticsService.go:102: INFO  | Published Diagnostics: {2.0 [] textDocument/publishDiagnostics [123 34 117 114 105 34 58 34 102 105 108 101 58 47 47 47 67 58 47 67 111 100 101 47 68 77 70 47 105 110 116 101 108 108 105 106 84 101 115 116 47 116 101 115 116 46 100 109 102 34 44 34 118 101 114 115 105 111 110 34 58 52 50 44 34 100 105 97 103 110 111 115 116 105 99 115 34 58 91 93 125] <nil> <nil>}

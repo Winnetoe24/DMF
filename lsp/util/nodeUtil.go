@@ -162,3 +162,21 @@ func (nf *NodeFinder) FindSmallestNodeAroundPositionInSets(tree *tree_sitter.Tre
 
 	return nodes
 }
+
+func (nf *NodeFinder) FindChildrenInSet(node *tree_sitter.Node, set []string) []*tree_sitter.Node {
+	nodes := make([]*tree_sitter.Node, 0)
+	for i := uint(0); i < node.ChildCount(); i++ {
+		child := node.Child(i)
+		if child == nil {
+			continue
+		}
+		if slices.Contains(set, node.GrammarName()) {
+			nodes = append(nodes, child)
+		} else {
+			nodes = append(nodes, nf.FindChildrenInSet(child, set)...)
+		}
+	}
+
+	return nodes
+
+}

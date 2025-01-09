@@ -4,11 +4,11 @@ package de.library.management.employees;
  * Abteilungen
  **/
 public enum Department {
-    ADMINISTRATION("TODO"),
-    CATALOGING("TODO"),
-    USER_SERVICES("TODO"),
-    IT_SUPPORT("TODO"),
-    FACILITY_MANAGEMENT("TODO");
+    ADMINISTRATION("Verwaltung"),
+    CATALOGING("Katalogisierung"),
+    USER_SERVICES("Benutzerdienste"),
+    IT_SUPPORT("IT-Support"),
+    FACILITY_MANAGEMENT("Gebäudemanagement");
 
     protected String name;
 
