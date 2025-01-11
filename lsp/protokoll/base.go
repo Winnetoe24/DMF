@@ -34,6 +34,13 @@ type Location struct {
 	Range Range       `json:"range"`
 }
 
+func NodeToLocation(node *tree_sitter.Node, uri DocumentURI) Location {
+	return Location{
+		URI:   uri,
+		Range: ToRange(node.Range()),
+	}
+}
+
 // TextDocumentItem represents an open text document
 type TextDocumentItem struct {
 	URI        DocumentURI `json:"uri"`

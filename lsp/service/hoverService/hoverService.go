@@ -191,70 +191,69 @@ type UseTemplateData struct {
 
 func (h *HoverService) renderVariableElementMarkdown(file protokoll.DocumentURI, nodeVariable *tree_sitter.Node, packageElementNode *tree_sitter.Node, content fileService.FileContent, rekursiv bool) string {
 
-	for _, element := range content.LookUp {
-		base := element.GetBase()
-		if base.Node.Id() != packageElementNode.Id() {
-			continue
-		}
-		data := VariableElementTemplateData{}
+	element := util.FindElementOfNode(content.LookUp, packageElementNode)
+	if element == nil {
+		return h.renderPackageElementPlainText(packageElementNode, content)
+	}
 
-		var namedElement base2.NamedElement
-		for _, namedElement = range base.NamedElements {
-			if namedElement.Element().Node.Id() == nodeVariable.Id() {
-				break
-			}
+	base := element.GetBase()
+	data := VariableElementTemplateData{}
+
+	var namedElement base2.NamedElement
+	for _, namedElement = range base.NamedElements {
+		if namedElement.Element().Node.Id() == nodeVariable.Id() {
+			break
 		}
-		switch pElement := element.(type) {
-		case *packages.EnumElement:
-			for _, konstante := range pElement.Konstanten {
+	}
+	switch pElement := element.(type) {
+	case *packages.EnumElement:
+		for _, konstante := range pElement.Konstanten {
+			data.Uses = append(data.Uses, UseTemplateData{
+				Code: konstante.Node.Utf8Text([]byte(content.Content)),
+				Link: util.CreateMarkdownLinkFromNode(file, konstante.Node),
+			})
+		}
+	case *packages.EntityElement:
+		for _, elementIdentifier := range pElement.Identifier.Variablen {
+			if elementIdentifier.Name == namedElement.GetName() {
 				data.Uses = append(data.Uses, UseTemplateData{
-					Code: konstante.Node.Utf8Text([]byte(content.Content)),
-					Link: util.CreateMarkdownLinkFromNode(file, konstante.Node),
+					Code: pElement.Identifier.Node.Utf8Text([]byte(content.Content)),
+					Link: util.CreateMarkdownLinkFromNode(file, pElement.Identifier.Node),
 				})
 			}
-		case *packages.EntityElement:
-			for _, elementIdentifier := range pElement.Identifier.Variablen {
-				if elementIdentifier.Name == namedElement.GetName() {
-					data.Uses = append(data.Uses, UseTemplateData{
-						Code: pElement.Identifier.Node.Utf8Text([]byte(content.Content)),
-						Link: util.CreateMarkdownLinkFromNode(file, pElement.Identifier.Node),
-					})
-				}
-			}
 		}
-		switch cElement := namedElement.(type) {
-		case *packages.Argument:
-			data.Typ = string(cElement.Typ)
-			data.Name = cElement.Name.Name
-			if cElement.Kommentar != nil {
-				data.Kommentar = h.renderComment(*cElement.Kommentar)
-			}
-		case *packages.Referenz:
-			data.Name = cElement.Name.Name
-			if cElement.Kommentar != nil {
-				data.Kommentar = h.renderComment(*cElement.Kommentar)
-			}
-			referenzierterTyp, found := content.LookUp[cElement.Typ.ToString()]
-			if found {
-				if rekursiv {
-					data.Typ = util.CreateMarkdownLinkComplete(file, referenzierterTyp.GetBase().Node, cElement.Typ[len(cElement.Typ)-1], "")
-				} else {
-					data.Typ = util.CreateMarkdownLinkComplete(file, referenzierterTyp.GetBase().Node, cElement.Typ[len(cElement.Typ)-1],
-						strings.ReplaceAll(h.renderPackageElementPlainText(referenzierterTyp.GetBase().Node, content), "\n", ""))
-				}
-			} else {
-				data.Typ = cElement.Typ.ToString()
-			}
-		}
-
-		buffer := bytes.NewBuffer(make([]byte, 0))
-		err := h.templates.ExecuteTemplate(buffer, "variable", data)
-		if err != nil {
-			panic(err)
-		}
-		return buffer.String()
 	}
-	return h.renderPackageElementPlainText(packageElementNode, content)
+	switch cElement := namedElement.(type) {
+	case *packages.Argument:
+		data.Typ = string(cElement.Typ)
+		data.Name = cElement.Name.Name
+		if cElement.Kommentar != nil {
+			data.Kommentar = h.renderComment(*cElement.Kommentar)
+		}
+	case *packages.Referenz:
+		data.Name = cElement.Name.Name
+		if cElement.Kommentar != nil {
+			data.Kommentar = h.renderComment(*cElement.Kommentar)
+		}
+		referenzierterTyp, found := content.LookUp[cElement.Typ.ToString()]
+		if found {
+			if rekursiv {
+				data.Typ = util.CreateMarkdownLinkComplete(file, referenzierterTyp.GetBase().Node, cElement.Typ[len(cElement.Typ)-1], "")
+			} else {
+				data.Typ = util.CreateMarkdownLinkComplete(file, referenzierterTyp.GetBase().Node, cElement.Typ[len(cElement.Typ)-1],
+					strings.ReplaceAll(h.renderPackageElementPlainText(referenzierterTyp.GetBase().Node, content), "\n", ""))
+			}
+		} else {
+			data.Typ = cElement.Typ.ToString()
+		}
+	}
+
+	buffer := bytes.NewBuffer(make([]byte, 0))
+	err := h.templates.ExecuteTemplate(buffer, "variable", data)
+	if err != nil {
+		panic(err)
+	}
+	return buffer.String()
 }
 
 type IdentifierElementTemplateData struct {
@@ -266,68 +265,71 @@ type IdentifierElementTemplateData struct {
 
 func (h *HoverService) renderIdentifierElementMarkdown(file protokoll.DocumentURI, node *tree_sitter.Node, content fileService.FileContent, rekursiv bool) string {
 	entityElementNode := node.Parent()
-	for _, element := range content.LookUp {
-		base := element.GetBase()
-		if base.Node.Id() == entityElementNode.Id() {
-			data := IdentifierElementTemplateData{}
 
-			var entityElement = element.(*packages.EntityElement)
-			data.Name = base.Path[len(base.Path)-1]
-			data.NameLink = util.CreateMarkdownLinkFromNode(file, base.Node)
-
-			identifier := entityElement.Identifier
-			if identifier.Kommentar != nil {
-				data.Kommentar = h.renderComment(*identifier.Kommentar)
-			}
-			for _, variable := range identifier.Variablen {
-				namedElement := entityElement.NamedElements[variable.Name]
-				typeName := "unknown"
-				link := util.CreateMarkdownLinkFromNode(file, variable.Node)
-				kommentar := ""
-				switch cElement := namedElement.(type) {
-				case *packages.Argument:
-					typeName = string(cElement.Typ)
-					link = util.CreateMarkdownLinkFromNode(file, cElement.Node)
-					if cElement.Kommentar != nil {
-						kommentar = h.renderComment(*cElement.Kommentar)
-					}
-				case *packages.Referenz:
-					link = util.CreateMarkdownLinkFromNode(file, cElement.Node)
-					if cElement.Kommentar != nil {
-						kommentar = h.renderComment(*cElement.Kommentar)
-					}
-					referenzierterTyp, found := content.LookUp[cElement.Typ.ToString()]
-					if found {
-						if rekursiv {
-							typeName = util.CreateMarkdownLinkComplete(file, referenzierterTyp.GetBase().Node, cElement.Typ[len(cElement.Typ)-1], "")
-						} else {
-							typeName = util.CreateMarkdownLinkComplete(file, referenzierterTyp.GetBase().Node, cElement.Typ[len(cElement.Typ)-1],
-								strings.ReplaceAll(h.renderPackageElementPlainText(referenzierterTyp.GetBase().Node, content), "\n", ""))
-						}
-					} else {
-						typeName = cElement.Typ.ToString()
-					}
-				}
-
-				if kommentar != "" {
-					kommentar = "<br>" + kommentar
-				}
-				data.Elemente = append(data.Elemente, VariableElementTemplateData{
-					Name:      variable.Name,
-					Link:      link,
-					Typ:       typeName,
-					Kommentar: kommentar,
-				})
-			}
-			buffer := bytes.NewBuffer(make([]byte, 0))
-			err := h.templates.ExecuteTemplate(buffer, "identifier", data)
-			if err != nil {
-				panic(err)
-			}
-			return buffer.String()
-		}
+	element := util.FindElementOfNode(content.LookUp, entityElementNode)
+	if element == nil {
+		return "Ein Identifier einer Entity welcher die Identität bestimmt."
 	}
-	return "Ein Identifier einer Entity welcher die Identität bestimmt."
+
+	base := element.GetBase()
+	data := IdentifierElementTemplateData{}
+
+	var entityElement = element.(*packages.EntityElement)
+	data.Name = base.Path[len(base.Path)-1]
+	data.NameLink = util.CreateMarkdownLinkFromNode(file, base.Node)
+
+	identifier := entityElement.Identifier
+	if identifier.Kommentar != nil {
+		data.Kommentar = h.renderComment(*identifier.Kommentar)
+	}
+	for _, variable := range identifier.Variablen {
+		namedElement := entityElement.NamedElements[variable.Name]
+		typeName := "unknown"
+		link := util.CreateMarkdownLinkFromNode(file, variable.Node)
+		kommentar := ""
+		switch cElement := namedElement.(type) {
+		case *packages.Argument:
+			typeName = string(cElement.Typ)
+			link = util.CreateMarkdownLinkFromNode(file, cElement.Node)
+			if cElement.Kommentar != nil {
+				kommentar = h.renderComment(*cElement.Kommentar)
+			}
+		case *packages.Referenz:
+			link = util.CreateMarkdownLinkFromNode(file, cElement.Node)
+			if cElement.Kommentar != nil {
+				kommentar = h.renderComment(*cElement.Kommentar)
+			}
+			referenzierterTyp, found := content.LookUp[cElement.Typ.ToString()]
+			if found {
+				if rekursiv {
+					typeName = util.CreateMarkdownLinkComplete(file, referenzierterTyp.GetBase().Node, cElement.Typ[len(cElement.Typ)-1], "")
+				} else {
+					typeName = util.CreateMarkdownLinkComplete(file, referenzierterTyp.GetBase().Node, cElement.Typ[len(cElement.Typ)-1],
+						strings.ReplaceAll(h.renderPackageElementPlainText(referenzierterTyp.GetBase().Node, content), "\n", ""))
+				}
+			} else {
+				typeName = cElement.Typ.ToString()
+			}
+		}
+
+		if kommentar != "" {
+			kommentar = "<br>" + kommentar
+		}
+		data.Elemente = append(data.Elemente, VariableElementTemplateData{
+			Name:      variable.Name,
+			Link:      link,
+			Typ:       typeName,
+			Kommentar: kommentar,
+		})
+	}
+
+	buffer := bytes.NewBuffer(make([]byte, 0))
+	err := h.templates.ExecuteTemplate(buffer, "identifier", data)
+	if err != nil {
+		panic(err)
+	}
+	return buffer.String()
+
 }
 
 type KonstanteTemplateData struct {
@@ -344,54 +346,52 @@ type ValueTemplateData struct {
 }
 
 func (h *HoverService) renderKonstanteMarkdown(file protokoll.DocumentURI, node *tree_sitter.Node, enumNode *tree_sitter.Node, content fileService.FileContent, rekursiv bool) string {
-	for _, element := range content.LookUp {
-		base := element.GetBase()
-		if base.Node.Id() != enumNode.Id() {
+	element := util.FindElementOfNode(content.LookUp, enumNode)
+	if element == nil {
+		return "Eine Konstante ist eine Variante eines Enums."
+	}
+	enumElement := element.(*packages.EnumElement)
+	for _, konstante := range enumElement.Konstanten {
+		if konstante.Node.Id() != node.Id() {
 			continue
 		}
-		enumElement := element.(*packages.EnumElement)
-		for _, konstante := range enumElement.Konstanten {
-			if konstante.Node.Id() != node.Id() {
-				continue
-			}
 
-			data := KonstanteTemplateData{
-				Name:      konstante.Name.Name,
-				Enum:      enumElement.Identifier.Name,
-				EnumLink:  util.CreateMarkdownLinkFromNode(file, enumNode),
-				Kommentar: "",
-				Values:    nil,
-			}
-			if konstante.Kommentar != nil {
-				data.Kommentar = h.renderComment(*konstante.Kommentar)
-			}
-			for i, value := range konstante.Values {
-				logService.GetLogger().Printf("%sIndex %v Argumente: %v\n", logService.TRACE, i, len(enumElement.Argumente))
-				logService.GetLogger().Printf("%sValue: %+v\n", logService.TRACE, value)
-
-				valueTemplateData := ValueTemplateData{
-					Name:  "Index",
-					Link:  "",
-					Value: fmt.Sprintf("%v", value.GetValue()), //TODO Fix Index Value
-				}
-				if i != 0 {
-					argument := enumElement.Argumente[i-1]
-					valueTemplateData.Name = argument.Name.Name
-					valueTemplateData.Link = util.CreateMarkdownLinkFromNode(file, argument.Node)
-				}
-				data.Values = append(data.Values, valueTemplateData)
-			}
-
-			buffer := bytes.NewBuffer(make([]byte, 0))
-			err := h.templates.ExecuteTemplate(buffer, "konstante", data)
-			if err != nil {
-				panic(err)
-			}
-			return buffer.String()
+		data := KonstanteTemplateData{
+			Name:      konstante.Name.Name,
+			Enum:      enumElement.Identifier.Name,
+			EnumLink:  util.CreateMarkdownLinkFromNode(file, enumNode),
+			Kommentar: "",
+			Values:    nil,
 		}
-		return "Es wurde keine passende Konstante gefunden"
+		if konstante.Kommentar != nil {
+			data.Kommentar = h.renderComment(*konstante.Kommentar)
+		}
+		for i, value := range konstante.Values {
+			logService.GetLogger().Printf("%sIndex %v Argumente: %v\n", logService.TRACE, i, len(enumElement.Argumente))
+			logService.GetLogger().Printf("%sValue: %+v\n", logService.TRACE, value)
+
+			valueTemplateData := ValueTemplateData{
+				Name:  "Index",
+				Link:  "",
+				Value: fmt.Sprintf("%v", value.GetValue()), //TODO Fix Index Value
+			}
+			if i != 0 {
+				argument := enumElement.Argumente[i-1]
+				valueTemplateData.Name = argument.Name.Name
+				valueTemplateData.Link = util.CreateMarkdownLinkFromNode(file, argument.Node)
+			}
+			data.Values = append(data.Values, valueTemplateData)
+		}
+
+		buffer := bytes.NewBuffer(make([]byte, 0))
+		err := h.templates.ExecuteTemplate(buffer, "konstante", data)
+		if err != nil {
+			panic(err)
+		}
+		return buffer.String()
 	}
-	return "Eine Konstante ist eine Variante eines Enums."
+	return "Es wurde keine passende Konstante gefunden"
+
 }
 
 func (h *HoverService) renderKommentarPlaintext(file protokoll.DocumentURI, node *tree_sitter.Node, content fileService.FileContent) string {
@@ -422,42 +422,37 @@ type PackageElementTemplateData struct {
 
 func (h *HoverService) renderPackageElementMarkdown(file protokoll.DocumentURI, node *tree_sitter.Node, content fileService.FileContent) string {
 	data := PackageElementTemplateData{}
-	found := false
-	for _, element := range content.LookUp {
-		base := element.GetBase()
-		if base.Node.Id() == node.Id() {
-			if base.Kommentar != nil {
-				data.Kommentar = h.renderComment(*base.Kommentar)
-			}
-			data.Name = base.Path[len(base.Path)-1]
-			data.Package = base.Path[:len(base.Path)-1].ToString()
-
-			// Package Link
-			packageElement := content.LookUp[data.Package]
-			if packageElement != nil {
-				data.PackageLink = util.CreateMarkdownLinkFromNode(file, packageElement.GetBase().Identifier.Node)
-			}
-
-			switch element.(type) {
-			case *packages.EntityElement:
-				data.TypeName = "Entity"
-			case *packages.EnumElement:
-				data.TypeName = "Enum"
-			case *packages.StructElement:
-				data.TypeName = "Struct"
-			case *packages.InterfaceElement:
-				data.TypeName = "Interface"
-			case *packages.Package:
-				data.TypeName = "Package"
-			default:
-				data.TypeName = "Unknown"
-			}
-			found = true
-			break
-		}
-	}
-	if !found {
+	element := util.FindElementOfNode(content.LookUp, node)
+	if element == nil {
 		return h.renderPackageElementPlainText(node, content)
+	}
+	base := element.GetBase()
+
+	if base.Kommentar != nil {
+		data.Kommentar = h.renderComment(*base.Kommentar)
+	}
+	data.Name = base.Path[len(base.Path)-1]
+	data.Package = base.Path[:len(base.Path)-1].ToString()
+
+	// Package Link
+	packageElement := content.LookUp[data.Package]
+	if packageElement != nil {
+		data.PackageLink = util.CreateMarkdownLinkFromNode(file, packageElement.GetBase().Identifier.Node)
+	}
+
+	switch element.(type) {
+	case *packages.EntityElement:
+		data.TypeName = "Entity"
+	case *packages.EnumElement:
+		data.TypeName = "Enum"
+	case *packages.StructElement:
+		data.TypeName = "Struct"
+	case *packages.InterfaceElement:
+		data.TypeName = "Interface"
+	case *packages.Package:
+		data.TypeName = "Package"
+	default:
+		data.TypeName = "Unknown"
 	}
 
 	buffer := bytes.NewBuffer(make([]byte, 0))

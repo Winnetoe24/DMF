@@ -46,7 +46,7 @@ func (S *SemanticContext) parseExtendsBlock(current base.ModelPath) (base.ModelP
 	if !hasNextSibling {
 		return nil, errElement.CreateErrorElementRef(extendsNode, errors.New("kein Referenzierter Typ"))
 	}
-	return S.parseRefType(current)
+	return S.ParseRefType(current)
 }
 
 func (S *SemanticContext) parseImplementsBlock(current base.ModelPath) ([]base.ModelPath, []errElement.ErrorElement) {
@@ -69,7 +69,7 @@ func (S *SemanticContext) parseImplementsBlock(current base.ModelPath) ([]base.M
 	implementierteTypen := make([]base.ModelPath, 0)
 	errorsElemente := make([]errElement.ErrorElement, 0)
 
-	refType, elementError := S.parseRefType(current)
+	refType, elementError := S.ParseRefType(current)
 	if elementError != nil {
 		errorsElemente = append(errorsElemente, *elementError)
 	} else {
@@ -81,7 +81,7 @@ func (S *SemanticContext) parseImplementsBlock(current base.ModelPath) ([]base.M
 
 	for S.Cursor.GotoNextSibling() {
 		if commaMode {
-			refType, elementError := S.parseRefType(current)
+			refType, elementError := S.ParseRefType(current)
 			implementierteTypen = append(implementierteTypen, refType)
 			if elementError != nil {
 				errorsElemente = append(errorsElemente, *elementError)
@@ -179,7 +179,7 @@ func (S *SemanticContext) parseRefBlock(current base.ModelPath, comment base.Com
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("es fehlt ein Referenz Typ")))
 		return referenz
 	}
-	refType, element := S.parseRefType(current)
+	refType, element := S.ParseRefType(current)
 	if element != nil {
 		S.ErrorElements = append(S.ErrorElements, *element)
 	} else {
@@ -295,7 +295,7 @@ ParameterSchleife:
 }
 
 func (S *SemanticContext) parseReferenz(current base.ModelPath) *packages.Referenz {
-	refType, element := S.parseRefType(current)
+	refType, element := S.ParseRefType(current)
 	if element != nil {
 		S.ErrorElements = append(S.ErrorElements, *element)
 	}

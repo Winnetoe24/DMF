@@ -163,7 +163,7 @@ func (S *SemanticContext) ParseComment() (base.Comment, *errElement.ErrorElement
 	return comment, nil
 }
 
-func (S *SemanticContext) parseRefType(current base.ModelPath) (base.ModelPath, *errElement.ErrorElement) {
+func (S *SemanticContext) ParseRefType(current base.ModelPath) (base.ModelPath, *errElement.ErrorElement) {
 	cursor := S.Cursor
 	node := cursor.Node()
 	errorElement := assertNodeState(node, "Ref Type Node")

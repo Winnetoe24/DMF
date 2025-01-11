@@ -14,7 +14,7 @@
         <entry key="cd5c57e8-3b08-4329-ba6b-ca15675b9558">
           <value>
             <LanguageServerDefinitionSettings>
-              <option name="errorReportingKind" value="as_notification" />
+              <option name="errorReportingKind" value="in_log" />
               <option name="serverTrace" value="off" />
             </LanguageServerDefinitionSettings>
           </value>

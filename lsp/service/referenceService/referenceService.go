@@ -11,10 +11,11 @@ import (
 	"github.com/Winnetoe24/DMF/lsp/service/fileService"
 	"github.com/Winnetoe24/DMF/lsp/service/logService"
 	"github.com/Winnetoe24/DMF/lsp/util"
+	semantic_parse "github.com/Winnetoe24/DMF/semantic/semantic-parse"
+	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
-	"strings"
 )
 
 const referenceMethod = "textDocument/references"
@@ -48,10 +49,12 @@ func (r *ReferenceService) GetMethods() []string {
 
 const (
 	identifier     = iota
+	refType        = iota
+	primitiveType  = iota
 	packageElement = iota
 )
 
-var nodeFilter = [][]string{{"identifier_statement"}, {"package_block", "struct_block", "enum_block", "entity_block", "interface_block"}}
+var nodeFilter = [][]string{{"identifier"}, {"reftype"}, {"primitive_type"}, {"package_block", "struct_block", "enum_block", "entity_block", "interface_block"}}
 
 func (r *ReferenceService) HandleMethod(message protokoll.Message) {
 	switch message.Method {
@@ -97,13 +100,21 @@ func (r *ReferenceService) findReferences(nodes []*tree_sitter.Node, content fil
 	// Get the identifier name we're looking for
 	targetPath, namePtr := r.findModelPath(nodes, content)
 
+	if targetPath == nil {
+		return references
+	}
+
 	// Find Package Element
 	element := content.LookUp[targetPath.ToString()]
 	if element == nil {
 		return references
 	}
 
-	return r.findReferencesFromPath(targetPath, namePtr, element, content, file)
+	if namePtr == nil {
+		return r.findReferencesFromPath(*targetPath, element, content, file)
+	} else {
+		return r.finReferencesFromName(*namePtr, element, content, file)
+	}
 
 	// Look through all named elements in the lookup table
 	//for _, element := range content.LookUp {
@@ -130,56 +141,50 @@ func (r *ReferenceService) findReferences(nodes []*tree_sitter.Node, content fil
 }
 
 // findModelPath findet den ModelPath des PackageElements für den LookUp sowie den evt. Namen des Named Elements
-func (r *ReferenceService) findModelPath(nodes []*tree_sitter.Node, content fileService.FileContent) (base.ModelPath, *string) {
-	return make(base.ModelPath, 0), nil
-}
+func (r *ReferenceService) findModelPath(nodes []*tree_sitter.Node, content fileService.FileContent) (*base.ModelPath, *string) {
 
-func (r *ReferenceService) findReferencesFromPath(path base.ModelPath, namePtr *string, element packages.PackageElement, content fileService.FileContent, file protokoll.DocumentURI) []protokoll.Location {
-
-	if namePtr == nil {
-		// Type References
-		// -> ref Usages
-		// -> References in SubElements
-		// --> Interface -> extends in InterfaceElementen und implements
-		// --> Struct -> extends in StructElementen & EntityElementen
-		// --> Entity -> extends in EntityElementen
-		// --> Package -> All Elements
-		var f func(element packages.PackageElement, node *tree_sitter.Node) *tree_sitter.Node
-		if element.GetType() == base.PACKAGE {
-			f = func(element packages.PackageElement, node *tree_sitter.Node) *tree_sitter.Node {
-				return node
+	bytes := []byte(content.Content)
+	for i, node := range nodes {
+		switch i {
+		case identifier:
+			name := node.Utf8Text(bytes)
+			packageElementNode := nodes[packageElement]
+			if packageElementNode == nil {
+				return nil, &name
 			}
-		} else {
-			finder := util.NewNodeFinder(make([]byte, 0))
-			// Find Node
-			f = func(foundElement packages.PackageElement, node *tree_sitter.Node) *tree_sitter.Node {
-				nodes := finder.FindChildrenInSet(node, []string{"reftype"})
-				for _, fNode := range nodes {
-					if fNode == nil || fNode.Parent() == nil {
-						continue
-					}
-					parentGrammarName := fNode.Parent().GrammarName()
-					if parentGrammarName != "implements_block" && parentGrammarName != "extends_block" {
-						continue
-					}
-					if strings.Contains(fNode.Utf8Text([]byte(content.Content)), element.GetBase().Identifier.Name) {
-						return fNode
-					}
-				}
-				return node
+			element := util.FindElementOfNode(content.LookUp, packageElementNode)
+			if element == nil {
+				return nil, &name
 			}
+			return &element.GetBase().Path, &name
+		case refType:
+			context := semantic_parse.SemanticContext{
+				ErrorElements: nil,
+				Model:         smodel.Model{},
+				Text:          bytes,
+				Cursor:        node.Walk(),
+			}
+			packageElementNode := nodes[packageElement]
+			if packageElementNode == nil {
+				return nil, nil
+			}
+			element := util.FindElementOfNode(content.LookUp, packageElementNode)
+			if element == nil {
+				return nil, nil
+			}
+			parseRefType, errorElement := context.ParseRefType(element.GetBase().Path)
+			if errorElement != nil {
+				return nil, nil
+			}
+			return &parseRefType, nil
 		}
-	} else {
-		// Variable References
-		// -> References in own PackageElement
-		// -> References in SubElements
 	}
-	return nil
+	return nil, nil
 }
 
 // findSubelements macht aus jedem Subelement ein Element E mithilfe der Funktion f. "f" bekommt das gefundene Element und die Node des gefundenen Elements.
 // f ist gedacht um entweder direkt die Nodes( oder SubNodes) oder die PackageElemente zurückzugeben. Nodes werden direkt für Referenzen genutzt, PackageElements können weiter verarbeitet werden.
-func findSubelements[E interface{}](path base.ModelPath, content fileService.FileContent, element packages.PackageElement, f func(element packages.PackageElement, node *tree_sitter.Node) E) []E {
+func findSubelements[E interface{}](content fileService.FileContent, element packages.PackageElement, f func(element packages.PackageElement, node *tree_sitter.Node) E) []E {
 	ret := make([]E, 0)
 	switch element.(type) {
 	// Find all Subelements for an InterfaceElement

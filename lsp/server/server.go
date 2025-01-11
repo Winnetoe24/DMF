@@ -13,6 +13,7 @@ import (
 	"github.com/Winnetoe24/DMF/lsp/service/fileService"
 	"github.com/Winnetoe24/DMF/lsp/service/hoverService"
 	"github.com/Winnetoe24/DMF/lsp/service/logService"
+	"github.com/Winnetoe24/DMF/lsp/service/referenceService"
 	"log"
 )
 
@@ -38,6 +39,9 @@ func NewServer(con connect.Connection) *Server {
 
 	newHoverService := hoverService.NewHoverService(con, fileServiceHandler)
 	s.addHandler(newHoverService)
+
+	newReferenceService := referenceService.NewReferenceService(con, fileServiceHandler)
+	s.addHandler(newReferenceService)
 
 	return s
 }
