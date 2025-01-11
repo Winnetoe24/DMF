@@ -7,7 +7,7 @@ import (
 	"github.com/tree-sitter/go-tree-sitter"
 )
 
-func (r *ReferenceService) finReferencesFromName(name string, element packages.PackageElement, content fileService.FileContent, file protokoll.DocumentURI) []protokoll.Location {
+func (r *ReferenceService) findReferencesFromName(name string, element packages.PackageElement, content fileService.FileContent, file protokoll.DocumentURI) []protokoll.Location {
 	// Variable References
 	// -> References in own PackageElement
 	// -> References in SubElements

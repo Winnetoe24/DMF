@@ -3,6 +3,7 @@ package referenceService
 import (
 	"encoding/json"
 	"github.com/Winnetoe24/DMF/lsp/protokoll"
+	"github.com/Winnetoe24/DMF/lsp/protokoll/declaration"
 	"github.com/Winnetoe24/DMF/lsp/protokoll/initialize"
 	"github.com/Winnetoe24/DMF/lsp/protokoll/reference"
 	"github.com/Winnetoe24/DMF/lsp/server/connect"
@@ -19,6 +20,7 @@ import (
 )
 
 const referenceMethod = "textDocument/references"
+const declarationMethod = "textDocument/declaration"
 
 type ReferenceService struct {
 	con connect.Connection
@@ -41,10 +43,16 @@ func (r *ReferenceService) Initialize(params *initialize.InitializeParams, resul
 		// Enable reference provider in server capabilities
 		result.Capabilities.ReferencesProvider = true
 	}
+
+	// DeclarationSupport
+	if params.Capabilities.TextDocument != nil && params.Capabilities.TextDocument.Declaration != nil {
+		result.Capabilities.DeclarationProvider = true
+	}
+
 }
 
 func (r *ReferenceService) GetMethods() []string {
-	return []string{referenceMethod}
+	return []string{referenceMethod, declarationMethod}
 }
 
 const (
@@ -89,6 +97,34 @@ func (r *ReferenceService) HandleMethod(message protokoll.Message) {
 		})
 
 		logger.Printf("%sFinished References request\n", logService.TRACE)
+	case declarationMethod:
+		params := declaration.DeclarationParams{}
+		err := json.Unmarshal(message.Params, &params)
+		if err != nil {
+			connectUtils.WriteErrorToCon(r.con, message.ID, err, protokoll.ParseError)
+			return
+		}
+
+		// Get the file content
+		content, err := r.fs.GetFileContent(params.TextDocument.URI)
+		if err != nil {
+			connectUtils.WriteErrorToCon(r.con, message.ID, err, protokoll.InternalError)
+			return
+		}
+
+		// Find the node at the cursor position
+		finder := util.NewNodeFinder([]byte(content.Content))
+		nodes := finder.FindSmallestNodeAroundPositionInSets(&content.Ast, params.Position, nodeFilter)
+
+		// Find all declarations to this node
+		declarations := r.findDeclarations(nodes, content, params.TextDocument.URI)
+
+		// Send the response
+		r.con.WriteMessage(protokoll.Message{
+			JsonRPC: "2.0",
+			ID:      message.ID,
+			Result:  declarations,
+		})
 	}
 }
 
@@ -98,7 +134,7 @@ func (r *ReferenceService) findReferences(nodes []*tree_sitter.Node, content fil
 	//node := nodes[identifier]
 	//packageElementNode := nodes[packageElement]
 	// Get the identifier name we're looking for
-	targetPath, namePtr := r.findModelPath(nodes, content)
+	_, targetPath, namePtr := r.findModelPath(nodes, content)
 
 	if targetPath == nil {
 		return references
@@ -113,35 +149,37 @@ func (r *ReferenceService) findReferences(nodes []*tree_sitter.Node, content fil
 	if namePtr == nil {
 		return r.findReferencesFromPath(*targetPath, element, content, file)
 	} else {
-		return r.finReferencesFromName(*namePtr, element, content, file)
+		return r.findReferencesFromName(*namePtr, element, content, file)
+	}
+}
+
+func (r *ReferenceService) findDeclarations(nodes []*tree_sitter.Node, content fileService.FileContent, file protokoll.DocumentURI) []declaration.DeclarationLink {
+	var declarations []declaration.DeclarationLink
+
+	//node := nodes[identifier]
+	//packageElementNode := nodes[packageElement]
+	// Get the identifier name we're looking for
+	sourceNode, targetPath, namePtr := r.findModelPath(nodes, content)
+
+	if targetPath == nil {
+		return declarations
 	}
 
-	// Look through all named elements in the lookup table
-	//for _, element := range content.LookUp {
-	//	base := element.GetBase()
-	//
-	//	if base.Node.Id() != packageElementNode.Id() {
-	//		continue
-	//	}
-	//
-	//	// Check if this element references our target
-	//	for _, namedElement := range base.NamedElements {
-	//		if namedElement.GetName() == targetName {
-	//			// Convert the node position to an LSP location
-	//			location := protokoll.Location{
-	//				URI:   file,
-	//				Range: protokoll.ToRange(namedElement.Element().Node.Range()),
-	//			}
-	//			references = append(references, location)
-	//		}
-	//	}
-	//}
+	// Find Package Element
+	element := content.LookUp[targetPath.ToString()]
+	if element == nil {
+		return declarations
+	}
 
-	//return references
+	if namePtr == nil {
+		return r.findDeclarationsFromPath(sourceNode, *targetPath, element, content, file)
+	} else {
+		return r.findDeclarationsFromName(sourceNode, *namePtr, element, content, file)
+	}
 }
 
 // findModelPath findet den ModelPath des PackageElements für den LookUp sowie den evt. Namen des Named Elements
-func (r *ReferenceService) findModelPath(nodes []*tree_sitter.Node, content fileService.FileContent) (*base.ModelPath, *string) {
+func (r *ReferenceService) findModelPath(nodes []*tree_sitter.Node, content fileService.FileContent) (*tree_sitter.Node, *base.ModelPath, *string) {
 
 	bytes := []byte(content.Content)
 	for i, node := range nodes {
@@ -150,13 +188,13 @@ func (r *ReferenceService) findModelPath(nodes []*tree_sitter.Node, content file
 			name := node.Utf8Text(bytes)
 			packageElementNode := nodes[packageElement]
 			if packageElementNode == nil {
-				return nil, &name
+				return nil, nil, &name
 			}
 			element := util.FindElementOfNode(content.LookUp, packageElementNode)
 			if element == nil {
-				return nil, &name
+				return nil, nil, &name
 			}
-			return &element.GetBase().Path, &name
+			return node, &element.GetBase().Path, &name
 		case refType:
 			context := semantic_parse.SemanticContext{
 				ErrorElements: nil,
@@ -166,20 +204,20 @@ func (r *ReferenceService) findModelPath(nodes []*tree_sitter.Node, content file
 			}
 			packageElementNode := nodes[packageElement]
 			if packageElementNode == nil {
-				return nil, nil
+				return nil, nil, nil
 			}
 			element := util.FindElementOfNode(content.LookUp, packageElementNode)
 			if element == nil {
-				return nil, nil
+				return nil, nil, nil
 			}
 			parseRefType, errorElement := context.ParseRefType(element.GetBase().Path)
 			if errorElement != nil {
-				return nil, nil
+				return nil, nil, nil
 			}
-			return &parseRefType, nil
+			return node, &parseRefType, nil
 		}
 	}
-	return nil, nil
+	return nil, nil, nil
 }
 
 // findSubelements macht aus jedem Subelement ein Element E mithilfe der Funktion f. "f" bekommt das gefundene Element und die Node des gefundenen Elements.

@@ -1,6 +1,7 @@
 package initialize
 
 import (
+	"github.com/Winnetoe24/DMF/lsp/protokoll/declaration"
 	"github.com/Winnetoe24/DMF/lsp/protokoll/hover"
 	"github.com/Winnetoe24/DMF/lsp/protokoll/reference"
 	"github.com/Winnetoe24/DMF/lsp/protokoll/textEdit"
@@ -21,9 +22,9 @@ type TextDocumentClientCapabilities struct {
 	//// SignatureHelp capabilities of the client
 	//SignatureHelp *SignatureHelpClientCapabilities `json:"signatureHelp,omitempty"`
 	//
-	//// Declaration capabilities of the client
-	//Declaration *DeclarationClientCapabilities `json:"declaration,omitempty"`
-	//
+	// Declaration capabilities of the client
+	Declaration *declaration.DeclarationClientCapabilities `json:"declaration,omitempty"`
+
 	//// Definition capabilities of the client
 	//Definition *DefinitionClientCapabilities `json:"definition,omitempty"`
 	//

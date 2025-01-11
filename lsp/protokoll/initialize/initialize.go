@@ -100,7 +100,7 @@ type ServerCapabilities struct {
 	SignatureHelpProvider *SignatureHelpOptions `json:"signatureHelpProvider,omitempty"`
 
 	// The server provides go to declaration support
-	DeclarationProvider interface{} `json:"declarationProvider,omitempty"`
+	DeclarationProvider bool `json:"declarationProvider,omitempty"`
 
 	// The server provides goto definition support
 	DefinitionProvider bool `json:"definitionProvider,omitempty"`
