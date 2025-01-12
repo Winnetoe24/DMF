@@ -2,6 +2,7 @@ package initialize
 
 import (
 	"github.com/Winnetoe24/DMF/lsp/protokoll/declaration"
+	"github.com/Winnetoe24/DMF/lsp/protokoll/folding"
 	"github.com/Winnetoe24/DMF/lsp/protokoll/hover"
 	"github.com/Winnetoe24/DMF/lsp/protokoll/reference"
 	"github.com/Winnetoe24/DMF/lsp/protokoll/textEdit"
@@ -69,10 +70,10 @@ type TextDocumentClientCapabilities struct {
 	//
 	// PublishDiagnostics capabilities of the client
 	PublishDiagnostics *PublishDiagnosticsClientCapabilities `json:"publishDiagnostics,omitempty"`
-	//
-	//// FoldingRange capabilities of the client
-	//FoldingRange *FoldingRangeClientCapabilities `json:"foldingRange,omitempty"`
-	//
+
+	// FoldingRange capabilities of the client
+	FoldingRange *folding.FoldingRangeClientCapabilities `json:"foldingRange,omitempty"`
+
 	//// SelectionRange capabilities of the client
 	//SelectionRange *SelectionRangeClientCapabilities `json:"selectionRange,omitempty"`
 	//

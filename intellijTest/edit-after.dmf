@@ -14,8 +14,8 @@ package de.library.management {
             arg date publishedDate;
             arg double price;
             arg int copyNumber;
-            arg double rating;
             func boolean isAvailable(int copyId);
+            arg double asd;
         }
 
         // Verschiedene Medientypen

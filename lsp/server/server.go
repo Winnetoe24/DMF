@@ -11,6 +11,7 @@ import (
 	"github.com/Winnetoe24/DMF/lsp/service/cancelService"
 	"github.com/Winnetoe24/DMF/lsp/service/diagnosticsService"
 	"github.com/Winnetoe24/DMF/lsp/service/fileService"
+	"github.com/Winnetoe24/DMF/lsp/service/foldingService"
 	"github.com/Winnetoe24/DMF/lsp/service/hoverService"
 	"github.com/Winnetoe24/DMF/lsp/service/logService"
 	"github.com/Winnetoe24/DMF/lsp/service/referenceService"
@@ -42,6 +43,9 @@ func NewServer(con connect.Connection) *Server {
 
 	newReferenceService := referenceService.NewReferenceService(con, fileServiceHandler)
 	s.addHandler(newReferenceService)
+
+	newFoldingService := foldingService.NewFoldingService(con, fileServiceHandler)
+	s.addHandler(newFoldingService)
 
 	return s
 }

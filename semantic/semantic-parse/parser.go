@@ -12,6 +12,16 @@ import (
 	"slices"
 )
 
+var errorQuery *tree_sitter.Query
+
+func init() {
+	query, queryError := dmf_lang.Query("(ERROR)")
+	if queryError != nil {
+		panic(queryError)
+	}
+	errorQuery = query
+}
+
 func Parse(text []byte, tree *tree_sitter.Tree) (smodel.Model, []errElement.ErrorElement, error) {
 
 	cursor := tree.Walk()
@@ -25,6 +35,10 @@ func Parse(text []byte, tree *tree_sitter.Tree) (smodel.Model, []errElement.Erro
 		Text:          text,
 		Cursor:        cursor,
 	}
+	//dmf_lang.ForEachQuery(errorQuery, tree, func(_ uint, node *tree_sitter.Node) bool {
+	//	context.ErrorElements = append(context.ErrorElements, errElement.CreateErrorElement(node, errors.New("Syntax Error")))
+	//	return false
+	//})
 	context.parseSourceFile()
 	return context.Model, context.ErrorElements, nil
 }
@@ -526,15 +540,6 @@ func (S *SemanticContext) parseStructContent(current base.ModelPath, element *pa
 		element.Funktionen = append(element.Funktionen, funcBlock)
 	}
 
-	hasNextSibling := cursor.GotoNextSibling()
-	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt ein Semikolon")))
-		return
-	}
-	errorElement = assertNodeState(cursor.Node(), "Semikolon")
-	if errorElement != nil {
-		S.ErrorElements = append(S.ErrorElements, *errorElement)
-	}
 }
 
 func (S *SemanticContext) parseEntityBlock(current base.ModelPath, comment *base.Comment, expand bool) packages.EntityElement {
@@ -648,16 +653,16 @@ func (S *SemanticContext) parseInterfaceContent(current base.ModelPath, element 
 
 	funcBlock := S.parseFuncBlock(current, comment)
 	element.Funktionen = append(element.Funktionen, funcBlock)
-
-	hasNextSibling := cursor.GotoNextSibling()
-	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt ein Semikolon")))
-		return
-	}
-	errorElement = assertNodeState(cursor.Node(), "Semikolon")
-	if errorElement != nil {
-		S.ErrorElements = append(S.ErrorElements, *errorElement)
-	}
+	//
+	//hasNextSibling := cursor.GotoNextSibling()
+	//if !hasNextSibling {
+	//	S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt ein Semikolon")))
+	//	return
+	//}
+	//errorElement = assertNodeState(cursor.Node(), "Semikolon")
+	//if errorElement != nil {
+	//	S.ErrorElements = append(S.ErrorElements, *errorElement)
+	//}
 }
 
 func (S *SemanticContext) parseEnumBlock(current base.ModelPath, comment *base.Comment, expand bool) packages.EnumElement {
@@ -751,15 +756,15 @@ func (S *SemanticContext) parseEnumContent(element *packages.EnumElement) {
 		element.Konstanten = append(element.Konstanten, konstante)
 	}
 
-	hasNextSibling := cursor.GotoNextSibling()
-	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt ein Semikolon")))
-		return
-	}
-	errorElement = assertNodeState(cursor.Node(), "Semikolon")
-	if errorElement != nil {
-		S.ErrorElements = append(S.ErrorElements, *errorElement)
-	}
+	//hasNextSibling := cursor.GotoNextSibling()
+	//if !hasNextSibling {
+	//	S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt ein Semikolon")))
+	//	return
+	//}
+	//errorElement = assertNodeState(cursor.Node(), "Semikolon")
+	//if errorElement != nil {
+	//	S.ErrorElements = append(S.ErrorElements, *errorElement)
+	//}
 }
 
 //TODO Fehler von Enum ausgeben

@@ -145,6 +145,18 @@ func (S *SemanticContext) parseArgBlock(comment base.Comment) packages.Argument 
 	}
 	arg.Name = S.parseIdentifier()
 
+	// Semikolon
+	hasNextSibling = S.Cursor.GotoNextSibling()
+	if !hasNextSibling {
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt ein Semikolon")))
+		return arg
+	}
+	errorElement = assertNodeState(S.Cursor.Node(), "Semikolon")
+	if errorElement != nil {
+		S.ErrorElements = append(S.ErrorElements, *errorElement)
+	}
+	//S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New(S.Cursor.Node().GrammarName())))
+
 	return arg
 }
 
@@ -194,6 +206,16 @@ func (S *SemanticContext) parseRefBlock(current base.ModelPath, comment base.Com
 	}
 	referenz.Name = S.parseIdentifier()
 
+	// Semikolon
+	hasNextSibling = S.Cursor.GotoNextSibling()
+	if !hasNextSibling {
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt ein Semikolon")))
+		return referenz
+	}
+	errorElement = assertNodeState(S.Cursor.Node(), "Semikolon")
+	if errorElement != nil {
+		S.ErrorElements = append(S.ErrorElements, *errorElement)
+	}
 	return referenz
 }
 
@@ -289,6 +311,17 @@ ParameterSchleife:
 
 	if !closedParameter {
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(cursor.Node(), errors.New("parameter nicht beendet. ')' fehlt"), node))
+	}
+
+	// Semikolon
+	hasNextSibling = S.Cursor.GotoNextSibling()
+	if !hasNextSibling {
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt ein Semikolon")))
+		return funktion
+	}
+	errorElement = assertNodeState(S.Cursor.Node(), "Semikolon")
+	if errorElement != nil {
+		S.ErrorElements = append(S.ErrorElements, *errorElement)
 	}
 
 	return funktion
@@ -409,6 +442,17 @@ IdentifierLoop:
 		}
 	}
 
+	// Semikolon
+	hasNextSibling = S.Cursor.GotoNextSibling()
+	if !hasNextSibling {
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt ein Semikolon")))
+		return iden
+	}
+	errorElement := assertNodeState(S.Cursor.Node(), "Semikolon")
+	if errorElement != nil {
+		S.ErrorElements = append(S.ErrorElements, *errorElement)
+	}
+
 	return iden
 
 }
@@ -465,6 +509,17 @@ ValueLoop:
 		default:
 			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(cNode, errors.New("unbekanntes Element"), node))
 		}
+	}
+
+	// Semikolon
+	hasNextSibling = S.Cursor.GotoNextSibling()
+	if !hasNextSibling {
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt ein Semikolon")))
+		return konstante
+	}
+	errorElement := assertNodeState(S.Cursor.Node(), "Semikolon")
+	if errorElement != nil {
+		S.ErrorElements = append(S.ErrorElements, *errorElement)
 	}
 
 	return konstante
