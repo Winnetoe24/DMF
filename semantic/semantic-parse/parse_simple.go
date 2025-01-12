@@ -234,21 +234,28 @@ func (S *SemanticContext) parsePrimitiveType() (base.PrimitivType, *errElement.E
 func (S *SemanticContext) parsePrimitiveValue() (values.Value, *errElement.ErrorElement) {
 	node := S.Cursor.Node()
 
-	if node.Kind() == dmf_language.ENUM_INDEX {
-		return values.IntValue{
-			ModelElement: base.ModelElement{
-				Node: node,
-			},
-			Ignored: true,
-			Value:   0,
-		}, nil
-	}
 	hasFirstChild := S.Cursor.GotoFirstChild()
 	if !hasFirstChild {
 		return nil, errElement.CreateErrorElementRef(node, errors.New("kein Wert vorhanden"))
 	}
 	defer S.Cursor.GotoParent()
+	if node.Kind() == dmf_language.ENUM_INDEX {
+		switch S.Cursor.Node().Kind() {
+		case dmf_language.INTEGERVALUE:
+			return S.parseIntegerValue()
+		case "_":
+			return values.IntValue{
+				ModelElement: base.ModelElement{
+					Node: node,
+				},
+				Ignored: true,
+				Value:   0,
+			}, nil
+		default:
+			return values.IntValue{}, errElement.CreateErrorElementRef(node, errors.New("nur Integer Wert oder _ gültig"))
+		}
 
+	}
 	switch S.Cursor.Node().Kind() {
 	case dmf_language.INTEGERVALUE:
 		return S.parseIntegerValue()
