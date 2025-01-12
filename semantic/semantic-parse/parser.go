@@ -71,6 +71,8 @@ func (S *SemanticContext) parseSourceFile() {
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("keine Model Content vorhanden")))
 		return
 	}
+	// TODO Import Statement
+	//S.parseImportStatements()
 	S.parseModelContent()
 
 }
@@ -157,6 +159,7 @@ func (S *SemanticContext) parseModelDeclaration() {
 func (S *SemanticContext) parseImportStatements() {
 	node := S.Cursor.Node()
 	if node.GrammarName() != "import_block" {
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New(node.GrammarName())))
 		return
 	}
 	errorElement := assertNodeState(node, "Import Block Node")
@@ -169,14 +172,26 @@ func (S *SemanticContext) parseImportStatements() {
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("kein Import Statement vorhanden")))
 		return
 	}
-	defer S.Cursor.GotoParent()
+	defer func() {
+		S.Cursor.GotoParent()
+		S.Cursor.GotoNextSibling()
+	}()
 
+	if S.Cursor.Node() == nil {
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("Node is nil before for")))
+	}
 	for {
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New(S.Cursor.Node().GrammarName())))
 		statement, element := S.parseImportStatement()
 		if element != nil {
 			S.ErrorElements = append(S.ErrorElements, *element)
 		} else {
-			S.Model.ImportStatements = append(S.Model.ImportStatements, statement)
+			if statement.Node == nil {
+				S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("Node is nil")))
+			} else {
+				S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(statement.Node, errors.New("Node is not nil")))
+				S.Model.ImportStatements = append(S.Model.ImportStatements, statement)
+			}
 		}
 		if !S.Cursor.GotoNextSibling() {
 			break
@@ -186,7 +201,9 @@ func (S *SemanticContext) parseImportStatements() {
 
 func (S *SemanticContext) parseImportStatement() (smodel.ImportStatement, *errElement.ErrorElement) {
 	node := S.Cursor.Node()
-
+	if node == nil {
+		return smodel.ImportStatement{}, errElement.CreateErrorElementRef(node, errors.New("Node ist nil vor Parse"))
+	}
 	errorElement := assertNodeState(node, "Import Statement Node")
 	if errorElement != nil {
 		return smodel.ImportStatement{}, errorElement
@@ -342,7 +359,7 @@ func (S *SemanticContext) parsePackageContent(current base.ModelPath) (packages.
 		}
 	}
 
-	return nil, nil
+	return nil, errElement.CreateErrorElementRef(node, errors.New("kein Inhalt im Package:"+S.Cursor.Node().Kind()))
 
 }
 

@@ -14,6 +14,7 @@ import (
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
+	"strings"
 )
 
 const foldingRangeMethod = "textDocument/foldingRange"
@@ -27,7 +28,7 @@ type FoldingService struct {
 }
 
 func NewFoldingService(connection connect.Connection, fs *fileService.FileService) *FoldingService {
-	query, queryError := tree_sitter_dmf.Query("(comment_block)")
+	query, queryError := tree_sitter_dmf.Query("(comment_block) @cb")
 	if queryError != nil {
 		logService.GetLogger().Printf("%s%v\v", logService.ERROR, queryError)
 	}
@@ -41,6 +42,7 @@ func NewFoldingService(connection connect.Connection, fs *fileService.FileServic
 
 var _ service.MethodHandler = &FoldingService{}
 
+// asd
 func (f *FoldingService) Initialize(params *initialize.InitializeParams, result *initialize.InitializeResult) {
 	result.Capabilities.FoldingRangeProvider = true
 
@@ -90,7 +92,7 @@ func (f *FoldingService) HandleMethod(message protokoll.Message) {
 }
 
 func (f *FoldingService) getFoldingRanges(content fileService.FileContent) []folding.FoldingRange {
-	var ranges []folding.FoldingRange
+	var ranges = make([]folding.FoldingRange, 0)
 
 	// Add package folding ranges
 	for _, element := range content.LookUp {
@@ -98,10 +100,10 @@ func (f *FoldingService) getFoldingRanges(content fileService.FileContent) []fol
 	}
 
 	// Add comment folding ranges
-	//ranges = append(ranges, f.getCommentFoldingRanges(&content.Ast)...)
+	ranges = append(ranges, f.getCommentFoldingRanges(&content.Ast, content.Content)...)
 
-	// Add import folding ranges
-	ranges = append(ranges, f.getImportFoldingRanges(content.Model.ImportStatements)...)
+	// TODO Add import folding ranges
+	//ranges = append(ranges, f.getImportFoldingRanges(content.Model.ImportStatements)...)
 
 	return ranges
 }
@@ -142,16 +144,26 @@ func (f *FoldingService) createFoldingRange(element packages.PackageElement) fol
 	return fRange
 }
 
-func (f *FoldingService) getCommentFoldingRanges(root *tree_sitter.Tree) []folding.FoldingRange {
+func (f *FoldingService) getCommentFoldingRanges(root *tree_sitter.Tree, content string) []folding.FoldingRange {
 	var ranges []folding.FoldingRange
+	logger := logService.GetLogger()
 	queryCursor := tree_sitter.NewQueryCursor()
 	captures := queryCursor.Captures(f.kommentarQuery, root.RootNode(), nil)
+	bytes := []byte(content)
 	for match, index := captures.Next(); match != nil; match, index = captures.Next() {
 		node := match.Captures[index].Node
 		startPos := node.StartPosition()
 		endPos := node.EndPosition()
 
 		if startPos.Row != endPos.Row {
+			text := node.Utf8Text(bytes)
+			split := strings.Split(text, "\n")
+			if len(split) > 0 {
+				endPos.Row--
+				endPos.Column = uint(len(split[len(split)-2]))
+				startPos.Column = uint(strings.Index(split[1], "//") + 2)
+			}
+
 			kind := folding.Comment
 			fRange := folding.FoldingRange{
 				StartLine: uint32(startPos.Row),
@@ -181,12 +193,12 @@ func (f *FoldingService) getCommentFoldingRanges(root *tree_sitter.Tree) []foldi
 	//		}
 	//	}
 	//}
-
+	logger.Printf("%sFound %v Comment Ranges\n", logService.TRACE, len(ranges))
 	return ranges
 }
 
 func (f *FoldingService) getImportFoldingRanges(imports []smodel.ImportStatement) []folding.FoldingRange {
-	if len(imports) <= 1 {
+	if len(imports) <= 1 || imports[0].Node == nil || imports[len(imports)-1].Node == nil {
 		return nil
 	}
 

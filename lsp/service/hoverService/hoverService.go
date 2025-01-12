@@ -525,7 +525,7 @@ type ImportStatementTemplateData struct {
 
 func (h *HoverService) renderImportStatementMarkdown(node *tree_sitter.Node, content fileService.FileContent) string {
 	for _, statement := range content.Model.ImportStatements {
-		if statement.Node.Id() != node.Id() {
+		if statement.Node == nil || statement.Node.Id() != node.Id() {
 			continue
 		}
 

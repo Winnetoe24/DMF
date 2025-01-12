@@ -1,9 +1,11 @@
 dmf 1.0.0
 model "edit" version 1.0.0
 
+
 package de.library.management {
 
     // Basispaket für Medienverwaltung
+    // asdas d
     // Das ist ein neuer Kommentar
     package media {
 
@@ -41,8 +43,12 @@ package de.library.management {
         // Detaillierte Buchinformationen
         entity Book extends MediaItem {
             arg string author;
+            // sad
+            // asd
             ref .Category category;
             ref .MediaType type;
+            // sadsad
+            // asd
             arg int pageCount;
             arg string publisher;
             arg string language;
