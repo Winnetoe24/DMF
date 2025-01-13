@@ -342,3 +342,11 @@ func generateIdentifier(pElement packages.PackageElement) []FieldData {
 	}
 	return nil
 }
+
+func isNotVoid(variable packages.Variable) bool {
+	switch variable.(type) {
+	case packages.VoidElement:
+		return false
+	}
+	return true
+}

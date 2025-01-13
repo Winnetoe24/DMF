@@ -244,10 +244,10 @@ package de.smart.city {
 
         enum ResponsePriority {
             arg int code;
-            CRITICAL(1);
-            HIGH(2);
-            MEDIUM(3);
-            LOW(4);
+            CRITICAL(1, 1);
+            HIGH(2, 2);
+            MEDIUM(3, 3);
+            LOW(4, 4);
         }
 
         entity EmergencyIncident {
@@ -286,10 +286,10 @@ package de.smart.city {
 
         enum SecurityLevel {
             arg int clearance;
-            HIGH(1);
-            MEDIUM(2);
-            LOW(3);
-            PUBLIC(4);
+            HIGH(1, 1);
+            MEDIUM(2, 2);
+            LOW(3, 3);
+            PUBLIC(4, 4);
         }
 
         entity Building extends ..infrastructure.Asset {

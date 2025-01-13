@@ -88,6 +88,7 @@ func NewTemplate() JavaTemplate {
 		"createVererbungKontextInterface": createVererbungKontextInterface,
 		"findImplementedFunctions":        findImplementedFunctions,
 		"generateIdentifier":              generateIdentifier,
+		"isNotVoid":                       isNotVoid,
 	}
 	must := template.Must(template.New("").Funcs(funcMap).ParseFS(tmplFiles, "template/*"))
 	return JavaTemplate{template: must}
