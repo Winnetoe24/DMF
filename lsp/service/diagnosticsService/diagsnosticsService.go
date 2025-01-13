@@ -52,27 +52,53 @@ func (d *DiagnosticsService) HandleFileChange(file protokoll.DocumentURI, fileCo
 		}
 		for _, element := range errorElements {
 			severityError := protokoll.SeverityError
-			diagnostic := protokoll.Diagnostic{
-				Range:              protokoll.ToRange(element.Fehler.Node.Range()),
-				Severity:           &severityError,
-				Code:               nil,
-				CodeDescription:    nil,
-				Source:             element.ToErrorMsg(&context),
-				Message:            element.Error.Error(),
-				Tags:               nil,
-				RelatedInformation: nil,
-				Data:               nil,
-			}
-			if element.Cause != nil {
-				diagnostic.RelatedInformation = []protokoll.DiagnosticRelatedInformation{{
-					Location: protokoll.Location{
-						URI:   file,
-						Range: protokoll.ToRange(element.Cause.Node.Range()),
+			if element.Fehler.Node != nil {
+				diagnostic := protokoll.Diagnostic{
+					Range:              protokoll.ToRange(element.Fehler.Node.Range()),
+					Severity:           &severityError,
+					Code:               nil,
+					CodeDescription:    nil,
+					Source:             element.ToErrorMsg(&context),
+					Message:            element.Error.Error(),
+					Tags:               nil,
+					RelatedInformation: nil,
+					Data:               nil,
+				}
+				if element.Cause != nil {
+					diagnostic.RelatedInformation = []protokoll.DiagnosticRelatedInformation{{
+						Location: protokoll.Location{
+							URI:   file,
+							Range: protokoll.ToRange(element.Cause.Node.Range()),
+						},
+						Message: "Ursprung des Fehlers",
+					}}
+				}
+				foundDiagnostics = append(foundDiagnostics, diagnostic)
+			} else {
+				diagnostic := protokoll.Diagnostic{
+					Range: protokoll.Range{
+						Start: protokoll.Position{
+							Line:      0,
+							Character: 0,
+						},
+						End: protokoll.Position{
+							Line:      0,
+							Character: 0,
+						},
 					},
-					Message: "Ursprung des Fehlers",
-				}}
+					Severity:           &severityError,
+					Code:               nil,
+					CodeDescription:    nil,
+					Source:             "Keine Node im Fehler vorhanden:" + element.Error.Error(),
+					Message:            element.Error.Error(),
+					Tags:               nil,
+					RelatedInformation: nil,
+					Data:               nil,
+				}
+				foundDiagnostics = append(foundDiagnostics, diagnostic)
+
 			}
-			foundDiagnostics = append(foundDiagnostics, diagnostic)
+
 		}
 
 	}

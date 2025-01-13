@@ -39,6 +39,9 @@ func (e ErrorElement) ToErrorMsg(ctx *ErrorContext) string {
 	if e.rendered != nil {
 		return *e.rendered
 	}
+	if e.Fehler.Node == nil {
+		return "Error rendering Error"
+	}
 	var offsetStart int
 	var offsetEnd int
 	if e.Fehler.ContextNode != nil {

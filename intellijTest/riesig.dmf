@@ -75,9 +75,10 @@ package de.smart.city {
             arg string routeId;
             arg string routeName;
             ref .RouteStatus status;
-            ref .RouteSegment[] segments;
-            arg time firstDepartureTime;
-            arg time lastDepartureTime;
+            // TODO []
+            ref .RouteSegment segments;
+            arg datetime firstDepartureTime;
+            arg datetime lastDepartureTime;
             arg int frequencyMinutes;
 
             identifier(routeId);
@@ -223,7 +224,8 @@ package de.smart.city {
 
         entity MonitoringStation extends ..infrastructure.Asset {
             arg string stationId;
-            ref .AirQualityReading[] readings;
+            // TODO []
+            ref .AirQualityReading readings;
             arg boolean isCalibrated;
             arg date lastCalibrationDate;
 
@@ -529,7 +531,7 @@ package de.smart.city {
             arg int dailyVisitorCapacity;
             arg double entryFee;
             arg boolean isAccessible;
-            arg time[] openingHours;
+            arg datetime[] openingHours;
 
             identifier(assetId);
         }
@@ -819,7 +821,7 @@ package de.smart.city {
             arg int capacity;
             arg boolean hasAccessibility;
             arg string[] facilities;
-            arg time[] operatingHours;
+            arg datetime[] operatingHours;
 
             identifier(assetId);
         }
@@ -978,7 +980,7 @@ package de.smart.city {
             ref .ContentType contentType;
             arg string resolution;
             arg boolean isInteractive;
-            arg time[] activeHours;
+            arg datetime[] activeHours;
 
             identifier(assetId);
         }
@@ -1058,7 +1060,7 @@ package de.smart.city {
             ref .BrightnessLevel brightness;
             arg double energyConsumption;
             arg boolean hasMotionSensor;
-            arg time[] scheduleOn;
+            arg datetime[] scheduleOn;
 
             identifier(assetId);
         }
@@ -1096,8 +1098,8 @@ package de.smart.city {
             ref .MarketType type;
             arg int stallCapacity;
             arg string[] operatingDays;
-            arg time openTime;
-            arg time closeTime;
+            arg datetime openTime;
+            arg datetime closeTime;
 
             identifier(assetId);
         }
@@ -1227,7 +1229,7 @@ package de.smart.city {
             ref .FoodSafetyRating rating;
             arg int seatingCapacity;
             arg boolean hasDelivery;
-            arg time[] operatingHours;
+            arg datetime[] operatingHours;
 
             identifier(assetId);
         }
@@ -1345,7 +1347,7 @@ package de.smart.city {
             arg int counterCount;
             arg int staffCount;
             arg boolean hasAutomation;
-            arg time[] serviceHours;
+            arg datetime[] serviceHours;
             arg double storageCapacity;
 
             identifier(assetId);
@@ -1865,7 +1867,7 @@ package de.smart.city {
             arg int capacity;
             arg int computerStations;
             arg boolean hasStudyRooms;
-            arg time[] operatingHours;
+            arg datetime[] operatingHours;
             arg string[] facilities;
 
             identifier(assetId);

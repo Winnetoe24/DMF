@@ -5,6 +5,7 @@ import (
 	"github.com/Winnetoe24/DMF/lsp/protokoll/folding"
 	"github.com/Winnetoe24/DMF/lsp/protokoll/hover"
 	"github.com/Winnetoe24/DMF/lsp/protokoll/reference"
+	"github.com/Winnetoe24/DMF/lsp/protokoll/semantictokens"
 	"github.com/Winnetoe24/DMF/lsp/protokoll/textEdit"
 )
 
@@ -83,9 +84,9 @@ type TextDocumentClientCapabilities struct {
 	//// CallHierarchy capabilities of the client
 	//CallHierarchy *CallHierarchyClientCapabilities `json:"callHierarchy,omitempty"`
 	//
-	//// SemanticTokens capabilities of the client
-	//SemanticTokens *SemanticTokensClientCapabilities `json:"semanticTokens,omitempty"`
-	//
+	// SemanticTokens capabilities of the client
+	SemanticTokens *semantictokens.SemanticTokensClientCapabilities `json:"semanticTokens,omitempty"`
+
 	//// Moniker capabilities of the client
 	//Moniker *MonikerClientCapabilities `json:"moniker,omitempty"`
 }
@@ -166,7 +167,7 @@ type TextDocumentServerCapabilities struct {
 	CallHierarchyProvider interface{} `json:"callHierarchyProvider,omitempty"` // can be bool or CallHierarchyOptions or CallHierarchyRegistrationOptions
 
 	// Semantic tokens provider options
-	SemanticTokensProvider interface{} `json:"semanticTokensProvider,omitempty"` // can be SemanticTokensOptions or SemanticTokensRegistrationOptions
+	SemanticTokensProvider *semantictokens.SemanticTokensOptions `json:"semanticTokensProvider,omitempty"` // can be SemanticTokensOptions or SemanticTokensRegistrationOptions
 
 	// Moniker provider options
 	MonikerProvider interface{} `json:"monikerProvider,omitempty"` // can be bool or MonikerOptions or MonikerRegistrationOptions
