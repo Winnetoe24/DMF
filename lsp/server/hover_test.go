@@ -14,7 +14,7 @@ func TestIdentifierHover(t *testing.T) {
 
 	// Check that Package Element can be found
 	finder := util.NewNodeFinder([]byte(content.Content))
-	nodes := finder.FindSmallestNodeAroundPositionInSets(&content.Ast, protokoll.Position{
+	nodes := finder.FindSmallestNodeAroundPositionInSets(content.Ast, protokoll.Position{
 		Line:      43,
 		Character: 18,
 	}, [][]string{{"package_block", "struct_block", "enum_block", "entity_block", "interface_block"}})

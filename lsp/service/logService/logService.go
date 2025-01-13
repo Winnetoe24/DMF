@@ -18,6 +18,10 @@ var baseLogger *log.Logger
 var logFile *os.File
 
 func init() {
+	baseLogger = log.New(io.Discard, "", 0)
+}
+
+func InitLogger() {
 	// Set up logging to file
 
 	if args.DisableLog {

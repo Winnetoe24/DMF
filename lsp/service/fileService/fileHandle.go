@@ -181,7 +181,7 @@ func (doc *fileHandle) ToContent() FileContent {
 		Content: doc.FileContent,
 		Version: int(doc.Version),
 		Model:   *doc.Model,
-		Ast:     doc.Ast,
+		Ast:     doc.Ast.Clone(),
 		LookUp:  *doc.LookUp,
 	}
 }

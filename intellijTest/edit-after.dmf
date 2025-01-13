@@ -33,11 +33,12 @@ package de.library.management {
         // Kategorisierung der Medien
         enum Category {
             arg string name;
-            FICTION(1, "Belletristik");
-            NON_FICTION(2, "Sachbuch");
-            CHILDREN(3, "Kinderbuch");
-            SCIENCE(4, "Wissenschaft");
-            HISTORY(5, "Geschichte");
+            arg double d;
+            FICTION(1, "Belletristik", 2.3);
+            NON_FICTION(2, "Sachbuch", 2.5);
+            CHILDREN(3, "Kinderbuch", 2.3);
+            SCIENCE(4, "Wissenschaft" ,2.3);
+            HISTORY(5, "Geschichte", 34.0);
         }
 
         // Detaillierte Buchinformationen

@@ -9,7 +9,8 @@ import (
 )
 
 func main() {
-
+	args.ParseArgs()
+	logService.InitLogger()
 	util.CharacterInMarkdownLinksActiv = args.CharacterInMarkdown
 
 	defer logService.Close()

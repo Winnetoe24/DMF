@@ -105,6 +105,7 @@ func (h *HoverService) HandleMethod(message protokoll.Message) {
 		}
 		logger.Printf("%sStart Get File Content\n", logService.TRACE)
 		content, err := h.fs.GetFileContent(params.TextDocument.URI)
+		defer content.Close()
 
 		if err != nil {
 			panic(err)
@@ -379,9 +380,13 @@ func (h *HoverService) renderKonstanteMarkdown(file protokoll.DocumentURI, node 
 				Value: fmt.Sprintf("%v", value.GetValue()), //TODO Fix Index Value
 			}
 			if i != 0 {
-				argument := enumElement.Argumente[i-1]
-				valueTemplateData.Name = argument.Name.Name
-				valueTemplateData.Link = util.CreateMarkdownLinkFromNode(file, argument.Node)
+				if len(enumElement.Argumente) > i-1 {
+					argument := enumElement.Argumente[i-1]
+					valueTemplateData.Name = argument.Name.Name
+					valueTemplateData.Link = util.CreateMarkdownLinkFromNode(file, argument.Node)
+				} else {
+					valueTemplateData.Name = "NOT FOUND"
+				}
 			}
 			data.Values = append(data.Values, valueTemplateData)
 		}

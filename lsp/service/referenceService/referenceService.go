@@ -77,6 +77,7 @@ func (r *ReferenceService) HandleMethod(message protokoll.Message) {
 
 		// Get the file content
 		content, err := r.fs.GetFileContent(params.TextDocument.URI)
+		defer content.Close()
 
 		if err != nil {
 			connectUtils.WriteErrorToCon(r.con, message.ID, err, protokoll.InternalError)
@@ -109,6 +110,7 @@ func (r *ReferenceService) HandleMethod(message protokoll.Message) {
 
 		// Get the file content
 		content, err := r.fs.GetFileContent(params.TextDocument.URI)
+		defer content.Close()
 
 		if err != nil {
 			connectUtils.WriteErrorToCon(r.con, message.ID, err, protokoll.InternalError)

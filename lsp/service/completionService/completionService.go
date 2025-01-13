@@ -54,6 +54,7 @@ func (c CompletionService) HandleMethod(message protokoll.Message) {
 		logger := logService.GetLogger()
 		logger.Printf("%sStart Get File Content\n", logService.TRACE)
 		content, err := c.fs.GetFileContent(params.TextDocument.URI)
+		defer content.Close()
 
 		if err != nil {
 			panic(err)

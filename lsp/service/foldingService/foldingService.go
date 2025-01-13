@@ -71,6 +71,7 @@ func (f *FoldingService) HandleMethod(message protokoll.Message) {
 		}
 
 		content, err := f.fs.GetFileContent(params.TextDocument.URI)
+		defer content.Close()
 
 		if err != nil {
 			connectUtils.WriteErrorToCon(f.con, message.ID, err, protokoll.InternalError)
@@ -165,6 +166,26 @@ func (f *FoldingService) getCommentFoldingRanges(root *tree_sitter.Tree, content
 				startPos.Column = uint(strings.Index(split[1], "//") + 2)
 			}
 
+			kind := folding.Comment
+			fRange := folding.FoldingRange{
+				StartLine: uint32(startPos.Row),
+				EndLine:   uint32(endPos.Row),
+				Kind:      &kind,
+			}
+
+			if !f.lineFoldOnly {
+				startChar := uint32(startPos.Column)
+				endChar := uint32(endPos.Column)
+				fRange.StartCharacter = &startChar
+				fRange.EndCharacter = &endChar
+			}
+
+			ranges = append(ranges, fRange)
+		} else {
+			text := node.Utf8Text(bytes)
+			endPos.Row--
+			endPos.Column = uint(len(text))
+			startPos.Column = uint(strings.Index(text, "//") + 2)
 			kind := folding.Comment
 			fRange := folding.FoldingRange{
 				StartLine: uint32(startPos.Row),

@@ -2,12 +2,12 @@ package semantic_parse
 
 import (
 	"errors"
+	"fmt"
 	"github.com/Winnetoe24/DMF/grammar/dmf_language"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	errElement "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages/values"
 	"github.com/tree-sitter/go-tree-sitter"
-	"math"
 	"math/big"
 	"strconv"
 	"strings"
@@ -355,20 +355,17 @@ func (S *SemanticContext) parseDoubleValue() (values.DoubleValue, *errElement.Er
 	}
 
 	// Convert (int,int) to float
-	f := float64(afterPointValue.Value)
-	for i := 0.0; i < 100; i++ {
-		pow := math.Pow(10, i)
-		if f/pow <= 0 {
-			return values.DoubleValue{
-				ModelElement: base.ModelElement{
-					Node: node,
-				},
-				Value: float64(value.Value) + (f / pow),
-			}, nil
-		}
+	ziel, err := strconv.ParseFloat(fmt.Sprintf("%v.%v", value.Value, afterPointValue.Value), 64)
+	if err != nil {
+		return values.DoubleValue{}, errElement.CreateErrorElementRef(node, errors.New(fmt.Sprintf("konnte Integer nicht verarbeiten: %v,%v", value.Value, afterPointValue.Value)))
 	}
 
-	return values.DoubleValue{}, errElement.CreateErrorElementRef(node, errors.New("konnte Integer nicht verarbeiten"))
+	return values.DoubleValue{
+		ModelElement: base.ModelElement{
+			Node: node,
+		},
+		Value: ziel,
+	}, nil
 }
 
 func (S *SemanticContext) parseIntegerValue() (values.IntValue, *errElement.ErrorElement) {
