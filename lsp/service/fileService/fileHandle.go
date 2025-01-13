@@ -84,6 +84,7 @@ func (doc *fileHandle) editFileHandle(params textEdit.DidChangeTextDocumentParam
 	errorElements, _, _, up := semantic.ParseNewFile(changes.NewContent, afterTree, afterModel)
 	tree := <-afterTree
 	model := <-afterModel
+	doc.Ast.Close()
 	doc.Ast = tree
 	doc.Model = model
 	doc.LookUp = &up
@@ -180,7 +181,7 @@ func (doc *fileHandle) ToContent() FileContent {
 		Content: doc.FileContent,
 		Version: int(doc.Version),
 		Model:   *doc.Model,
-		Ast:     *doc.Ast,
+		Ast:     doc.Ast,
 		LookUp:  *doc.LookUp,
 	}
 }

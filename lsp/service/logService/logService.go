@@ -2,6 +2,8 @@ package logService
 
 import (
 	"fmt"
+	"github.com/Winnetoe24/DMF/lsp/args"
+	"io"
 	"log"
 	"os"
 	"runtime"
@@ -17,6 +19,11 @@ var logFile *os.File
 
 func init() {
 	// Set up logging to file
+
+	if args.DisableLog {
+		baseLogger = log.New(io.Discard, "", 0)
+		return
+	}
 	var err error
 	logsDir := os.Getenv("DMF_LSP_LOG")
 	if logsDir == "" {
@@ -29,6 +36,7 @@ func init() {
 			logsDir = "."
 		}
 	}
+
 	//println(logsDir)
 	prefix := logsDir + string(os.PathSeparator) + "server"
 	//i := 0
@@ -87,8 +95,10 @@ func GetConnectionLoggerIn() *log.Logger {
 	return connectionLoggerIn
 }
 func Close() {
-	err := logFile.Close()
-	if err != nil {
-		fmt.Printf("Error while Closing Log File: %e\n", err)
+	if logFile != nil {
+		err := logFile.Close()
+		if err != nil {
+			fmt.Printf("Error while Closing Log File: %e\n", err)
+		}
 	}
 }

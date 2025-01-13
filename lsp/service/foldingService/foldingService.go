@@ -71,6 +71,7 @@ func (f *FoldingService) HandleMethod(message protokoll.Message) {
 		}
 
 		content, err := f.fs.GetFileContent(params.TextDocument.URI)
+
 		if err != nil {
 			connectUtils.WriteErrorToCon(f.con, message.ID, err, protokoll.InternalError)
 			return
@@ -100,7 +101,7 @@ func (f *FoldingService) getFoldingRanges(content fileService.FileContent) []fol
 	}
 
 	// Add comment folding ranges
-	ranges = append(ranges, f.getCommentFoldingRanges(&content.Ast, content.Content)...)
+	ranges = append(ranges, f.getCommentFoldingRanges(content.Ast, content.Content)...)
 
 	// TODO Add import folding ranges
 	//ranges = append(ranges, f.getImportFoldingRanges(content.Model.ImportStatements)...)

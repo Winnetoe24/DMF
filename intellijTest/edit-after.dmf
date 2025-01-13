@@ -43,8 +43,7 @@ package de.library.management {
         // Detaillierte Buchinformationen
         entity Book extends MediaItem{
             arg string author;
-            // sad
-            ref .Category category;
+            // ewrasd
             ref .MediaType type;
             // asd
             arg int pageCount;

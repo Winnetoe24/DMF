@@ -105,13 +105,14 @@ func (h *HoverService) HandleMethod(message protokoll.Message) {
 		}
 		logger.Printf("%sStart Get File Content\n", logService.TRACE)
 		content, err := h.fs.GetFileContent(params.TextDocument.URI)
+
 		if err != nil {
 			panic(err)
 		}
 
 		logger.Printf("%sStart Find Node\n", logService.TRACE)
 		finder := util.NewNodeFinder([]byte(content.Content))
-		nodesAroundPosition := finder.FindSmallestNodeAroundPositionInSets(&content.Ast, params.Position, nodeFilter)
+		nodesAroundPosition := finder.FindSmallestNodeAroundPositionInSets(content.Ast, params.Position, nodeFilter)
 
 		hoverContent := h.renderContent(nodesAroundPosition, params.TextDocument.URI, content, false)
 

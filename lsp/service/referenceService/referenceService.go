@@ -77,6 +77,7 @@ func (r *ReferenceService) HandleMethod(message protokoll.Message) {
 
 		// Get the file content
 		content, err := r.fs.GetFileContent(params.TextDocument.URI)
+
 		if err != nil {
 			connectUtils.WriteErrorToCon(r.con, message.ID, err, protokoll.InternalError)
 			return
@@ -84,7 +85,7 @@ func (r *ReferenceService) HandleMethod(message protokoll.Message) {
 
 		// Find the node at the cursor position
 		finder := util.NewNodeFinder([]byte(content.Content))
-		nodes := finder.FindSmallestNodeAroundPositionInSets(&content.Ast, params.Position, nodeFilter)
+		nodes := finder.FindSmallestNodeAroundPositionInSets(content.Ast, params.Position, nodeFilter)
 
 		logger.Printf("%sFound Nodes for References: %+v\n", logService.TRACE, nodes)
 		// Find all references to this node
@@ -108,6 +109,7 @@ func (r *ReferenceService) HandleMethod(message protokoll.Message) {
 
 		// Get the file content
 		content, err := r.fs.GetFileContent(params.TextDocument.URI)
+
 		if err != nil {
 			connectUtils.WriteErrorToCon(r.con, message.ID, err, protokoll.InternalError)
 			return
@@ -115,7 +117,7 @@ func (r *ReferenceService) HandleMethod(message protokoll.Message) {
 
 		// Find the node at the cursor position
 		finder := util.NewNodeFinder([]byte(content.Content))
-		nodes := finder.FindSmallestNodeAroundPositionInSets(&content.Ast, params.Position, nodeFilter)
+		nodes := finder.FindSmallestNodeAroundPositionInSets(content.Ast, params.Position, nodeFilter)
 
 		// Find all declarations to this node
 		declarations := r.findDeclarations(nodes, content, params.TextDocument.URI)

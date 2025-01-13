@@ -1,7 +1,7 @@
 package main
 
 import (
-	"flag"
+	"github.com/Winnetoe24/DMF/lsp/args"
 	"github.com/Winnetoe24/DMF/lsp/server"
 	"github.com/Winnetoe24/DMF/lsp/server/connect"
 	"github.com/Winnetoe24/DMF/lsp/service/logService"
@@ -9,17 +9,20 @@ import (
 )
 
 func main() {
-	var useStd = flag.Bool("stdio", true, "useStdio for communication")
-	var characterInMarkdown = flag.Bool("characterInMarkdownLinks", false, "activates MarkdownLinks where the Character is transmitted with the schema #L<line>.<character>")
-	flag.Parse()
-	if characterInMarkdown != nil {
-		util.CharacterInMarkdownLinksActiv = *characterInMarkdown
-	}
+
+	util.CharacterInMarkdownLinksActiv = args.CharacterInMarkdown
 
 	defer logService.Close()
+	//go func() {
+	//	http.DefaultServeMux.HandleFunc("/debug/pprof/", pprof.Index)
+	//	err := http.ListenAndServe(":8080", http.DefaultServeMux)
+	//	if err != nil {
+	//		panic(err)
+	//	}
+	//}()
 
 	// Connection Loop
-	if *useStd {
+	if args.UseStd {
 		newServer := server.NewServer(connect.NewStdIOConnection())
 		newServer.MessageLoop()
 	} else {

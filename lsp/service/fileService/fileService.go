@@ -72,6 +72,10 @@ func (receiver *FileService) HandleMethod(message protokoll.Message) {
 			connectUtils.WriteErrorToCon(receiver.con, message.ID, err, protokoll.ParseError)
 			return
 		}
+		handle, found := receiver.handleMap[string(params.TextDocument.URI)]
+		if found {
+			handle.Ast.Close()
+		}
 		delete(receiver.handleMap, string(params.TextDocument.URI))
 	}
 }
@@ -113,10 +117,14 @@ func (receiver *FileService) EditFile(params textEdit.DidChangeTextDocumentParam
 
 type FileContent struct {
 	Content string `json:"content"`
-	Ast     tree_sitter.Tree
+	Ast     *tree_sitter.Tree
 	Model   smodel.Model
 	LookUp  smodel.TypeLookUp
 	Version int `json:"version"`
+}
+
+func (f FileContent) Close() {
+	f.Ast.Close()
 }
 
 func (receiver *FileService) GetFileContent(uri protokoll.DocumentURI) (FileContent, error) {
