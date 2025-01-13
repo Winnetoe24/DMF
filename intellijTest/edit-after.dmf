@@ -41,13 +41,11 @@ package de.library.management {
         }
 
         // Detaillierte Buchinformationen
-        entity Book extends MediaItem {
+        entity Book extends MediaItem{
             arg string author;
             // sad
-            // asd
             ref .Category category;
             ref .MediaType type;
-            // sadsad
             // asd
             arg int pageCount;
             arg string publisher;
@@ -69,7 +67,6 @@ package de.library.management {
 
     // Benutzerverwaltung
     package users {
-
         // Adressinformationen
         struct Address {
             arg string street;
@@ -78,7 +75,6 @@ package de.library.management {
             arg string city;
             arg string country;
         }
-
         // Verschiedene Mitgliedsarten
         enum MembershipType {
             arg int preis;

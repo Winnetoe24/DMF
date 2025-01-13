@@ -86,6 +86,7 @@ func (r *ReferenceService) HandleMethod(message protokoll.Message) {
 		finder := util.NewNodeFinder([]byte(content.Content))
 		nodes := finder.FindSmallestNodeAroundPositionInSets(&content.Ast, params.Position, nodeFilter)
 
+		logger.Printf("%sFound Nodes for References: %+v\n", logService.TRACE, nodes)
 		// Find all references to this node
 		references := r.findReferences(nodes, content, params.TextDocument.URI, params.Context.IncludeDeclaration)
 
@@ -119,6 +120,9 @@ func (r *ReferenceService) HandleMethod(message protokoll.Message) {
 		// Find all declarations to this node
 		declarations := r.findDeclarations(nodes, content, params.TextDocument.URI)
 
+		if declarations != nil && len(declarations) > 0 {
+			declarations = []declaration.DeclarationLink{declarations[0]}
+		}
 		// Send the response
 		r.con.WriteMessage(protokoll.Message{
 			JsonRPC: "2.0",

@@ -109,7 +109,7 @@ func (h *HoverService) HandleMethod(message protokoll.Message) {
 			panic(err)
 		}
 
-		logger.Printf("%Start Find Node\n", logService.TRACE)
+		logger.Printf("%sStart Find Node\n", logService.TRACE)
 		finder := util.NewNodeFinder([]byte(content.Content))
 		nodesAroundPosition := finder.FindSmallestNodeAroundPositionInSets(&content.Ast, params.Position, nodeFilter)
 
@@ -265,7 +265,9 @@ type IdentifierElementTemplateData struct {
 
 func (h *HoverService) renderIdentifierElementMarkdown(file protokoll.DocumentURI, node *tree_sitter.Node, content fileService.FileContent, rekursiv bool) string {
 	entityElementNode := node.Parent()
-
+	logger := logService.GetLogger()
+	logger.Printf("%sIdentifierElementMarkdown Nodes: %v(%s) %v\n", logService.TRACE, node, node.GrammarName(), entityElementNode.GrammarName())
+	logger.Printf("%sIdentifierElementMarkdown LookUp: %+v\n", logService.TRACE, content.LookUp)
 	element := util.FindElementOfNode(content.LookUp, entityElementNode)
 	if element == nil {
 		return "Ein Identifier einer Entity welcher die Identität bestimmt."

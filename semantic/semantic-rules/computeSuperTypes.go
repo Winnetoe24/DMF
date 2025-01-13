@@ -92,6 +92,7 @@ func (c *computeSuperTypes) calculateSuperTypes(current *packages.StructElement,
 			case *packages.EntityElement:
 				if currentEntity == nil {
 					c.elements = append(c.elements, errElement.CreateErrorElement(current.Node, errors.New("Ein Struct darf nur von einem Struct erben!")))
+					break
 				}
 				if element.Extends == nil {
 					c.calculateSuperTypes(&element.StructElement, element, append(subTypes, currentPath), interfaceSubtypes)
@@ -102,8 +103,14 @@ func (c *computeSuperTypes) calculateSuperTypes(current *packages.StructElement,
 				if element.Extends == nil {
 					c.calculateSuperTypes(element, nil, append(subTypes, currentPath), interfaceSubtypes)
 				}
-				current.Extends = element
-				(*c.lookup)[currentPath] = (*c.lookup)[extendsString]
+				if currentEntity == nil {
+					current.Extends = element
+					(*c.lookup)[currentPath] = current
+				} else {
+					currentEntity.Extends = element
+					(*c.lookup)[currentPath] = currentEntity
+				}
+
 			default:
 				c.elements = append(c.elements, errElement.CreateErrorElement(current.Node, errors.New("Der Supertyp muss ein Struct oder eine Entity sein!")))
 			}

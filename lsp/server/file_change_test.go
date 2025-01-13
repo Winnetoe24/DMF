@@ -65,6 +65,8 @@ func TestFileChange(t *testing.T) {
 	if contentEdit1.Content != "dmf 1.0.0\nmodel \"dp_success\" version 0.0.\n\npackage de.alex.brand {\n    package other {\n\n        struct Test{\n\n\n        }\n\n        enum Ort {\n\n            VOR_HAUS(_);\n        }\n\n        entity Person implements Inte {\n            arg int i;\n            arg string me;\n            identifier(i, me);\n        }\n\n        interface Inte  {\n\n        }\n\n\n\n    }\n\n   package rekur {\n        struct One  {\n        }\n\n        entity OneE {\n            arg int i;\n            arg string me;\n           identifier(i, me);\n        }\n        entity TwoE extends .OneE {\n           identifier(i, me);\n        }\n    }\n    package grund {\n         interface IGrund  {\n\n         }\n    }\n}" {
 		t.Error(errors.New("Content is wrong: " + content.Content))
 	}
+	name := content.LookUp["de.alex.brand.rekur.OneE"].GetBase().Node.GrammarName()
+	println(name)
 	err = connection.WriteJson("{\"jsonrpc\":\"2.0\",\"method\":\"textDocument/didChange\",\"params\":{\"textDocument\":{\"version\":3,\"uri\":\"file:///C:/Code/DMF/intellijTest/test.dmf\"},\"contentChanges\":[{\"range\":{\"start\":{\"line\":1,\"character\":31},\"end\":{\"line\":1,\"character\":31}},\"rangeLength\":0,\"text\":\"1\"}]}}")
 	if err != nil {
 		t.Error(err)
