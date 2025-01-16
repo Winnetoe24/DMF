@@ -46,7 +46,7 @@ package de.alex.brand {
             arg string me;
             // Kommentar von One
             ref One o;
-           identifier(i, me, o);
+           identifier(i, mSe, o);
         }
         entity TwoE extends .OneE {
            identifier(i, me);

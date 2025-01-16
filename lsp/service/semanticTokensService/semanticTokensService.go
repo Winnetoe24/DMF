@@ -367,10 +367,15 @@ func (s *SemanticTokensService) WalkNode(cursor *tree_sitter.TreeCursor, content
 		addToken(uint32(startPosition.Row), uint32(startPosition.Column), uint32(len(text)), uint32(indexString), 0)
 
 	// PackageString
-	case "packageString":
+	case "package_block":
+		child := node.Child(1)
+		startPosition := child.StartPosition()
+		text := child.Utf8Text(content)
+		addToken(uint32(startPosition.Row), uint32(startPosition.Column), uint32(len(text)), indexClass, indexDeclaration)
+	case "comment_block":
 		startPosition := node.StartPosition()
 		text := node.Utf8Text(content)
-		addToken(uint32(startPosition.Row), uint32(startPosition.Column), uint32(len(text)), indexClass, indexDeclaration)
+		addToken(uint32(startPosition.Row), uint32(startPosition.Column), uint32(len(text)), uint32(indexComment), 0)
 
 	}
 
