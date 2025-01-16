@@ -114,10 +114,10 @@ module.exports = grammar({
         $.func_block,
       ),
     ),
-    arg_block: $ => seq('arg', $.primitive_type, $.identifier, optional($._semicolon)),
-    ref_block: $ => seq('ref', $.reftype, $.identifier, optional($._semicolon)),
+    arg_block: $ => seq('arg', $.primitive_type, $.identifier, $._semicolon),
+    ref_block: $ => seq('ref', $.reftype, $.identifier, $._semicolon),
     func_block: $ => seq('func', choice($.reftype, $.primitive_type, $.void), $.identifier,
-      $._left_paren, optional(seq($.param_definition, repeat(seq($._comma, $.param_definition)))), $._right_paren,optional($._semicolon),),
+      $._left_paren, optional(seq($.param_definition, repeat(seq($._comma, $.param_definition)))), $._right_paren, $._semicolon,),
     param_definition: $ => seq(choice($.reftype, $.primitive_type), $.identifier),
 
     // Enum
@@ -129,7 +129,7 @@ module.exports = grammar({
       $._right_brace,
     ),
     enum_content: $ => seq(choice($.arg_block, $.enum_constant)),
-    enum_constant: $ => seq(optional($.comment_block), $.identifier, $._left_paren, $.enum_index, repeat(seq($._comma, $.primitive_value)), $._right_paren, optional($._semicolon)),
+    enum_constant: $ => seq(optional($.comment_block), $.identifier, $._left_paren, $.enum_index, repeat(seq($._comma, $.primitive_value)), $._right_paren, $._semicolon),
     enum_index: $ => choice('_', $.integerValue),
 
 
@@ -144,7 +144,7 @@ module.exports = grammar({
       $.identifier_statement,
       $._right_brace,
     ),
-    identifier_statement: $ => seq('identifier', $._left_paren, $.identifier, repeat(seq($._comma, $.identifier)), $._right_paren, optional($._semicolon)),
+    identifier_statement: $ => seq('identifier', $._left_paren, $.identifier, repeat(seq($._comma, $.identifier)), $._right_paren, $._semicolon),
 
 
     interface_block: $ => seq(

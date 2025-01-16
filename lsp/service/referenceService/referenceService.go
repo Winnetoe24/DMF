@@ -191,6 +191,9 @@ func (r *ReferenceService) findModelPath(nodes []*tree_sitter.Node, content file
 
 	bytes := []byte(content.Content)
 	for i, node := range nodes {
+		if node == nil {
+			continue
+		}
 		switch i {
 		case identifier:
 			name := node.Utf8Text(bytes)
