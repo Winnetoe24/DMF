@@ -5,6 +5,7 @@ import (
 	"github.com/Winnetoe24/DMF/lsp/protokoll/folding"
 	"github.com/Winnetoe24/DMF/lsp/protokoll/hover"
 	"github.com/Winnetoe24/DMF/lsp/protokoll/reference"
+	"github.com/Winnetoe24/DMF/lsp/protokoll/selectionRange"
 	"github.com/Winnetoe24/DMF/lsp/protokoll/semantictokens"
 	"github.com/Winnetoe24/DMF/lsp/protokoll/textEdit"
 )
@@ -75,9 +76,9 @@ type TextDocumentClientCapabilities struct {
 	// FoldingRange capabilities of the client
 	FoldingRange *folding.FoldingRangeClientCapabilities `json:"foldingRange,omitempty"`
 
-	//// SelectionRange capabilities of the client
-	//SelectionRange *SelectionRangeClientCapabilities `json:"selectionRange,omitempty"`
-	//
+	// SelectionRange capabilities of the client
+	SelectionRange *selectionRange.SelectionRangeClientCapabilities `json:"selectionRange,omitempty"`
+
 	//// LinkedEditingRange capabilities of the client
 	//LinkedEditingRange *LinkedEditingRangeClientCapabilities `json:"linkedEditingRange,omitempty"`
 	//

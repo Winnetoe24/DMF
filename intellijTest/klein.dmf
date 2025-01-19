@@ -22,6 +22,7 @@ package de.alex.brand.klein {
 
         interface I {
             func void Hi();
+            func void Zwei();
         }
 
 }

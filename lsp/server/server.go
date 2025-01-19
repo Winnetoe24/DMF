@@ -15,6 +15,7 @@ import (
 	"github.com/Winnetoe24/DMF/lsp/service/hoverService"
 	"github.com/Winnetoe24/DMF/lsp/service/logService"
 	"github.com/Winnetoe24/DMF/lsp/service/referenceService"
+	"github.com/Winnetoe24/DMF/lsp/service/selectionRangeService"
 	semantictokensService "github.com/Winnetoe24/DMF/lsp/service/semanticTokensService"
 	"log"
 )
@@ -50,6 +51,9 @@ func NewServer(con connect.Connection) *Server {
 
 	newSemanticTokensService := semantictokensService.NewSemanticTokensService(con, fileServiceHandler)
 	s.addHandler(newSemanticTokensService)
+
+	newSelectionRangeService := selectionRangeService.NewSelectionRangeService(con, fileServiceHandler)
+	s.addHandler(newSelectionRangeService)
 
 	return s
 }
