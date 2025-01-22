@@ -84,7 +84,7 @@ const (
 	dmfStatement    = iota
 )
 
-var nodeFilter = [][]string{{"arg_block", "ref_block"},
+var nodeFilter = [][]string{{"arg_block", "ref_block", "multi_block"},
 	{"identifier_statement"},
 	{"enum_constant"},
 	{"comment_block"},
@@ -191,6 +191,12 @@ type UseTemplateData struct {
 	Link string
 }
 
+type MultiTypData struct {
+	Typ      string
+	Generic1 *string
+	Generic2 *string
+}
+
 func (h *HoverService) renderVariableElementMarkdown(file protokoll.DocumentURI, nodeVariable *tree_sitter.Node, packageElementNode *tree_sitter.Node, content fileService.FileContent, rekursiv bool) string {
 
 	element := util.FindElementOfNode(content.LookUp, packageElementNode)
@@ -248,6 +254,64 @@ func (h *HoverService) renderVariableElementMarkdown(file protokoll.DocumentURI,
 		} else {
 			data.Typ = cElement.Typ.ToString()
 		}
+	case *packages.MultiReferenz:
+		logger := logService.GetLogger()
+		data.Name = cElement.Name.Name
+		if cElement.Kommentar != nil {
+			data.Kommentar = h.renderComment(*cElement.Kommentar)
+		}
+		typData := MultiTypData{
+			Typ:      string(cElement.Typ),
+			Generic1: nil,
+			Generic2: nil,
+		}
+
+		generic1 := cElement.Generics[0]
+		if generic1.ModelPath != nil {
+			logger.Printf("%sGeneric1 Path: %s\n", logService.TRACE, generic1.ModelPath.ToString())
+			referenzierterTyp, found := content.LookUp[generic1.ModelPath.ToString()]
+			if found {
+				if rekursiv {
+					s := util.CreateMarkdownLinkComplete(file, referenzierterTyp.GetBase().Node, (*generic1.ModelPath)[len(*generic1.ModelPath)-1], "")
+					typData.Generic1 = &s
+				} else {
+					s := util.CreateMarkdownLinkComplete(file, referenzierterTyp.GetBase().Node, (*generic1.ModelPath)[len(*generic1.ModelPath)-1],
+						strings.ReplaceAll(h.renderPackageElementPlainText(referenzierterTyp.GetBase().Node, content), "\n", ""))
+					typData.Generic1 = &s
+				}
+			}
+		} else if generic1.PrimitivType != nil {
+			typData.Generic1 = (*string)(generic1.PrimitivType)
+		} else {
+			s2 := "TestGeneric1"
+			typData.Generic1 = &s2
+		}
+
+		generic2 := cElement.Generics[1]
+		if generic2.ModelPath != nil {
+			referenzierterTyp, found := content.LookUp[generic2.ModelPath.ToString()]
+			if found {
+				if rekursiv {
+					s := util.CreateMarkdownLinkComplete(file, referenzierterTyp.GetBase().Node, (*generic2.ModelPath)[len(cElement.Typ)-1], "")
+					typData.Generic2 = &s
+				} else {
+					s := util.CreateMarkdownLinkComplete(file, referenzierterTyp.GetBase().Node, (*generic2.ModelPath)[len(cElement.Typ)-1],
+						strings.ReplaceAll(h.renderPackageElementPlainText(referenzierterTyp.GetBase().Node, content), "\n", ""))
+					typData.Generic2 = &s
+				}
+			}
+		} else if generic2.PrimitivType != nil {
+			typData.Generic2 = (*string)(generic2.PrimitivType)
+		}
+
+		buffer := bytes.NewBuffer(make([]byte, 0))
+		err := h.templates.ExecuteTemplate(buffer, "multiTyp", typData)
+		if err != nil {
+			panic(err)
+		}
+		data.Typ = buffer.String()
+
+		logger.Printf("%sComputed MultiTyp: %s\n", logService.TRACE, data.Typ)
 	}
 
 	buffer := bytes.NewBuffer(make([]byte, 0))

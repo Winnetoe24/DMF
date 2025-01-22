@@ -93,13 +93,13 @@ func handleFunktionen(up *ImportLookUp, basePath base.ModelPath, path base.Model
 }
 
 func handleFunktion(up *ImportLookUp, basePath base.ModelPath, funktion packages.Funktion) {
-	returnModelPath, _ := funktion.ReturnType.GetVariableType()
+	returnModelPath, _, _ := funktion.ReturnType.GetVariableType()
 	if returnModelPath != nil {
 		handleImport(up, basePath, *returnModelPath)
 	}
 
 	for _, variable := range funktion.Parameter {
-		variablePath, _ := variable.GetVariableType()
+		variablePath, _, _ := variable.GetVariableType()
 		if variablePath != nil {
 			handleImport(up, basePath, *variablePath)
 		}

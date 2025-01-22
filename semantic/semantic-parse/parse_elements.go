@@ -219,6 +219,169 @@ func (S *SemanticContext) parseRefBlock(current base.ModelPath, comment base.Com
 	return referenz
 }
 
+func (S *SemanticContext) parseMultiBlock(current base.ModelPath, comment base.Comment) packages.MultiReferenz {
+	node := S.Cursor.Node()
+	referenz := packages.MultiReferenz{
+		ModelElement: base.ModelElement{
+			Kommentar: &comment,
+			Node:      node,
+		},
+		Name: base.ElementIdentifier{},
+	}
+
+	errorElement := assertNodeState(node, "Ref Block Node")
+	if errorElement != nil {
+		S.ErrorElements = append(S.ErrorElements, *errorElement)
+		return referenz
+	}
+
+	// 'ref'
+	hasFirstChild := S.Cursor.GotoFirstChild()
+	if !hasFirstChild {
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("ref Keyword fehlt")))
+		return referenz
+	}
+	defer S.Cursor.GotoParent()
+	errorElement = assertNodeState(S.Cursor.Node(), "Ref Node")
+	if errorElement != nil {
+		S.ErrorElements = append(S.ErrorElements, *errorElement)
+	}
+
+	// MultiReferenzType
+	hasNextSibling := S.Cursor.GotoNextSibling()
+	if !hasNextSibling {
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("es fehlt ein Multi Referenz Typ")))
+		return referenz
+	}
+	multiType, element := S.parseMultiReferenzTyp()
+	if element != nil {
+		S.ErrorElements = append(S.ErrorElements, *element)
+	} else {
+		referenz.Typ = multiType
+	}
+
+	// '<'
+	hasNextSibling = S.Cursor.GotoNextSibling()
+	if !hasNextSibling {
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("es fehlt ein <")))
+		return referenz
+	}
+	errorElement = assertNodeState(S.Cursor.Node(), "<")
+	if errorElement != nil {
+		S.ErrorElements = append(S.ErrorElements, *errorElement)
+	}
+
+	// Generic Type
+	hasNextSibling = S.Cursor.GotoNextSibling()
+	if !hasNextSibling {
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("es fehlt ein Generic Referenz Typ")))
+		return referenz
+	}
+	S.parseGeneric(current, &referenz.Generics[0])
+
+	// is , oder >
+	hasNextSibling = S.Cursor.GotoNextSibling()
+	if !hasNextSibling {
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("es fehlt ein >")))
+		return referenz
+	}
+
+	// ,
+	if S.Cursor.Node().GrammarName() != ">" {
+		errorElement = assertNodeState(S.Cursor.Node(), ",")
+		if errorElement != nil {
+			S.ErrorElements = append(S.ErrorElements, *errorElement)
+		}
+
+		hasNextSibling = S.Cursor.GotoNextSibling()
+		if !hasNextSibling {
+			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("es fehlt ein Generic Referenz Typ")))
+			return referenz
+		}
+		S.parseGeneric(current, &referenz.Generics[1])
+
+		hasNextSibling = S.Cursor.GotoNextSibling()
+		if !hasNextSibling {
+			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("es fehlt ein >")))
+			return referenz
+		}
+
+		if S.Cursor.Node().GrammarName() != ">" {
+			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("es fehlt ein > (Zu viele Generics)")))
+			return referenz
+		}
+	}
+
+	// >
+	errorElement = assertNodeState(S.Cursor.Node(), ">")
+	if errorElement != nil {
+		S.ErrorElements = append(S.ErrorElements, *errorElement)
+	}
+
+	// identifier
+	hasNextSibling = S.Cursor.GotoNextSibling()
+	if !hasNextSibling {
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("es fehlt ein Identifier")))
+		return referenz
+	}
+	referenz.Name = S.parseIdentifier()
+
+	// Semikolon
+	hasNextSibling = S.Cursor.GotoNextSibling()
+	if !hasNextSibling {
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt ein Semikolon")))
+		return referenz
+	}
+	errorElement = assertNodeState(S.Cursor.Node(), "Semikolon")
+	if errorElement != nil {
+		S.ErrorElements = append(S.ErrorElements, *errorElement)
+	}
+
+	return referenz
+}
+
+func (S *SemanticContext) parseGeneric(current base.ModelPath, genericType *packages.MultiType) {
+	errorElement := assertNodeState(S.Cursor.Node(), "Generic Type")
+	if errorElement != nil {
+		S.ErrorElements = append(S.ErrorElements, *errorElement)
+	}
+	if S.Cursor.Node().GrammarName() == dmf_language.PRIMITIVE_TYPE {
+		primitiveType, element := S.parsePrimitiveType()
+		if element != nil {
+			S.ErrorElements = append(S.ErrorElements, *element)
+		} else {
+			genericType.PrimitivType = &primitiveType
+		}
+	} else {
+		refType, element := S.ParseRefType(current)
+		if element != nil {
+			S.ErrorElements = append(S.ErrorElements, *element)
+		} else {
+			genericType.ModelPath = &refType
+		}
+	}
+}
+
+func (S *SemanticContext) parseMultiReferenzTyp() (packages.MultiReferenzType, *errElement.ErrorElement) {
+	node := S.Cursor.Node()
+	errorElement := assertNodeState(node, "Ref Block Node")
+	if errorElement != nil {
+		return "", errorElement
+	}
+
+	text := node.Utf8Text(S.Text)
+	switch text {
+	case string(packages.MAP):
+		return packages.MAP, nil
+	case string(packages.SET):
+		return packages.SET, nil
+	case string(packages.LIST):
+		return packages.LIST, nil
+	default:
+		return "", errElement.CreateErrorElementRef(node, errors.New("Unbekannter Multi Referenz Typ"))
+	}
+}
+
 func (S *SemanticContext) parseFuncBlock(current base.ModelPath, comment base.Comment) packages.Funktion {
 	cursor := S.Cursor
 	node := cursor.Node()

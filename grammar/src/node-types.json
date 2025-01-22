@@ -490,6 +490,38 @@
     }
   },
   {
+    "type": "multi_block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "identifier",
+          "named": true
+        },
+        {
+          "type": "multi_name",
+          "named": true
+        },
+        {
+          "type": "primitive_type",
+          "named": true
+        },
+        {
+          "type": "reftype",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "multi_name",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "package_block",
     "named": true,
     "fields": {},
@@ -794,6 +826,10 @@
           "named": true
         },
         {
+          "type": "multi_block",
+          "named": true
+        },
+        {
           "type": "ref_block",
           "named": true
         }
@@ -861,11 +897,31 @@
     "named": false
   },
   {
+    "type": "<",
+    "named": false
+  },
+  {
+    "type": ">",
+    "named": false
+  },
+  {
     "type": "D",
     "named": false
   },
   {
     "type": "L",
+    "named": false
+  },
+  {
+    "type": "List",
+    "named": false
+  },
+  {
+    "type": "Map",
+    "named": false
+  },
+  {
+    "type": "Set",
     "named": false
   },
   {

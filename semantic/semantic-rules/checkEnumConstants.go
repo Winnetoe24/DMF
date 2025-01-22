@@ -62,7 +62,7 @@ func (c *checkEnumConstants) handleEnumeration(element *packages.EnumElement) {
 					c.elements = append(c.elements, errElement.CreateErrorElementCxt(value.GetNode(), errors.New("mehr Werte in der Konstante angegeben als im Enum definiert sind"), konst.Node))
 				} else {
 					argument := element.Argumente[i-1]
-					_, primitivType := argument.GetVariableType()
+					_, primitivType, _ := argument.GetVariableType()
 					if primitivType == nil || *primitivType != value.GetDataType() {
 						c.elements = append(c.elements, errElement.CreateErrorElementFull(value.GetNode(), errors.New("der Datentyp stimmt nicht mit dem deklarierten Datentyp überein"), konst.Node, argument.Node, argument.Node))
 

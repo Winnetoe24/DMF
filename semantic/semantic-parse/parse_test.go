@@ -13,7 +13,7 @@ import (
 
 func TestParse(t *testing.T) {
 
-	file, err := os.ReadFile("../example-file")
+	file, err := os.ReadFile("../example.dmf")
 	if err != nil {
 		t.Errorf("Kann test Resource nicht lesen: %e", err)
 		return

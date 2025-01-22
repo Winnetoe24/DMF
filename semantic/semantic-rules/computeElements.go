@@ -45,6 +45,9 @@ func (c *computeElements) handleStruct(element *packages.StructElement, entity *
 	for _, referenz := range element.Referenzen {
 		c.addElement(&element.NamedElements, &referenz)
 	}
+	for _, referenz := range element.MultiReferenzen {
+		c.addElement(&element.NamedElements, &referenz)
+	}
 	for _, funktion := range element.Funktionen {
 		c.addElement(&element.NamedElements, &funktion)
 	}

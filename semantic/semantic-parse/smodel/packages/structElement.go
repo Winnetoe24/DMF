@@ -10,6 +10,7 @@ type StructElement struct {
 	Implements      []PackageElement
 	Argumente       []Argument
 	Referenzen      []Referenz
+	MultiReferenzen []MultiReferenz
 	Funktionen      []Funktion
 }
 
@@ -37,4 +38,34 @@ func (s *StructElement) AddImplements(implements PackageElement) {
 
 func (s *StructElement) GetPath() base.ModelPath {
 	return s.Path
+}
+
+var _ StructAble = (*StructElement)(nil)
+
+func (s *StructElement) GetExtendsPath() *base.ModelPath {
+	return s.ExtendsPath
+}
+
+func (s *StructElement) GetArgumente() *[]Argument {
+	return &s.Argumente
+}
+
+func (s *StructElement) GetReferenzen() *[]Referenz {
+	return &s.Referenzen
+}
+
+func (s *StructElement) GetMultiReferenzen() *[]MultiReferenz {
+	return &s.MultiReferenzen
+}
+
+func (s *StructElement) GetFunktionen() *[]Funktion {
+	return &s.Funktionen
+}
+
+func (s *StructElement) GetNamedElements() *map[string]base.NamedElement {
+	return &s.NamedElements
+}
+
+func (s *StructElement) GetEntity() *EntityElement {
+	return nil
 }

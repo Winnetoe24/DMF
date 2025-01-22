@@ -15,6 +15,7 @@ import (
 	semantic_parse "github.com/Winnetoe24/DMF/semantic/semantic-parse"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
+	errElement "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 )
@@ -27,6 +28,7 @@ type ReferenceService struct {
 	fs  *fileService.FileService
 }
 
+// TODO FIX everything
 func NewReferenceService(connection connect.Connection, fs *fileService.FileService) *ReferenceService {
 	return &ReferenceService{
 		con: connection,
@@ -56,13 +58,13 @@ func (r *ReferenceService) GetMethods() []string {
 }
 
 const (
-	identifier     = iota
 	refType        = iota
+	identifier     = iota
 	primitiveType  = iota
 	packageElement = iota
 )
 
-var nodeFilter = [][]string{{"identifier"}, {"reftype"}, {"primitive_type"}, {"package_block", "struct_block", "enum_block", "entity_block", "interface_block"}}
+var nodeFilter = [][]string{{"reftype"}, {"identifier"}, {"primitive_type"}, {"package_block", "struct_block", "enum_block", "entity_block", "interface_block"}}
 
 func (r *ReferenceService) HandleMethod(message protokoll.Message) {
 	switch message.Method {
@@ -137,7 +139,7 @@ func (r *ReferenceService) HandleMethod(message protokoll.Message) {
 }
 
 func (r *ReferenceService) findReferences(nodes []*tree_sitter.Node, content fileService.FileContent, file protokoll.DocumentURI, includeDeclaration bool) []protokoll.Location {
-	var references []protokoll.Location
+	var references = make([]protokoll.Location, 0)
 
 	//node := nodes[identifier]
 	//packageElementNode := nodes[packageElement]
@@ -194,19 +196,23 @@ func (r *ReferenceService) findModelPath(nodes []*tree_sitter.Node, content file
 		if node == nil {
 			continue
 		}
+		logger := logService.GetLogger()
 		switch i {
 		case identifier:
 			name := node.Utf8Text(bytes)
+			logger.Printf("%sFound identifier: %s\n", logService.TRACE, name)
 			packageElementNode := nodes[packageElement]
 			if packageElementNode == nil {
 				return nil, nil, &name
 			}
 			element := util.FindElementOfNode(content.LookUp, packageElementNode)
 			if element == nil {
+				logger.Printf("%sDidnt find PackageElement for Name: %s\n", logService.TRACE, name)
 				return nil, nil, &name
 			}
 			return node, &element.GetBase().Path, &name
 		case refType:
+			logger.Printf("%sFound RefType For References\n", logService.TRACE)
 			context := semantic_parse.SemanticContext{
 				ErrorElements: nil,
 				Model:         smodel.Model{},
@@ -215,16 +221,24 @@ func (r *ReferenceService) findModelPath(nodes []*tree_sitter.Node, content file
 			}
 			packageElementNode := nodes[packageElement]
 			if packageElementNode == nil {
+				logger.Printf("%sNo PackageElement Node\n", logService.TRACE)
 				return nil, nil, nil
 			}
 			element := util.FindElementOfNode(content.LookUp, packageElementNode)
 			if element == nil {
+				logger.Printf("%sDidnt Find PackageElement for Node\n", logService.TRACE)
 				return nil, nil, nil
 			}
-			parseRefType, errorElement := context.ParseRefType(element.GetBase().Path)
+			parseRefType, errorElement := context.ParseRefType(element.GetBase().Path[:len(element.GetBase().Path)-1])
+
 			if errorElement != nil {
+				logger.Printf("%sError While Parsing RefType for Reference: %s\n", logService.TRACE, errorElement.ToErrorMsg(&errElement.ErrorContext{
+					Dateiname:   "",
+					Dateiinhalt: bytes,
+				}))
 				return nil, nil, nil
 			}
+			logger.Printf("%sFound ModelPath for RefType: %+v\n", logService.TRACE, parseRefType)
 			return node, &parseRefType, nil
 		}
 	}

@@ -33,7 +33,7 @@ func (c *checkReferenzen) handleStruct(element *packages.StructElement, _ *packa
 
 	for _, funktion := range element.Funktionen {
 		for _, variable := range funktion.Parameter {
-			variablePath, _ := variable.GetVariableType()
+			variablePath, _, _ := variable.GetVariableType()
 			if variablePath != nil {
 				variableString := variablePath.ToString()
 				_, found := (*c.lookup)[variableString]
@@ -49,7 +49,7 @@ func (c *checkReferenzen) handleStruct(element *packages.StructElement, _ *packa
 func (c *checkReferenzen) handleInterface(element *packages.InterfaceElement) {
 	for _, funktion := range element.Funktionen {
 		for _, variable := range funktion.Parameter {
-			variablePath, _ := variable.GetVariableType()
+			variablePath, _, _ := variable.GetVariableType()
 			if variablePath != nil {
 				variableString := variablePath.ToString()
 				_, found := (*c.lookup)[variableString]

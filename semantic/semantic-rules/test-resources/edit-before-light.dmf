@@ -13,6 +13,7 @@ package de.library.management {
             arg date publishedDate;
             arg double price;
             arg int copyNumber;
+            ref Set<string> namen;
             func boolean isAvailable(int copyId);
         }
     }

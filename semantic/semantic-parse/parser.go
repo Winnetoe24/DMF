@@ -552,6 +552,9 @@ func (S *SemanticContext) parseStructContent(current base.ModelPath, element *pa
 	case dmf_lang.REF_BLOCK:
 		refBlock := S.parseRefBlock(current, comment)
 		element.Referenzen = append(element.Referenzen, refBlock)
+	case dmf_lang.MULTI_BLOCK:
+		multiBlock := S.parseMultiBlock(current, comment)
+		element.MultiReferenzen = append(element.MultiReferenzen, multiBlock)
 	case dmf_lang.FUNC_BLOCK:
 		funcBlock := S.parseFuncBlock(current, comment)
 		element.Funktionen = append(element.Funktionen, funcBlock)

@@ -18,6 +18,8 @@ package de.beispiel {
 
             arg long zimmernummer;
 
+            ref Map<string, int> mppings;
+
             // Kommentar über Funktion
             func Zimmer getZimmer(Hotel hotel);
 

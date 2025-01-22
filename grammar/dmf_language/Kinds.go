@@ -21,6 +21,8 @@ const (
 	STRUCT_CONTENT              = "struct_content"
 	ARG_BLOCK                   = "arg_block"
 	REF_BLOCK                   = "ref_block"
+	MULTI_BLOCK                 = "multi_block"
+	MULTI_NAME                  = "multi_name"
 	FUNC_BLOCK                  = "func_block"
 	PARAM_DEFINITION            = "param_definition"
 	ENUM_BLOCK                  = "enum_block"
