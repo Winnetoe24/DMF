@@ -62,16 +62,6 @@ module.exports = grammar({
 
     model_content: $ => repeat1($.package_content),
 
-    comment_block: $ => prec.right(repeat1($.comment)),
-
-    // Package
-    package_block: $ => seq(
-      'package',
-      $.package_string,
-      $._left_brace,
-      repeat($.package_content),
-      $._right_brace,
-    ),
     package_content: $ => seq(
       optional($.comment_block),
       optional($.expand),
@@ -82,6 +72,17 @@ module.exports = grammar({
         $.entity_block,
         $.interface_block,
       )),
+
+    comment_block: $ => prec.right(repeat1($.comment)),
+
+    // Package
+    package_block: $ => seq(
+      'package',
+      $.package_string,
+      $._left_brace,
+      repeat($.package_content),
+      $._right_brace,
+    ),
 
 
     // Struct

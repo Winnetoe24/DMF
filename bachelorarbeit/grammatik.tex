@@ -1,0 +1,63 @@
+\documentclass{article}
+\usepackage{syntax}
+\normalsize
+
+\begin{document}
+\section{BNF Grammatik}
+\setlength{\grammarparsep}{20pt plus 1pt minus 1pt} % increase separation between rules
+\setlength{\grammarindent}{12em} % increase separation between LHS/RHS 
+
+\begin{grammar}
+<source_file> ::= <dmf_declaration> <new_line> <model_declaration> <new_line> [ <import_block> ] <model_content>
+
+<dmf_declaration> ::= 'dmf' <version_number>
+
+
+<model_declaration> ::= 'model' <string_value> 'version' <version_number>
+
+<import_block> ::= <import_statement>+
+
+<import_statement> ::= 'import' <package_string> 'from' <string_value> [ <model_identifier> ] <new_line>
+
+<model_identifier> ::= '(' 'model' <string_value> [ 'version' <version_number> ] ')'
+
+
+<model_content> ::= <package_content>+
+
+<package_content> ::= [ <comment_block> ] [ 'expand' ] <package_block>
+\alt [ <comment_block> ] [ 'expand' ] <struct_block>
+\alt [ <comment_block> ] [ 'expand' ] <enum_block>
+\alt [ <comment_block> ] [ 'expand' ] <entity_block>
+\alt [ <comment_block> ] [ 'expand' ] <interface_block>
+
+% predicate.right fehlt
+<comment_block> ::= <comment>+
+
+<comment> ::= R'\textbackslash /\textbackslash /.*\textbackslash n'
+
+<package_block> ::= 'package' '{' <package_content>+ '}'
+
+<struct_block> ::= 'struct' <identifier> [ <extends_block> ] [ <implements_block> ] '{' <struct_content>+ '}'
+
+<extends_block> ::= 'extends' <reftype>
+
+<implements_block> ::= 'implements' <reftype> (',' <reftype>)+
+
+
+
+\end{grammar}
+
+\section{Beispiel}
+\setlength{\grammarparsep}{20pt plus 1pt minus 1pt} % increase separation between rules
+\setlength{\grammarindent}{12em} % increase separation between LHS/RHS 
+
+\begin{grammar}
+<statement> ::= <ident> `=' <expr> 
+\alt `for' <ident> `=' <expr> `to' <expr> `do' <statement> 
+\alt `{' <stat-list> `}' 
+\alt <empty> 
+
+<stat-list> ::= <statement> `;' <stat-list> | <statement> 
+
+\end{grammar}
+\end{document}
