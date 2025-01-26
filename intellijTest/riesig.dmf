@@ -75,8 +75,7 @@ package de.smart.city {
             arg string routeId;
             arg string routeName;
             ref .RouteStatus status;
-            // TODO []
-            ref .RouteSegment segments;
+            ref Set<.RouteSegment> segments;
             arg datetime firstDepartureTime;
             arg datetime lastDepartureTime;
             arg int frequencyMinutes;
@@ -224,8 +223,7 @@ package de.smart.city {
 
         entity MonitoringStation extends ..infrastructure.Asset {
             arg string stationId;
-            // TODO []
-            ref .AirQualityReading readings;
+            ref List<.AirQualityReading> readings;
             arg boolean isCalibrated;
             arg date lastCalibrationDate;
 
