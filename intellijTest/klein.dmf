@@ -8,18 +8,25 @@ package de.alex.brand.klein {
             arg string name;
             arg int id;
             arg date da;
+            NEIN(_, "sad",2, D2020-12-23);
             JA(_, "asdad", 1, D2020-12-23);
         }
         struct Tetrapack {
-            arg date i;
+            arg long l
+            arg date sa;
             ref .Apfelsaft a;
             // Das ist eine Map
-            ref Map<.Apfelsaft, int> sad;
+            ref Map<.Apfelsaft, int> i;
+
             func void tata(int i,Tetrapack t, long sad);
         }
         entity Apfelsaft extends Tetrapack {
 
             identifier(i);
+        }
+
+        struct Ast {
+
         }
 
         interface I {

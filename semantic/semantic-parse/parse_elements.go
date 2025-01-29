@@ -123,6 +123,11 @@ func (S *SemanticContext) parseArgBlock(comment base.Comment) packages.Argument 
 		return arg
 	}
 	defer S.Cursor.GotoParent()
+	errorElement = assertNodeStateGrammar(S.Cursor.Node(), "arg", dmf_language.ARG)
+	if errorElement != nil {
+		S.ErrorElements = append(S.ErrorElements, *errorElement)
+		return arg
+	}
 
 	// type
 	hasNextSibling := S.Cursor.GotoNextSibling()
@@ -144,6 +149,7 @@ func (S *SemanticContext) parseArgBlock(comment base.Comment) packages.Argument 
 		return arg
 	}
 	arg.Name = S.parseIdentifier()
+	identifierNode := S.Cursor.Node()
 
 	// Semikolon
 	hasNextSibling = S.Cursor.GotoNextSibling()
@@ -151,9 +157,10 @@ func (S *SemanticContext) parseArgBlock(comment base.Comment) packages.Argument 
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt ein Semikolon")))
 		return arg
 	}
-	errorElement = assertNodeState(S.Cursor.Node(), "Semikolon")
+	errorElement = assertNodeStateGrammar(S.Cursor.Node(), "Semikolon", ";")
 	if errorElement != nil {
-		S.ErrorElements = append(S.ErrorElements, *errorElement)
+		//S.ErrorElements = append(S.ErrorElements, *errorElement)
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(identifierNode, errors.New("es fehlt ein Semikolon")))
 	}
 	//S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New(S.Cursor.Node().GrammarName())))
 

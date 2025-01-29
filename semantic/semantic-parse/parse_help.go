@@ -16,3 +16,13 @@ func assertNodeState(node *tree_sitter.Node, nodeName string) *errElement.ErrorE
 
 	return nil
 }
+
+func assertNodeStateGrammar(node *tree_sitter.Node, nodeName string, grammarName string) *errElement.ErrorElement {
+	if node.GrammarName() != grammarName {
+		return errElement.CreateErrorElementRef(node, errors.New(nodeName+" grammar name mismatch:"+node.GrammarName()))
+	}
+	if err := assertNodeState(node, nodeName); err != nil {
+		return err
+	}
+	return nil
+}

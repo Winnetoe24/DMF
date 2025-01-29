@@ -1,0 +1,14 @@
+\documentclass{article}
+\begin{document}
+\section{Alternativen}
+\subsection{XText}
+XText ist ein Framework der Eclipse Foundation.\\
+Es bietet die Möglichkeit eine DSL mit verschiedenen Modellen zu modellieren und Regeln automatisch zu überprüfen.
+Während XText für die Entwicklung von Domain Spezifischen Sprachen für die Eclipse IDE vorteilhaft ist, so stößt XText bei Verschiedenen IDE's an seine Grenzen.
+Es ist möglich einen LSP-Server zu generieren, jedoch ist dies nicht die primäre Funktion von XText. Deshalb gibt es für LSP-Server auch weniger Dokumentation. \\
+Zusätzlich ist XText darauf ausgelegt, dass Schnittstellen generiert werden. Direkte Anpassungen oder Zugriffe auf den AST sind nicht vorgesehen, welche die Entwicklung der Generatoren deutlich erschweren würden. \\
+Abschließend waren an XText die nicht funktionierenden Beispiel Projekte sowie zwingende Entwicklung in Eclipse seht abweisend. Ein Framework welche eine einfache und flexible Entwicklung ermöglichen soll, sollte nicht schwer und nur in einer IDE zu entwickeln sein.
+\subsection{ANTLR}
+ANTLR ist sehr ähnlich zu Treesitter. Die größten Unterschiede sind die API's zum Schreiben der Grammtiken und die Möglichkeit iterativ zu Parsen. \\
+Die Möglichkeit iterativ zu Parsen kann wichtige Zeit sparen, indem nicht die komplette Datei geparsed werden muss. Zusätzlich unterstützt ANTRL nur Java, C\# und C++. Dies zwingt einen in der Wahl der Implementierungssprache ein. Da meine bevorzugte Wahl Golang ist, war dies ein zusätzlicher Grund ANTLR nicht zu benutzen.
+\end{document}
