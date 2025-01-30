@@ -14,6 +14,13 @@ type Package struct {
 	Elements []PackageElement
 }
 
+func (m *Package) CleanTreeReferences() {
+	m.PackageElement.CleanTreeReferences()
+	for _, element := range m.Elements {
+		element.(base.TreeCleaner).CleanTreeReferences()
+	}
+}
+
 var _ PackageElement = (*Package)(nil)
 
 func (p *Package) GetType() base.PackageElementType {
@@ -27,6 +34,22 @@ type Funktion struct {
 	Parameter  []Variable
 }
 
+func (m *Funktion) CleanTreeReferences() {
+	m.ModelElement.CleanTreeReferences()
+	switch casted := m.ReturnType.(type) {
+	case VoidElement:
+		casted.CleanTreeReferences()
+		m.ReturnType = casted
+	default:
+		casted.(base.TreeCleaner).CleanTreeReferences()
+		m.ReturnType = casted
+	}
+	m.Name.CleanTreeReferences()
+	for _, element := range m.Parameter {
+		element.(base.TreeCleaner).CleanTreeReferences()
+	}
+}
+
 func (f *Funktion) Element() base.ModelElement {
 	return f.ModelElement
 }
@@ -35,7 +58,14 @@ func (f *Funktion) GetName() string {
 	return f.Name.Name
 }
 
-type Identifier struct {
+type EntityIdentifier struct {
 	base.ModelElement
 	Variablen []base.ElementIdentifier
+}
+
+func (m *EntityIdentifier) CleanTreeReferences() {
+	m.ModelElement.CleanTreeReferences()
+	for _, element := range m.Variablen {
+		element.CleanTreeReferences()
+	}
 }

@@ -28,7 +28,7 @@ func TestClass(t *testing.T) {
 	//			Node:      nil,
 	//		},
 	//		Path:          base.ModelPath([]string{"de", "test", "TestKlasse"}),
-	//		Identifier:    base.ElementIdentifier{},
+	//		EntityIdentifier:    base.ElementIdentifier{},
 	//		NamedElements: nil,
 	//		Expand:        false,
 	//	},

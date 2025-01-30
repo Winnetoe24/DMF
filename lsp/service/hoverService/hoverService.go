@@ -222,11 +222,11 @@ func (h *HoverService) renderVariableElementMarkdown(file protokoll.DocumentURI,
 			})
 		}
 	case *packages.EntityElement:
-		for _, elementIdentifier := range pElement.Identifier.Variablen {
+		for _, elementIdentifier := range pElement.EntityIdentifier.Variablen {
 			if elementIdentifier.Name == namedElement.GetName() {
 				data.Uses = append(data.Uses, UseTemplateData{
-					Code: pElement.Identifier.Node.Utf8Text([]byte(content.Content)),
-					Link: util.CreateMarkdownLinkFromNode(file, pElement.Identifier.Node),
+					Code: pElement.EntityIdentifier.Node.Utf8Text([]byte(content.Content)),
+					Link: util.CreateMarkdownLinkFromNode(file, pElement.EntityIdentifier.Node),
 				})
 			}
 		}
@@ -336,7 +336,7 @@ func (h *HoverService) renderIdentifierElementMarkdown(file protokoll.DocumentUR
 	logger.Printf("%sIdentifierElementMarkdown LookUp: %+v\n", logService.TRACE, content.LookUp)
 	element := util.FindElementOfNode(content.LookUp, entityElementNode)
 	if element == nil {
-		return "Ein Identifier einer Entity welcher die Identität bestimmt."
+		return "Ein EntityIdentifier einer Entity welcher die Identität bestimmt."
 	}
 
 	base := element.GetBase()
@@ -346,7 +346,7 @@ func (h *HoverService) renderIdentifierElementMarkdown(file protokoll.DocumentUR
 	data.Name = base.Path[len(base.Path)-1]
 	data.NameLink = util.CreateMarkdownLinkFromNode(file, base.Node)
 
-	identifier := entityElement.Identifier
+	identifier := entityElement.EntityIdentifier
 	if identifier.Kommentar != nil {
 		data.Kommentar = h.renderComment(*identifier.Kommentar)
 	}

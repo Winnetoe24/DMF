@@ -53,6 +53,11 @@ func callTreeSitterParser(fileContent string) (*tree_sitter.Tree, error) {
 		return nil, err
 	}
 	parse := parser.Parse([]byte(fileContent), nil)
+	//if parse != nil {
+	//	runtime.SetFinalizer(parse, func(tree *tree_sitter.Tree) {
+	//		tree.Close()
+	//	})
+	//}
 	return parse, nil
 }
 

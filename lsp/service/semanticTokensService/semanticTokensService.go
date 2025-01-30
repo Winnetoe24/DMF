@@ -231,14 +231,14 @@ func (s *SemanticTokensService) walkElements(content fileService.FileContent, ad
 		switch e := element.(type) {
 		//case *packages.Package:
 		//	// Token for package name
-		//	node := e.Identifier.Node
+		//	node := e.EntityIdentifier.Node
 		//	pos := node.StartPosition()
 		//
 		//	case *packages.EntityElement:
 		//		// Token for entity name
 		//		node := e.GetBase().Node
 		//		pos := node.StartPosition()
-		//		addToken(uint32(pos.Row), uint32(pos.Column), uint32(len(e.StructElement.Identifier.Name)), 1, 1)
+		//		addToken(uint32(pos.Row), uint32(pos.Column), uint32(len(e.StructElement.EntityIdentifier.Name)), 1, 1)
 		//
 		//		// Process arguments
 		//		for _, arg := range e.NamedElements {
@@ -253,7 +253,7 @@ func (s *SemanticTokensService) walkElements(content fileService.FileContent, ad
 			// Token for enum name
 			//node := e.GetBase().Node
 			//pos := node.StartPosition()
-			//addToken(uint32(pos.Row), uint32(pos.Column), uint32(len(e.Identifier.Name)), 3, 1)
+			//addToken(uint32(pos.Row), uint32(pos.Column), uint32(len(e.EntityIdentifier.Name)), 3, 1)
 			//
 			// Process enum constants
 			for _, konstante := range e.Konstanten {
@@ -278,7 +278,7 @@ func (s *SemanticTokensService) walkElements(content fileService.FileContent, ad
 			//		// Token for interface name
 			//		node := e.GetBase().Node
 			//		pos := node.StartPosition()
-			//		addToken(uint32(pos.Row), uint32(pos.Column), uint32(len(e.Identifier.Name)), 4, 1)
+			//		addToken(uint32(pos.Row), uint32(pos.Column), uint32(len(e.EntityIdentifier.Name)), 4, 1)
 			//	}
 			//
 			//	// Process comments if they exist
@@ -348,7 +348,7 @@ func (s *SemanticTokensService) WalkNode(cursor *tree_sitter.TreeCursor, content
 		startPosition := node.StartPosition()
 		text := node.Utf8Text(content)
 		addToken(uint32(startPosition.Row), uint32(startPosition.Column), uint32(len(text)), uint32(indexKeyword), 0)
-	// Identifier keyword anhand parent, da identifier auch alle Namen der Elemente sind
+	// EntityIdentifier keyword anhand parent, da identifier auch alle Namen der Elemente sind
 	case "identifier_statement":
 		identifierNode := node.Child(0)
 		startPosition := identifierNode.StartPosition()

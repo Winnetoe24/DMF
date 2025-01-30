@@ -26,10 +26,10 @@ func (c *checkEntityIdentifier) handleStruct(_ *packages.StructElement, entity *
 	if entity != nil {
 		cEntity := *entity
 
-		for _, variable := range cEntity.Identifier.Variablen {
+		for _, variable := range cEntity.EntityIdentifier.Variablen {
 			_, exists := cEntity.NamedElements[variable.Name]
 			if !exists {
-				c.elements = append(c.elements, errElement.CreateErrorElementCxt(variable.Node, errors.New("Referenzierte Variable nicht gefunden!"), cEntity.Identifier.Node))
+				c.elements = append(c.elements, errElement.CreateErrorElementCxt(variable.Node, errors.New("Referenzierte Variable nicht gefunden!"), cEntity.EntityIdentifier.Node))
 			}
 		}
 	}

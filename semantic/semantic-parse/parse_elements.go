@@ -11,7 +11,7 @@ import (
 
 func (S *SemanticContext) parseIdentifier() base.ElementIdentifier {
 	identifierNode := S.Cursor.Node()
-	errorElement := assertNodeState(identifierNode, "Identifier Node")
+	errorElement := assertNodeState(identifierNode, "EntityIdentifier Node")
 	if errorElement != nil {
 		S.ErrorElements = append(S.ErrorElements, *errorElement)
 	}
@@ -145,7 +145,7 @@ func (S *SemanticContext) parseArgBlock(comment base.Comment) packages.Argument 
 	// identifier
 	hasNextSibling = S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("es fehlt ein Identifier")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("es fehlt ein EntityIdentifier")))
 		return arg
 	}
 	arg.Name = S.parseIdentifier()
@@ -208,7 +208,7 @@ func (S *SemanticContext) parseRefBlock(current base.ModelPath, comment base.Com
 	// identifier
 	hasNextSibling = S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("es fehlt ein Identifier")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("es fehlt ein EntityIdentifier")))
 		return referenz
 	}
 	referenz.Name = S.parseIdentifier()
@@ -328,7 +328,7 @@ func (S *SemanticContext) parseMultiBlock(current base.ModelPath, comment base.C
 	// identifier
 	hasNextSibling = S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("es fehlt ein Identifier")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("es fehlt ein EntityIdentifier")))
 		return referenz
 	}
 	referenz.Name = S.parseIdentifier()
@@ -551,7 +551,7 @@ func (S *SemanticContext) parseParameterDefinition(current base.ModelPath) (pack
 		return nil, sErrors
 	}
 
-	// Identifier
+	// EntityIdentifier
 	hasNextSibling := cursor.GotoNextSibling()
 	if !hasNextSibling {
 		sErrors = append(sErrors, errElement.CreateErrorElement(node, errors.New("GetName fehlt")))
@@ -563,15 +563,15 @@ func (S *SemanticContext) parseParameterDefinition(current base.ModelPath) (pack
 	return cVar, sErrors
 }
 
-func (S *SemanticContext) parseIdentifierStatement() *packages.Identifier {
+func (S *SemanticContext) parseIdentifierStatement() *packages.EntityIdentifier {
 	cursor := S.Cursor
 	node := cursor.Node()
 
-	state := assertNodeState(node, "Identifier Statement Node")
+	state := assertNodeState(node, "EntityIdentifier Statement Node")
 	if state != nil {
 		return nil
 	}
-	iden := &packages.Identifier{
+	iden := &packages.EntityIdentifier{
 		ModelElement: base.ModelElement{
 			Node: node,
 		},

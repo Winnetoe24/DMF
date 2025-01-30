@@ -42,7 +42,7 @@ func TestIdentifierHover(t *testing.T) {
 	}
 	server.nextMethod(logger)
 
-	hoverResponse := "{\"jsonrpc\":\"2.0\",\"id\":\"5\",\"result\":{\"contents\":{\"kind\":\"markdown\",\"value\":\"\\n#### Identifier von [Book](file:///home/alex/LocalNAS/Bachelorarbeit/DMF/intellijTest/edit-after.dmf#L44)\\n\\n---\\n* **string [isbn](file:///home/alex/LocalNAS/Bachelorarbeit/DMF/intellijTest/edit-after.dmf#L15)**\\n\\n* **int [copyNumber](file:///home/alex/LocalNAS/Bachelorarbeit/DMF/intellijTest/edit-after.dmf#L18)**\\n\\n\\n\"},\"range\":{\"start\":{\"line\":53,\"character\":16},\"end\":{\"line\":53,\"character\":16}}}}"
+	hoverResponse := "{\"jsonrpc\":\"2.0\",\"id\":\"5\",\"result\":{\"contents\":{\"kind\":\"markdown\",\"value\":\"\\n#### EntityIdentifier von [Book](file:///home/alex/LocalNAS/Bachelorarbeit/DMF/intellijTest/edit-after.dmf#L44)\\n\\n---\\n* **string [isbn](file:///home/alex/LocalNAS/Bachelorarbeit/DMF/intellijTest/edit-after.dmf#L15)**\\n\\n* **int [copyNumber](file:///home/alex/LocalNAS/Bachelorarbeit/DMF/intellijTest/edit-after.dmf#L18)**\\n\\n\\n\"},\"range\":{\"start\":{\"line\":53,\"character\":16},\"end\":{\"line\":53,\"character\":16}}}}"
 	actualHoverResponse, err := connection.ReadJson()
 	if err != nil {
 		t.Error(err)

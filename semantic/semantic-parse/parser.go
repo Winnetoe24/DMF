@@ -257,7 +257,7 @@ func (S *SemanticContext) parseImportStatement() (smodel.ImportStatement, *errEl
 func (S *SemanticContext) parseModelIdentifier() (values.StringValue, *errElement.ErrorElement) {
 	node := S.Cursor.Node()
 
-	errorElement := assertNodeState(node, "Model Identifier Node")
+	errorElement := assertNodeState(node, "Model EntityIdentifier Node")
 	if errorElement != nil {
 		return values.StringValue{}, errorElement
 	}
@@ -271,13 +271,13 @@ func (S *SemanticContext) parseModelIdentifier() (values.StringValue, *errElemen
 	// model
 	nextSibling := S.Cursor.GotoNextSibling()
 	if !nextSibling {
-		return values.StringValue{}, errElement.CreateErrorElementRef(node, errors.New("Model Identifier unvollständig"))
+		return values.StringValue{}, errElement.CreateErrorElementRef(node, errors.New("Model EntityIdentifier unvollständig"))
 	}
 
 	// StringValue
 	nextSibling = S.Cursor.GotoNextSibling()
 	if !nextSibling {
-		return values.StringValue{}, errElement.CreateErrorElementRef(node, errors.New("Model Identifier unvollständig"))
+		return values.StringValue{}, errElement.CreateErrorElementRef(node, errors.New("Model EntityIdentifier unvollständig"))
 	}
 
 	return S.parseStringValue()
@@ -422,7 +422,7 @@ func (S *SemanticContext) parsePackageBlock(current base.ModelPath, comment *bas
 	return p
 }
 
-func (S *SemanticContext) parseStructBlock(current base.ModelPath, comment *base.Comment, expand bool, entity bool) (packages.StructElement, *packages.Identifier) {
+func (S *SemanticContext) parseStructBlock(current base.ModelPath, comment *base.Comment, expand bool, entity bool) (packages.StructElement, *packages.EntityIdentifier) {
 	cursor := S.Cursor
 	node := cursor.Node()
 
@@ -453,7 +453,7 @@ func (S *SemanticContext) parseStructBlock(current base.ModelPath, comment *base
 	// identifier
 	hasNextSibling := cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("kein Struct Identifier vorhanden")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("kein Struct EntityIdentifier vorhanden")))
 		return structElement, nil
 	}
 	structElement.Identifier = S.parseIdentifier()
@@ -496,7 +496,7 @@ func (S *SemanticContext) parseStructBlock(current base.ModelPath, comment *base
 		}
 	}
 
-	var identifier *packages.Identifier
+	var identifier *packages.EntityIdentifier
 	for cursor.GotoNextSibling() {
 		if cursor.Node().Kind() == "}" {
 			break
@@ -569,9 +569,9 @@ func (S *SemanticContext) parseEntityBlock(current base.ModelPath, comment *base
 		StructElement: block,
 	}
 	if identifier == nil {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("entity muss einen Identifier beinhaltet")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("entity muss einen EntityIdentifier beinhaltet")))
 	} else {
-		entityElement.Identifier = *identifier
+		entityElement.EntityIdentifier = *identifier
 	}
 	return entityElement
 }
@@ -601,7 +601,7 @@ func (S *SemanticContext) parseInterfaceBlock(current base.ModelPath, comment *b
 	// identifier
 	hasNextSibling := cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("kein Interface Identifier vorhanden")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("kein Interface EntityIdentifier vorhanden")))
 		return interfaceElement
 	}
 	interfaceElement.Identifier = S.parseIdentifier()
@@ -710,7 +710,7 @@ func (S *SemanticContext) parseEnumBlock(current base.ModelPath, comment *base.C
 	// identifier
 	hasNextSibling := cursor.GotoNextSibling()
 	if !hasNextSibling {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("kein Interface Identifier vorhanden")))
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("kein Interface EntityIdentifier vorhanden")))
 		return enumElement
 	}
 	enumElement.Identifier = S.parseIdentifier()

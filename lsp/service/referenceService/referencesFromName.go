@@ -41,10 +41,10 @@ func (r *ReferenceService) findRefsOfVarInElement(element packages.PackageElemen
 		nodes = append(nodes, namedElement.Element().Node)
 	}
 
-	// In Identifier
+	// In EntityIdentifier
 	switch entity := element.(type) {
 	case *packages.EntityElement:
-		for _, elementIdentifier := range entity.Identifier.Variablen {
+		for _, elementIdentifier := range entity.EntityIdentifier.Variablen {
 			if elementIdentifier.Name == name {
 				nodes = append(nodes, elementIdentifier.Node)
 			}

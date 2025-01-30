@@ -11,6 +11,10 @@ type ModelElement struct {
 	Node      *tree_sitter.Node
 }
 
+func (i *ModelElement) CleanTreeReferences() {
+	i.Node = nil
+}
+
 // Für Value.getNode()
 func (i ModelElement) GetNode() *tree_sitter.Node {
 	return i.Node
@@ -22,6 +26,11 @@ type PackageElement struct {
 	Identifier    ElementIdentifier
 	NamedElements map[string]NamedElement
 	Expand        bool
+}
+
+func (m *PackageElement) CleanTreeReferences() {
+	m.ModelElement.CleanTreeReferences()
+	m.Identifier.CleanTreeReferences()
 }
 
 type TypeNode struct {

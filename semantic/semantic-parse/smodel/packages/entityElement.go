@@ -4,7 +4,12 @@ import "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 
 type EntityElement struct {
 	StructElement
-	Identifier
+	EntityIdentifier
+}
+
+func (m *EntityElement) CleanTreeReferences() {
+	m.StructElement.CleanTreeReferences()
+	m.EntityIdentifier.CleanTreeReferences()
 }
 
 var _ Implementable = (*EntityElement)(nil)

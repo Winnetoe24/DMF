@@ -13,6 +13,11 @@ type Argument struct {
 	Name base.ElementIdentifier
 }
 
+func (m *Argument) CleanTreeReferences() {
+	m.ModelElement.CleanTreeReferences()
+	m.Name.CleanTreeReferences()
+}
+
 var _ Variable = (*Argument)(nil)
 var _ base.NamedElement = (*Argument)(nil)
 
@@ -36,6 +41,11 @@ type Referenz struct {
 	base.ModelElement
 	Typ  base.ModelPath
 	Name base.ElementIdentifier
+}
+
+func (m *Referenz) CleanTreeReferences() {
+	m.ModelElement.CleanTreeReferences()
+	m.Name.CleanTreeReferences()
 }
 
 var _ Variable = (*Referenz)(nil)
@@ -75,6 +85,11 @@ type MultiReferenz struct {
 	Typ      MultiReferenzType
 	Name     base.ElementIdentifier
 	Generics [2]MultiType
+}
+
+func (m *MultiReferenz) CleanTreeReferences() {
+	m.ModelElement.CleanTreeReferences()
+	m.Name.CleanTreeReferences()
 }
 
 var _ Variable = (*MultiReferenz)(nil)

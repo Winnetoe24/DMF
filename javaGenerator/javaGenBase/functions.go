@@ -320,8 +320,8 @@ func valueInit(value values.Value) string {
 func generateIdentifier(pElement packages.PackageElement) []FieldData {
 	switch element := pElement.(type) {
 	case *packages.EntityElement:
-		data := make([]FieldData, len(element.Identifier.Variablen))
-		for i, identifier := range element.Identifier.Variablen {
+		data := make([]FieldData, len(element.EntityIdentifier.Variablen))
+		for i, identifier := range element.EntityIdentifier.Variablen {
 			data[i] = FieldData{
 				Name: identifier.Name,
 			}

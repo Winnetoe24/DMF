@@ -14,6 +14,26 @@ type StructElement struct {
 	Funktionen      []Funktion
 }
 
+func (m *StructElement) CleanTreeReferences() {
+	m.PackageElement.CleanTreeReferences()
+	for i, argument := range m.Argumente {
+		argument.CleanTreeReferences()
+		m.Argumente[i] = argument
+	}
+	for i, referenz := range m.Referenzen {
+		referenz.CleanTreeReferences()
+		m.Referenzen[i] = referenz
+	}
+	for i, referenz := range m.MultiReferenzen {
+		referenz.CleanTreeReferences()
+		m.MultiReferenzen[i] = referenz
+	}
+	for i, funktion := range m.Funktionen {
+		funktion.CleanTreeReferences()
+		m.Funktionen[i] = funktion
+	}
+}
+
 var _ Implementable = (*StructElement)(nil)
 var _ PackageElement = (*StructElement)(nil)
 

@@ -53,7 +53,7 @@ func openFileHandle(params textEdit.DidOpenTextDocumentParams, listeners []FileC
 	model := <-afterModel
 
 	for _, listener := range listeners {
-		listener.HandleFileChange(params.TextDocument.URI, params.TextDocument.Text, *tree, *model, up, errorElements, params.TextDocument.Version)
+		listener.HandleFileChange(params.TextDocument.URI, params.TextDocument.Text, tree, model, up, errorElements, params.TextDocument.Version)
 	}
 
 	return fileHandle{
@@ -84,6 +84,7 @@ func (doc *fileHandle) editFileHandle(params textEdit.DidChangeTextDocumentParam
 	errorElements, _, _, up := semantic.ParseNewFile(changes.NewContent, afterTree, afterModel)
 	tree := <-afterTree
 	model := <-afterModel
+	doc.Model.CleanTreeReferences()
 	doc.Ast.Close()
 	doc.Ast = tree
 	doc.Model = model
@@ -96,7 +97,7 @@ func (doc *fileHandle) editFileHandle(params textEdit.DidChangeTextDocumentParam
 	//doc.LookUp = &up
 	doc.Version = params.TextDocument.Version
 	for _, listener := range listeners {
-		listener.HandleFileChange(params.TextDocument.URI, doc.FileContent, *doc.Ast, *doc.Model, up, errorElements, params.TextDocument.Version)
+		listener.HandleFileChange(params.TextDocument.URI, doc.FileContent, doc.Ast, doc.Model, up, errorElements, params.TextDocument.Version)
 	}
 	if errorElements != nil {
 		path, _ := params.TextDocument.URI.ToFilePath()

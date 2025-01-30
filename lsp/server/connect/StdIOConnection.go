@@ -16,8 +16,9 @@ type StdIOConnection struct {
 
 func NewStdIOConnection() *StdIOConnection {
 	return &StdIOConnection{
-		in:  bufio.NewReader(os.Stdin),
-		out: os.Stdout,
+		in:       bufio.NewReader(os.Stdin),
+		out:      os.Stdout,
+		blockMap: make(map[string]bool),
 	}
 
 }

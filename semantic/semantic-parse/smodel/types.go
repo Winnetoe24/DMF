@@ -23,3 +23,20 @@ type (
 		ModelName *values.StringValue
 	}
 )
+
+func (m *ImportStatement) CleanTreeReferences() {
+	m.ModelElement.CleanTreeReferences()
+	m.FileName.CleanTreeReferences()
+	if m.ModelName != nil {
+		m.ModelName.CleanTreeReferences()
+	}
+}
+func (m *Model) CleanTreeReferences() {
+	m.ModelElement.CleanTreeReferences()
+	for _, statement := range m.ImportStatements {
+		statement.CleanTreeReferences()
+	}
+	for _, p := range m.Packages {
+		p.CleanTreeReferences()
+	}
+}

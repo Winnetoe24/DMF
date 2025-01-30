@@ -10,6 +10,14 @@ type InterfaceElement struct {
 	Implements      []PackageElement
 }
 
+func (m *InterfaceElement) CleanTreeReferences() {
+	m.PackageElement.CleanTreeReferences()
+	for i, funktion := range m.Funktionen {
+		funktion.CleanTreeReferences()
+		m.Funktionen[i] = funktion
+	}
+}
+
 var _ Implementable = (*InterfaceElement)(nil)
 var _ PackageElement = (*InterfaceElement)(nil)
 

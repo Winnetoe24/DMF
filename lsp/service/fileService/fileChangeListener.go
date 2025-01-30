@@ -9,5 +9,5 @@ import (
 
 type FileChangeListener interface {
 	// HandleFileChange gets called when the FileService finishes parsing the File. It may be called in its own routine. Changes to the Parameters are ignored.
-	HandleFileChange(file protokoll.DocumentURI, fileContent string, ast tree_sitter.Tree, model smodel.Model, lookup smodel.TypeLookUp, errorElements []errElement.ErrorElement, version int32)
+	HandleFileChange(file protokoll.DocumentURI, fileContent string, ast *tree_sitter.Tree, model *smodel.Model, lookup smodel.TypeLookUp, errorElements []errElement.ErrorElement, version int32)
 }

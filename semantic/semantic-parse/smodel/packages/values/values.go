@@ -19,7 +19,6 @@ type IntValue struct {
 	Ignored bool
 	Value   int
 }
-
 type DoubleValue struct {
 	base.ModelElement
 	Value float64
