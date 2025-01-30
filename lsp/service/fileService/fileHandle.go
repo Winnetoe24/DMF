@@ -78,23 +78,25 @@ func (doc *fileHandle) editFileHandle(params textEdit.DidChangeTextDocumentParam
 		return changes.Error
 	}
 
-	afterTree := make(chan *tree_sitter.Tree)
-	afterModel := make(chan *smodel.Model)
+	//afterTree := make(chan *tree_sitter.Tree)
+	//afterModel := make(chan *smodel.Model)
 
-	errorElements, _, _, up := semantic.ParseNewFile(changes.NewContent, afterTree, afterModel)
-	tree := <-afterTree
-	model := <-afterModel
-	doc.Model.CleanTreeReferences()
-	doc.Ast.Close()
-	doc.Ast = tree
-	doc.Model = model
-	doc.LookUp = &up
+	//errorElements, _, _, up := semantic.ParseNewFile(changes.NewContent, afterTree, afterModel)
+	//tree := <-afterTree
+	//model := <-afterModel
+	//doc.Model.CleanTreeReferences()
+	//doc.Ast.Close()
+	//doc.Ast = tree
+	//doc.Model = model
+	//doc.LookUp = &up
 
 	//
-	//ast, model, up, errorElements := semantic_rules.ParseEdit(changes.NewContent, changes.TreeSitterEdits, doc.Ast, doc.Model, doc.LookUp)
-	//doc.Ast = ast
-	//doc.Model = &model
-	//doc.LookUp = &up
+	ast, model, up, errorElements := semantic_rules.ParseEdit(changes.NewContent, changes.TreeSitterEdits, doc.Ast, doc.Model, doc.LookUp)
+	doc.Model.CleanTreeReferences()
+	doc.Ast.Close()
+	doc.Ast = ast
+	doc.Model = &model
+	doc.LookUp = &up
 	doc.Version = params.TextDocument.Version
 	for _, listener := range listeners {
 		listener.HandleFileChange(params.TextDocument.URI, doc.FileContent, doc.Ast, doc.Model, up, errorElements, params.TextDocument.Version)
