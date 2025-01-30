@@ -3,7 +3,7 @@ model "dp_success" version 0.0.0
 
 package de.alex.brand.klein {
 
-        // asdsad
+        // asdasdjnkasnd
         enum Hersteller {
             arg string name;
             arg int id;
@@ -12,7 +12,7 @@ package de.alex.brand.klein {
             JA(_, "asdad", 1, D2020-12-23);
         }
         struct Tetrapack {
-            arg long l
+            arg long l;
             arg date sa;
             ref .Apfelsaft a;
             // Das ist eine Map
