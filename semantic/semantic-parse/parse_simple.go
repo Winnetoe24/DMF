@@ -400,7 +400,7 @@ func (S *SemanticContext) extractIntegerString() (string, *errElement.ErrorEleme
 	for {
 		if S.Cursor.Node().Kind() == dmf_language.NUMBER {
 			stringValue += S.Cursor.Node().Utf8Text(S.Text)
-		}
+		} //TODO Fix 1_1
 		if !S.Cursor.GotoNextSibling() {
 			break
 		}
