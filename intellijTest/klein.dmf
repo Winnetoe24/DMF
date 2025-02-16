@@ -4,7 +4,7 @@ model "dp_success" version 0.0.0
 package de.alex.brand.klein {
 
         struct Holla {
-        arg int i;
+            arg int i;
         }
         // asd
         enum Hersteller {

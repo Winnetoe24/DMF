@@ -1,7 +1,10 @@
-\documentclass{article}
+\documentclass[./einleitung.tex]{subfiles}
 \begin{document}
 \section{Motivation}
-In der Entwicklung von Enterprise Software werden sehr häufig Modelle zentral angelegt und aus dem Modell Code generiert. 
+Die zentrale Modellierung von Domainmodellen ist sehr verbreitet in der Entwicklung von großen Software Projekten und zentraler Bestandteil von Product Line Engineering. Dabei stellt die Modellierung des Domain Modells einen Kompromiss zwischen der kompletten Modellierung einer Software und der klassischen Entwicklung ohne Modelle dar.
+Ziel dieses Kompromisses ist die Effizienz und Sicherheit der Codegenerierung für das Datenmodell einzusetzen, um die Entwicklung der restlichen Software zu vereinfachen.
+
+
 Es jedoch keine Frameworks welche eine Flexibilität bieten, die einen immer die beste Wahl einer Technologie zulässt.
 \subsection{EMF}
 EMF ist ein häufig Frameowkr zur Modellierung von Modellen in Java. EMF bietet dabei jedoch keine Wahl bei der IDE oder der Programmiersprache.

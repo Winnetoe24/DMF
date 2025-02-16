@@ -3,7 +3,7 @@
 \normalsize
 
 \begin{document}
-\section{BNF Grammatik}
+\section{EBNF Grammatik für DMF}
 \setlength{\grammarparsep}{20pt plus 1pt minus 1pt} % increase separation between rules
 \setlength{\grammarindent}{12em} % increase separation between LHS/RHS 
 
@@ -33,7 +33,7 @@
 % predicate.right fehlt
 <comment_block> ::= <comment>+
 
-<comment> ::= R'\textbackslash /\textbackslash /.*\textbackslash n'
+<comment> ::= R'//.*\textbackslash n'
 
 <package_block> ::= 'package' '{' <package_content>+ '}'
 
