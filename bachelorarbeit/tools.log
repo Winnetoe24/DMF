@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.1.29)  16 FEB 2025 16:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.1.29)  16 FEB 2025 16:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -81,12 +81,41 @@ Underfull \hbox (badness 10000) in paragraph at lines 36--38
 LaTeX Warning: Citation `twagner' on page 2 undefined on input line 39.
 
 
-Overfull \hbox (1.51909pt too wide) in paragraph at lines 42--44
-\OT1/cmr/m/n/10 Java, C# und C++. Dies zwingt einen in der Wahl der Im-ple-men-
-tierungssprache
+Overfull \hbox (12.03302pt too wide) in paragraph at lines 42--44
+\OT1/cmr/m/n/10 zum Schreiben der Gram-matiken und die M^^?oglichkeit it-er-a-t
+iv zu Parsen. Zus^^?atzlich
  []
 
-[2] (tools.aux)
+[2]
+Overfull \hbox (1.43575pt too wide) in paragraph at lines 56--59
+\OT1/cmr/m/n/10 Viele IDE's stellen Schnittstellen f^^?ur Plu-g-ins bereit. Daz
+u z^^?ahlen In-tel-lij, Eclipse,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 60--69
+
+ []
+
+
+Overfull \hbox (5.43114pt too wide) in paragraph at lines 75--78
+\OT1/cmr/m/n/10 Golang bi-etet zus^^?atzlich eine sim-ple An-bindung an den Par
+ser und die M^^?oglichkeit
+ []
+
+
+Overfull \hbox (26.28297pt too wide) in paragraph at lines 75--78
+\OT1/cmr/m/n/10 sehr ein-fach Par-al-lelit^^?at einzubauen. Beson-ders erw^^?ah
+nenswert ist die Geschwindigkeit
+ []
+
+
+Overfull \hbox (7.11163pt too wide) in paragraph at lines 80--83
+\OT1/cmr/m/n/10 Bei der Ein-bindung des Parsers gestall-ten sich je-doch zus^^?
+atzliche Her-raus-forderun-
+ []
+
+[3] [4] (tools.aux)
  ***********
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2023-08-29>
@@ -110,9 +139,9 @@ fonts/cm/cmbx12.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/p
 ublic/amsfonts/cm/cmr10.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts
 /type1/public/amsfonts/cm/cmsl10.pfb><C:/Users/alexa/AppData/Local/Programs/MiK
 TeX/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on tools.pdf (2 pages, 86036 bytes).
+Output written on tools.pdf (4 pages, 95075 bytes).
 PDF statistics:
- 34 PDF objects out of 1000 (max. 8388607)
+ 40 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

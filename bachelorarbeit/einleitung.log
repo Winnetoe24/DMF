@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.1.29)  16 FEB 2025 16:14
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.1.29)  16 FEB 2025 16:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -38,26 +38,50 @@ File: l3backend-pdftex.def 2023-04-19 L3 backend support: PDF output (pdfTeX)
 ) (einleitung.aux)
 \openout1 = `einleitung.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 5.
-LaTeX Font Info:    ... okay on input line 5.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 6.
+LaTeX Font Info:    ... okay on input line 6.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 7.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 7.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 7.
 
+
+LaTeX Warning: No \author given.
+
+[1
+
+
+{C:/Users/alexa/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}] [2
+
+]
+(einleitung.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 2.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 2.
+)
+\tf@toc=\write3
+\openout3 = `einleitung.toc'.
+
+ [3] [4
+
+]
 Chapter 1.
-(motivation.tex [1
-
-
-{C:/Users/alexa/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}]) [2]
+(motivation.tex [5]) [6]
 Chapter 2.
 (tools.tex
 Overfull \hbox (39.54121pt too wide) in paragraph at lines 15--18
@@ -65,7 +89,7 @@ Overfull \hbox (39.54121pt too wide) in paragraph at lines 15--18
 er IDE bee-in-flusst die Geschwindigkeit
  []
 
-[3
+[7
 
 ]
 Underfull \hbox (badness 10000) in paragraph at lines 29--31
@@ -73,7 +97,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 29--31
  []
 
 
-LaTeX Warning: Citation `twagner' on page 4 undefined on input line 34.
+LaTeX Warning: Citation `twagner' on page 8 undefined on input line 34.
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 36--38
@@ -81,7 +105,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 36--38
  []
 
 
-LaTeX Warning: Citation `twagner' on page 4 undefined on input line 39.
+LaTeX Warning: Citation `twagner' on page 8 undefined on input line 39.
 
 
 Overfull \hbox (12.03302pt too wide) in paragraph at lines 42--44
@@ -89,7 +113,36 @@ Overfull \hbox (12.03302pt too wide) in paragraph at lines 42--44
 iv zu Parsen. Zus^^?atzlich
  []
 
-[4]) [5] (einleitung.aux)
+[8]
+Overfull \hbox (1.43575pt too wide) in paragraph at lines 56--59
+\OT1/cmr/m/n/10 Viele IDE's stellen Schnittstellen f^^?ur Plu-g-ins bereit. Daz
+u z^^?ahlen In-tel-lij, Eclipse,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 60--69
+
+ []
+
+[9]
+Overfull \hbox (5.43114pt too wide) in paragraph at lines 75--78
+\OT1/cmr/m/n/10 Golang bi-etet zus^^?atzlich eine sim-ple An-bindung an den Par
+ser und die M^^?oglichkeit
+ []
+
+
+Overfull \hbox (26.28297pt too wide) in paragraph at lines 75--78
+\OT1/cmr/m/n/10 sehr ein-fach Par-al-lelit^^?at einzubauen. Beson-ders erw^^?ah
+nenswert ist die Geschwindigkeit
+ []
+
+)
+Overfull \hbox (7.11163pt too wide) in paragraph at lines 80--13
+\OT1/cmr/m/n/10 Bei der Ein-bindung des Parsers gestall-ten sich je-doch zus^^?
+atzliche Her-raus-forderun-
+ []
+
+[10] (einleitung.aux)
  ***********
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2023-08-29>
@@ -100,22 +153,24 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 584 strings out of 475248
- 11317 string characters out of 5757813
+ 617 strings out of 475248
+ 11820 string characters out of 5757813
  1926785 words of memory out of 5000000
- 22169 multiletter control sequences out of 15000+600000
- 561199 words of font info for 46 fonts, out of 8000000 for 9000
+ 22192 multiletter control sequences out of 15000+600000
+ 564235 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 38i,5n,52p,742b,211s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 39i,6n,52p,742b,211s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
 cmbx10.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
 fonts/cm/cmbx12.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/p
 ublic/amsfonts/cm/cmr10.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts
-/type1/public/amsfonts/cm/cmsl10.pfb><C:/Users/alexa/AppData/Local/Programs/MiK
-TeX/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on einleitung.pdf (5 pages, 96384 bytes).
+/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/alexa/AppData/Local/Programs/MiKT
+eX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/alexa/AppData/Local/Progr
+ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmsl10.pfb><C:/Users/alexa/AppData/Lo
+cal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb>
+Output written on einleitung.pdf (10 pages, 131365 bytes).
 PDF statistics:
- 43 PDF objects out of 1000 (max. 8388607)
+ 70 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

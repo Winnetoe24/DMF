@@ -45,4 +45,39 @@ Zusätzlich unterstützt ANTRL nur Java, C\# und C++. Dies zwingt einen in der W
 \subsubsection{Auswahl Parser}
 Für das DMF Framework wurde Treesitter verwendet. Die Exellente Performance sowie die Flexibilität bei der Implementierung der restlichen Komponenten hoben Treesitter von den restlichen Technologien ab.
 
+
+\subsection{AST Verarbeiten}
+Bei der Verarbeitung des AST's müssen verschiedene Regeln abgearbeitet werden und der Inhalt des AST's in einem Modell vorbereitet werden.
+Essentiell für die Verarbeitung ist die Zusammenarbeit mit den folgenden Komponenten.
+
+Die Auswahl der Technologie für diesen Schritt basiert auf der Auswahl für die folgenden Schritte.
+
+\subsection{Kommunikation mit verschiedenen IDE's}
+Damit ein Framework die Entwicklung nicht einschränkt muss es in verschiedenen "Integrated Development Environments" (IDE's) genutzt werden können.
+Viele IDE's stellen Schnittstellen für Plugins bereit. Dazu zählen Intellij, Eclipse, NeoVim und VSCode.
+Jede Schnittstellen ist jedoch unterschiedlich, wodurch die Entwicklung von vielen Verschiedenen Plugins nötig wäre.
+\paragraph{Language Server Protokoll}
+Eine einfachere Möglichkeit bietet das "Language Server Protokoll" (LSP).
+Dieses Protokoll bietet die Möglichkeit, dass viele verschiedene IDE's eine Server Implementierung nutzen. Im Fall von Zed und Eclipse lassen sich LSP-Server sogar ohne jegliche Plugins einbinden. Wobei hier auf die schlechte Unterstützung des LSP-Protokolls in Eclipse hingewiesen werden muss. 
+Intellij und NeoVim nutzen Plugins, um LSP-Server anzubinden.
+VSCode bietet eine API und einen einfachen LSP-Client in ein kleines Plugin zu implementieren.
+Im LSP-Server können gebündelt Logik und Prokoll implementiert werden.
+\newline\newline
+LSP wird hauptsächlich über die Standard-Eingabe und -Ausgabe oder über einen Server Socket transportiert.
+Es wird ein JSON-RPC Format genutzt.
+Der LSP-Server muss somit JSON, Std-In und Std-Out, sowie Server Sockets unterstützen.
+
+\subsubsection{Typescript}
+Von der VSCode Dokumentation wird die Implementierung eines LSP-Servers in Typescript empfohlen. Dafür werden Bibliotheken bereit gestellt.
+Typescript eignet sich gut, für die JSON Parsing und für die Verwendung von Server Sockets. Probleme entstehen bei Typescript bei den Themen Performance, Anbindung an den Parser und bei der Fehlerbehandlung.
+
+\subsubsection{Golang}
+Golang ist eine Sprache welche für die Entwicklung von Backends ausgelegt wurde. \\
+Es werden die Anforderungen für JSON-Parsing, Std-IO und Server Sockets erfüllt, durch die große Standard Bibliothek erfüllt. Es gibt keine Bibliothek welche das komplette Protokoll beinhaltet. Dieses kann jedoch durch die Unterstützung von LLMs schnelle generiert werden.\\
+Golang bietet zusätzlich eine simple Anbindung an den Parser und die Möglichkeit sehr einfach Parallelität einzubauen. Besonders erwähnenswert ist die Geschwindigkeit eines Golang Programmes und die Startgeschwindigkeit ohne auf Speichersicherheit zu verzichten.
+
+\subsubsection{Java}
+Java bietet eine bietet mit "lsp4j" eine Bibliothek zur Einfachen Entwickung. 
+Bei der Einbindung des Parsers gestallten sich jedoch zusätzliche Herrausforderungen da der Java Code Plattform unabhängig kompiliert wird und Plattform abhängigen Code aufrufen muss.
+Java benötigt für die Ausführung eine Installierte Instanz der JRE. Die JRE muss nicht nur zusätzlich zum LSP-Server verwaltet werden, sondern benötigt zusätzlich Zeit zum Starten. So muss der Entwickler länger warten bis seine Entwicklungsumgebung bereit steht. 
 \end{document}
