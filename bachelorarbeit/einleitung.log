@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.1.29)  16 FEB 2025 16:55
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.1.29)  17 FEB 2025 14:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -136,13 +136,30 @@ Overfull \hbox (26.28297pt too wide) in paragraph at lines 75--78
 nenswert ist die Geschwindigkeit
  []
 
-)
-Overfull \hbox (7.11163pt too wide) in paragraph at lines 80--13
+
+Overfull \hbox (7.11163pt too wide) in paragraph at lines 80--83
 \OT1/cmr/m/n/10 Bei der Ein-bindung des Parsers gestall-ten sich je-doch zus^^?
 atzliche Her-raus-forderun-
  []
 
-[10] (einleitung.aux)
+
+Overfull \hbox (18.13745pt too wide) in paragraph at lines 85--85
+[]\OT1/cmr/bx/n/12 Generation von Code-dateien in ver-schiede-nen Sprachen 
+ []
+
+
+Overfull \hbox (0.8386pt too wide) in paragraph at lines 91--94
+\OT1/cmr/m/n/10 Golang Stan-dard-bib-lio-thek bi-etet die M^^?oglichkeit Tem-pl
+ates zu definieren. Diese
+ []
+
+[10]
+Overfull \hbox (10.51445pt too wide) in paragraph at lines 110--111
+\OT1/cmr/m/n/10 Damit eine Gen-er-a-tion w^^?ahrend des Build-vor-gangs ist es-
+sen-tiell, um sicherzustellen
+ []
+
+) [11] (einleitung.aux)
  ***********
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2023-08-29>
@@ -168,9 +185,9 @@ ublic/amsfonts/cm/cmr10.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts
 eX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/alexa/AppData/Local/Progr
 ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmsl10.pfb><C:/Users/alexa/AppData/Lo
 cal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on einleitung.pdf (10 pages, 131365 bytes).
+Output written on einleitung.pdf (11 pages, 135750 bytes).
 PDF statistics:
- 70 PDF objects out of 1000 (max. 8388607)
+ 73 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

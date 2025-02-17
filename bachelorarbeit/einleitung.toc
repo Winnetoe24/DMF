@@ -18,3 +18,11 @@
 \contentsline {subsubsection}{Typescript}{10}{}%
 \contentsline {subsubsection}{Golang}{10}{}%
 \contentsline {subsubsection}{Java}{10}{}%
+\contentsline {subsection}{\numberline {2.1.4}Generation von Codedateien in verschiedenen Sprachen}{10}{}%
+\contentsline {subsubsection}{Golang Templates}{10}{}%
+\contentsline {subsubsection}{Java}{11}{}%
+\contentsline {subsubsection}{Typescript}{11}{}%
+\contentsline {subsubsection}{Auswahl}{11}{}%
+\contentsline {subsection}{\numberline {2.1.5}Integration mit verschiedenen Build Tools}{11}{}%
+\contentsline {subsubsection}{Maven}{11}{}%
+\contentsline {subsubsection}{NPM}{11}{}%

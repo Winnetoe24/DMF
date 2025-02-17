@@ -80,4 +80,42 @@ Golang bietet zusätzlich eine simple Anbindung an den Parser und die Möglichke
 Java bietet eine bietet mit "lsp4j" eine Bibliothek zur Einfachen Entwickung. 
 Bei der Einbindung des Parsers gestallten sich jedoch zusätzliche Herrausforderungen da der Java Code Plattform unabhängig kompiliert wird und Plattform abhängigen Code aufrufen muss.
 Java benötigt für die Ausführung eine Installierte Instanz der JRE. Die JRE muss nicht nur zusätzlich zum LSP-Server verwaltet werden, sondern benötigt zusätzlich Zeit zum Starten. So muss der Entwickler länger warten bis seine Entwicklungsumgebung bereit steht. 
+
+
+\subsection{Generation von Codedateien in verschiedenen Sprachen}
+Ziel des DMFs ist es große Mengen an Sourcecode zu Generieren. Dabei soll den Entwicklern die Wahl zwischen mehreren Zielsprachen gegeben werden. Diese Generation wird beim Build und damit sehr häufig ausgeführt. Eine Langsame Generation wird jeder Organisation viel Geld kosten.
+
+Die Generation muss somit schnell und Zielsprachen unabhängig sein. Sie muss auch aus von den Build Tools gestartet werden.
+
+\subsubsection{Golang Templates}
+Golang Standardbibliothek bietet die Möglichkeit Templates zu definieren. Diese Templates werden hauptsächlich für die Generierung von HTML genutzt. Da sie Golang die Templates nicht nur für HTML sondern auch für generelle Texte anbietet, können diese auch für jede Zielsprache genutzt werden. \\
+Die Anforderungen an einen Webserver (Geschwindigkeit, Resourcen schonend, Simpel) komplementieren die Anforderungen an einen Codegenerator sehr gut. \\
+Golang Templates stechen besonders für ihre Integration in IDE's wie z.B. in Intellij heraus.
+
+\subsubsection{Java}
+Es gibt mehrere Template Engines für Java. Einige Beispiele wäre FreeMaker oder Apache Velocity.
+Beide sind gut unterstützt und bieten alle nötigen Features für die Generierung von Code.
+
+\subsubsection{Typescript}
+Für Typescript gibt es viele Template Engines. Zu den bekannten gehören Eta, liquidjs und squirrelly.
+Sie bieten alle die Möglichkeit verschiedene Zielsprachen zu generieren und können mit nodejs ausgeführt werden.
+
+\subsubsection{Auswahl}
+Da Golang eine exzellente Unterstützung in Intellij hat und keine Zusätzliche Installtion wie NodeJs oder JRE verwalten muss, fiehl meine Wahl auf Golang.
+\newline
+% Warum sind Installation verwalten nicht so gut
+Mit der Wahl für Golang für den Generator, ist auch die Wahl für die Verarbeitung des AST's und für den LSP-Server.
+
+\subsection{Integration mit verschiedenen Build Tools}
+Damit eine Generation während des Buildvorgangs ist essentiell, um sicherzustellen das der generierte Code aktuell ist. Damit der Neugeneration werden auch alle eventuelle Anpassungen in den Dateien überschrieben, wodurch Fehler vermieden werden.
+
+\subsubsection{Maven}
+Maven ist ein sehr verbreitetes Build Tool für Java. Maven unterstützt Plugins welche während des Builds ausgeführt werden und in der Maven Konfiguration konfiguriert werden können.
+Die API für Maven Plugins ist in Java geschrieben. Dieses Plugin muss den Generator aufrufen. Dies ist möglich indem die Datei des Generators ausgeführt wird.
+
+\subsubsection{NPM}
+NPM ist das führende Build Tool für Typescript Projekte. NPM unterstützt die Ausführung von Terminal Befehlen. Der Generator kann somit über das Terminal ausgeführt werden. 
+
+% Einfachere Aufruf für Golang Programme 
 \end{document}
+
