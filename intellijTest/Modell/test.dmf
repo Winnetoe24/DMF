@@ -1,0 +1,40 @@
+dmf 1.0.0
+model "dp_success" version 0.0.0
+
+package de.alex.brand.klein {
+
+        struct Holla {
+            arg int i;
+        }
+        // asd
+        enum Hersteller {
+            arg string name;
+            arg int id;
+            arg date da;
+            NEIN(_, "sad",2, D2020-12-23);
+            JA(_, "asdad", 1, D2020-12-23);
+        }
+        struct Tetrapack {
+            arg long l;
+            arg date sa;
+            ref .Apfelsaft a;
+            // Das ist eine Map
+            ref Map<.Apfelsaft, int> i;
+
+            func void tata(int i,Tetrapack t, long sad);
+        }
+        entity Apfelsaft extends Tetrapack {
+
+            identifier(i);
+        }
+
+        struct Ast {
+
+        }
+
+        interface I {
+            func void Hi();
+            func void Zwei();
+        }
+
+}

@@ -7,14 +7,19 @@
   <name>Modell</name>
 
     <build>
-        <pluginManagement>
             <plugins>
                 <plugin>
                     <groupId>de.alex-brand.dmf</groupId>
                     <artifactId>dmf-generator-plugin</artifactId>
                     <version>0.0.1-SNAPSHOT</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>generate-model</goal>
+                            </goals>
+                        </execution>
+                    </executions>
                 </plugin>
             </plugins>
-        </pluginManagement>
     </build>
 </project>

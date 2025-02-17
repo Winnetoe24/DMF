@@ -27,6 +27,11 @@
             <version>${maven-plugin-tools.version}</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugin-tools</groupId>
+            <artifactId>maven-plugin-tools-api</artifactId>
+            <version>${maven-plugin-tools.version}</version>
+        </dependency>
 
 <!--        <dependency>-->
 <!--            <groupId>org.apache.maven</groupId>-->
@@ -81,6 +86,7 @@
                                         <directory>../javaGenerator</directory>
                                         <includes>
                                             <include>javaGenerator.exe</include>
+                                            <include>javaGenerator</include>
                                         </includes>
                                     </resource>
                                 </resources>

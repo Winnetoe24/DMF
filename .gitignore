@@ -3,3 +3,4 @@
 /grammar/build/
 logs/connection*.log
 Maven-Plugin/target
+intellijTest/Modell/target
