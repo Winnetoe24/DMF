@@ -9,14 +9,15 @@ import org.apache.maven.plugins.annotations.Mojo;
 import java.io.File;
 import java.io.IOException;
 
-@Mojo(name = "generate-model", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
-public class GenerateModelMojo extends AbstractGeneratorMojo {
+@Mojo(name = "generate-delegates", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
+public class GenerateDelegatesMojo extends AbstractGeneratorMojo {
 
 
+    @Override
     protected void generate(Log log, File generatorFile) throws MojoExecutionException, MojoFailureException {
-        log.info("Generating Model into " + tempSources);
+        log.info("Generating Delegates into " + sources);
         ProcessBuilder processBuilder = new ProcessBuilder(generatorFile.getAbsolutePath(),
-                "--basePath", tempSources);
+                "--basePath", sources, "--delegates");
 
         if (modelPath != null) {
             processBuilder.command().add("--modelPath");
@@ -38,9 +39,5 @@ public class GenerateModelMojo extends AbstractGeneratorMojo {
         } catch (IOException | InterruptedException e) {
             throw new MojoFailureException(e);
         }
-
-
     }
-
-
 }

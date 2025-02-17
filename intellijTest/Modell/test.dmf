@@ -25,7 +25,7 @@ package de.alex.brand.klein {
         }
         entity Apfelsaft extends Tetrapack {
 
-            identifier(i);
+            identifier(l);
         }
 
         struct Ast {

@@ -15,7 +15,10 @@ import java.util.Scanner;
 
 public abstract class AbstractGeneratorMojo extends AbstractMojo {
     @Parameter(defaultValue = "./target/generated-sources/dmf/")
-    public String directory;
+    public String tempSources;
+
+    @Parameter(defaultValue = "${pom.build.sourceDirectory}")
+    public String sources;
 
     @Parameter(defaultValue = "./target/dmf/install")
     public String installDirectory;
@@ -32,7 +35,7 @@ public abstract class AbstractGeneratorMojo extends AbstractMojo {
         log.info("Preparing Generator");
         File generatorFile = prepareGenerator();
 
-        project.addCompileSourceRoot(directory);
+        project.addCompileSourceRoot(tempSources);
         generate(log, generatorFile);
 
     }

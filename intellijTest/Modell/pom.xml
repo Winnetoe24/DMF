@@ -16,6 +16,7 @@
                         <execution>
                             <goals>
                                 <goal>generate-model</goal>
+                                <goal>generate-delegates</goal>
                             </goals>
                         </execution>
                     </executions>
