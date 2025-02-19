@@ -37,7 +37,7 @@ func removeNewLine(input string) string {
 func variableType(variable packages.Variable, kontext ImportKontext) string {
 	switch element := variable.(type) {
 	case *packages.Argument:
-		return javaPrimitiveTypeMapping(element.Typ, kontext)
+		return javaPrimitiveTypeMapping(element.Typ, kontext, false)
 	case *packages.Referenz:
 		name := element.Typ[len(element.Typ)-1]
 		path, found := kontext.ImportLookUp[name]
@@ -90,9 +90,9 @@ func pathType(pPath base.ModelPath, kontext ImportKontext) string {
 	return pPath.ToString()
 }
 func toArgs(argumente []packages.Argument, kontext ImportKontext) []FieldData {
-	return toFields(argumente, make([]packages.Referenz, 0), kontext)
+	return toFields(argumente, make([]packages.Referenz, 0), make([]packages.MultiReferenz, 0), kontext)
 }
-func toFields(argumente []packages.Argument, referenzen []packages.Referenz, kontext ImportKontext) []FieldData {
+func toFields(argumente []packages.Argument, referenzen []packages.Referenz, multiReferenzen []packages.MultiReferenz, kontext ImportKontext) []FieldData {
 	data := make([]FieldData, 0)
 	lookup := make(map[uint]packages.Variable)
 	keys := make([]uint, 0, len(argumente)+len(referenzen))
@@ -116,36 +116,88 @@ func toFields(argumente []packages.Argument, referenzen []packages.Referenz, kon
 		keys = append(keys, startByte)
 		lookup[startByte] = &referenz
 	}
+	for _, referenz := range multiReferenzen {
+		startByte := referenz.Node.StartByte()
+		_, found := lookup[startByte]
+		if found {
+			position := referenz.Node.StartPosition()
+			panic("Duplicate Elements at Pos: " + strconv.FormatUint(uint64(position.Row), 10) + ":" + strconv.FormatUint(uint64(position.Column), 10))
+		}
+		keys = append(keys, startByte)
+		lookup[startByte] = &referenz
+	}
 	slices.Sort(keys)
 	for _, key := range keys {
 		variable := lookup[key]
 		switch element := variable.(type) {
 		case *packages.Argument:
-			typ := javaPrimitiveTypeMapping(element.Typ, kontext)
+			typ := javaPrimitiveTypeMapping(element.Typ, kontext, false)
 			data = append(data, FieldData{
 				Typ:       typ,
 				Name:      element.Name.Name,
 				Kommentar: element.Kommentar,
 			})
 		case *packages.Referenz:
-			lImport, found := kontext.ImportLookUp[element.Typ[len(element.Typ)-1]]
+			data = append(data, FieldData{
+				Typ:       importedName(element.Typ[len(element.Typ)-1], element.Typ.ToString(), kontext.ImportLookUp),
+				Name:      element.Name.Name,
+				Kommentar: element.Kommentar,
+			})
+		case *packages.MultiReferenz:
 			var typ string
-			if found && lImport.OriginalName.ToString() == element.Typ.ToString() {
-				typ = element.Typ[len(element.Typ)-1]
-			} else {
-				typ = element.Typ.ToString()
+			var value string
+			switch element.Typ {
+			case packages.MAP:
+				typ = importedName("Map", "java.util.Map", kontext.ImportLookUp)
+				value = "new " + importedName("HashMap", "java.util.HashMap", kontext.ImportLookUp) + "<>()"
+			case packages.SET:
+				typ = importedName("Set", "java.util.Set", kontext.ImportLookUp)
+				value = "new " + importedName("HashSet", "java.util.HashSet", kontext.ImportLookUp) + "<>()"
+			case packages.LIST:
+				typ = importedName("List", "java.util.List", kontext.ImportLookUp)
+				value = "new " + importedName("ArrayList", "java.util.ArrayList", kontext.ImportLookUp) + "<>()"
 			}
+			typ += "<"
+			typ += genericType(element.Generics[0], kontext)
+
+			generic1 := genericType(element.Generics[1], kontext)
+			if generic1 != "" {
+				typ += ", "
+				typ += generic1
+			}
+			typ += ">"
 			data = append(data, FieldData{
 				Typ:       typ,
 				Name:      element.Name.Name,
 				Kommentar: element.Kommentar,
+				Value:     &value,
 			})
+
 		}
 	}
 	return data
 }
+func genericType(multiType packages.MultiType, kontext ImportKontext) string {
+	if multiType.PrimitivType != nil {
+		return javaPrimitiveTypeMapping(*multiType.PrimitivType, kontext, true)
+	}
+	if multiType.ModelPath != nil {
+		path := *multiType.ModelPath
+		return importedName(path[len(path)-1], path.ToString(), kontext.ImportLookUp)
+	}
+	return ""
+}
 
-func javaPrimitiveTypeMapping(primitivType base.PrimitivType, kontext ImportKontext) string {
+func importedName(name string, fullQualifiedName string, up ImportLookUp) string {
+	lImport, found := up[name]
+	if found && lImport.OriginalName.ToString() == fullQualifiedName {
+		return name
+	} else {
+		return fullQualifiedName
+	}
+}
+
+func javaPrimitiveTypeMapping(primitivType base.PrimitivType, kontext ImportKontext, useObject bool) string {
 	typ := string(primitivType)
 	switch typ {
 	case string(base.STRING):
@@ -163,6 +215,20 @@ func javaPrimitiveTypeMapping(primitivType base.PrimitivType, kontext ImportKont
 			typ = "LocalDateTime"
 		} else {
 			typ = "java.time.LocalDateTime"
+		}
+	}
+	if useObject {
+		switch typ {
+		case string(base.INT):
+			typ = "Integer"
+		case string(base.LONG):
+			typ = "Long"
+		case string(base.DOUBLE):
+			typ = "Double"
+		case string(base.BYTE):
+			typ = "Byte"
+		case string(base.BOOLEAN):
+			typ = "Boolean"
 		}
 	}
 	return typ

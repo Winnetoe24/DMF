@@ -20,7 +20,7 @@ public class GenerateDelegatesMojo extends AbstractGeneratorMojo {
                 "--basePath", sources, "--delegates");
 
         if (modelPath != null) {
-            processBuilder.command().add("--modelPath");
+            processBuilder.command().add("--modelFile");
             processBuilder.command().add(modelPath);
         }
         processBuilder.redirectErrorStream(true);

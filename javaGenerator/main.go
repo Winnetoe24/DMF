@@ -53,6 +53,7 @@ func main() {
 }
 
 func Generate(basePath string, lookup smodel.TypeLookUp) {
+	println(len(lookup.GetTypeLookUp()))
 	for _, pElement := range lookup {
 		operations.Add(1)
 

@@ -18,6 +18,9 @@ func createImportKontext(pElement packages.PackageElement) ImportKontext {
 		for _, referenz := range element.Referenzen {
 			handleImport(&up, basePath, referenz.Typ)
 		}
+		for _, referenz := range element.MultiReferenzen {
+			handleMultiReferenz(&up, basePath, referenz)
+		}
 		handleFunktionen(&up, basePath, path, element.Funktionen)
 		if element.ExtendsPath != nil {
 			handleImport(&up, basePath, *element.ExtendsPath)
@@ -32,6 +35,9 @@ func createImportKontext(pElement packages.PackageElement) ImportKontext {
 		handleArgumente(&up, element.Argumente)
 		for _, referenz := range element.Referenzen {
 			handleImport(&up, basePath, referenz.Typ)
+		}
+		for _, referenz := range element.MultiReferenzen {
+			handleMultiReferenz(&up, basePath, referenz)
 		}
 		handleFunktionen(&up, basePath, path, element.Funktionen)
 		if element.ExtendsPath != nil {
@@ -73,17 +79,38 @@ func createImportKontext(pElement packages.PackageElement) ImportKontext {
 		Path:         path,
 	}
 }
+
 func handleArgumente(up *ImportLookUp, argumente []packages.Argument) {
 	for _, argument := range argumente {
 		handleArgument(up, argument)
 	}
 }
-
 func handleArgument(up *ImportLookUp, argument packages.Argument) {
 	if argument.Typ == base.DATE {
 		(*up)["LocalDate"] = Import{OriginalName: []string{"java", "time", "LocalDate"}}
 	} else if argument.Typ == base.DATETIME {
 		(*up)["LocalDateTime"] = Import{OriginalName: []string{"java", "time", "LocalDateTime"}}
+	}
+}
+
+func handleMultiReferenz(up *ImportLookUp, basePath base.ModelPath, referenz packages.MultiReferenz) {
+	if referenz.Generics[0].ModelPath != nil {
+		handleImport(up, basePath, *referenz.Generics[0].ModelPath)
+	}
+	if referenz.Generics[1].ModelPath != nil {
+		handleImport(up, basePath, *referenz.Generics[1].ModelPath)
+	}
+	switch referenz.Typ {
+	case packages.MAP:
+		handleImport(up, basePath, base.ModelPath{"java", "util", "Map"})
+		handleImport(up, basePath, base.ModelPath{"java", "util", "HashMap"})
+	case packages.SET:
+		handleImport(up, basePath, base.ModelPath{"java", "util", "Set"})
+		handleImport(up, basePath, base.ModelPath{"java", "util", "HashSet"})
+	case packages.LIST:
+		handleImport(up, basePath, base.ModelPath{"java", "util", "List"})
+		handleImport(up, basePath, base.ModelPath{"java", "util", "ArrayList"})
+
 	}
 }
 func handleFunktionen(up *ImportLookUp, basePath base.ModelPath, path base.ModelPath, funktionen []packages.Funktion) {

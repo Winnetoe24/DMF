@@ -19,7 +19,7 @@ public class GenerateModelMojo extends AbstractGeneratorMojo {
                 "--basePath", tempSources);
 
         if (modelPath != null) {
-            processBuilder.command().add("--modelPath");
+            processBuilder.command().add("--modelFile");
             processBuilder.command().add(modelPath);
         }
         processBuilder.redirectErrorStream(true);

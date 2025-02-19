@@ -4,3 +4,6 @@
 logs/connection*.log
 Maven-Plugin/target
 intellijTest/Modell/target
+intellijTest/gen
+/intellijTest/out/
+/intellijTest/riesig-delegates/

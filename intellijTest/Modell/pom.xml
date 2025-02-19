@@ -20,6 +20,9 @@
                             </goals>
                         </execution>
                     </executions>
+                    <configuration>
+                        <modelPath>../riesig.dmf</modelPath>
+                    </configuration>
                 </plugin>
             </plugins>
     </build>

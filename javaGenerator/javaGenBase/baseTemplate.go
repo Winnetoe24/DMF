@@ -18,6 +18,7 @@ type JavaTemplate struct {
 type FieldData struct {
 	Typ       string
 	Name      string
+	Value     *string
 	Kommentar *base.Comment
 }
 type VariableKontext struct {

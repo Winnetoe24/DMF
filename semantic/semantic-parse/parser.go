@@ -15,11 +15,11 @@ import (
 var errorQuery *tree_sitter.Query
 
 func init() {
-	query, queryError := dmf_lang.Query("(ERROR)")
-	if queryError != nil {
-		panic(queryError)
-	}
-	errorQuery = query
+	//query, queryError := dmf_lang.Query("(ERROR)")
+	//if queryError != nil {
+	//	panic(queryError)
+	//}
+	//errorQuery = query
 }
 
 func Parse(text []byte, tree *tree_sitter.Tree) (smodel.Model, []errElement.ErrorElement, error) {
