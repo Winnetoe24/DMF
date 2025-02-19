@@ -100,62 +100,8 @@
           "name": "stringValue"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "model_identifier"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
           "type": "SYMBOL",
           "name": "_new_line"
-        }
-      ]
-    },
-    "model_identifier": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_left_paren"
-        },
-        {
-          "type": "STRING",
-          "value": "model"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "stringValue"
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "version"
-                },
-                {
-                  "type": "SYMBOL",
-                  "name": "version_number"
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_right_paren"
         }
       ]
     },
@@ -165,45 +111,6 @@
         "type": "SYMBOL",
         "name": "package_content"
       }
-    },
-    "comment_block": {
-      "type": "PREC_RIGHT",
-      "value": 0,
-      "content": {
-        "type": "REPEAT1",
-        "content": {
-          "type": "SYMBOL",
-          "name": "comment"
-        }
-      }
-    },
-    "package_block": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "package"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "package_string"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_left_brace"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "package_content"
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_right_brace"
-        }
-      ]
     },
     "package_content": {
       "type": "SEQ",
@@ -256,6 +163,231 @@
               "name": "interface_block"
             }
           ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "override"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "comment_block": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "REPEAT1",
+        "content": {
+          "type": "SYMBOL",
+          "name": "comment"
+        }
+      }
+    },
+    "override": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "_left_brace"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "java_override"
+              }
+            ]
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_right_brace"
+        }
+      ]
+    },
+    "java_override": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "java"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_left_brace"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "java_annotation"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "java_extends"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "java_implements"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "java_class"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "java_name"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "java_type"
+                  }
+                ]
+              },
+              {
+                "type": "SYMBOL",
+                "name": "_new_line"
+              }
+            ]
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_right_brace"
+        }
+      ]
+    },
+    "java_annotation": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "annotations"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "stringValue"
+        }
+      ]
+    },
+    "java_doc": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "java_doc"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "stringValue"
+        }
+      ]
+    },
+    "java_extends": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "extends"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "stringValue"
+        }
+      ]
+    },
+    "java_implements": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "implements"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "stringValue"
+        }
+      ]
+    },
+    "java_class": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "class"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "stringValue"
+        }
+      ]
+    },
+    "java_name": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "name"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "stringValue"
+        }
+      ]
+    },
+    "java_type": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "type"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "stringValue"
+        }
+      ]
+    },
+    "package_block": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "package"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "package_string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_left_brace"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "package_content"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_right_brace"
         }
       ]
     },
@@ -386,6 +518,18 @@
             {
               "type": "SYMBOL",
               "name": "func_block"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "override"
+            },
+            {
+              "type": "BLANK"
             }
           ]
         }
@@ -655,11 +799,35 @@
           "members": [
             {
               "type": "SYMBOL",
+              "name": "comment_block"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
               "name": "arg_block"
             },
             {
               "type": "SYMBOL",
               "name": "enum_constant"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "override"
+            },
+            {
+              "type": "BLANK"
             }
           ]
         }
@@ -668,18 +836,6 @@
     "enum_constant": {
       "type": "SEQ",
       "members": [
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "comment_block"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
         {
           "type": "SYMBOL",
           "name": "identifier"
@@ -886,6 +1042,18 @@
         {
           "type": "SYMBOL",
           "name": "func_block"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "override"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         }
       ]
     },
@@ -1494,5 +1662,6 @@
   "precedences": [],
   "externals": [],
   "inline": [],
-  "supertypes": []
+  "supertypes": [],
+  "reserved": {}
 }

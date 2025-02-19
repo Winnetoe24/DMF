@@ -48,15 +48,7 @@ module.exports = grammar({
       $.package_string,
       'from',
       $.stringValue,
-      optional($.model_identifier),
       $._new_line,
-    ),
-    model_identifier: $ => seq(
-      $._left_paren,
-      'model',
-      $.stringValue,
-      optional(seq('version', $.version_number)),
-      $._right_paren,
     ),
 
 
@@ -71,9 +63,33 @@ module.exports = grammar({
         $.enum_block,
         $.entity_block,
         $.interface_block,
-      )),
+      ),
+      optional($.override)),
 
     comment_block: $ => prec.right(repeat1($.comment)),
+
+    // Overrides
+    override: $ => seq(
+      $._left_brace,
+      repeat(choice($.java_override),),
+      $._right_brace
+    ),
+    java_override: $ => seq(
+      'java',
+      $._left_brace,
+      repeat(seq(choice($.java_annotation, $.java_extends, $.java_implements, $.java_class, $.java_name, $.java_type), $._new_line)),
+      $._right_brace
+    ),
+    java_annotation: $ => seq(
+      'annotations',
+      $.stringValue,
+    ),
+    java_doc: $ => seq('java_doc', $.stringValue,),
+    java_extends: $ => seq('extends', $.stringValue,),
+    java_implements: $ => seq('implements', $.stringValue,),
+    java_class: $ => seq('class', $.stringValue,),
+    java_name: $ => seq('name', $.stringValue,),
+    java_type: $ => seq('type', $.stringValue,),
 
     // Package
     package_block: $ => seq(
@@ -115,10 +131,11 @@ module.exports = grammar({
         $.multi_block,
         $.func_block,
       ),
+      optional($.override)
     ),
     arg_block: $ => seq('arg', $.primitive_type, $.identifier, $._semicolon),
     ref_block: $ => seq('ref', $.reftype, $.identifier, $._semicolon),
-    multi_block: $ => seq('ref', $.multi_name,'<', choice($.primitive_type, $.reftype), optional(seq($._comma, choice($.primitive_type, $.reftype))), '>', $.identifier, $._semicolon),
+    multi_block: $ => seq('ref', $.multi_name, '<', choice($.primitive_type, $.reftype), optional(seq($._comma, choice($.primitive_type, $.reftype))), '>', $.identifier, $._semicolon),
     multi_name: $ => choice('Map', 'Set', 'List'),
     func_block: $ => seq('func', choice($.reftype, $.primitive_type, $.void), $.identifier,
       $._left_paren, optional(seq($.param_definition, repeat(seq($._comma, $.param_definition)))), $._right_paren, $._semicolon,),
@@ -132,8 +149,8 @@ module.exports = grammar({
       repeat($.enum_content),
       $._right_brace,
     ),
-    enum_content: $ => seq(choice($.arg_block, $.enum_constant)),
-    enum_constant: $ => seq(optional($.comment_block), $.identifier, $._left_paren, $.enum_index, repeat(seq($._comma, $.primitive_value)), $._right_paren, $._semicolon),
+    enum_content: $ => seq( optional($.comment_block), choice($.arg_block, $.enum_constant),optional($.override)),
+    enum_constant: $ => seq($.identifier, $._left_paren, $.enum_index, repeat(seq($._comma, $.primitive_value)), $._right_paren, $._semicolon),
     enum_index: $ => choice('_', $.integerValue),
 
 
@@ -161,7 +178,8 @@ module.exports = grammar({
     ),
     interface_content: $ => seq(
       optional($.comment_block),
-      $.func_block
+      $.func_block,
+      optional($.override),
     ),
 
 
@@ -304,7 +322,7 @@ module.exports = grammar({
         alias(repeat(choice(
           $.string_content_single_quote, // Any chars except quotes or backslash
           $.escape_sequence
-        )),"content"),
+        )), "content"),
         "'"
       )
     ),
