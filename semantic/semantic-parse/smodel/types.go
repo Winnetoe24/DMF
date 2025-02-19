@@ -18,18 +18,14 @@ type (
 
 	ImportStatement struct {
 		base.ModelElement
-		Package   base.ModelPath
-		FileName  values.StringValue
-		ModelName *values.StringValue
+		Package  base.ModelPath
+		FileName values.StringValue
 	}
 )
 
 func (m *ImportStatement) CleanTreeReferences() {
 	m.ModelElement.CleanTreeReferences()
 	m.FileName.CleanTreeReferences()
-	if m.ModelName != nil {
-		m.ModelName.CleanTreeReferences()
-	}
 }
 func (m *Model) CleanTreeReferences() {
 	m.ModelElement.CleanTreeReferences()

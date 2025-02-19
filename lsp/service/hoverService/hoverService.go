@@ -592,7 +592,6 @@ type ImportStatementTemplateData struct {
 	Package   string
 	Dateiname string
 	DateiLink string
-	ModelName *string
 }
 
 func (h *HoverService) renderImportStatementMarkdown(node *tree_sitter.Node, content fileService.FileContent) string {
@@ -605,10 +604,6 @@ func (h *HoverService) renderImportStatementMarkdown(node *tree_sitter.Node, con
 			Package:   statement.Package.ToString(),
 			Dateiname: statement.FileName.Value,
 			DateiLink: statement.FileName.Value,
-			ModelName: nil,
-		}
-		if statement.ModelName != nil {
-			data.ModelName = &statement.ModelName.Value
 		}
 
 		buffer := bytes.NewBuffer(make([]byte, 0))

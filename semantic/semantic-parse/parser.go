@@ -72,7 +72,7 @@ func (S *SemanticContext) parseSourceFile() {
 		return
 	}
 	// TODO Import Statement
-	//S.parseImportStatements()
+	S.parseImportStatements()
 	S.parseModelContent()
 
 }
@@ -238,18 +238,6 @@ func (S *SemanticContext) parseImportStatement() (smodel.ImportStatement, *errEl
 		return smodel.ImportStatement{}, errorElement
 	}
 	data.FileName = value
-
-	// modelIdentifier der Optional ist
-	nextSibling = S.Cursor.GotoNextSibling()
-	if !nextSibling {
-		return data, nil
-	}
-
-	identifier, errorElement := S.parseModelIdentifier()
-	if errorElement != nil {
-		return smodel.ImportStatement{}, errorElement
-	}
-	data.ModelName = &identifier
 
 	return data, nil
 }
