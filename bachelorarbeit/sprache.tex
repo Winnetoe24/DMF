@@ -12,8 +12,9 @@ Die DMF-DSL besteht aus vielen Elementen die in einer EBNF dargestellt werden k�
 Die EBNF Grammatik nutzt "[]" für Optionale Elemente, "*" für optionale Wiederholungen (mindestens 0 Elemente) und "+" erforderliche Wiederholungen (mindestens 1 Element).  \\
 Sie beginnt mit der Regel "source_file":
 \begin{grammar}
-<source_file> ::= <dmf_declaration> <new_line> <model_declaration> <new_line> [ <import_block> ] <model_content>
+<source_file> ::= <dmf_declaration> <new_line> <model_declaration> <new_line> [ <import_block>] <model_content>
 \end{grammar}
+
 \subsubsection{Header}
 Jede DMF Datei beginnt mit einem Header. Dieser Header wird genutzt die Version des Formats und Metadaten über das Modell zu dokumentieren.
 \begin{lstlisting}[caption={Header einer DMF-Modelldatei}]
@@ -63,18 +64,18 @@ Der Kommentar dient zur Dokumentation des jeweiliegen Elements. \\
 Das "expand"-Keyword muss genutzt werden, wenn ein importiertes Element erweitert werden soll. \\
 Der Override-Block lässt den Entwickler Zielsprachen Spezifische Anpassungen vornehmen. Dadurch können Spezielle Details die in der Syntax für alle Sprachen nicht abgebildet werden können, trotzdem generiert werden. Es können auch Bibliotheken in der Zielsprache eingebunden werden. \\
 Alle Elemente folgen dem Schema das die "*_content" Regel immer den Inhalt, der in unbestimmter Reihenfolge enthalten sein kann, enthält und die "*_block" Regel die Elemente enthält, die den Inhalt einschließen.
+
 \begin{grammar}
 <model_content> ::= <package_content>+
 
-<package_content> ::= [ <comment_block> ] [ 'expand' ] <package_block> [ <override_block> ]
-\alt [ <comment_block> ] [ 'expand' ] <struct_block> [ <override_block> ]
-\alt [ <comment_block> ] [ 'expand' ] <enum_block> [ <override_block> ]
-\alt [ <comment_block> ] [ 'expand' ] <entity_block> [ <override_block> ]
-\alt [ <comment_block> ] [ 'expand' ] <interface_block> [ <override_block> ]
+<package_content> ::= [<comment_block>] [ 'expand'] <package_block> [<override_block>]
+\alt [<comment_block>] ['expand'] <struct_block> [<override_block>]
+\alt [<comment_block>] ['expand'] <enum_block> [<override_block>]
+\alt [<comment_block>] ['expand'] <entity_block> [<override_block>]
+\alt [<comment_block>] ['expand'] <interface_block> [<override_block>]
 
 <package_block> ::= 'package' '\{' <package_content>* '\}'
 \end{grammar}
-
 
 \subsubsection{Structs} Ein Struct fasst Variablen zusammen ohne dabei eine Identität zu garantieren. Structs können Argumente, (Multi-)Referenzen und Funktionen beinhalten.
 Zusätzlich unterstützen Structs die Implementierung von mehreren Interfaces und sie können von einem anderen Struct erben.
@@ -83,6 +84,32 @@ struct Beispiel extends SuperBeispiel implements IBeispiel, IAnderesBeispiel {
 
 }
 \end{lstlisting}
+Wie bei den PackageElementen gibt auch beim "struct_content" wieder einen optionalen Kommentar und Override-Block. Dieses Schema wird auch bei allen anderen PackageElementen fortgeführt.
+\begin{grammar}
+<struct_block> ::= 'struct' <identifier> [<extends_block>] [<implements_block>] '\{' <struct_content>* '\}'
+
+<struct_content> ::= [<comment_block>] <arg_block> [<override_block>]
+\alt [<comment_block>] <ref_block> [<override_block>]
+\alt [<comment_block>] <multi_block> [<override_block>]
+\alt [<comment_block>] <func_block> [<override_block>]
+
+\end{grammar}
+\subsubsection{Entity}
+Eine Entity ist ein spezializiertes Struct. Es besitzt eine Identität in der Datenbank. Die restlichen Elemente werden aus dem Struct übernommen. Jedoch kann eine Entity von Structs und Entities erben.
+\begin{lstlisting}
+entity BeispielEntity extends AndereEntity implements IBeispiel, IAnderesBeispiel {
+    arg int i;
+    arg double d;
+    identifier(i,d);
+}
+\end{lstlisting}
+Besonders bei der "entity_block"-Regel ist, dass sie direkt die "struct_content"-Regel verwendet. Das Identifier-Statement schließt immer den Inhalt einer Entity ab. Hierbei ist zu beachten, dass "identifier" als Keyword und als Regelname verwendet wird.
+\begin{grammar}
+<entity_block> ::= 'entity' <identifier> [<extends_block>] [<implements_block>] '\{' <struct_content>* <identifier_statement> '\}' 
+
+<identifier_statement> ::= 'identifier' '(' <identifier> (',' <identifier>)* ')' ';'
+\end{grammar}
+
 
 
 

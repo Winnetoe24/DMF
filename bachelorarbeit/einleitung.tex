@@ -1,4 +1,4 @@
-\documentclass{book}
+\documentclass[german]{abarbeit}
 \usepackage{import}
 \usepackage{subfiles}
 \usepackage{listings}
@@ -35,12 +35,23 @@
 }
 
 \usepackage{syntax}
-\setlength{\grammarparsep}{20pt plus 1pt minus 1pt} % increase separation between rules
-\setlength{\grammarindent}{12em} % increase separation between LHS/RHS 
+%\setlength{\grammarparsep}{20pt plus 1pt minus 1pt} % increase separation between rules
+\setlength{\grammarindent}{10em} % increase separation between LHS/RHS 
+
 \usepackage{caption}
 \DeclareCaptionType{mytype}[Listing][List of mytype]
 \newenvironment{myenv}{\captionsetup{type=mytype}}{}
 
+\newcommand{\matrikelnummer}{123456}
+\newcommand{\erstgutachterIn}{Prof.{} Dr.{} Erich Schubert}
+\newcommand{\zweitgutachterIn}{Name des Zweitgutachters}
+\newcommand{\arbeitsgruppe}{
+Technische Universität Dortmund \\
+Fakultät für Informatik\\
+Data Mining Arbeitsgruppe \\
+\href{https://dm.cs.tu-dortmund.de/}{https://dm.cs.tu-dortmund.de/}% URL, aber als Text
+}
+\author{Alexander Brand}
 \begin{document}
 \maketitle
 \tableofcontents

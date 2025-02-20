@@ -1,7 +1,4 @@
 \documentclass[./einleitung.tex]{subfiles}
-\usepackage{caption}
-\DeclareCaptionType{mytype}[Listing][List of mytype]
-\newenvironment{myenv}{\captionsetup{type=mytype}}{}
 \normalsize
 
 \begin{document}
@@ -10,7 +7,7 @@
 \setlength{\grammarindent}{12em} % increase separation between LHS/RHS 
 
 \begin{grammar}
-<source_file> ::= <dmf_declaration> <new_line> <model_declaration> <new_line> [ <import_block> ] <model_content>
+<source_file> ::= <dmf_declaration> <new_line> <model_declaration> <new_line> [<import_block>] <model_content>
 
 <dmf_declaration> ::= 'dmf' <version_number>
 
@@ -25,11 +22,11 @@
 
 <model_content> ::= <package_content>+
 
-<package_content> ::= [ <comment_block> ] [ 'expand' ] <package_block> [ <override_block> ]
-\alt [ <comment_block> ] [ 'expand' ] <struct_block> [ <override_block> ]
-\alt [ <comment_block> ] [ 'expand' ] <enum_block> [ <override_block> ]
-\alt [ <comment_block> ] [ 'expand' ] <entity_block> [ <override_block> ]
-\alt [ <comment_block> ] [ 'expand' ] <interface_block> [ <override_block> ]
+<package_content> ::= [<comment_block>] ['expand'] <package_block> [<override_block>]
+\alt [<comment_block>] ['expand'] <struct_block> [<override_block>]
+\alt [<comment_block>] ['expand'] <enum_block> [<override_block>]
+\alt [<comment_block>] ['expand'] <entity_block> [<override_block>]
+\alt [<comment_block>] ['expand'] <interface_block> [<override_block>]
 
 % predicate.right fehlt
 <comment_block> ::= <comment>+
@@ -38,50 +35,50 @@
 
 <package_block> ::= 'package' '\{' <package_content>* '\}'
 
-<struct_block> ::= 'struct' <identifier> [ <extends_block> ] [ <implements_block> ] '\{' <struct_content>* '\}'
+<struct_block> ::= 'struct' <identifier> [<extends_block>] [<implements_block>] '\{' <struct_content>* '\}'
 
 
 <extends_block> ::= 'extends' <reftype>
 
 <implements_block> ::= 'implements' <reftype> (',' <reftype>)+
 
-<struct_content> ::= [ <comment_block> ] <arg_block> [ <override_block> ]
-\alt [ <comment_block> ] <ref_block> [ <override_block> ]
-\alt [ <comment_block> ] <multi_block> [ <override_block> ]
-\alt [ <comment_block> ] <func_block> [ <override_block> ]
+<struct_content> ::= [<comment_block>] <arg_block> [<override_block>]
+\alt [<comment_block>] <ref_block> [<override_block>]
+\alt [<comment_block>] <multi_block> [<override_block>]
+\alt [<comment_block>] <func_block> [<override_block>]
 
 <arg_block> ::= 'arg' <primitive_type> <identifier> ';'
 
 <ref_block> ::= 'ref' <reftype> <identifier> ';'
 
-<multi_block> ::= 'ref' <multi_name> '"<"' <primitive_type> [ ',' <primitive_type> ] '">"' <identifier> ';'
-\alt 'ref' <multi_name> '"<"' <reftype> [ ',' <primitive_type> ] '">"' <identifier> ';'
-\alt 'ref' <multi_name> '"<"' <primitive_type> [ ',' <reftype> ] '">"' <identifier> ';'
-\alt 'ref' <multi_name> '"<"' <reftype> [ ',' <reftype> ] '">"' <identifier> ';'
+<multi_block> ::= 'ref' <multi_name> '"<"' <primitive_type> [',' <primitive_type>] '">"' <identifier> ';'
+\alt 'ref' <multi_name> '"<"' <reftype> [',' <primitive_type>] '">"' <identifier> ';'
+\alt 'ref' <multi_name> '"<"' <primitive_type> [',' <reftype>] '">"' <identifier> ';'
+\alt 'ref' <multi_name> '"<"' <reftype> [',' <reftype>] '">"' <identifier> ';'
 
-<func_block> ::= 'func' <reftype> <identifier> '(' [ <param_definition> ( ',' <param_definition>)* ] ')' ';'
-\alt 'func' <primitive_type> <identifier> '(' [ <param_definition> ( ',' <param_definition>)* ] ')' ';'
-\alt 'func' 'void' <identifier> '(' [ <param_definition> ( ',' <param_definition>)* ] ')' ';'
+<func_block> ::= 'func' <reftype> <identifier> '(' [<param_definition> ( ',' <param_definition>)*] ')' ';'
+\alt 'func' <primitive_type> <identifier> '(' [<param_definition> ( ',' <param_definition>)*] ')' ';'
+\alt 'func' 'void' <identifier> '(' [<param_definition> ( ',' <param_definition>)*] ')' ';'
 
 <param_definition> ::= <reftype> <identifier>
 \alt <primitive_type> <identifier>
 
 <enum_block> ::= 'enum' <identifier> '\{' <enum_content>* '\}'
 
-<enum_content> ::= [ <comment_block> ] <arg_block> [ <override_block> ]
-\alt [ <comment_block> ] <enum_constant> [ <override_block> ]
+<enum_content> ::= [<comment_block>] <arg_block> [<override_block>]
+\alt [<comment_block>] <enum_constant> [<override_block>]
 
 <enum_constant> ::= <identifier> '(' <enum_index> ( ',' <primitive_value>)* ')' ';'
 
 <enum_index> ::= '_' | <integerValue>
 
-<entity_block> ::= 'entity' <identifier> [ <extends_block> ] [ <implements_block> ] '\{' <struct_content>* <identifier_statement> '\}' 
+<entity_block> ::= 'entity' <identifier> [<extends_block>] [<implements_block>] '\{' <struct_content>* <identifier_statement> '\}' 
 
 <identifier_statement> ::= 'identifier' '(' <identifier> (',' <identifier>)* ')' ';'
 
-<interface_block> ::= 'interface' <identifier> [ <implements_block> ] '\{' <interface_content>* '\}'
+<interface_block> ::= 'interface' <identifier> [<implements_block>] '\{' <interface_content>* '\}'
 
-<interface_content> ::= [ <comment_block> ] <func_block> [ <override_block> ]
+<interface_content> ::= [<comment_block>] <func_block> [<override_block>]
 \end{grammar}
 
 \section{Beispiel}
