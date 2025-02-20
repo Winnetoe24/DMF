@@ -7,7 +7,6 @@ import (
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	errElement "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
-	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages/values"
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 	"slices"
 )
@@ -73,6 +72,7 @@ func (S *SemanticContext) parseSourceFile() {
 	}
 	// TODO Import Statement
 	S.parseImportStatements()
+
 	S.parseModelContent()
 
 }
@@ -159,7 +159,7 @@ func (S *SemanticContext) parseModelDeclaration() {
 func (S *SemanticContext) parseImportStatements() {
 	node := S.Cursor.Node()
 	if node.GrammarName() != "import_block" {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New(node.GrammarName())))
+		//S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New(node.GrammarName())))
 		return
 	}
 	errorElement := assertNodeState(node, "Import Block Node")
@@ -242,30 +242,30 @@ func (S *SemanticContext) parseImportStatement() (smodel.ImportStatement, *errEl
 	return data, nil
 }
 
-func (S *SemanticContext) parseModelIdentifier() (values.StringValue, *errElement.ErrorElement) {
+func (S *SemanticContext) parseModelIdentifier() (base.StringValue, *errElement.ErrorElement) {
 	node := S.Cursor.Node()
 
 	errorElement := assertNodeState(node, "Model EntityIdentifier Node")
 	if errorElement != nil {
-		return values.StringValue{}, errorElement
+		return base.StringValue{}, errorElement
 	}
 	// (
 	hasFirstChild := S.Cursor.GotoFirstChild()
 	if !hasFirstChild {
-		return values.StringValue{}, errElement.CreateErrorElementRef(node, errors.New("kein ( vorhanden"))
+		return base.StringValue{}, errElement.CreateErrorElementRef(node, errors.New("kein ( vorhanden"))
 	}
 	defer S.Cursor.GotoParent()
 
 	// model
 	nextSibling := S.Cursor.GotoNextSibling()
 	if !nextSibling {
-		return values.StringValue{}, errElement.CreateErrorElementRef(node, errors.New("Model EntityIdentifier unvollständig"))
+		return base.StringValue{}, errElement.CreateErrorElementRef(node, errors.New("Model EntityIdentifier unvollständig"))
 	}
 
 	// StringValue
 	nextSibling = S.Cursor.GotoNextSibling()
 	if !nextSibling {
-		return values.StringValue{}, errElement.CreateErrorElementRef(node, errors.New("Model EntityIdentifier unvollständig"))
+		return base.StringValue{}, errElement.CreateErrorElementRef(node, errors.New("Model EntityIdentifier unvollständig"))
 	}
 
 	return S.parseStringValue()
@@ -316,7 +316,7 @@ func (S *SemanticContext) parsePackageContent(current base.ModelPath) (packages.
 	defer S.Cursor.GotoParent()
 	var comment base.Comment
 	expand := false
-
+	var packageElement packages.PackageElement
 	for {
 		switch S.Cursor.Node().Kind() {
 		case dmf_lang.COMMENT_BLOCK:
@@ -328,23 +328,36 @@ func (S *SemanticContext) parsePackageContent(current base.ModelPath) (packages.
 			expand = true
 		case dmf_lang.PACKAGE_BLOCK:
 			packageBlock := S.parsePackageBlock(slices.Clone(current), &comment, expand)
-			return &packageBlock, nil
+			packageElement = &packageBlock
 		case dmf_lang.STRUCT_BLOCK:
 			structBlock, _ := S.parseStructBlock(slices.Clone(current), &comment, expand, false)
-			return &structBlock, nil
+			packageElement = &structBlock
 		case dmf_lang.ENTITY_BLOCK:
 			entityBlock := S.parseEntityBlock(slices.Clone(current), &comment, expand)
-			return &entityBlock, nil
+			packageElement = &entityBlock
 		case dmf_lang.INTERFACE_BLOCK:
 			interfaceBlock := S.parseInterfaceBlock(slices.Clone(current), &comment, expand)
-			return &interfaceBlock, nil
+			packageElement = &interfaceBlock
 		case dmf_lang.ENUM_BLOCK:
 			enumBlock := S.parseEnumBlock(slices.Clone(current), &comment, expand)
-			return &enumBlock, nil
+			packageElement = &enumBlock
+		case dmf_lang.OVERRIDE_BLOCK:
+			override := S.parseOverride()
+			if packageElement != nil {
+				packageElement.GetBase().Override = override
+			} else {
+				S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("Override ohne PackageElement")))
+			}
+		default:
+			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("unbekanntes Element: "+S.Cursor.Node().GrammarName())))
+
 		}
 		if !S.Cursor.GotoNextSibling() {
 			break
 		}
+	}
+	if packageElement != nil {
+		return packageElement, nil
 	}
 
 	return nil, errElement.CreateErrorElementRef(node, errors.New("kein Inhalt im Package:"+S.Cursor.Node().Kind()))
@@ -533,20 +546,48 @@ func (S *SemanticContext) parseStructContent(current base.ModelPath, element *pa
 		}
 	}
 
+	//var modelElement *base.ModelElement
 	switch cursor.Node().Kind() {
 	case dmf_lang.ARG_BLOCK:
 		argBlock := S.parseArgBlock(comment)
+		if cursor.GotoNextSibling() {
+			override := S.parseOverride()
+			argBlock.Override = override
+		}
 		element.Argumente = append(element.Argumente, argBlock)
 	case dmf_lang.REF_BLOCK:
 		refBlock := S.parseRefBlock(current, comment)
+		if cursor.GotoNextSibling() {
+			override := S.parseOverride()
+			refBlock.Override = override
+		}
 		element.Referenzen = append(element.Referenzen, refBlock)
 	case dmf_lang.MULTI_BLOCK:
 		multiBlock := S.parseMultiBlock(current, comment)
+		if cursor.GotoNextSibling() {
+			override := S.parseOverride()
+			multiBlock.Override = override
+		}
 		element.MultiReferenzen = append(element.MultiReferenzen, multiBlock)
 	case dmf_lang.FUNC_BLOCK:
 		funcBlock := S.parseFuncBlock(current, comment)
+		if cursor.GotoNextSibling() {
+			override := S.parseOverride()
+			funcBlock.Override = override
+		}
 		element.Funktionen = append(element.Funktionen, funcBlock)
 	}
+
+	//// Override
+	//if cursor.GotoNextSibling() {
+	//	override := S.parseOverride()
+	//	if modelElement == nil {
+	//		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("Override ohne Element")))
+	//	} else {
+	//		modelElement.Override = override
+	//	}
+	//
+	//}
 
 }
 
@@ -660,6 +701,10 @@ func (S *SemanticContext) parseInterfaceContent(current base.ModelPath, element 
 	}
 
 	funcBlock := S.parseFuncBlock(current, comment)
+	if cursor.GotoNextSibling() {
+		override := S.parseOverride()
+		funcBlock.Override = override
+	}
 	element.Funktionen = append(element.Funktionen, funcBlock)
 	//
 	//hasNextSibling := cursor.GotoNextSibling()
@@ -758,9 +803,17 @@ func (S *SemanticContext) parseEnumContent(element *packages.EnumElement) {
 	switch cursor.Node().Kind() {
 	case dmf_lang.ARG_BLOCK:
 		argBlock := S.parseArgBlock(comment)
+		if cursor.GotoNextSibling() {
+			override := S.parseOverride()
+			argBlock.Override = override
+		}
 		element.Argumente = append(element.Argumente, argBlock)
 	case dmf_lang.ENUM_CONSTANT:
 		konstante := S.parseEnumConstant(comment)
+		if cursor.GotoNextSibling() {
+			override := S.parseOverride()
+			konstante.Override = override
+		}
 		element.Konstanten = append(element.Konstanten, konstante)
 	}
 

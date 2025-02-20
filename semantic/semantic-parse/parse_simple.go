@@ -99,15 +99,15 @@ func (S *SemanticContext) parsePackageString(current base.ModelPath, dotForCurre
 	return neuerPath, elementIdentifier, nil
 }
 
-func (S *SemanticContext) parseStringValue() (values.StringValue, *errElement.ErrorElement) {
+func (S *SemanticContext) parseStringValue() (base.StringValue, *errElement.ErrorElement) {
 	node := S.Cursor.Node()
 	errorElement := assertNodeState(node, "String Value Node")
 	if errorElement != nil {
-		return values.StringValue{}, errorElement
+		return base.StringValue{}, errorElement
 	}
 	hasFirstChild := S.Cursor.GotoFirstChild()
 	if !hasFirstChild {
-		return values.StringValue{}, nil
+		return base.StringValue{}, nil
 	}
 	defer S.Cursor.GotoParent()
 
@@ -122,7 +122,7 @@ func (S *SemanticContext) parseStringValue() (values.StringValue, *errElement.Er
 		value += lastValue
 		lastValue = S.Cursor.Node().Utf8Text(S.Text)
 	}
-	return values.StringValue{
+	return base.StringValue{
 		ModelElement: base.ModelElement{
 			Node: node,
 		},

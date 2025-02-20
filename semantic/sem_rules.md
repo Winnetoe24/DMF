@@ -10,6 +10,7 @@
 9. TODO delegate darf nicht als Parametername, Argumentname oder Referenzname genutzt werden.
 9. TODO getter und setter dürfen nicht als Namen benutzt werden
 9. TODO "equals" und "hashcode" dürfen nicht als Namen benutzt werden
+10. TODO richtige Overrides überprüfen
 
 
 * ##### asds

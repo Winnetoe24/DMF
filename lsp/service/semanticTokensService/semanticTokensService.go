@@ -10,8 +10,8 @@ import (
 	"github.com/Winnetoe24/DMF/lsp/server/connect/connectUtils"
 	"github.com/Winnetoe24/DMF/lsp/service"
 	"github.com/Winnetoe24/DMF/lsp/service/fileService"
+	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
-	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages/values"
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 	"slices"
 )
@@ -49,6 +49,7 @@ const (
 	indexKeyword    = iota
 	indexString     = iota
 	indexModifier   = iota
+	indexDecorator  = iota
 )
 
 var tokenTypes = []string{
@@ -68,6 +69,7 @@ var tokenTypes = []string{
 	semantictokens.TokenTypeKeyword,
 	semantictokens.TokenTypeString,
 	semantictokens.TokenTypeModifier,
+	semantictokens.TokenTypeDecorator,
 }
 
 const (
@@ -154,9 +156,12 @@ func (s *SemanticTokensService) computeSemanticTokens(content fileService.FileCo
 	}
 
 	cursor := content.Ast.Walk()
-
+	//logger := logService.GetLogger()
+	//logger.Printf("%s Call Walk:\n", logService.TRACE)
 	s.WalkNode(cursor, []byte(content.Content), addToken)
 	// Process all elements in the lookup
+	//logger.Printf("%s Call Walk:\n", logService.TRACE)
+
 	s.walkElements(content, addToken)
 
 	slices.SortFunc(semanticElements, func(a, b *semanticElement) int {
@@ -229,26 +234,6 @@ func (s *SemanticTokensService) walkElements(content fileService.FileContent, ad
 			}
 		}
 		switch e := element.(type) {
-		//case *packages.Package:
-		//	// Token for package name
-		//	node := e.EntityIdentifier.Node
-		//	pos := node.StartPosition()
-		//
-		//	case *packages.EntityElement:
-		//		// Token for entity name
-		//		node := e.GetBase().Node
-		//		pos := node.StartPosition()
-		//		addToken(uint32(pos.Row), uint32(pos.Column), uint32(len(e.StructElement.EntityIdentifier.Name)), 1, 1)
-		//
-		//		// Process arguments
-		//		for _, arg := range e.NamedElements {
-		//			switch a := arg.(type) {
-		//			case *packages.Argument:
-		//				pos := a.Node.StartPosition()
-		//				addToken(uint32(pos.Row), uint32(pos.Column), uint32(len(a.Name.Name)), 6, 0)
-		//			}
-		//		}
-		//
 		case *packages.EnumElement:
 			// Token for enum name
 			//node := e.GetBase().Node
@@ -263,7 +248,7 @@ func (s *SemanticTokensService) walkElements(content fileService.FileContent, ad
 
 				for _, value := range konstante.Values {
 					switch value.(type) {
-					case values.StringValue:
+					case base.StringValue:
 						continue
 					default:
 						node := value.GetNode()
@@ -273,27 +258,15 @@ func (s *SemanticTokensService) walkElements(content fileService.FileContent, ad
 					}
 				}
 			}
-			//
-			//	case *packages.InterfaceElement:
-			//		// Token for interface name
-			//		node := e.GetBase().Node
-			//		pos := node.StartPosition()
-			//		addToken(uint32(pos.Row), uint32(pos.Column), uint32(len(e.EntityIdentifier.Name)), 4, 1)
-			//	}
-			//
-			//	// Process comments if they exist
-			//	if element.GetBase().Kommentar != nil {
-			//		for _, comment := range *element.GetBase().Kommentar {
-			//			node := element.GetBase().Node
-			//			pos := node.StartPosition()
-			//			addToken(uint32(pos.Row), uint32(pos.Column), uint32(len(comment)), 10, 4)
-			//		}
 		}
 	}
 }
 
 func (s *SemanticTokensService) WalkNode(cursor *tree_sitter.TreeCursor, content []byte, addToken func(line uint32, start uint32, length uint32, tokenType uint32, tokenModifiers uint32)) {
 	node := cursor.Node()
+	//logger := logService.GetLogger()
+	//logger.Printf("%sStart Walk:\n", logService.TRACE)
+
 	switch node.GrammarName() {
 	// Keywords
 	case "struct":
@@ -303,6 +276,21 @@ func (s *SemanticTokensService) WalkNode(cursor *tree_sitter.TreeCursor, content
 	case "enum":
 		fallthrough
 	case "interface":
+		fallthrough
+
+	case "override":
+		fallthrough
+	case "javaDoc":
+		fallthrough
+	case "java":
+		fallthrough
+	case "class":
+		fallthrough
+	case "name":
+		fallthrough
+	case "type":
+		fallthrough
+	case "annotations":
 		fallthrough
 
 	case "func":
@@ -362,9 +350,30 @@ func (s *SemanticTokensService) WalkNode(cursor *tree_sitter.TreeCursor, content
 
 	// String
 	case "stringValue":
+		tokenType := indexString
+		modifiers := 0
+		switch node.Parent().GrammarName() {
+		case "java_implements":
+			fallthrough
+		case "java_class":
+			fallthrough
+		case "java_extends":
+			tokenType = indexClass
+
+		case "java_name":
+			tokenType = indexVariable
+		case "java_annotation":
+			tokenType = indexDecorator
+		case "java_doc":
+			tokenType = indexComment
+		case "java_type":
+			tokenType = indexType
+		
+		}
 		startPosition := node.StartPosition()
 		text := node.Utf8Text(content)
-		addToken(uint32(startPosition.Row), uint32(startPosition.Column), uint32(len(text)), uint32(indexString), 0)
+
+		addToken(uint32(startPosition.Row), uint32(startPosition.Column), uint32(len(text)), uint32(tokenType), uint32(modifiers))
 
 	// PackageString
 	case "package_block":
@@ -376,6 +385,8 @@ func (s *SemanticTokensService) WalkNode(cursor *tree_sitter.TreeCursor, content
 		startPosition := node.StartPosition()
 		text := node.Utf8Text(content)
 		addToken(uint32(startPosition.Row), uint32(startPosition.Column), uint32(len(text)), uint32(indexComment), 0)
+	default:
+		//logger.Println("Cant Color: " + node.GrammarName())
 
 	}
 

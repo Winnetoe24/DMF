@@ -3,7 +3,6 @@ package smodel
 import (
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
-	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages/values"
 )
 
 type (
@@ -19,7 +18,7 @@ type (
 	ImportStatement struct {
 		base.ModelElement
 		Package  base.ModelPath
-		FileName values.StringValue
+		FileName base.StringValue
 	}
 )
 

@@ -169,7 +169,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "override"
+              "name": "override_block"
             },
             {
               "type": "BLANK"
@@ -189,9 +189,13 @@
         }
       }
     },
-    "override": {
+    "override_block": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "STRING",
+          "value": "override"
+        },
         {
           "type": "SYMBOL",
           "name": "_left_brace"
@@ -256,6 +260,10 @@
                   {
                     "type": "SYMBOL",
                     "name": "java_type"
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "java_doc"
                   }
                 ]
               },
@@ -290,7 +298,7 @@
       "members": [
         {
           "type": "STRING",
-          "value": "java_doc"
+          "value": "javaDoc"
         },
         {
           "type": "SYMBOL",
@@ -526,7 +534,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "override"
+              "name": "override_block"
             },
             {
               "type": "BLANK"
@@ -824,7 +832,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "override"
+              "name": "override_block"
             },
             {
               "type": "BLANK"
@@ -1048,7 +1056,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "override"
+              "name": "override_block"
             },
             {
               "type": "BLANK"

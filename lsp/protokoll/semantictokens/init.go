@@ -59,6 +59,7 @@ const (
 	TokenTypeString     = "string"
 	TokenTypeKeyword    = "keyword"
 	TokenTypeModifier   = "modifier"
+	TokenTypeDecorator  = "decorator"
 )
 
 // Standard token modifiers as defined by the LSP specification

@@ -6,6 +6,8 @@ package de.alex.brand.klein {
         struct Holla {
             arg int i;
         }
+
+
         // asd
         enum Hersteller {
             arg string name;
@@ -36,5 +38,8 @@ package de.alex.brand.klein {
             func void Hi();
             func void Zwei();
         }
+        {
+                java {}
+                }
 
 }

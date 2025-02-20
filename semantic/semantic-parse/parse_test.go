@@ -4,6 +4,7 @@ import (
 	"fmt"
 	tree_sitter_dmf "github.com/Winnetoe24/DMF/grammar/dmf_language"
 	err_element "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
+	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 	"github.com/stretchr/testify/assert"
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 	"os"
@@ -58,6 +59,14 @@ func TestParse(t *testing.T) {
 	}
 
 	t.Logf("%+v", model)
+	t.Logf("%+v", *model.Packages[0].Override.JavaOverride)
+	other := model.Packages[0].Elements[1].(*packages.Package)
+	Inte := other.Elements[4].(*packages.InterfaceElement)
+	t.Logf("%+v", Inte.Funktionen)
+	funktion := Inte.Funktionen[0]
+	t.Logf("%+v", funktion.Override)
+	//t.Logf("%+v", funktion.Override.JavaOverride)
+	t.Logf("%+v", funktion.Override.JavaOverride)
 
 	assert.Equal(t, []int32{0, 0, 1}, model.Version, "False Version geparsed: %+v", model.Version)
 }

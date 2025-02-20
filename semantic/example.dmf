@@ -24,6 +24,7 @@ package de.beispiel {
             func Zimmer getZimmer(Hotel hotel);
 
         }
+
         interface Zeitraum {
             func boolean contains(datetime zeitpunkt);
             func datetime startPunkt();
@@ -92,9 +93,44 @@ package de.beispiel {
         interface Inte implements Blo, Blup {
             //Kommentar über Funktion
             func void hi(boolean param, ..hotel.Person objekt);
+            override { 
+                java {
+                    name "hiJava"
+                    extends "asd"
+                    implements ""
+                    class "asd"
+                    type "asd"
+                    annotations "@Setter"
+                    javaDoc "Hallo"
+                }
+            }
+
         }
+         override {
+                        java {
+                            name "hiJava"
+                            extends "asd"
+                            implements ""
+                            class "asd"
+                            type "asd"
+                            annotations "@Setter"
+                            javaDoc "Hallo"
+                        }
+
+            }
 
     }
 
 }
+ override {
+                java {
+                    name "hiJava"
+                    extends "asd"
+                    implements ""
+                    class "asd"
+                    type "asd"
+                    annotations "@Setter"
+                    javaDoc "Hallo"
+                }
 
+            }

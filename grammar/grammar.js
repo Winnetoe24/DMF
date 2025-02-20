@@ -64,12 +64,13 @@ module.exports = grammar({
         $.entity_block,
         $.interface_block,
       ),
-      optional($.override)),
+      optional($.override_block)),
 
     comment_block: $ => prec.right(repeat1($.comment)),
 
     // Overrides
-    override: $ => seq(
+    override_block: $ => seq(
+      'override',
       $._left_brace,
       repeat(choice($.java_override),),
       $._right_brace
@@ -77,14 +78,14 @@ module.exports = grammar({
     java_override: $ => seq(
       'java',
       $._left_brace,
-      repeat(seq(choice($.java_annotation, $.java_extends, $.java_implements, $.java_class, $.java_name, $.java_type), $._new_line)),
+      repeat(seq(choice($.java_annotation, $.java_extends, $.java_implements, $.java_class, $.java_name, $.java_type,$.java_doc), $._new_line)),
       $._right_brace
     ),
     java_annotation: $ => seq(
       'annotations',
       $.stringValue,
     ),
-    java_doc: $ => seq('java_doc', $.stringValue,),
+    java_doc: $ => seq('javaDoc', $.stringValue,),
     java_extends: $ => seq('extends', $.stringValue,),
     java_implements: $ => seq('implements', $.stringValue,),
     java_class: $ => seq('class', $.stringValue,),
@@ -131,7 +132,7 @@ module.exports = grammar({
         $.multi_block,
         $.func_block,
       ),
-      optional($.override)
+      optional($.override_block)
     ),
     arg_block: $ => seq('arg', $.primitive_type, $.identifier, $._semicolon),
     ref_block: $ => seq('ref', $.reftype, $.identifier, $._semicolon),
@@ -149,7 +150,7 @@ module.exports = grammar({
       repeat($.enum_content),
       $._right_brace,
     ),
-    enum_content: $ => seq( optional($.comment_block), choice($.arg_block, $.enum_constant),optional($.override)),
+    enum_content: $ => seq( optional($.comment_block), choice($.arg_block, $.enum_constant),optional($.override_block)),
     enum_constant: $ => seq($.identifier, $._left_paren, $.enum_index, repeat(seq($._comma, $.primitive_value)), $._right_paren, $._semicolon),
     enum_index: $ => choice('_', $.integerValue),
 
@@ -179,7 +180,7 @@ module.exports = grammar({
     interface_content: $ => seq(
       optional($.comment_block),
       $.func_block,
-      optional($.override),
+      optional($.override_block),
     ),
 
 

@@ -39,11 +39,6 @@ type DateTimeValue struct {
 	Value time.Time
 }
 
-type StringValue struct {
-	base.ModelElement
-	Value string
-}
-
 type BooleanValue struct {
 	base.ModelElement
 	Value bool
@@ -85,13 +80,7 @@ func (d DateTimeValue) GetDataType() base.PrimitivType {
 func (d DateTimeValue) GetValue() any {
 	return d.Value
 }
-func (s StringValue) GetDataType() base.PrimitivType {
-	return base.STRING
-}
 
-func (s StringValue) GetValue() any {
-	return s.Value
-}
 func (b BooleanValue) GetDataType() base.PrimitivType {
 	return base.BOOLEAN
 }

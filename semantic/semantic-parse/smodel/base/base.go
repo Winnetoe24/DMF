@@ -9,6 +9,7 @@ type Comment []string
 type ModelElement struct {
 	Kommentar *Comment
 	Node      *tree_sitter.Node
+	Override  *Override
 }
 
 func (i *ModelElement) CleanTreeReferences() {
@@ -71,4 +72,31 @@ func (m ModelPath) ToString() string {
 type ElementIdentifier struct {
 	ModelElement
 	Name string
+}
+
+type Override struct {
+	JavaOverride *JavaOverride
+}
+
+type JavaOverride struct {
+	JavaDoc     *StringValue
+	Extends     *StringValue
+	Annotations *StringValue
+	Implements  *StringValue
+	Class       *StringValue
+	Name        *StringValue
+	Type        *StringValue
+}
+
+type StringValue struct {
+	ModelElement
+	Value string
+}
+
+func (s StringValue) GetDataType() PrimitivType {
+	return STRING
+}
+
+func (s StringValue) GetValue() any {
+	return s.Value
 }

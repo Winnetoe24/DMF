@@ -57,7 +57,7 @@ func (m *Konstante) CleanTreeReferences() {
 		case values.LongValue:
 			casted.CleanTreeReferences()
 			m.Values[i] = casted
-		case values.StringValue:
+		case base.StringValue:
 			casted.CleanTreeReferences()
 			m.Values[i] = casted
 		default:
