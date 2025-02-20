@@ -2,10 +2,17 @@ This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**./einleitung.tex
-(einleitung.tex
+**./sprache.tex
+(sprache.tex
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2023-08-29>
+(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/subfiles\subfiles.cls
+Document Class: subfiles 2020/11/14 v2.2 Multi-file projects (class)
+Preamble taken from file `./einleitung.tex'
+(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/import\import.sty
+Package: import 2020/04/01  v 6.2
+)
+(einleitung.tex
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/base\book.cls
 Document Class: book 2023/05/17 v1.4n Standard LaTeX document class
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/base\bk10.clo
@@ -23,9 +30,6 @@ File: bk10.clo 2023/05/17 v1.4n Standard LaTeX file (size option)
 \abovecaptionskip=\skip48
 \belowcaptionskip=\skip49
 \bibindent=\dimen140
-)
-(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/import\import.sty
-Package: import 2020/04/01  v 6.2
 )
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/subfiles\subfiles.sty
 Package: subfiles 2020/11/14 v2.2 Multi-file projects (package)
@@ -122,29 +126,29 @@ Package newfloat Info: New float `mytype' with options `' on input line 41.
 \c@mytype=\count270
 \newfloat@ftype=\count271
 Package newfloat Info: float type `mytype'=8 on input line 41.
-
+))
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
 tex.def
 File: l3backend-pdftex.def 2023-04-19 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count272
 \l__pdf_internal_box=\box53
-) (einleitung.aux)
-\openout1 = `einleitung.aux'.
+) (sprache.aux)
+\openout1 = `sprache.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 44.
-LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 3.
+LaTeX Font Info:    ... okay on input line 3.
 \c@lstlisting=\count273
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
@@ -164,119 +168,18 @@ ii
 )
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 45.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 45.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 45.
 
-
-LaTeX Warning: No \author given.
-
-[1
-
-
-{C:/Users/alexa/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}] [2
-
-]
-(einleitung.toc
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 2.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 2.
-)
-\tf@toc=\write3
-\openout3 = `einleitung.toc'.
-
- [3] [4
-
-]
-Chapter 1.
-(motivation.tex [5]) [6]
-Chapter 2.
-(tools.tex
-Overfull \hbox (39.54121pt too wide) in paragraph at lines 15--18
-\OT1/cmr/m/n/10 die h^^?ochste Pri-orit^^?at, denn die Reak-tionsf^^?ahigkeit d
-er IDE bee-in-flusst die Geschwindigkeit
- []
-
-[7
-
-]
-Underfull \hbox (badness 10000) in paragraph at lines 29--31
-
- []
-
-
-LaTeX Warning: Citation `twagner' on page 8 undefined on input line 34.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 36--38
-
- []
-
-
-LaTeX Warning: Citation `twagner' on page 8 undefined on input line 39.
-
-
-Overfull \hbox (12.03302pt too wide) in paragraph at lines 42--44
-\OT1/cmr/m/n/10 zum Schreiben der Gram-matiken und die M^^?oglichkeit it-er-a-t
-iv zu Parsen. Zus^^?atzlich
- []
-
-[8]
-Overfull \hbox (1.43575pt too wide) in paragraph at lines 56--59
-\OT1/cmr/m/n/10 Viele IDE's stellen Schnittstellen f^^?ur Plu-g-ins bereit. Daz
-u z^^?ahlen In-tel-lij, Eclipse,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 60--69
-
- []
-
-[9]
-Overfull \hbox (5.43114pt too wide) in paragraph at lines 75--78
-\OT1/cmr/m/n/10 Golang bi-etet zus^^?atzlich eine sim-ple An-bindung an den Par
-ser und die M^^?oglichkeit
- []
-
-
-Overfull \hbox (26.28297pt too wide) in paragraph at lines 75--78
-\OT1/cmr/m/n/10 sehr ein-fach Par-al-lelit^^?at einzubauen. Beson-ders erw^^?ah
-nenswert ist die Geschwindigkeit
- []
-
-
-Overfull \hbox (7.11163pt too wide) in paragraph at lines 80--83
-\OT1/cmr/m/n/10 Bei der Ein-bindung des Parsers gestall-ten sich je-doch zus^^?
-atzliche Her-raus-forderun-
- []
-
-
-Overfull \hbox (18.13745pt too wide) in paragraph at lines 85--85
-[]\OT1/cmr/bx/n/12 Generation von Code-dateien in ver-schiede-nen Sprachen 
- []
-
-
-Overfull \hbox (0.8386pt too wide) in paragraph at lines 91--94
-\OT1/cmr/m/n/10 Golang Stan-dard-bib-lio-thek bi-etet die M^^?oglichkeit Tem-pl
-ates zu definieren. Diese
- []
-
-[10]
-Overfull \hbox (10.51445pt too wide) in paragraph at lines 110--111
-\OT1/cmr/m/n/10 Damit eine Gen-er-a-tion w^^?ahrend des Build-vor-gangs ist es-
-sen-tiell, um sicherzustellen
- []
-
-) (sprache.tex [11]
 Underfull \hbox (badness 10000) in paragraph at lines 11--14
 
  []
 
-[12]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 15.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 15.
+[1{C:/Users/alexa/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}
+
+]
 Underfull \hbox (badness 10000) in paragraph at lines 52--54
 
  []
@@ -287,7 +190,7 @@ Overfull \hbox (2.15799pt too wide) in paragraph at lines 60--66
 ert wer-den. Es k^^?onnen
  []
 
-[13]
+[2]
 LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 7
 0.
  (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/base\omscmr.fd
@@ -317,95 +220,32 @@ Overfull \hbox (97.25867pt too wide) in paragraph at lines 82--84
 [][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-) [14]
-Chapter 3.
-(grammatik.tex
-Overfull \hbox (29.01581pt too wide) in paragraph at lines 22--23
-[]\OT1/cmr/m/n/10 'import' [] 'from' [] [] 
- []
-
-
-Overfull \hbox (51.66823pt too wide) in paragraph at lines 28--33
-[]\OT1/cmr/m/n/10 [ [] ] [ 'ex-pand' ] [] [ []
- []
-
-[15
-
-]
-Overfull \hbox (30.36047pt too wide) in paragraph at lines 41--42
-[]\OT1/cmr/m/n/10 'struct' [] [ [] ] [ []
- []
-
-
-Overfull \hbox (1.2237pt too wide) in paragraph at lines 48--52
-[]\OT1/cmr/m/n/10 [ [] ] [] [ []
- []
-
-
-Overfull \hbox (33.25995pt too wide) in paragraph at lines 57--61
-[]\OT1/cmr/m/n/10 'ref' [] '[]' [] [ ',' []
- []
-
-
-Overfull \hbox (25.60406pt too wide) in paragraph at lines 62--65
-[]\OT1/cmr/m/n/10 'func' [] [] '(' [ []
- []
-
-[16]
-Overfull \hbox (17.70695pt too wide) in paragraph at lines 71--73
-[]\OT1/cmr/m/n/10 [ [] ] [] [ []
- []
-
-
-Overfull \hbox (4.24126pt too wide) in paragraph at lines 74--75
-[][] \OT1/cmr/m/n/10 '(' [] ( ',' [])*
- []
-
-
-Overfull \hbox (29.99937pt too wide) in paragraph at lines 78--79
-[]\OT1/cmr/m/n/10 'entity' [] [ [] ] [ []
- []
-
-
-Overfull \hbox (71.06595pt too wide) in paragraph at lines 82--83
-[]\OT1/cmr/m/n/10 'interface' [] [ [] ] '\OMS/cmsy/m/n/10 f\OT1/cmr/m/n/10 ' []
-*
- []
-
-[17]) [18] (einleitung.aux)
+[3] (sprache.aux)
  ***********
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2023-08-29>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
  ) 
 Here is how much of TeX's memory you used:
- 5072 strings out of 475248
- 80215 string characters out of 5757813
+ 5025 strings out of 475248
+ 79642 string characters out of 5757813
  1933785 words of memory out of 5000000
- 26589 multiletter control sequences out of 15000+600000
- 564869 words of font info for 59 fonts, out of 8000000 for 9000
+ 26561 multiletter control sequences out of 15000+600000
+ 560752 words of font info for 45 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 53i,6n,63p,742b,1249s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 73i,5n,80p,315b,1174s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
 cmbx10.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
 fonts/cm/cmbx12.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/p
 ublic/amsfonts/cm/cmr10.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts
-/type1/public/amsfonts/cm/cmr12.pfb><C:/Users/alexa/AppData/Local/Programs/MiKT
-eX/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Users/alexa/AppData/Local/Progr
-ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/alexa/AppData/Loca
-l/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsl10.pfb><C:/Users/alexa/App
-Data/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/
-alexa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><
-C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmt
-t10.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfon
-ts/cm/cmtt9.pfb>
-Output written on einleitung.pdf (18 pages, 198619 bytes).
+/type1/public/amsfonts/cm/cmr9.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTe
+X/fonts/type1/public/amsfonts/cm/cmsl10.pfb><C:/Users/alexa/AppData/Local/Progr
+ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/alexa/AppData/Lo
+cal/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/alexa/A
+ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
+Output written on sprache.pdf (3 pages, 116400 bytes).
 PDF statistics:
- 115 PDF objects out of 1000 (max. 8388607)
+ 52 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

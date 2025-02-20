@@ -1,14 +1,55 @@
 \documentclass{book}
 \usepackage{import}
 \usepackage{subfiles}
+\usepackage{listings}
 \title{Entwicklung eines flexiblen Frameworks zur generierung von Datenmodellen}
+
+\lstdefinelanguage{DMF}{
+    morekeywords={dmf, model, version, package, struct, entity, interface, enum, arg, ref, identifier, import, from, extends, implements},
+    sensitive=false, % keywords are not case-sensitive
+    morecomment=[l]{//}, % l is for line comment
+    morestring=[b]" % defines that strings are enclosed in double quotes
+} %
+\usepackage{xcolor}
+\definecolor{commentgreen}{RGB}{2,112,10}
+\definecolor{eminence}{RGB}{108,48,130}
+\definecolor{weborange}{RGB}{255,165,0}
+\definecolor{frenchplum}{RGB}{129,20,83}
+\lstset {
+    language=DMF,
+    frame=tb,
+    tabsize=4,
+    showstringspaces=false,
+    numbers=left,
+    upquote=true,
+    commentstyle=\color{commentgreen},
+    keywordstyle=\color{eminence},
+    stringstyle=\color{red},
+    basicstyle=\small\ttfamily, % basic font setting
+    emph={int,char,double,float,unsigned,void,bool},
+    emphstyle={\color{blue}},
+    escapechar=\&,
+    % keyword highlighting
+    classoffset=1, % starting new class
+    classoffset=0,
+}
+
+\usepackage{syntax}
+\setlength{\grammarparsep}{20pt plus 1pt minus 1pt} % increase separation between rules
+\setlength{\grammarindent}{12em} % increase separation between LHS/RHS 
+\usepackage{caption}
+\DeclareCaptionType{mytype}[Listing][List of mytype]
+\newenvironment{myenv}{\captionsetup{type=mytype}}{}
 
 \begin{document}
 \maketitle
 \tableofcontents
 \chapter{Einleitung}
+
 \subfile{motivation.tex}
 \chapter{Entwicklung}
 \subfile{tools.tex}
-%\subfile{grammatik.tex}
+\subfile{sprache.tex}
+\chapter{Anhang}
+\subfile{grammatik.tex}
 \end{document}

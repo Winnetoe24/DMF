@@ -1,0 +1,93 @@
+\documentclass[./einleitung.tex]{subfiles}
+
+\begin{document}
+\section{Aufbau der DMF-DSL}
+Im Kern des DMFs sind die Modelldateien. Sie enthalten alle Informationen und die Schnittstelle zwischen DMF und Entwickler*innen.
+Deswegen ist das Format essentiell. EMF setzt auf XML als Format für die Modelldateien und erleichtert die Bearbeitung durch Grafische Editoren in Eclipse.
+Grafische Editoren funktionieren für das DMF nicht, da DMF mithilfe des LSP-Protokolls nur Text-Editoren unterstützt.
+Deshalb muss sich auch das Format der Modelldateien anpassen.
+
+\subsection{Die DSL und die EBNF}
+Die DMF-DSL besteht aus vielen Elementen die in einer EBNF dargestellt werden können. In diesem Abschnitt werden die verschiedenen Elemente und ausgewählte Regeln der EBNF Grammatik erläutert.\newline \newline
+Die EBNF Grammatik nutzt "[]" für Optionale Elemente, "*" für optionale Wiederholungen (mindestens 0 Elemente) und "+" erforderliche Wiederholungen (mindestens 1 Element).  \\
+Sie beginnt mit der Regel "source_file":
+\begin{grammar}
+<source_file> ::= <dmf_declaration> <new_line> <model_declaration> <new_line> [ <import_block> ] <model_content>
+\end{grammar}
+\subsubsection{Header}
+Jede DMF Datei beginnt mit einem Header. Dieser Header wird genutzt die Version des Formats und Metadaten über das Modell zu dokumentieren.
+\begin{lstlisting}[caption={Header einer DMF-Modelldatei}]
+dmf 1.0.0
+model "beispiel" version 0.0.1
+\end{lstlisting}
+Der Header besteht aus 2 wichtigen Grammatik-Regeln: "dmf_declaration" und "model_declaration". Beide bilden jeweils eine Zeile ab.
+\begin{myenv}
+\caption{Die EBNF Regeln}
+\begin{grammar}
+<dmf_declaration> ::= 'dmf' <version_number>
+
+<model_declaration> ::= 'model' <string_value> 'version' <version_number>
+\end{grammar}
+\end{myenv}
+
+
+\subsubsection{Imports}
+Es gibt zwei Gründe für den Import von vorhandenen Modellen:
+\begin{enumerate}
+\item Um die enthaltenen Klassen in das eigene Modell zu kopieren.
+\item Um die enthaltenen Klassen zu erweitern.
+\end{enumerate}
+Um ein DMF Modell zu Importieren wird die Datei und das Package das vom Modell übernommen werden soll. Es muss ein Package angegeben werden damit immer klar ist, welche Pfade schon belegt sind.
+\begin{lstlisting}[caption={Import des Package de.base}]
+import de.base from "./base.dmf"
+\end{lstlisting}
+Diese Importstatements werden alle im Import-Block zusammengefasst. Sollten keine Imports genutzt werden, so wird das komplette Import-Block aus dem AST entfernt, statt ein leeres Import-Block Element zu enthalten.
+\begin{grammar}
+<import_block> ::= <import_statement>+
+
+<import_statement> ::= 'import' <package_string> 'from' <string_value>
+\end{grammar}
+
+\subsubsection{Packages}
+Ein DMF Modell besteht aus Packages. Diese Unterteilen die restlichen Elementen und representieren Ordner im späteren Generat.
+Innerhalb eines Package können weitere Packages, Structs, Entities, Enums und Interfaces enthalten sein. Diese verschiedenen Elemente werden im weiterem als PackageElemente bezeichnet.\\
+\begin{lstlisting}
+// Das ist ein Packages mit ddem Pfad "de.beispiel"
+package de.beispiel {
+
+}
+\end{lstlisting}
+Jedes PackageElement kann mit einem Kommentar, dem Keyword "expand" und einem Override-Block versehen werden.
+Die Auslagerung dieser AST-Elemente in das "package_content"-Element verinfacht das Verarbeiten des ASTs, da ein allgemeines Vorgehen für alle PackageElemente genutzt werden kann.\\
+Der Kommentar dient zur Dokumentation des jeweiliegen Elements. \\
+Das "expand"-Keyword muss genutzt werden, wenn ein importiertes Element erweitert werden soll. \\
+Der Override-Block lässt den Entwickler Zielsprachen Spezifische Anpassungen vornehmen. Dadurch können Spezielle Details die in der Syntax für alle Sprachen nicht abgebildet werden können, trotzdem generiert werden. Es können auch Bibliotheken in der Zielsprache eingebunden werden. \\
+Alle Elemente folgen dem Schema das die "*_content" Regel immer den Inhalt, der in unbestimmter Reihenfolge enthalten sein kann, enthält und die "*_block" Regel die Elemente enthält, die den Inhalt einschließen.
+\begin{grammar}
+<model_content> ::= <package_content>+
+
+<package_content> ::= [ <comment_block> ] [ 'expand' ] <package_block> [ <override_block> ]
+\alt [ <comment_block> ] [ 'expand' ] <struct_block> [ <override_block> ]
+\alt [ <comment_block> ] [ 'expand' ] <enum_block> [ <override_block> ]
+\alt [ <comment_block> ] [ 'expand' ] <entity_block> [ <override_block> ]
+\alt [ <comment_block> ] [ 'expand' ] <interface_block> [ <override_block> ]
+
+<package_block> ::= 'package' '\{' <package_content>* '\}'
+\end{grammar}
+
+
+\subsubsection{Structs} Ein Struct fasst Variablen zusammen ohne dabei eine Identität zu garantieren. Structs können Argumente, (Multi-)Referenzen und Funktionen beinhalten.
+Zusätzlich unterstützen Structs die Implementierung von mehreren Interfaces und sie können von einem anderen Struct erben.
+\begin{lstlisting}
+struct Beispiel extends SuperBeispiel implements IBeispiel, IAnderesBeispiel {
+
+}
+\end{lstlisting}
+
+
+
+%\begin{lstlisting}
+
+%\begin{grammar}
+%\end{grammar}
+\end{document}

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.1.29)  5 FEB 2025 14:10
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.1.29)  20 FEB 2025 16:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -6,41 +6,101 @@ entering extended mode
 (grammatik.tex
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2023-08-29>
-(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
-Document Class: article 2023/05/17 v1.4n Standard LaTeX document class
-(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/base\size10.clo
-File: size10.clo 2023/05/17 v1.4n Standard LaTeX file (size option)
+(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/subfiles\subfiles.cls
+Document Class: subfiles 2020/11/14 v2.2 Multi-file projects (class)
+Preamble taken from file `./einleitung.tex'
+(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/import\import.sty
+Package: import 2020/04/01  v 6.2
+)
+(einleitung.tex
+(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/base\book.cls
+Document Class: book 2023/05/17 v1.4n Standard LaTeX document class
+(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/base\bk10.clo
+File: bk10.clo 2023/05/17 v1.4n Standard LaTeX file (size option)
 )
 \c@part=\count185
-\c@section=\count186
-\c@subsection=\count187
-\c@subsubsection=\count188
-\c@paragraph=\count189
-\c@subparagraph=\count190
-\c@figure=\count191
-\c@table=\count192
+\c@chapter=\count186
+\c@section=\count187
+\c@subsection=\count188
+\c@subsubsection=\count189
+\c@paragraph=\count190
+\c@subparagraph=\count191
+\c@figure=\count192
+\c@table=\count193
 \abovecaptionskip=\skip48
 \belowcaptionskip=\skip49
 \bibindent=\dimen140
 )
-(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/mdwtools\syntax.sty
+(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/subfiles\subfiles.sty
+Package: subfiles 2020/11/14 v2.2 Multi-file projects (package)
+)
+(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.sty
+(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/graphics\keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks17
+)
+\lst@mode=\count194
+\lst@gtempboxa=\box51
+\lst@token=\toks18
+\lst@length=\count195
+\lst@currlwidth=\dimen141
+\lst@column=\count196
+\lst@pos=\count197
+\lst@lostspace=\dimen142
+\lst@width=\dimen143
+\lst@newlines=\count198
+\lst@lineno=\count199
+\lst@maxwidth=\dimen144
+
+(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstmisc.sty
+File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
+\c@lstnumber=\count266
+\lst@skipnumbers=\count267
+\lst@framebox=\box52
+)
+(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.cfg
+File: listings.cfg 2023/02/27 1.9 listings configuration
+))
+Package: listings 2023/02/27 1.9 (Carsten Heinz)
+(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/xcolor\xcolor.sty
+Package: xcolor 2022/06/12 v2.14 LaTeX color extensions (UK)
+
+(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/graphics-cfg\color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 227.
+
+(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/graphics-def\pdftex.def
+File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
+)
+(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/graphics\mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1353.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1357.
+Package xcolor Info: Model `RGB' extended on input line 1369.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1371.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1372.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1373.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1374.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1375.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1376.
+) (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/mdwtools\syntax.sty
 Package: syntax 1996/05/17 1.07 Syntax typesetting (MDW)
 \grammarparsep=\skip50
-\grammarindent=\dimen141
+\grammarindent=\dimen145
 \sdstartspace=\skip51
 \sdendspace=\skip52
 \sdmidskip=\skip53
 \sdtokskip=\skip54
 \sdfinalskip=\skip55
-\sdrulewidth=\dimen142
-\sdcirclediam=\dimen143
-\sdindent=\dimen144
-)
+\sdrulewidth=\dimen146
+\sdcirclediam=\dimen147
+\sdindent=\dimen148
+)))
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
 tex.def
 File: l3backend-pdftex.def 2023-04-19 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count193
-\l__pdf_internal_box=\box51
+\l__color_backend_stack_int=\count268
+\l__pdf_internal_box=\box53
 ) (grammatik.aux)
 \openout1 = `grammatik.aux'.
 
@@ -58,58 +118,111 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 5.
 LaTeX Font Info:    ... okay on input line 5.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 5.
 LaTeX Font Info:    ... okay on input line 5.
+\c@lstlisting=\count269
+
+(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mk
+ii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count270
+\scratchdimen=\dimen149
+\scratchbox=\box54
+\nofMPsegments=\count271
+\nofMParguments=\count272
+\everyMPshowfont=\toks19
+\MPscratchCnt=\count273
+\MPscratchDim=\dimen150
+\MPnumerator=\count274
+\makeMPintoPDFobject=\count275
+\everyMPtoPDFconversion=\toks20
+)
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 11.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 11.
 
-Overfull \hbox (65.90167pt too wide) in paragraph at lines 20--21
-[]\OT1/cmr/m/n/10 'import' [] 'from' [] [ []
- []
-
-
-Overfull \hbox (7.87625pt too wide) in paragraph at lines 22--23
-[]\OT1/cmr/m/n/10 '(' 'model' [] [ 'ver-sion' []
+Overfull \hbox (29.01581pt too wide) in paragraph at lines 20--21
+[]\OT1/cmr/m/n/10 'import' [] 'from' [] [] 
  []
 
 LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 2
-8.
+7.
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/base\omscmr.fd
 File: omscmr.fd 2023/04/13 v2.5m Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 28.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 27.
 
-Overfull \hbox (30.36047pt too wide) in paragraph at lines 40--41
+Overfull \hbox (51.66823pt too wide) in paragraph at lines 26--31
+[]\OT1/cmr/m/n/10 [ [] ] [ 'ex-pand' ] [] [ []
+ []
+
+
+Overfull \hbox (30.36047pt too wide) in paragraph at lines 39--40
 []\OT1/cmr/m/n/10 'struct' [] [ [] ] [ []
  []
 
-[1
+[1{C:/Users/alexa/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}
 
-{C:/Users/alexa/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}] [2]
-(grammatik.aux)
+]
+Overfull \hbox (1.2237pt too wide) in paragraph at lines 46--50
+[]\OT1/cmr/m/n/10 [ [] ] [] [ []
+ []
+
+
+Overfull \hbox (33.25995pt too wide) in paragraph at lines 55--59
+[]\OT1/cmr/m/n/10 'ref' [] '[]' [] [ ',' []
+ []
+
+
+Overfull \hbox (25.60406pt too wide) in paragraph at lines 60--63
+[]\OT1/cmr/m/n/10 'func' [] [] '(' [ []
+ []
+
+
+Overfull \hbox (17.70695pt too wide) in paragraph at lines 69--71
+[]\OT1/cmr/m/n/10 [ [] ] [] [ []
+ []
+
+[2]
+Overfull \hbox (4.24126pt too wide) in paragraph at lines 72--73
+[][] \OT1/cmr/m/n/10 '(' [] ( ',' [])*
+ []
+
+
+Overfull \hbox (29.99937pt too wide) in paragraph at lines 76--77
+[]\OT1/cmr/m/n/10 'entity' [] [ [] ] [ []
+ []
+
+
+Overfull \hbox (71.06595pt too wide) in paragraph at lines 80--81
+[]\OT1/cmr/m/n/10 'interface' [] [ [] ] '\OMS/cmsy/m/n/10 f\OT1/cmr/m/n/10 ' []
+*
+ []
+
+[3] (grammatik.aux)
  ***********
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2023-08-29>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 634 strings out of 475248
- 11038 string characters out of 5757813
- 1928785 words of memory out of 5000000
- 22228 multiletter control sequences out of 15000+600000
- 559188 words of font info for 40 fonts, out of 8000000 for 9000
+ 3169 strings out of 475248
+ 47476 string characters out of 5757813
+ 1931785 words of memory out of 5000000
+ 24717 multiletter control sequences out of 15000+600000
+ 559541 words of font info for 41 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 35i,5n,50p,150b,219s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 62i,6n,80p,281b,266s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
 cmbx12.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/public/ams
 fonts/cm/cmr10.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/pu
-blic/amsfonts/cm/cmsy10.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts
-/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/alexa/AppData/Local/Programs/MiK
-TeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on grammatik.pdf (2 pages, 68211 bytes).
+blic/amsfonts/cm/cmsl10.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts
+/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/alexa/AppData/Local/Programs/MiK
+TeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/alexa/AppData/Local/Pro
+grams/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on grammatik.pdf (3 pages, 87445 bytes).
 PDF statistics:
- 34 PDF objects out of 1000 (max. 8388607)
+ 42 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

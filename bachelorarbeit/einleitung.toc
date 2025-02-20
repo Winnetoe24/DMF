@@ -26,3 +26,12 @@
 \contentsline {subsection}{\numberline {2.1.5}Integration mit verschiedenen Build Tools}{11}{}%
 \contentsline {subsubsection}{Maven}{11}{}%
 \contentsline {subsubsection}{NPM}{11}{}%
+\contentsline {section}{\numberline {2.2}Aufbau der DMF-DSL}{12}{}%
+\contentsline {subsection}{\numberline {2.2.1}Die DSL und die EBNF}{12}{}%
+\contentsline {subsubsection}{Header}{12}{}%
+\contentsline {subsubsection}{Imports}{12}{}%
+\contentsline {subsubsection}{Packages}{13}{}%
+\contentsline {subsubsection}{Structs}{14}{}%
+\contentsline {chapter}{\numberline {3}Anhang}{15}{}%
+\contentsline {section}{\numberline {3.1}EBNF Grammatik für DMF}{15}{}%
+\contentsline {section}{\numberline {3.2}Beispiel}{17}{}%
