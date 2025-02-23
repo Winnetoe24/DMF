@@ -110,7 +110,39 @@ Besonders bei der "entity_block"-Regel ist, dass sie direkt die "struct_content"
 <identifier_statement> ::= 'identifier' '(' <identifier> (',' <identifier>)* ')' ';'
 \end{grammar}
 
+\subsubsection{Interface}
+Interfaces beinhalten Funktionen und können von Structs und Entities implementiert werden.
+Interfaces können auch andere Interfaces implementieren. Dabei werden die Methoden ins Interface übernommen.
+\begin{lstlisting}
+interface IBeispiel implements IAnderesBeispiel {
 
+}
+\end{lstlisting}
+\begin{grammar}
+<interface_block> ::= 'interface' <identifier> [<implements_block>] '\{' <interface_content>* '\}'
+
+<interface_content> ::= [<comment_block>] <func_block> [<override_block>]
+\end{grammar}
+
+\subsubsection{Enum}
+Enum sind Aufzählungen. Jedem Eintrag können mithilfe von Argumenten weitere Werte zugeordnet werden.
+\begin{lstlisting}
+enum EBeispiel {
+    arg int i;
+    
+    KONSTANTE(_,1);
+}
+\end{lstlisting}
+\begin{grammar}
+<enum_block> ::= 'enum' <identifier> '\{' <enum_content>* '\}'
+
+<enum_content> ::= [<comment_block>] <arg_block> [<override_block>]
+\alt [<comment_block>] <enum_constant> [<override_block>]
+
+<enum_constant> ::= <identifier> '(' <enum_index> ( ',' <primitive_value>)* ')' ';'
+
+<enum_index> ::= '_' | <integerValue>
+\end{grammar}
 
 
 %\begin{lstlisting}

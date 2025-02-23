@@ -1,0 +1,79 @@
+\documentclass[./einleitung.tex]{subfiles}
+
+\begin{document}
+\section{Abstraktion des DMF}
+Das DMF basiert auf einer Abstraktion der Datenstrukturen aus mehreren Sprachen.
+Dafür wurden die Sprachen Java, Typescript,Python, Golang, Rust und C analysiert.
+//TODO Auswahl der Sprachen
+\subsection{Analyse}
+\subsubsection{Analyse der Typen}
+Es wurde analysiert, welche Typen als Referenz oder als Wert als Variablentyp genutzt werden können.
+\begin{center}
+\begin{tabular}{| c || m{4em} | m{5em} | m{5em} | m{4.5em} | m{4.5em} | m{4.5em} |}
+\hline
+Typen & Java & Typescript & Python & Golang & Rust & C \\
+\hline
+Wert & Primitive Typen & Primitive Typen & Primitive Typen & Alle Typen & Alle Typen & Alle Typen \\
+\hline
+Referenz & Objekte & Objekte, Arrays, Funktionen, Klassen & Alles außer primitive Typen & Explizit & Explizit & Explizit \\
+\hline
+\end{tabular}
+\end{center}
+TODO:
+Welche Primitive Typen 
+Warum Typen die Keine Pritimive Typen sind als Argumente. (Datetime)
+\subsection{Analyse von Nullwerten}
+Nullwerte sind besonders aus Java bekannt und stellen das Fehlen eines Wertes dar. Es zählt zu der Definition eines Types dazu, zu definieren, ob der Typ Nullwerte erlaubt.
+Dies muss auch für Werte und Referenzen evaluiert werden.
+\begin{center}
+\begin{tabular}{| c || m{4em} | m{5em} | m{5em} | m{4.5em} | m{4.5em} | m{4.5em} |}
+\hline
+Nullwerte & Java & Typescript & Python & Golang & Rust & C \\
+\hline
+Wert & nein & nein & ja & nein & Explizit & nein \\
+\hline
+Referenz & ja & Explizit & ja & ja & Explizit & ja \\
+\hline
+\end{tabular}
+\end{center}
+
+TODO:
+Referenz nullable und Argumente nicht nullable
+
+\subsection{Collectiontypen}
+Um 1:n- oder n:m-Beziehungen im Datenmodell modellieren zu können wurden drei Collection-Typen aus Java ausgewählt und passende Äquivalente zu finden.
+\begin{center}
+\begin{tabular}{| c || m{3em} | m{4.5em} | m{5.5em} | m{4.5em} | m{3em} | m{4.5em} |}
+\hline
+Collectiontypes & Java & Typescript & Python & Golang & Rust & C \\
+\hline
+List & ja & ja (Array) & ja & ja (slice) & ja & ja (Array) \\
+\hline
+Set & ja & ja & ja & nein & ja & nein \\
+\hline
+Map & ja & ja & ja (dictionary)& ja & ja & nein \\
+\hline
+
+\end{tabular}
+\end{center}
+
+TODO: Erklärung der Typen
+Besonderheiten z.B. slice
+
+\subsection{Elemente eines Modells}
+Um mit dem DMF Daten in Strukturen verschiedener Programmiersprachen darstellen zu können, müssen auch diese Abstrahiert werden.
+
+Grundvoraussetzung sind die Pr
+
+Es gibt in jeder Programmiersprache ein Konstrukt mit dem mehrere Variablen zusammengefasst werden können. C nannte diese Konstrukte Structs. Diese Structs besitzen keine Identität.
+
+\subsection{Identität einer Instanz in der Datenbank}
+Ein Modell im DMF Framework soll in einer Datenbank gespeichert werden können.
+Dafür müssen Datenbankschlüssel definiert werden. Ein Schlüssel definiert die Identität eines Zeile in einer Tabelle.
+Diese Identität muss auch im Modell abgebildet werden.
+Das DMF fügt deshalb den Typen "Entity" hinzu, welcher eine Identität besitzt. Er basiert auf dem Struct und kann somit Argumente, Referenzen und Funktionen beinhalten.
+
+
+
+
+\end{document}

@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.1.29)  20 FEB 2025 21:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.1.29)  23 FEB 2025 15:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**./sprache.tex
-(sprache.tex
+**./abstraktion.tex
+(abstraktion.tex
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2023-08-29>
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/subfiles\subfiles.cls
@@ -756,25 +756,35 @@ LaTeX Info: Redefining \maketitle on input line 112.
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/subfiles\subfiles.sty
 Package: subfiles 2020/11/14 v2.2 Multi-file projects (package)
 )
+(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/tools\array.sty
+Package: array 2022/09/04 v2.5g Tabular extension package (FMi)
+\col@sep=\dimen188
+\ar@mcellbox=\box59
+\extrarowheight=\dimen189
+\NC@list=\toks33
+\extratabsurround=\skip74
+\backup@length=\skip75
+\ar@cellbox=\box60
+)
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.sty
 \lst@mode=\count308
-\lst@gtempboxa=\box59
-\lst@token=\toks33
+\lst@gtempboxa=\box61
+\lst@token=\toks34
 \lst@length=\count309
-\lst@currlwidth=\dimen188
+\lst@currlwidth=\dimen190
 \lst@column=\count310
 \lst@pos=\count311
-\lst@lostspace=\dimen189
-\lst@width=\dimen190
+\lst@lostspace=\dimen191
+\lst@width=\dimen192
 \lst@newlines=\count312
 \lst@lineno=\count313
-\lst@maxwidth=\dimen191
+\lst@maxwidth=\dimen193
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstmisc.sty
 File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
 \c@lstnumber=\count314
 \lst@skipnumbers=\count315
-\lst@framebox=\box60
+\lst@framebox=\box62
 )
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.cfg
 File: listings.cfg 2023/02/27 1.9 listings configuration
@@ -782,30 +792,30 @@ File: listings.cfg 2023/02/27 1.9 listings configuration
 Package: listings 2023/02/27 1.9 (Carsten Heinz)
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/mdwtools\syntax.sty
 Package: syntax 1996/05/17 1.07 Syntax typesetting (MDW)
-\grammarparsep=\skip74
-\grammarindent=\dimen192
-\sdstartspace=\skip75
-\sdendspace=\skip76
-\sdmidskip=\skip77
-\sdtokskip=\skip78
-\sdfinalskip=\skip79
-\sdrulewidth=\dimen193
-\sdcirclediam=\dimen194
-\sdindent=\dimen195
+\grammarparsep=\skip76
+\grammarindent=\dimen194
+\sdstartspace=\skip77
+\sdendspace=\skip78
+\sdmidskip=\skip79
+\sdtokskip=\skip80
+\sdfinalskip=\skip81
+\sdrulewidth=\dimen195
+\sdcirclediam=\dimen196
+\sdindent=\dimen197
 )
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption.sty
 Package: caption 2023/08/05 v3.6o Customizing captions (AR)
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption3.sty
 Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
-\caption@tempdima=\dimen196
-\captionmargin=\dimen197
-\caption@leftmargin=\dimen198
-\caption@rightmargin=\dimen199
-\caption@width=\dimen256
-\caption@indent=\dimen257
-\caption@parindent=\dimen258
-\caption@hangindent=\dimen259
+\caption@tempdima=\dimen198
+\captionmargin=\dimen199
+\caption@leftmargin=\dimen256
+\caption@rightmargin=\dimen257
+\caption@width=\dimen258
+\caption@indent=\dimen259
+\caption@parindent=\dimen260
+\caption@hangindent=\dimen261
 Package caption Info: KOMA-Script document class detected.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/caption\caption-koma.st
@@ -818,20 +828,20 @@ KOMA-Script document classes (AR)
 Package caption Info: hyperref package is loaded.
 Package caption Info: listings package is loaded.
 Package caption Info: KOMA-Script scrextend package detected.
-\caption@addmargin@hsize=\dimen260
-\caption@addmargin@linewidth=\dimen261
+\caption@addmargin@hsize=\dimen262
+\caption@addmargin@linewidth=\dimen263
 )
 Package caption Info: Option `declare type' requires the `newfloat' package on 
-input line 42.
+input line 44.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/newfloat\newfloat.sty
 Package: newfloat 2023/10/01 v1.2 Defining new floating environments (AR)
 )
-Package newfloat Info: New float `mytype' with options `' on input line 42.
+Package newfloat Info: New float `mytype' with options `' on input line 44.
 \c@mytype=\count318
 \newfloat@ftype=\count319
-Package newfloat Info: float type `mytype'=8 on input line 42.
-Package tocbasic Info: setting babel extension for `lomytype' on input line 42.
+Package newfloat Info: float type `mytype'=8 on input line 44.
+Package tocbasic Info: setting babel extension for `lomytype' on input line 44.
 
 ))
 Package csquotes Info: Checking for multilingual support...
@@ -851,9 +861,9 @@ LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
 tex.def
 File: l3backend-pdftex.def 2023-04-19 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count320
-\l__pdf_internal_box=\box61
-) (sprache.aux)
-\openout1 = `sprache.aux'.
+\l__pdf_internal_box=\box63
+) (abstraktion.aux)
+\openout1 = `abstraktion.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/nxlmi/m/it on input line 3.
 LaTeX Font Info:    Trying to load font information for OML+nxlmi on input line
@@ -914,16 +924,16 @@ tim
 ii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count323
-\scratchdimen=\dimen262
-\scratchbox=\box62
+\scratchdimen=\dimen264
+\scratchbox=\box64
 \nofMPsegments=\count324
 \nofMParguments=\count325
-\everyMPshowfont=\toks34
+\everyMPshowfont=\toks35
 \MPscratchCnt=\count326
-\MPscratchDim=\dimen263
+\MPscratchDim=\dimen265
 \MPnumerator=\count327
 \makeMPintoPDFobject=\count328
-\everyMPtoPDFconversion=\toks35
+\everyMPtoPDFconversion=\toks36
 )
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-b
 ase.sty
@@ -936,9 +946,9 @@ fg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
 Package hyperref Info: Link coloring ON on input line 3.
- (sprache.out) (sprache.out)
+ (abstraktion.out) (abstraktion.out)
 \@outlinefile=\write3
-\openout3 = `sprache.out'.
+\openout3 = `abstraktion.out'.
 
 Class scrbook Info: loading recommended package `bookmark'.
 (scrbook)           Using `bookmark' together with `hyperref' is recommended,
@@ -974,13 +984,8 @@ LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
 (Font)              scaled to size 12.0pt on input line 4.
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
 (Font)              scaled to size 14.4pt on input line 4.
-
-Underfull \hbox (badness 10000) in paragraph at lines 11--14
-
- []
-
 LaTeX Font Info:    Trying to load font information for OT1+LinuxLibertineT-TLF
- on input line 15.
+ on input line 12.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/libertine\ot1linuxliber
 tinet-tlf.fd
@@ -988,165 +993,171 @@ File: OT1LinuxLibertineT-TLF.fd 2017/03/20 (autoinst) Font definitions for OT1/
 LinuxLibertineT-TLF.
 )
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 12.0pt on input line 15.
+(Font)              scaled to size 12.0pt on input line 12.
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 8.8pt on input line 15.
+(Font)              scaled to size 8.8pt on input line 12.
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 6.6pt on input line 15.
+(Font)              scaled to size 6.6pt on input line 12.
 LaTeX Font Info:    Font shape `OML/nxlmi/m/it' will be
-(Font)              scaled to size 12.0pt on input line 15.
+(Font)              scaled to size 12.0pt on input line 12.
 LaTeX Font Info:    Font shape `OML/nxlmi/m/it' will be
-(Font)              scaled to size 8.8pt on input line 15.
+(Font)              scaled to size 8.8pt on input line 12.
 LaTeX Font Info:    Font shape `OML/nxlmi/m/it' will be
-(Font)              scaled to size 6.6pt on input line 15.
+(Font)              scaled to size 6.6pt on input line 12.
 LaTeX Font Info:    Font shape `LMS/ntxsy/m/n' will be
-(Font)              scaled to size 12.0pt on input line 15.
+(Font)              scaled to size 12.0pt on input line 12.
 LaTeX Font Info:    Font shape `LMS/ntxsy/m/n' will be
-(Font)              scaled to size 8.8pt on input line 15.
+(Font)              scaled to size 8.8pt on input line 12.
 LaTeX Font Info:    Font shape `LMS/ntxsy/m/n' will be
-(Font)              scaled to size 6.6pt on input line 15.
+(Font)              scaled to size 6.6pt on input line 12.
 LaTeX Font Info:    Font shape `LMX/ntxexx/m/n' will be
-(Font)              scaled to size 12.0pt on input line 15.
+(Font)              scaled to size 12.0pt on input line 12.
 LaTeX Font Info:    Font shape `LMX/ntxexx/m/n' will be
-(Font)              scaled to size 8.8pt on input line 15.
+(Font)              scaled to size 8.8pt on input line 12.
 LaTeX Font Info:    Font shape `LMX/ntxexx/m/n' will be
-(Font)              scaled to size 6.6pt on input line 15.
+(Font)              scaled to size 6.6pt on input line 12.
 LaTeX Font Info:    Trying to load font information for U+ntxmia on input line 
-15.
+12.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/newtx\untxmia.fd
 File: untxmia.fd 2024/04/09 Fontinst v1.933 font definitions for U/ntxmia.
 )
 LaTeX Font Info:    Font shape `U/ntxmia/m/it' will be
-(Font)              scaled to size 12.0pt on input line 15.
+(Font)              scaled to size 12.0pt on input line 12.
 LaTeX Font Info:    Font shape `U/ntxmia/m/it' will be
-(Font)              scaled to size 8.8pt on input line 15.
+(Font)              scaled to size 8.8pt on input line 12.
 LaTeX Font Info:    Font shape `U/ntxmia/m/it' will be
-(Font)              scaled to size 6.6pt on input line 15.
+(Font)              scaled to size 6.6pt on input line 12.
 LaTeX Font Info:    Trying to load font information for U+ntxsym on input line 
-15.
+12.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/newtx\untxsym.fd
 File: untxsym.fd 2023/08/16 Fontinst v1.933 font definitions for U/ntxsym.
 )
 LaTeX Font Info:    Font shape `U/ntxsym/m/n' will be
-(Font)              scaled to size 12.0pt on input line 15.
+(Font)              scaled to size 12.0pt on input line 12.
 LaTeX Font Info:    Font shape `U/ntxsym/m/n' will be
-(Font)              scaled to size 8.8pt on input line 15.
+(Font)              scaled to size 8.8pt on input line 12.
 LaTeX Font Info:    Font shape `U/ntxsym/m/n' will be
-(Font)              scaled to size 6.6pt on input line 15.
+(Font)              scaled to size 6.6pt on input line 12.
 LaTeX Font Info:    Trying to load font information for U+ntxsyc on input line 
-15.
+12.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/newtx\untxsyc.fd
 File: untxsyc.fd 2012/04/12 Fontinst v1.933 font definitions for U/ntxsyc.
 )
 LaTeX Font Info:    Font shape `U/ntxsyc/m/n' will be
-(Font)              scaled to size 12.0pt on input line 15.
+(Font)              scaled to size 12.0pt on input line 12.
 LaTeX Font Info:    Font shape `U/ntxsyc/m/n' will be
-(Font)              scaled to size 8.8pt on input line 15.
+(Font)              scaled to size 8.8pt on input line 12.
 LaTeX Font Info:    Font shape `U/ntxsyc/m/n' will be
-(Font)              scaled to size 6.6pt on input line 15.
+(Font)              scaled to size 6.6pt on input line 12.
 LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
-(Font)              scaled to size 12.0pt on input line 15.
+(Font)              scaled to size 12.0pt on input line 12.
 LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
-(Font)              scaled to size 8.8pt on input line 15.
+(Font)              scaled to size 8.8pt on input line 12.
 LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
-(Font)              scaled to size 6.6pt on input line 15.
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
-(Font)              scaled to size 12.0pt on input line 15.
+(Font)              scaled to size 6.6pt on input line 12.
 
-Overfull \hbox (61.20403pt too wide) in paragraph at lines 15--16
-[][] [] [] [] \T1/LinuxLibertineT-TLF/m/n/12 [ []]
+Underfull \hbox (badness 10000) in paragraph at lines 16--16
+[]|\T1/LinuxLibertineT-TLF/m/n/12 Primitive
  []
 
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 20.
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 10.95pt on input line 20.
-LaTeX Font Info:    Trying to load font information for T1+zi4 on input line 20
-.
-(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/inconsolata\t1zi4.fd
-File: t1zi4.fd 2018/01/14 T1/zi4 (Inconsolata)
-)
-LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 10.95pt on input line 20.
-Package hyperref Info: bookmark level for unknown mytype defaults to 0 on input
- line 26.
+
+Underfull \hbox (badness 10000) in paragraph at lines 16--16
+[]|\T1/LinuxLibertineT-TLF/m/n/12 Primitive
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 16--16
+[]|\T1/LinuxLibertineT-TLF/m/n/12 Primitive
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--18
+[]|\T1/LinuxLibertineT-TLF/m/n/12 Objekte,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--18
+\T1/LinuxLibertineT-TLF/m/n/12 Ar-rays,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--18
+\T1/LinuxLibertineT-TLF/m/n/12 Funk-tio-nen,
+ []
+
+
+Underfull \hbox (badness 2042) in paragraph at lines 18--18
+[]|\T1/LinuxLibertineT-TLF/m/n/12 Alles au-ÿer
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--18
+\T1/LinuxLibertineT-TLF/m/n/12 pri-mi-ti-ve
+ []
+
+
+Overfull \hbox (24.68109pt too wide) in paragraph at lines 12--21
+ [] 
+ []
+
+
+Overfull \hbox (30.8131pt too wide) in paragraph at lines 29--38
+ [] 
+ []
+
+
+Overfull \hbox (22.38922pt too wide) in paragraph at lines 44--45
+\T1/LinuxLibertineT-TLF/m/n/12 Um 1:n- oder n:m-Beziehungen im Da-ten-mo-dell m
+o-del-lie-ren zu kön-nen wur-den drei Collection-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 54--54
+[]|\T1/LinuxLibertineT-TLF/m/n/12 ja (dic-tio-na-
+ []
+
+
+Overfull \hbox (28.50908pt too wide) in paragraph at lines 46--58
+ [] 
+ []
+
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/sl' in size <12> not a
 vailable
 (Font)              Font shape `T1/LinuxLibertineT-TLF/m/it' tried instead on i
-nput line 42.
+nput line 58.
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
-(Font)              scaled to size 12.0pt on input line 42.
-
+(Font)              scaled to size 12.0pt on input line 58.
 [1{C:/Users/alexa/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/al
 exa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertine/lbtn_7grukw.enc}
 
 {C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertine/lbtn_25
 tcsq.enc}{C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertin
-e/lbtn_76gpa5.enc}{C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips
-/inconsolata/i4-t1-0.enc}]
-Underfull \hbox (badness 10000) in paragraph at lines 53--55
-
- []
-
-
-Overfull \hbox (16.35771pt too wide) in paragraph at lines 61--67
-\T1/LinuxLibertineT-TLF/m/n/12 Jedes Packa-ge-Ele-ment kann mit ei-nem Kom-men-
-tar, dem Key-word ëx-pan-dünd ei-nem Override-
- []
-
-[2]
-Overfull \hbox (74.72935pt too wide) in paragraph at lines 83--85
-[][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (58.64801pt too wide) in paragraph at lines 89--90
-[]\T1/LinuxLibertineT-TLF/m/n/12 'struct' [] [[]] [[]] '{' []*
- []
-
-
-Overfull \hbox (107.57962pt too wide) in paragraph at lines 100--101
-[][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-[3]
-Overfull \hbox (59.008pt too wide) in paragraph at lines 108--109
-[]\T1/LinuxLibertineT-TLF/m/n/12 'entity' [] [[]] [[]] '{' []*
- []
-
-
-Overfull \hbox (1.21368pt too wide) in paragraph at lines 122--123
-[]\T1/LinuxLibertineT-TLF/m/n/12 'interface' [] [[]] '{' []*
- []
-
-[4] (sprache.aux)
+e/lbtn_76gpa5.enc}] [2] (abstraktion.aux)
  ***********
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2023-08-29>
  ***********
-Package rerunfilecheck Info: File `sprache.out' has not changed.
+Package rerunfilecheck Info: File `abstraktion.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 23880 strings out of 475248
- 407281 string characters out of 5757813
- 1939785 words of memory out of 5000000
- 44995 multiletter control sequences out of 15000+600000
- 604769 words of font info for 76 fonts, out of 8000000 for 9000
+ 23506 strings out of 475248
+ 403802 string characters out of 5757813
+ 1940785 words of memory out of 5000000
+ 44672 multiletter control sequences out of 15000+600000
+ 598599 words of font info for 71 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 142i,9n,145p,10948b,1222s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/public/inconsolata/
-InconsolataN-Regular.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/ty
-pe1/public/libertine/LinBiolinumTB.pfb><C:/Users/alexa/AppData/Local/Programs/M
-iKTeX/fonts/type1/public/libertine/LinLibertineT.pfb><C:/Users/alexa/AppData/Lo
-cal/Programs/MiKTeX/fonts/type1/public/libertine/LinLibertineTI.pfb><C:/Users/a
-lexa/AppData/Local/Programs/MiKTeX/fonts/type1/public/newtx/txsys.pfb>
-Output written on sprache.pdf (4 pages, 237063 bytes).
+ 142i,8n,145p,10952b,600s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/public/libertine/Li
+nBiolinumTB.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/publi
+c/libertine/LinLibertineT.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fon
+ts/type1/public/libertine/LinLibertineTI.pfb>
+Output written on abstraktion.pdf (2 pages, 192573 bytes).
 PDF statistics:
- 119 PDF objects out of 1000 (max. 8388607)
- 54 named destinations out of 1000 (max. 500000)
- 17 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 54 PDF objects out of 1000 (max. 8388607)
+ 9 named destinations out of 1000 (max. 500000)
+ 33 words of extra memory for PDF output out of 10000 (max. 10000000)
 
