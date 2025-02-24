@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.1.29)  23 FEB 2025 16:59
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.1.29)  24 FEB 2025 13:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -843,7 +843,10 @@ Package newfloat Info: New float `mytype' with options `' on input line 44.
 Package newfloat Info: float type `mytype'=8 on input line 44.
 Package tocbasic Info: setting babel extension for `lomytype' on input line 44.
 
-))
+
+(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/tools\hhline.sty
+Package: hhline 2020/01/04 v2.04 Table rule package (DPC)
+)))
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 LaTeX Font Info:    Trying to load font information for T1+LinuxLibertineT-TLF 
@@ -985,7 +988,7 @@ LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
 (Font)              scaled to size 14.4pt on input line 4.
 LaTeX Font Info:    Trying to load font information for OT1+LinuxLibertineT-TLF
- on input line 12.
+ on input line 19.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/libertine\ot1linuxliber
 tinet-tlf.fd
@@ -993,162 +996,201 @@ File: OT1LinuxLibertineT-TLF.fd 2017/03/20 (autoinst) Font definitions for OT1/
 LinuxLibertineT-TLF.
 )
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 12.0pt on input line 12.
+(Font)              scaled to size 12.0pt on input line 19.
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 8.8pt on input line 12.
+(Font)              scaled to size 8.8pt on input line 19.
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 6.6pt on input line 12.
+(Font)              scaled to size 6.6pt on input line 19.
 LaTeX Font Info:    Font shape `OML/nxlmi/m/it' will be
-(Font)              scaled to size 12.0pt on input line 12.
+(Font)              scaled to size 12.0pt on input line 19.
 LaTeX Font Info:    Font shape `OML/nxlmi/m/it' will be
-(Font)              scaled to size 8.8pt on input line 12.
+(Font)              scaled to size 8.8pt on input line 19.
 LaTeX Font Info:    Font shape `OML/nxlmi/m/it' will be
-(Font)              scaled to size 6.6pt on input line 12.
+(Font)              scaled to size 6.6pt on input line 19.
 LaTeX Font Info:    Font shape `LMS/ntxsy/m/n' will be
-(Font)              scaled to size 12.0pt on input line 12.
+(Font)              scaled to size 12.0pt on input line 19.
 LaTeX Font Info:    Font shape `LMS/ntxsy/m/n' will be
-(Font)              scaled to size 8.8pt on input line 12.
+(Font)              scaled to size 8.8pt on input line 19.
 LaTeX Font Info:    Font shape `LMS/ntxsy/m/n' will be
-(Font)              scaled to size 6.6pt on input line 12.
+(Font)              scaled to size 6.6pt on input line 19.
 LaTeX Font Info:    Font shape `LMX/ntxexx/m/n' will be
-(Font)              scaled to size 12.0pt on input line 12.
+(Font)              scaled to size 12.0pt on input line 19.
 LaTeX Font Info:    Font shape `LMX/ntxexx/m/n' will be
-(Font)              scaled to size 8.8pt on input line 12.
+(Font)              scaled to size 8.8pt on input line 19.
 LaTeX Font Info:    Font shape `LMX/ntxexx/m/n' will be
-(Font)              scaled to size 6.6pt on input line 12.
+(Font)              scaled to size 6.6pt on input line 19.
 LaTeX Font Info:    Trying to load font information for U+ntxmia on input line 
-12.
+19.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/newtx\untxmia.fd
 File: untxmia.fd 2024/04/09 Fontinst v1.933 font definitions for U/ntxmia.
 )
 LaTeX Font Info:    Font shape `U/ntxmia/m/it' will be
-(Font)              scaled to size 12.0pt on input line 12.
+(Font)              scaled to size 12.0pt on input line 19.
 LaTeX Font Info:    Font shape `U/ntxmia/m/it' will be
-(Font)              scaled to size 8.8pt on input line 12.
+(Font)              scaled to size 8.8pt on input line 19.
 LaTeX Font Info:    Font shape `U/ntxmia/m/it' will be
-(Font)              scaled to size 6.6pt on input line 12.
+(Font)              scaled to size 6.6pt on input line 19.
 LaTeX Font Info:    Trying to load font information for U+ntxsym on input line 
-12.
+19.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/newtx\untxsym.fd
 File: untxsym.fd 2023/08/16 Fontinst v1.933 font definitions for U/ntxsym.
 )
 LaTeX Font Info:    Font shape `U/ntxsym/m/n' will be
-(Font)              scaled to size 12.0pt on input line 12.
+(Font)              scaled to size 12.0pt on input line 19.
 LaTeX Font Info:    Font shape `U/ntxsym/m/n' will be
-(Font)              scaled to size 8.8pt on input line 12.
+(Font)              scaled to size 8.8pt on input line 19.
 LaTeX Font Info:    Font shape `U/ntxsym/m/n' will be
-(Font)              scaled to size 6.6pt on input line 12.
+(Font)              scaled to size 6.6pt on input line 19.
 LaTeX Font Info:    Trying to load font information for U+ntxsyc on input line 
-12.
+19.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/newtx\untxsyc.fd
 File: untxsyc.fd 2012/04/12 Fontinst v1.933 font definitions for U/ntxsyc.
 )
 LaTeX Font Info:    Font shape `U/ntxsyc/m/n' will be
-(Font)              scaled to size 12.0pt on input line 12.
+(Font)              scaled to size 12.0pt on input line 19.
 LaTeX Font Info:    Font shape `U/ntxsyc/m/n' will be
-(Font)              scaled to size 8.8pt on input line 12.
+(Font)              scaled to size 8.8pt on input line 19.
 LaTeX Font Info:    Font shape `U/ntxsyc/m/n' will be
-(Font)              scaled to size 6.6pt on input line 12.
+(Font)              scaled to size 6.6pt on input line 19.
 LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
-(Font)              scaled to size 12.0pt on input line 12.
+(Font)              scaled to size 12.0pt on input line 19.
 LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
-(Font)              scaled to size 8.8pt on input line 12.
+(Font)              scaled to size 8.8pt on input line 19.
 LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
-(Font)              scaled to size 6.6pt on input line 12.
+(Font)              scaled to size 6.6pt on input line 19.
 
-Underfull \hbox (badness 10000) in paragraph at lines 16--16
+Underfull \hbox (badness 10000) in paragraph at lines 23--23
 []|\T1/LinuxLibertineT-TLF/m/n/12 Primitive
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 16--16
+Underfull \hbox (badness 10000) in paragraph at lines 23--23
 []|\T1/LinuxLibertineT-TLF/m/n/12 Primitive
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 16--16
+Underfull \hbox (badness 10000) in paragraph at lines 23--23
 []|\T1/LinuxLibertineT-TLF/m/n/12 Primitive
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 18--18
+Underfull \hbox (badness 10000) in paragraph at lines 25--25
 []|\T1/LinuxLibertineT-TLF/m/n/12 Objekte,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 18--18
+Underfull \hbox (badness 10000) in paragraph at lines 25--25
 \T1/LinuxLibertineT-TLF/m/n/12 Ar-rays,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 18--18
+Underfull \hbox (badness 10000) in paragraph at lines 25--25
 \T1/LinuxLibertineT-TLF/m/n/12 Funk-tio-nen,
  []
 
 
-Underfull \hbox (badness 2042) in paragraph at lines 18--18
+Underfull \hbox (badness 2042) in paragraph at lines 25--25
 []|\T1/LinuxLibertineT-TLF/m/n/12 Alles au-ÿer
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 18--18
+Underfull \hbox (badness 10000) in paragraph at lines 25--25
 \T1/LinuxLibertineT-TLF/m/n/12 pri-mi-ti-ve
  []
 
 
-Overfull \hbox (24.68109pt too wide) in paragraph at lines 12--21
+Overfull \hbox (24.68109pt too wide) in paragraph at lines 19--28
  [] 
  []
 
 
-Overfull \hbox (30.8131pt too wide) in paragraph at lines 29--38
- [] 
+Underfull \hbox (badness 3646) in paragraph at lines 35--36
+[]|\T1/LinuxLibertineT-TLF/m/n/12 byte, short, int,
  []
 
 
-Overfull \hbox (22.38922pt too wide) in paragraph at lines 44--45
-\T1/LinuxLibertineT-TLF/m/n/12 Um 1:n- oder n:m-Beziehungen im Da-ten-mo-dell m
-o-del-lie-ren zu kön-nen wur-den drei Collection-
+Underfull \hbox (badness 1082) in paragraph at lines 35--36
+\T1/LinuxLibertineT-TLF/m/n/12 long, float, dou-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 54--54
-[]|\T1/LinuxLibertineT-TLF/m/n/12 ja (dic-tio-na-
- []
-
-
-Overfull \hbox (28.50908pt too wide) in paragraph at lines 46--58
- [] 
+Underfull \hbox (badness 10000) in paragraph at lines 36--37
+[]|\T1/LinuxLibertineT-TLF/m/n/12 number, bi-gint,
  []
 
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/sl' in size <12> not a
 vailable
 (Font)              Font shape `T1/LinuxLibertineT-TLF/m/it' tried instead on i
-nput line 58.
+nput line 46.
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
-(Font)              scaled to size 12.0pt on input line 58.
+(Font)              scaled to size 12.0pt on input line 46.
 [1{C:/Users/alexa/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/al
 exa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertine/lbtn_7grukw.enc}
 
 {C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertine/lbtn_25
 tcsq.enc}{C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertin
 e/lbtn_76gpa5.enc}]
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
-(Font)              scaled to size 12.0pt on input line 77.
+Overfull \hbox (30.8131pt too wide) in paragraph at lines 47--56
+ [] 
+ []
 
+
+Overfull \hbox (22.38922pt too wide) in paragraph at lines 62--63
+\T1/LinuxLibertineT-TLF/m/n/12 Um 1:n- oder n:m-Beziehungen im Da-ten-mo-dell m
+o-del-lie-ren zu kön-nen wur-den drei Collection-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 72--72
+[]|\T1/LinuxLibertineT-TLF/m/n/12 ja (dic-tio-na-
+ []
+
+
+Overfull \hbox (28.50908pt too wide) in paragraph at lines 64--76
+ [] 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 77--81
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 82--83
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 84--85
+
+ []
+
+[2]
+Underfull \hbox (badness 10000) in paragraph at lines 96--105
+
+ []
+
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
+(Font)              scaled to size 12.0pt on input line 129.
 
 LaTeX Warning: Citation `https://dl.acm.org/doi/pdf/10.1145/6041.6042' on page 
-2 undefined on input line 77.
+3 undefined on input line 129.
+
+[3]
+
+LaTeX Warning: Citation `978-3-8348-9999-6.pdf' on page 4 undefined on input li
+ne 134.
 
 
-LaTeX Warning: Citation `978-3-8348-9999-6.pdf' on page 2 undefined on input li
-ne 82.
+Underfull \hbox (badness 10000) in paragraph at lines 144--149
 
-[2{C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertine/lbtn_
-nh77jq.enc}] [3] (abstraktion.aux)
+ []
+
+[4{C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertine/lbtn_
+nh77jq.enc}] [5] [6] (abstraktion.aux)
  ***********
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2023-08-29>
@@ -1161,21 +1203,21 @@ Package rerunfilecheck Info: File `abstraktion.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 23529 strings out of 475248
- 404139 string characters out of 5757813
- 1940785 words of memory out of 5000000
- 44679 multiletter control sequences out of 15000+600000
+ 23563 strings out of 475248
+ 404795 string characters out of 5757813
+ 1936785 words of memory out of 5000000
+ 44697 multiletter control sequences out of 15000+600000
  603854 words of font info for 73 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 142i,8n,145p,10952b,600s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 142i,9n,145p,10952b,605s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/public/libertine/Li
 nBiolinumTB.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/publi
 c/libertine/LinLibertineT.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fon
 ts/type1/public/libertine/LinLibertineTB.pfb><C:/Users/alexa/AppData/Local/Prog
 rams/MiKTeX/fonts/type1/public/libertine/LinLibertineTI.pfb>
-Output written on abstraktion.pdf (3 pages, 284244 bytes).
+Output written on abstraktion.pdf (6 pages, 299910 bytes).
 PDF statistics:
- 78 PDF objects out of 1000 (max. 8388607)
- 22 named destinations out of 1000 (max. 500000)
+ 102 PDF objects out of 1000 (max. 8388607)
+ 35 named destinations out of 1000 (max. 500000)
  33 words of extra memory for PDF output out of 10000 (max. 10000000)
 
