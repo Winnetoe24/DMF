@@ -1,12 +1,19 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.1.29)  24 FEB 2025 16:35
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.1.29)  24 FEB 2025 16:30
 entering extended mode
  restricted \write18 enabled.
+ file:line:error style messages enabled.
  %&-line parsing enabled.
-**./einleitung.tex
-(einleitung.tex
+**./semantik.tex
+(semantik.tex
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2023-08-29>
-(abarbeit.cls
+(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/subfiles\subfiles.cls
+Document Class: subfiles 2020/11/14 v2.2 Multi-file projects (class)
+Preamble taken from file `./einleitung.tex'
+(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/import\import.sty
+Package: import 2020/04/01  v 6.2
+)
+(einleitung.tex (abarbeit.cls
 Document Class: abarbeit 2024/05/22 abarbeit
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/base\ifthen.sty
 Package: ifthen 2022/04/13 v1.1d Standard LaTeX ifthen package (DPC)
@@ -746,8 +753,6 @@ Grid set 16 x 16 = 37.34424pt x 52.81543pt
 TextBlockOrigin set to 0pt x 0pt
 )
 LaTeX Info: Redefining \maketitle on input line 112.
-) (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/import\import.sty
-Package: import 2020/04/01  v 6.2
 )
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/subfiles\subfiles.sty
 Package: subfiles 2020/11/14 v2.2 Multi-file projects (package)
@@ -842,11 +847,11 @@ Package tocbasic Info: setting babel extension for `lomytype' on input line 45.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/tools\hhline.sty
 Package: hhline 2020/01/04 v2.04 Table rule package (DPC)
-)
+)))
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 LaTeX Font Info:    Trying to load font information for T1+LinuxLibertineT-TLF 
-on input line 61.
+on input line 4.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/libertine\t1linuxlibert
 inet-tlf.fd
@@ -854,66 +859,66 @@ File: T1LinuxLibertineT-TLF.fd 2017/03/20 (autoinst) Font definitions for T1/Li
 nuxLibertineT-TLF.
 )
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 12.0pt on input line 61.
+(Font)              scaled to size 12.0pt on input line 4.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdf
 tex.def
 File: l3backend-pdftex.def 2023-04-19 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count320
 \l__pdf_internal_box=\box63
-) (einleitung.aux)
-\openout1 = `einleitung.aux'.
+) (C:/Code\DMF\auxil\semantik.aux)
+\openout1 = `semantik.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/nxlmi/m/it on input line 61.
+LaTeX Font Info:    Checking defaults for OML/nxlmi/m/it on input line 4.
 LaTeX Font Info:    Trying to load font information for OML+nxlmi on input line
- 61.
+ 4.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/newtx\omlnxlmi.fd
 File: omlnxlmi.fd 2013/11/19 Fontinst v1.933 font definitions for OML/nxlmi.
 )
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for U/ntxexa/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for U/ntxexa/m/n on input line 4.
 LaTeX Font Info:    Trying to load font information for U+ntxexa on input line 
-61.
+4.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/newtx\untxexa.fd
 File: untxexa.fd 2012/04/16 Fontinst v1.933 font definitions for U/ntxexa.
 )
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for LMS/ntxsy/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for LMS/ntxsy/m/n on input line 4.
 LaTeX Font Info:    Trying to load font information for LMS+ntxsy on input line
- 61.
+ 4.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/newtx\lmsntxsy.fd
 File: lmsntxsy.fd 2016/07/02 Fontinst v1.933 font definitions for LMS/ntxsy.
 )
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for LMX/ntxexx/m/n on input line 61.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for LMX/ntxexx/m/n on input line 4.
 LaTeX Font Info:    Trying to load font information for LMX+ntxexx on input lin
-e 61.
+e 4.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/newtx\lmxntxexx.fd
 File: lmxntxexx.fd 2016/07/03 Fontinst v1.933 font definitions for LMX/ntxexx.
 )
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 61.
-LaTeX Font Info:    ... okay on input line 61.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 4.
+LaTeX Font Info:    ... okay on input line 4.
 \c@mv@tabular=\count321
 \c@mv@boldtabular=\count322
-LaTeX Info: Command `\dddot' is already robust on input line 61.
-LaTeX Info: Command `\ddddot' is already robust on input line 61.
+LaTeX Info: Command `\dddot' is already robust on input line 4.
+LaTeX Info: Command `\ddddot' is already robust on input line 4.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/upquote\upquote.sty
 Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
@@ -944,10 +949,10 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 fg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring ON on input line 61.
- (einleitung.out) (einleitung.out)
+Package hyperref Info: Link coloring ON on input line 4.
+ (C:/Code\DMF\auxil\semantik.out) (C:/Code\DMF\auxil\semantik.out)
 \@outlinefile=\write3
-\openout3 = `einleitung.out'.
+\openout3 = `semantik.out'.
 
 Class scrbook Info: loading recommended package `bookmark'.
 (scrbook)           Using `bookmark' together with `hyperref' is recommended,
@@ -956,7 +961,7 @@ Class scrbook Info: loading recommended package `bookmark'.
 (scrbook)           `bookmarkpackage=false' before \begin{document} and
 (scrbook)           you can avoid this message adding:
 (scrbook)             \usepackage{bookmark}
-(scrbook)           before \begin{document} on input line 61.
+(scrbook)           before \begin{document} on input line 4.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/bookmark\bookmark.sty
 Package: bookmark 2023-12-10 v1.31 PDF bookmarks (HO)
@@ -969,100 +974,8 @@ File: bkm-pdftex.def 2023-12-10 v1.31 bookmark driver for pdfTeX and luaTeX (HO
 \c@lstlisting=\count330
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Trying to load font information for T1+FiraSans-LF on input
- line 62.
-
-(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/fira\t1firasans-lf.fd
-File: T1FiraSans-LF.fd 2019/10/10 (autoinst) Font definitions for T1/FiraSans-L
-F.
-)
-LaTeX Font Info:    Font shape `T1/FiraSans-LF/l/n' in size <12> not available
-(Font)              Font shape `T1/FiraSans-LF/light/n' tried instead on input 
-line 62.
-LaTeX Font Info:    Font shape `T1/FiraSans-LF/light/n' will be
-(Font)              scaled to size 10.79993pt on input line 62.
-
-
-Package typearea Warning: \typearea used at group level 3.
-(typearea)                Using \typearea inside any group, e.g.
-(typearea)                environments, math mode, boxes, etc. may result in
-(typearea)                many type setting problems.
-(typearea)                You should move the command \typearea
-(typearea)                outside all groups on input line 62.
-
-Package typearea Info: These are the values describing the layout:
-(typearea)             DIV  = 13
-(typearea)             BCOR = 28.45274pt
-(typearea)             \paperwidth      = 597.50793pt
-(typearea)              \textwidth      = 437.73479pt
-(typearea)              DIV departure   = -7%
-(typearea)              \evensidemargin = 15.27695pt
-(typearea)              \oddsidemargin  = -0.04378pt
-(typearea)             \paperheight     = 845.04694pt
-(typearea)              \textheight     = 664.5pt
-(typearea)              \topmargin      = -47.14139pt
-(typearea)              \headheight     = 18.125pt
-(typearea)              \headsep        = 21.75pt
-(typearea)              \topskip        = 12.0pt
-(typearea)              \footskip       = 50.75pt
-(typearea)              \baselineskip   = 14.5pt
-(typearea)              on input line 62.
-Package typearea Info: Using dirty hack to recalculate internal output
-(typearea)             dimensions of LaTeX on input line 62.
-<bilder/tu-dortmund-logo.pdf, id=3, 254.18713pt x 44.6192pt>
-File: bilder/tu-dortmund-logo.pdf Graphic file (type pdf)
-<use bilder/tu-dortmund-logo.pdf>
-Package pdftex.def Info: bilder/tu-dortmund-logo.pdf  used on input line 62.
-(pdftex.def)             Requested size: 163.88788pt x 28.76996pt.
-LaTeX Font Info:    Font shape `T1/FiraSans-LF/l/n' in size <17.28> not availab
-le
-(Font)              Font shape `T1/FiraSans-LF/light/n' tried instead on input 
-line 62.
-LaTeX Font Info:    Font shape `T1/FiraSans-LF/light/n' will be
-(Font)              scaled to size 15.55188pt on input line 62.
-LaTeX Font Info:    Font shape `T1/FiraSans-LF/b/n' in size <12> not available
-(Font)              Font shape `T1/FiraSans-LF/bold/n' tried instead on input l
-ine 62.
-LaTeX Font Info:    Font shape `T1/FiraSans-LF/bold/n' will be
-(Font)              scaled to size 10.79993pt on input line 62.
-LaTeX Font Info:    Font shape `T1/FiraSans-LF/b/n' in size <17.28> not availab
-le
-(Font)              Font shape `T1/FiraSans-LF/bold/n' tried instead on input l
-ine 62.
-LaTeX Font Info:    Font shape `T1/FiraSans-LF/bold/n' will be
-(Font)              scaled to size 15.55188pt on input line 62.
-[1
-
-
-
-{C:/Users/alexa/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/alex
-a/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/fira/fir_tz2nek.enc} <./bilder/
-tu-dortmund-logo.pdf>]
-Package typearea Info: These are the values describing the layout:
-(typearea)             DIV  = 13
-(typearea)             BCOR = 28.45274pt
-(typearea)             \paperwidth      = 597.50793pt
-(typearea)              \textwidth      = 437.73479pt
-(typearea)              DIV departure   = -7%
-(typearea)              \evensidemargin = 15.27695pt
-(typearea)              \oddsidemargin  = -0.04378pt
-(typearea)             \paperheight     = 845.04694pt
-(typearea)              \textheight     = 664.5pt
-(typearea)              \topmargin      = -47.14139pt
-(typearea)              \headheight     = 18.125pt
-(typearea)              \headsep        = 21.75pt
-(typearea)              \topskip        = 12.0pt
-(typearea)              \footskip       = 50.75pt
-(typearea)              \baselineskip   = 14.5pt
-(typearea)              on input line 62.
-Package typearea Info: Using dirty hack to recalculate internal output
-(typearea)             dimensions of LaTeX on input line 62.
- [2
-
-
-]
 LaTeX Font Info:    Trying to load font information for T1+LinuxBiolinumT-TLF o
-n input line 63.
+n input line 5.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/libertine\t1linuxbiolin
 umt-tlf.fd
@@ -1070,490 +983,50 @@ File: T1LinuxBiolinumT-TLF.fd 2017/03/20 (autoinst) Font definitions for T1/Lin
 uxBiolinumT-TLF.
 )
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
-(Font)              scaled to size 12.0pt on input line 63.
+(Font)              scaled to size 12.0pt on input line 5.
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
-(Font)              scaled to size 12.0pt on input line 63.
+(Font)              scaled to size 12.0pt on input line 5.
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
-(Font)              scaled to size 17.28pt on input line 63.
- (einleitung.toc
-LaTeX Font Info:    Trying to load font information for OT1+LinuxLibertineT-TLF
- on input line 4.
+(Font)              scaled to size 14.4pt on input line 5.
 
-(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/libertine\ot1linuxliber
-tinet-tlf.fd
-File: OT1LinuxLibertineT-TLF.fd 2017/03/20 (autoinst) Font definitions for OT1/
-LinuxLibertineT-TLF.
-)
-LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 12.0pt on input line 4.
-LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 8.8pt on input line 4.
-LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 6.6pt on input line 4.
-LaTeX Font Info:    Font shape `OML/nxlmi/m/it' will be
-(Font)              scaled to size 12.0pt on input line 4.
-LaTeX Font Info:    Font shape `OML/nxlmi/m/it' will be
-(Font)              scaled to size 8.8pt on input line 4.
-LaTeX Font Info:    Font shape `OML/nxlmi/m/it' will be
-(Font)              scaled to size 6.6pt on input line 4.
-LaTeX Font Info:    Font shape `LMS/ntxsy/m/n' will be
-(Font)              scaled to size 12.0pt on input line 4.
-LaTeX Font Info:    Font shape `LMS/ntxsy/m/n' will be
-(Font)              scaled to size 8.8pt on input line 4.
-LaTeX Font Info:    Font shape `LMS/ntxsy/m/n' will be
-(Font)              scaled to size 6.6pt on input line 4.
-LaTeX Font Info:    Font shape `LMX/ntxexx/m/n' will be
-(Font)              scaled to size 12.0pt on input line 4.
-LaTeX Font Info:    Font shape `LMX/ntxexx/m/n' will be
-(Font)              scaled to size 8.8pt on input line 4.
-LaTeX Font Info:    Font shape `LMX/ntxexx/m/n' will be
-(Font)              scaled to size 6.6pt on input line 4.
-LaTeX Font Info:    Trying to load font information for U+ntxmia on input line 
-4.
-
-(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/newtx\untxmia.fd
-File: untxmia.fd 2024/04/09 Fontinst v1.933 font definitions for U/ntxmia.
-)
-LaTeX Font Info:    Font shape `U/ntxmia/m/it' will be
-(Font)              scaled to size 12.0pt on input line 4.
-LaTeX Font Info:    Font shape `U/ntxmia/m/it' will be
-(Font)              scaled to size 8.8pt on input line 4.
-LaTeX Font Info:    Font shape `U/ntxmia/m/it' will be
-(Font)              scaled to size 6.6pt on input line 4.
-LaTeX Font Info:    Trying to load font information for U+ntxsym on input line 
-4.
-
-(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/newtx\untxsym.fd
-File: untxsym.fd 2023/08/16 Fontinst v1.933 font definitions for U/ntxsym.
-)
-LaTeX Font Info:    Font shape `U/ntxsym/m/n' will be
-(Font)              scaled to size 12.0pt on input line 4.
-LaTeX Font Info:    Font shape `U/ntxsym/m/n' will be
-(Font)              scaled to size 8.8pt on input line 4.
-LaTeX Font Info:    Font shape `U/ntxsym/m/n' will be
-(Font)              scaled to size 6.6pt on input line 4.
-LaTeX Font Info:    Trying to load font information for U+ntxsyc on input line 
-4.
-
-(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/newtx\untxsyc.fd
-File: untxsyc.fd 2012/04/12 Fontinst v1.933 font definitions for U/ntxsyc.
-)
-LaTeX Font Info:    Font shape `U/ntxsyc/m/n' will be
-(Font)              scaled to size 12.0pt on input line 4.
-LaTeX Font Info:    Font shape `U/ntxsyc/m/n' will be
-(Font)              scaled to size 8.8pt on input line 4.
-LaTeX Font Info:    Font shape `U/ntxsyc/m/n' will be
-(Font)              scaled to size 6.6pt on input line 4.
-LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
-(Font)              scaled to size 12.0pt on input line 4.
-LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
-(Font)              scaled to size 8.8pt on input line 4.
-LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
-(Font)              scaled to size 6.6pt on input line 4.
-)
-\tf@toc=\write4
-\openout4 = `einleitung.toc'.
-
-
-[3{C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertine/lbtn_
-25tcsq.enc}{C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libert
-ine/lbtn_76gpa5.enc}] [4
-
-
-]
-chapter 1.
-(motivation.tex
-LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
-(Font)              scaled to size 14.4pt on input line 3.
- [5])
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/sl' in size <12> not a
-vailable
-(Font)              Font shape `T1/LinuxLibertineT-TLF/m/it' tried instead on i
-nput line 67.
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
-(Font)              scaled to size 12.0pt on input line 67.
- [6{C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertine/lbtn
-_7grukw.enc}]
-chapter 2.
-(tools.tex [7
-
-
-]
-Underfull \hbox (badness 10000) in paragraph at lines 29--31
-
- []
-
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
-(Font)              scaled to size 12.0pt on input line 34.
-
-LaTeX Warning: Citation `twagner' on page 8 undefined on input line 34.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 36--38
-
- []
-
-
-LaTeX Warning: Citation `twagner' on page 8 undefined on input line 39.
-
-[8{C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertine/lbtn_
-nh77jq.enc}]
-Underfull \hbox (badness 10000) in paragraph at lines 60--69
-
- []
-
-[9] [10]) (abstraktion.tex [11]
-Underfull \hbox (badness 10000) in paragraph at lines 23--23
-[]|\T1/LinuxLibertineT-TLF/m/n/12 Primitive
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 23--23
-[]|\T1/LinuxLibertineT-TLF/m/n/12 Primitive
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 23--23
-[]|\T1/LinuxLibertineT-TLF/m/n/12 Primitive
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 25--25
-[]|\T1/LinuxLibertineT-TLF/m/n/12 Objekte,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 25--25
-\T1/LinuxLibertineT-TLF/m/n/12 Ar-rays,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 25--25
-\T1/LinuxLibertineT-TLF/m/n/12 Funk-tio-nen,
- []
-
-
-Underfull \hbox (badness 2042) in paragraph at lines 25--25
-[]|\T1/LinuxLibertineT-TLF/m/n/12 Alles au-ÿer
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 25--25
-\T1/LinuxLibertineT-TLF/m/n/12 pri-mi-ti-ve
- []
-
-
-Overfull \hbox (24.68109pt too wide) in paragraph at lines 19--28
- [] 
- []
-
-
-Underfull \hbox (badness 3646) in paragraph at lines 35--36
-[]|\T1/LinuxLibertineT-TLF/m/n/12 byte, short, int,
- []
-
-
-Underfull \hbox (badness 1082) in paragraph at lines 35--36
-\T1/LinuxLibertineT-TLF/m/n/12 long, float, dou-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 36--37
-[]|\T1/LinuxLibertineT-TLF/m/n/12 number, bi-gint,
- []
-
-
-Overfull \hbox (30.8131pt too wide) in paragraph at lines 47--56
- [] 
- []
-
-[12]
-Overfull \hbox (22.38922pt too wide) in paragraph at lines 62--63
-\T1/LinuxLibertineT-TLF/m/n/12 Um 1:n- oder n:m-Beziehungen im Da-ten-mo-dell m
-o-del-lie-ren zu kön-nen wur-den drei Collection-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 72--72
-[]|\T1/LinuxLibertineT-TLF/m/n/12 ja (dic-tio-na-
- []
-
-
-Overfull \hbox (28.50908pt too wide) in paragraph at lines 64--76
- [] 
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 77--81
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 82--83
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 84--85
-
- []
-
-[13]
-Underfull \hbox (badness 10000) in paragraph at lines 96--105
-
- []
-
-
-LaTeX Warning: Citation `https://dl.acm.org/doi/pdf/10.1145/6041.6042' on page 
-14 undefined on input line 129.
-
-[14]
-
-LaTeX Warning: Citation `978-3-8348-9999-6.pdf' on page 15 undefined on input l
-ine 134.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 144--149
-
- []
-
-[15] [16]) (sprache.tex
-Overfull \hbox (11.15475pt too wide) in paragraph at lines 5--10
-\T1/LinuxLibertineT-TLF/m/n/12 nicht, da DMF mit-hil-fe des LSP-Protokolls nur 
-di-rekt Text-Editoren un-ter-stützt. Text-Editoren
- []
-
-[17]
-Underfull \hbox (badness 10000) in paragraph at lines 11--13
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 11--13
-
- []
-
-
-Overfull \hbox (61.20403pt too wide) in paragraph at lines 16--17
-[][] [] [] [] \T1/LinuxLibertineT-TLF/m/n/12 [ []]
- []
-
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 28.
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 10.95pt on input line 28.
-LaTeX Font Info:    Trying to load font information for T1+zi4 on input line 28
-.
-(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/inconsolata\t1zi4.fd
-File: t1zi4.fd 2018/01/14 T1/zi4 (Inconsolata)
-)
-LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 10.95pt on input line 28.
-Package hyperref Info: bookmark level for unknown mytype defaults to 0 on input
- line 34.
-
-[18{C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/inconsolata/i4
--t1-0.enc}]
-Underfull \hbox (badness 10000) in paragraph at lines 75--77
-
- []
-
-[19]
-Overfull \hbox (54.30104pt too wide) in paragraph at lines 85--104
- [] 
- []
-
-
-Overfull \hbox (4.68307pt too wide) in paragraph at lines 107--108
-\T1/LinuxLibertineT-TLF/m/n/12 und In-ter-fa-ces ent-hal-ten sein. Die-se ver-s
-chie-de-nen Ele-men-te wer-den im wei-te-rem als Packa-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 107--108
-
- []
-
-
-Overfull \hbox (16.35771pt too wide) in paragraph at lines 113--114
-\T1/LinuxLibertineT-TLF/m/n/12 Jedes Packa-ge-Ele-ment kann mit ei-nem Kom-men-
-tar, dem Key-word ëx-pan-dünd ei-nem Override-
- []
-
-[20]
-Overfull \hbox (35.30904pt too wide) in paragraph at lines 137--139
-[][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-
-Overfull \hbox (5.35521pt too wide) in paragraph at lines 142--143
-[]\T1/LinuxLibertineT-TLF/m/n/12 Die Grammatik-Regeln für ein Struct fol-gen de
-r Na-mens-kon-ven-ti-on. Der In-halt ei-nes Structs
- []
-
-
-Overfull \hbox (58.64801pt too wide) in paragraph at lines 144--145
-[]\T1/LinuxLibertineT-TLF/m/n/12 'struct' [] [[]] [[]] '{' []*
- []
-
-LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
-(Font)              scaled to size 10.95pt on input line 157.
-LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
-(Font)              scaled to size 10.95pt on input line 157.
-[21]
-LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 12.0pt on input line 186.
-
-Overfull \hbox (34.84587pt too wide) in paragraph at lines 186--190
-[]\T1/LinuxLibertineT-TLF/m/n/12 'ref' [] '[]' [] [',' []] '[]' []
- []
-
-
-Overfull \hbox (40.46191pt too wide) in paragraph at lines 201--204
-[]\T1/LinuxLibertineT-TLF/m/n/12 'func' [] [] '(' [[] ( ',' [])*]
- []
-
-
-Overfull \hbox (77.0739pt too wide) in paragraph at lines 201--204
-[]\T1/LinuxLibertineT-TLF/m/n/12 'func' [] [] '(' [[] ( ',' [])*]
- []
-
-
-Overfull \hbox (24.92793pt too wide) in paragraph at lines 201--204
-[]\T1/LinuxLibertineT-TLF/m/n/12 'func' 'vo-id' [] '(' [[] ( ',' [])*]
- []
-
-
-Overfull \hbox (68.1593pt too wide) in paragraph at lines 212--213
-[][][][][][][][][][][][][][][][][][][][][][][][][][] 
- []
-
-[22]
-Overfull \hbox (59.008pt too wide) in paragraph at lines 220--221
-[]\T1/LinuxLibertineT-TLF/m/n/12 'entity' [] [[]] [[]] '{' []*
- []
-
-
-Overfull \hbox (1.21368pt too wide) in paragraph at lines 234--235
-[]\T1/LinuxLibertineT-TLF/m/n/12 'interface' [] [[]] '{' []*
- []
-
-[23]) (semantik.tex
 Underfull \hbox (badness 10000) in paragraph at lines 6--9
 
  []
 
-[24]) (lsp.tex) (javaGenerator.tex) [25] [26
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/sl' in size <12> not a
+vailable
+(Font)              Font shape `T1/LinuxLibertineT-TLF/m/it' tried instead on i
+nput line 32.
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
+(Font)              scaled to size 12.0pt on input line 32.
+[1{C:/Users/alexa/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/al
+exa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertine/lbtn_7grukw.enc}
 
-
-]
-chapter 3.
-(grammatik.tex
-Overfull \hbox (2.41402pt too wide) in paragraph at lines 10--11
-[][] [] [] []
- []
-
-
-Overfull \hbox (22.16pt too wide) in paragraph at lines 24--29
-[]\T1/LinuxLibertineT-TLF/m/n/12 [[]] ['ex-pand'] [] [[]] 
- []
-
-
-Overfull \hbox (10.39998pt too wide) in paragraph at lines 24--29
-[]\T1/LinuxLibertineT-TLF/m/n/12 [[]] ['ex-pand'] [] [[]] 
- []
-
-
-Overfull \hbox (10.26799pt too wide) in paragraph at lines 24--29
-[]\T1/LinuxLibertineT-TLF/m/n/12 [[]] ['ex-pand'] [] [[]] 
- []
-
-
-Overfull \hbox (11.33597pt too wide) in paragraph at lines 24--29
-[]\T1/LinuxLibertineT-TLF/m/n/12 [[]] ['ex-pand'] [] [[]] 
- []
-
-
-Overfull \hbox (24.97997pt too wide) in paragraph at lines 24--29
-[]\T1/LinuxLibertineT-TLF/m/n/12 [[]] ['ex-pand'] [] [[]] 
- []
-
-
-Overfull \hbox (9.76527pt too wide) in paragraph at lines 37--38
-[]\T1/LinuxLibertineT-TLF/m/n/12 'java' '{' ([] | [] | []
- []
-
-[27]
-Overfull \hbox (1.11441pt too wide) in paragraph at lines 57--58
-[]\T1/LinuxLibertineT-TLF/m/n/12 'struct' [] [[]] [[]] '{'
- []
-
-
-Overfull \hbox (24.76257pt too wide) in paragraph at lines 73--77
-[]\T1/LinuxLibertineT-TLF/m/n/12 'ref' [] '[]' [] [',' []] '[]' []
- []
-
-
-Overfull \hbox (24.76257pt too wide) in paragraph at lines 73--77
-[]\T1/LinuxLibertineT-TLF/m/n/12 'ref' [] '[]' [] [',' []] '[]' []
- []
-
-
-Overfull \hbox (66.9906pt too wide) in paragraph at lines 78--81
-[]\T1/LinuxLibertineT-TLF/m/n/12 'func' [] [] '(' [[] ( ',' [])*]
- []
-
-
-Overfull \hbox (51.45662pt too wide) in paragraph at lines 78--81
-[]\T1/LinuxLibertineT-TLF/m/n/12 'func' 'vo-id' [] '(' [[] ( ',' [])*]
- []
-
-[28]
-Overfull \hbox (1.4744pt too wide) in paragraph at lines 94--95
-[]\T1/LinuxLibertineT-TLF/m/n/12 'entity' [] [[]] [[]] '{'
- []
-
-
-Overfull \hbox (27.74237pt too wide) in paragraph at lines 98--99
-[]\T1/LinuxLibertineT-TLF/m/n/12 'interface' [] [[]] '{' []*
- []
-
-) [29] (einleitung.aux)
+{C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertine/lbtn_25
+tcsq.enc}{C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertin
+e/lbtn_76gpa5.enc}] (C:/Code\DMF\auxil\semantik.aux)
  ***********
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2023-08-29>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package rerunfilecheck Info: File `einleitung.out' has not changed.
+Package rerunfilecheck Info: File `semantik.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 24612 strings out of 475248
- 421939 string characters out of 5757813
- 1949785 words of memory out of 5000000
- 45500 multiletter control sequences out of 15000+600000
- 685147 words of font info for 89 fonts, out of 8000000 for 9000
+ 23404 strings out of 475248
+ 401165 string characters out of 5757813
+ 1926785 words of memory out of 5000000
+ 44591 multiletter control sequences out of 15000+600000
+ 585168 words of font info for 47 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 122i,9n,128p,10927b,2229s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/public/fira/FiraSan
-s-Bold.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/public/fir
-a/FiraSans-Light.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/
-public/inconsolata/InconsolataN-Regular.pfb><C:/Users/alexa/AppData/Local/Progr
-ams/MiKTeX/fonts/type1/public/libertine/LinBiolinumTB.pfb><C:/Users/alexa/AppDa
-ta/Local/Programs/MiKTeX/fonts/type1/public/libertine/LinLibertineT.pfb><C:/Use
-rs/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/public/libertine/LinLibertin
-eTB.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/public/libert
-ine/LinLibertineTI.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type
-1/public/newtx/txsys.pfb>
-Output written on einleitung.pdf (29 pages, 509069 bytes).
+ 142i,8n,145p,10960b,528s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/public/libertine/Li
+nBiolinumTB.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/publi
+c/libertine/LinLibertineT.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fon
+ts/type1/public/libertine/LinLibertineTI.pfb>
+Output written on C:/Code\DMF\out\semantik.pdf (1 page, 189251 bytes).
 PDF statistics:
- 573 PDF objects out of 1000 (max. 8388607)
- 242 named destinations out of 1000 (max. 500000)
- 286 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 42 PDF objects out of 1000 (max. 8388607)
+ 5 named destinations out of 1000 (max. 500000)
+ 25 words of extra memory for PDF output out of 10000 (max. 10000000)
 
