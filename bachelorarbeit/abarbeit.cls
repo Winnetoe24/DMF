@@ -114,7 +114,7 @@
 \ifcsname zweitgutachterIn\endcsname\else\errmessage{\\zweitgutachterIn nicht gesetzt}\fi
 \ifcsname arbeitsgruppe\endcsname\else\errmessage{\\arbeitsgruppe nicht gesetzt}\fi
 \bgroup
-\pagenumbering{alph}
+\pagenumbering{arabic}
 \begin{titlepage}\firalight
 \ifcsname hypersetup\endcsname\hypersetup{linkcolor=black}\fi% Links nicht hervorheben
 \ifcsname setstretch\endcsname\setstretch{1}\fi% Kein one-half-spacing

@@ -1,59 +1,69 @@
 \hypersetup {linkcolor=black}
 \babel@toc {ngerman}{}\relax 
-\contentsline {chapter}{\numberline {1}Einleitung}{e}{chapter.1}%
-\contentsline {section}{\numberline {1.1}Motivation}{e}{section.1.1}%
-\contentsline {subsection}{\numberline {1.1.1}Product Line Engineering}{e}{subsection.1.1.1}%
-\contentsline {subsection}{\numberline {1.1.2}EMF}{e}{subsection.1.1.2}%
-\contentsline {subsection}{\numberline {1.1.3}Effekte eines unflexiblen Frameworks}{e}{subsection.1.1.3}%
-\contentsline {section}{\numberline {1.2}Aufgabenstellung}{f}{section.1.2}%
-\contentsline {chapter}{\numberline {2}Entwicklung}{g}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Auswahl der verwendeten Technologien}{g}{section.2.1}%
-\contentsline {subsection}{\numberline {2.1.1}Parser}{g}{subsection.2.1.1}%
-\contentsline {subsubsection}{\nonumberline XText}{g}{subsubsection*.3}%
-\contentsline {subsubsection}{\nonumberline Treesitter}{h}{subsubsection*.5}%
-\contentsline {paragraph}{\nonumberline Iteratives Parsen}{h}{paragraph*.7}%
-\contentsline {subsubsection}{\nonumberline ANTLR}{h}{subsubsection*.9}%
-\contentsline {subsubsection}{\nonumberline Auswahl Parser}{h}{subsubsection*.11}%
-\contentsline {subsection}{\numberline {2.1.2}AST Verarbeiten}{i}{subsection.2.1.2}%
-\contentsline {subsection}{\numberline {2.1.3}Kommunikation mit verschiedenen IDE's}{i}{subsection.2.1.3}%
-\contentsline {paragraph}{\nonumberline Language Server Protokoll}{i}{paragraph*.13}%
-\contentsline {subsubsection}{\nonumberline Typescript}{i}{subsubsection*.15}%
-\contentsline {subsubsection}{\nonumberline Golang}{i}{subsubsection*.17}%
-\contentsline {subsubsection}{\nonumberline Java}{j}{subsubsection*.19}%
-\contentsline {subsection}{\numberline {2.1.4}Generation von Codedateien in verschiedenen Sprachen}{j}{subsection.2.1.4}%
-\contentsline {subsubsection}{\nonumberline Golang Templates}{j}{subsubsection*.21}%
-\contentsline {subsubsection}{\nonumberline Java}{j}{subsubsection*.23}%
-\contentsline {subsubsection}{\nonumberline Typescript}{k}{subsubsection*.25}%
-\contentsline {subsubsection}{\nonumberline Auswahl}{k}{subsubsection*.27}%
-\contentsline {subsection}{\numberline {2.1.5}Integration mit verschiedenen Build Tools}{k}{subsection.2.1.5}%
-\contentsline {subsubsection}{\nonumberline Maven}{k}{subsubsection*.29}%
-\contentsline {subsubsection}{\nonumberline NPM}{k}{subsubsection*.31}%
-\contentsline {section}{\numberline {2.2}Abstraktion des DMF}{k}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Analyse}{l}{subsection.2.2.1}%
-\contentsline {subsubsection}{\nonumberline Analyse der Typen}{l}{subsubsection*.33}%
-\contentsline {subsubsection}{\nonumberline Analyse von Nullwerten}{l}{subsubsection*.35}%
-\contentsline {subsubsection}{\nonumberline Collectiontypen}{m}{subsubsection*.37}%
-\contentsline {subsection}{\numberline {2.2.2}Elemente eines Modells}{n}{subsection.2.2.2}%
-\contentsline {subsubsection}{\nonumberline Primitive Typen}{n}{subsubsection*.39}%
-\contentsline {subsubsection}{\nonumberline Funktionen}{n}{subsubsection*.41}%
-\contentsline {subsubsection}{\nonumberline Komplexe Datentypen}{o}{subsubsection*.43}%
-\contentsline {subsubsection}{\nonumberline Identität einer Instanz in der Datenbank}{o}{subsubsection*.45}%
-\contentsline {subsubsection}{\nonumberline Aufzählungen}{p}{subsubsection*.47}%
-\contentsline {subsubsection}{\nonumberline Interfaces}{p}{subsubsection*.49}%
-\contentsline {subsubsection}{\nonumberline Organisation der Elemente}{p}{subsubsection*.51}%
-\contentsline {subsection}{\numberline {2.2.3}Zuweisungen der Abstraktionen}{p}{subsection.2.2.3}%
-\contentsline {subsubsection}{\nonumberline Java}{p}{subsubsection*.53}%
-\contentsline {subsubsection}{\nonumberline Typescript}{q}{subsubsection*.55}%
-\contentsline {section}{\numberline {2.3}Aufbau der DMF-DSL}{q}{section.2.3}%
-\contentsline {subsection}{\numberline {2.3.1}Die DSL und die EBNF}{r}{subsection.2.3.1}%
-\contentsline {subsubsection}{\nonumberline Header}{r}{subsubsection*.57}%
-\contentsline {subsubsection}{\nonumberline Imports}{r}{subsubsection*.60}%
-\contentsline {subsubsection}{\nonumberline Packages}{s}{subsubsection*.62}%
-\contentsline {subsubsection}{\nonumberline Structs}{t}{subsubsection*.64}%
-\contentsline {subsubsection}{\nonumberline Entity}{t}{subsubsection*.66}%
-\contentsline {subsubsection}{\nonumberline Interface}{u}{subsubsection*.68}%
-\contentsline {subsubsection}{\nonumberline Enum}{u}{subsubsection*.70}%
-\contentsline {chapter}{\numberline {3}Anhang}{w}{chapter.3}%
-\contentsline {section}{\numberline {3.1}EBNF Grammatik für DMF}{w}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Beispiel}{y}{section.3.2}%
+\contentsline {chapter}{\numberline {1}Einleitung}{5}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Motivation}{5}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}Product Line Engineering}{5}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}EMF}{5}{subsection.1.1.2}%
+\contentsline {subsection}{\numberline {1.1.3}Effekte eines unflexiblen Frameworks}{5}{subsection.1.1.3}%
+\contentsline {section}{\numberline {1.2}Aufgabenstellung}{6}{section.1.2}%
+\contentsline {chapter}{\numberline {2}Entwicklung}{7}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Auswahl der verwendeten Technologien}{7}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Parser}{7}{subsection.2.1.1}%
+\contentsline {subsubsection}{\nonumberline XText}{7}{subsubsection*.3}%
+\contentsline {subsubsection}{\nonumberline Treesitter}{8}{subsubsection*.5}%
+\contentsline {paragraph}{\nonumberline Iteratives Parsen}{8}{paragraph*.7}%
+\contentsline {subsubsection}{\nonumberline ANTLR}{8}{subsubsection*.9}%
+\contentsline {subsubsection}{\nonumberline Auswahl Parser}{8}{subsubsection*.11}%
+\contentsline {subsection}{\numberline {2.1.2}AST Verarbeiten}{9}{subsection.2.1.2}%
+\contentsline {subsection}{\numberline {2.1.3}Kommunikation mit verschiedenen IDE's}{9}{subsection.2.1.3}%
+\contentsline {paragraph}{\nonumberline Language Server Protokoll}{9}{paragraph*.13}%
+\contentsline {subsubsection}{\nonumberline Typescript}{9}{subsubsection*.15}%
+\contentsline {subsubsection}{\nonumberline Golang}{9}{subsubsection*.17}%
+\contentsline {subsubsection}{\nonumberline Java}{10}{subsubsection*.19}%
+\contentsline {subsection}{\numberline {2.1.4}Generation von Codedateien in verschiedenen Sprachen}{10}{subsection.2.1.4}%
+\contentsline {subsubsection}{\nonumberline Golang Templates}{10}{subsubsection*.21}%
+\contentsline {subsubsection}{\nonumberline Java}{10}{subsubsection*.23}%
+\contentsline {subsubsection}{\nonumberline Typescript}{11}{subsubsection*.25}%
+\contentsline {subsubsection}{\nonumberline Auswahl}{11}{subsubsection*.27}%
+\contentsline {subsection}{\numberline {2.1.5}Integration mit verschiedenen Build Tools}{11}{subsection.2.1.5}%
+\contentsline {subsubsection}{\nonumberline Maven}{11}{subsubsection*.29}%
+\contentsline {subsubsection}{\nonumberline NPM}{11}{subsubsection*.31}%
+\contentsline {section}{\numberline {2.2}Abstraktion des DMF}{11}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Analyse}{12}{subsection.2.2.1}%
+\contentsline {subsubsection}{\nonumberline Analyse der Typen}{12}{subsubsection*.33}%
+\contentsline {subsubsection}{\nonumberline Analyse von Nullwerten}{12}{subsubsection*.35}%
+\contentsline {subsubsection}{\nonumberline Collectiontypen}{13}{subsubsection*.37}%
+\contentsline {subsection}{\numberline {2.2.2}Elemente eines Modells}{14}{subsection.2.2.2}%
+\contentsline {subsubsection}{\nonumberline Primitive Typen}{14}{subsubsection*.39}%
+\contentsline {subsubsection}{\nonumberline Funktionen}{14}{subsubsection*.41}%
+\contentsline {subsubsection}{\nonumberline Komplexe Datentypen}{15}{subsubsection*.43}%
+\contentsline {subsubsection}{\nonumberline Identität einer Instanz in der Datenbank}{15}{subsubsection*.45}%
+\contentsline {subsubsection}{\nonumberline Aufzählungen}{16}{subsubsection*.47}%
+\contentsline {subsubsection}{\nonumberline Interfaces}{16}{subsubsection*.49}%
+\contentsline {subsubsection}{\nonumberline Organisation der Elemente}{16}{subsubsection*.51}%
+\contentsline {subsection}{\numberline {2.2.3}Zuweisungen der Abstraktionen}{16}{subsection.2.2.3}%
+\contentsline {subsubsection}{\nonumberline Java}{16}{subsubsection*.53}%
+\contentsline {subsubsection}{\nonumberline Typescript}{17}{subsubsection*.55}%
+\contentsline {section}{\numberline {2.3}Aufbau der DMF-DSL}{17}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Die DSL und die EBNF}{18}{subsection.2.3.1}%
+\contentsline {subparagraph}{\nonumberline Namenskonvention in der DMF Grammatik}{18}{subparagraph*.57}%
+\contentsline {subsubsection}{\nonumberline Header}{18}{subsubsection*.59}%
+\contentsline {subsubsection}{\nonumberline Importblock}{19}{subsubsection*.62}%
+\contentsline {subparagraph}{\nonumberline Modellelemente erweitern}{19}{subparagraph*.64}%
+\contentsline {subsubsection}{\nonumberline Modellinhalt}{19}{subsubsection*.66}%
+\contentsline {subparagraph}{\nonumberline Override}{20}{subparagraph*.68}%
+\contentsline {paragraph}{\nonumberline Packages}{20}{paragraph*.70}%
+\contentsline {paragraph}{\nonumberline Structs}{21}{paragraph*.72}%
+\contentsline {paragraph}{\nonumberline Inhalt-Elemente}{21}{paragraph*.74}%
+\contentsline {subparagraph}{\nonumberline Argument}{21}{lstlisting.2.-4}%
+\contentsline {subparagraph}{\nonumberline Referenz}{21}{lstlisting.2.-5}%
+\contentsline {subparagraph}{\nonumberline Multi-Referenz}{22}{lstlisting.2.-6}%
+\contentsline {subparagraph}{\nonumberline Funktionen}{22}{lstlisting.2.-7}%
+\contentsline {paragraph}{\nonumberline Entity}{22}{paragraph*.84}%
+\contentsline {paragraph}{\nonumberline Interface}{23}{paragraph*.86}%
+\contentsline {paragraph}{\nonumberline Enum}{23}{paragraph*.88}%
+\contentsline {subsection}{\numberline {2.3.2}Beispieldatei}{24}{subsection.2.3.2}%
+\contentsline {chapter}{\numberline {3}Anhang}{25}{chapter.3}%
+\contentsline {section}{\numberline {3.1}EBNF Grammatik für DMF}{25}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Beispiel}{27}{section.3.2}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 

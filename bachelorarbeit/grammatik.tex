@@ -19,7 +19,6 @@
 <import_statement> ::= 'import' <package_string> 'from' <string_value> <new_line>
 
 
-
 <model_content> ::= <package_content>+
 
 <package_content> ::= [<comment_block>] ['expand'] <package_block> [<override_block>]
@@ -32,6 +31,26 @@
 <comment_block> ::= <comment>+
 
 <comment> ::= R'//.*\textbackslash n'
+
+<override_block> ::= 'override' '\{' (<java_override> | <typescript_override> )* '\}'
+
+<java_override> ::= 'java' '\{' (<java_annotaion> | <java_extends> | <java_implements> | <java_class> | <java_name> | <java_type> | <java_doc>)* '\}'
+
+<java_annotation> ::= 'annotations' <stringValue>
+
+<java_doc> ::= 'javaDoc' <stringValue>
+
+<java_extends> ::= 'extends' <stringValue>
+
+<java_implements> ::= 'implements' <stringValue>
+
+<java_class> ::= 'class' <stringValue>
+
+<java_name> ::= 'name' <stringValue>
+
+<java_type> ::= 'type' <stringValue>
+
+% Package
 
 <package_block> ::= 'package' '\{' <package_content>* '\}'
 
@@ -79,6 +98,8 @@
 <interface_block> ::= 'interface' <identifier> [<implements_block>] '\{' <interface_content>* '\}'
 
 <interface_content> ::= [<comment_block>] <func_block> [<override_block>]
+
+<reftype> ::= '.'* <package_string>
 \end{grammar}
 
 \section{Beispiel}
