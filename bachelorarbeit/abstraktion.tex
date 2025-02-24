@@ -22,7 +22,7 @@ Referenz & Objekte & Objekte, Arrays, Funktionen, Klassen & Alles außer primiti
 TODO:
 Welche Primitive Typen 
 Warum Typen die Keine Pritimive Typen sind als Argumente. (Datetime)
-\subsection{Analyse von Nullwerten}
+\subsubsection{Analyse von Nullwerten}
 Nullwerte sind besonders aus Java bekannt und stellen das Fehlen eines Wertes dar. Es zählt zu der Definition eines Types dazu, zu definieren, ob der Typ Nullwerte erlaubt.
 Dies muss auch für Werte und Referenzen evaluiert werden.
 \begin{center}
@@ -40,7 +40,7 @@ Referenz & ja & Explizit & ja & ja & Explizit & ja \\
 TODO:
 Referenz nullable und Argumente nicht nullable
 
-\subsection{Collectiontypen}
+\subsubsection{Collectiontypen}
 Um 1:n- oder n:m-Beziehungen im Datenmodell modellieren zu können wurden drei Collection-Typen aus Java ausgewählt und passende Äquivalente zu finden.
 \begin{center}
 \begin{tabular}{| c || m{3em} | m{4.5em} | m{5.5em} | m{4.5em} | m{3em} | m{4.5em} |}
@@ -63,17 +63,62 @@ Besonderheiten z.B. slice
 \subsection{Elemente eines Modells}
 Um mit dem DMF Daten in Strukturen verschiedener Programmiersprachen darstellen zu können, müssen auch diese Abstrahiert werden.
 
-Grundvoraussetzung sind die Pr
+\subsubsection{Primitive Typen}
+Grundvoraussetzung sind die Primitiven Typen und Referenzen zu anderen Elementen.
+Mithilfe der Analyse der verschiedenen Variablentypen und Eigenschaften, wurden folgende Primitive Typen festgelegt:
 
-Es gibt in jeder Programmiersprache ein Konstrukt mit dem mehrere Variablen zusammengefasst werden können. C nannte diese Konstrukte Structs. Diese Structs besitzen keine Identität.
+// TODO : Tabelle mit Erklärung
 
-\subsection{Identität einer Instanz in der Datenbank}
+Diese Primitiven Typen werden im DMF in Argumenten abgebildet. Argumente bestehen aus einem Primitiven Typen und einem Namen.
+
+\subsubsection{Funktionen}
+Funktionen gehören zu den Elementen die sich in jeder Programmiersprache wiederfinden.
+Im DMF werden Funktionen nur im Zurückgabewert eingeschränkt. Statt mehreren Werten wie z.B. in Golang kannn im DMF nur ein einzelner Wert modelliert werden. Diese Einschränkung stammt aus vielen Sprachen, welche nur einen Wert unterstützen.
+
+\subsubsection{Komplexe Datentypen}
+\begin{center}
+ \textit{Structured constructors. (+), types can be built up from these basic types by means of type. The type constructors in 
+our language include function spaces Cartesian products (x), record types (also called labeled  Cartesian products), and variant types (also called labeled disjoint sums).\cite{https://dl.acm.org/doi/pdf/10.1145/6041.6042}}
+ \end{center}
+ 
+ \begin{center}
+ \textit{
+In nahezu allen Programmiersprachen gibt es die Möglichkeit, mit so genannten zusammengesetzten oder komplexen Datentypen zu arbeiten. Ihnen ist gemeinsam, dass wir mehrere Werte nebeneinander dort abspeichern können.\cite{978-3-8348-9999-6.pdf}}
+\end{center}
+Das DMF muss diese Datentypen auch abbilden können. Deshalb beinhaltet es "Structs". Der Name wurde von der Programmiersprache C übernommen, da diese Syntaktische Grundlage für fast alle Programmiersprachen dient. \\
+Im DMF können Structs Argumente, Referenzen zu anderen Structs, Enums und Interfaces (siehe folgende Abschnitte) und Funktionen beinhalten.
+Funktionen gehören nicht zur Definition eines komplexen Datentyps, sondern stammen aus der Objekt Orientierten Programmierung. Da jedoch Funktionen auch ohne Objektorientierung für Datentypen generiert werden können, kann das DMF diese Abstraktion unterstützen.
+\newline
+Für die Modellierung wird auch die Abstraktion von Datentypen essentiell sein. Dafür müssen Structs von anderen Structs erben und Funktionen von Interfaces implementieren können. \\
+Abstraktion funktioniert in jeder Sprache ein wenig unterschiedlich, weshalb das DMF nur garantieren kann, dass die Variablen und Funktionen die von einem Struct geerbt werden im Generat vorhanden sind. Zum Beispiel in C könnte ein DMF Generat keine Abstraktion generieren, sondern nur die Elemente kombinieren.
+
+
+
+\subsubsection{Identität einer Instanz in der Datenbank}
 Ein Modell im DMF Framework soll in einer Datenbank gespeichert werden können.
 Dafür müssen Datenbankschlüssel definiert werden. Ein Schlüssel definiert die Identität eines Zeile in einer Tabelle.
 Diese Identität muss auch im Modell abgebildet werden.
-Das DMF fügt deshalb den Typen "Entity" hinzu, welcher eine Identität besitzt. Er basiert auf dem Struct und kann somit Argumente, Referenzen und Funktionen beinhalten.
+Das DMF fügt deshalb den Typen "Entity" hinzu, welcher eine Identität besitzt. Er basiert auf dem Struct und kann somit Argumente, Referenzen und Funktionen beinhalten. Es können zusätzlich auch Referenzen zu anderen Entitäten in einer Entität enthalten seien.
+Eine Entity muss die Definition eines Identifiers beinhalten.
+TODO Entity erben von Structs und entities
+\subsubsection{Aufzählungen}
+Aufzählungen sind Bestandteil vieler Programmiersprachen. Häufig existieren sie als reine Liste  aus Codesymbolen. Aus Sprachen wie Rust sind jedoch auch Aufzählungstypen dessen Einträge konstante Werte beinhalten können bekannt.
+TODO: Beispiel Rust Enum Code
+
+Diese Funktion kann auch in Sprachen dessen Enums diese Möglichkeit nicht beinhalten, durch Funktionen die für den Enumeintrag den modellierten Wert zurückgeben, emuliert werden.
+
+Im DMF lassen sich diese Werte mithilfe von Argumenten modellieren. Bei der Definition eines Enumeintrags müssen die Konstanten mit angeben werden.
+
+\subsubsection{Interfaces}
+Wichtig für die Abstraktion sind Interfaces. Sie stellen Funktionen bereit und können zusammen mit anderen Interfaces in Structs und Enities implementiert werden.
 
 
+\subsection{Zuweisungen der Abstraktionen}
 
+Damit diese Abstraktion genutzt werden kann, müssen für jeden abstrakten Typen im DMF eine Zuweisung in jeder Sprache festgelegt werden.
+
+\subsubsection{Java}
+// TODO: Tabelle mit Mapping
+// TODO: Erklärung von Datetimes
 
 \end{document}

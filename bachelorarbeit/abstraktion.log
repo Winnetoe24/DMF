@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.1.29)  23 FEB 2025 15:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.1.29)  23 FEB 2025 16:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1135,29 +1135,47 @@ exa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertine/lbtn_7grukw.enc}
 
 {C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertine/lbtn_25
 tcsq.enc}{C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertin
-e/lbtn_76gpa5.enc}] [2] (abstraktion.aux)
+e/lbtn_76gpa5.enc}]
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
+(Font)              scaled to size 12.0pt on input line 77.
+
+
+LaTeX Warning: Citation `https://dl.acm.org/doi/pdf/10.1145/6041.6042' on page 
+2 undefined on input line 77.
+
+
+LaTeX Warning: Citation `978-3-8348-9999-6.pdf' on page 2 undefined on input li
+ne 82.
+
+[2{C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertine/lbtn_
+nh77jq.enc}] [3] (abstraktion.aux)
  ***********
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2023-08-29>
  ***********
+
+
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `abstraktion.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 23506 strings out of 475248
- 403802 string characters out of 5757813
+ 23529 strings out of 475248
+ 404139 string characters out of 5757813
  1940785 words of memory out of 5000000
- 44672 multiletter control sequences out of 15000+600000
- 598599 words of font info for 71 fonts, out of 8000000 for 9000
+ 44679 multiletter control sequences out of 15000+600000
+ 603854 words of font info for 73 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  142i,8n,145p,10952b,600s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/public/libertine/Li
 nBiolinumTB.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/publi
 c/libertine/LinLibertineT.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fon
-ts/type1/public/libertine/LinLibertineTI.pfb>
-Output written on abstraktion.pdf (2 pages, 192573 bytes).
+ts/type1/public/libertine/LinLibertineTB.pfb><C:/Users/alexa/AppData/Local/Prog
+rams/MiKTeX/fonts/type1/public/libertine/LinLibertineTI.pfb>
+Output written on abstraktion.pdf (3 pages, 284244 bytes).
 PDF statistics:
- 54 PDF objects out of 1000 (max. 8388607)
- 9 named destinations out of 1000 (max. 500000)
+ 78 PDF objects out of 1000 (max. 8388607)
+ 22 named destinations out of 1000 (max. 500000)
  33 words of extra memory for PDF output out of 10000 (max. 10000000)
 

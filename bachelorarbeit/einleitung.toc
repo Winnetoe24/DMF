@@ -28,14 +28,30 @@
 \contentsline {subsection}{\numberline {2.1.5}Integration mit verschiedenen Build Tools}{k}{subsection.2.1.5}%
 \contentsline {subsubsection}{\nonumberline Maven}{k}{subsubsection*.29}%
 \contentsline {subsubsection}{\nonumberline NPM}{k}{subsubsection*.31}%
-\contentsline {section}{\numberline {2.2}Aufbau der DMF-DSL}{k}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Die DSL und die EBNF}{l}{subsection.2.2.1}%
-\contentsline {subsubsection}{\nonumberline Header}{l}{subsubsection*.33}%
-\contentsline {subsubsection}{\nonumberline Imports}{l}{subsubsection*.36}%
-\contentsline {subsubsection}{\nonumberline Packages}{m}{subsubsection*.38}%
-\contentsline {subsubsection}{\nonumberline Structs}{n}{subsubsection*.40}%
-\contentsline {subsubsection}{\nonumberline Entity}{n}{subsubsection*.42}%
-\contentsline {chapter}{\numberline {3}Anhang}{o}{chapter.3}%
-\contentsline {section}{\numberline {3.1}EBNF Grammatik für DMF}{o}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Beispiel}{q}{section.3.2}%
+\contentsline {section}{\numberline {2.2}Abstraktion des DMF}{k}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Analyse}{l}{subsection.2.2.1}%
+\contentsline {subsubsection}{\nonumberline Analyse der Typen}{l}{subsubsection*.33}%
+\contentsline {subsubsection}{\nonumberline Analyse von Nullwerten}{l}{subsubsection*.35}%
+\contentsline {subsubsection}{\nonumberline Collectiontypen}{l}{subsubsection*.37}%
+\contentsline {subsection}{\numberline {2.2.2}Elemente eines Modells}{m}{subsection.2.2.2}%
+\contentsline {subsubsection}{\nonumberline Primitive Typen}{m}{subsubsection*.39}%
+\contentsline {subsubsection}{\nonumberline Funktionen}{m}{subsubsection*.41}%
+\contentsline {subsubsection}{\nonumberline Komplexe Datentypen}{m}{subsubsection*.43}%
+\contentsline {subsubsection}{\nonumberline Identität einer Instanz in der Datenbank}{n}{subsubsection*.45}%
+\contentsline {subsubsection}{\nonumberline Aufzählungen}{n}{subsubsection*.47}%
+\contentsline {subsubsection}{\nonumberline Interfaces}{n}{subsubsection*.49}%
+\contentsline {subsection}{\numberline {2.2.3}Zuweisungen der Abstraktionen}{n}{subsection.2.2.3}%
+\contentsline {subsubsection}{\nonumberline Java}{o}{subsubsection*.51}%
+\contentsline {section}{\numberline {2.3}Aufbau der DMF-DSL}{o}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Die DSL und die EBNF}{o}{subsection.2.3.1}%
+\contentsline {subsubsection}{\nonumberline Header}{o}{subsubsection*.53}%
+\contentsline {subsubsection}{\nonumberline Imports}{p}{subsubsection*.56}%
+\contentsline {subsubsection}{\nonumberline Packages}{p}{subsubsection*.58}%
+\contentsline {subsubsection}{\nonumberline Structs}{q}{subsubsection*.60}%
+\contentsline {subsubsection}{\nonumberline Entity}{q}{subsubsection*.62}%
+\contentsline {subsubsection}{\nonumberline Interface}{r}{subsubsection*.64}%
+\contentsline {subsubsection}{\nonumberline Enum}{r}{subsubsection*.66}%
+\contentsline {chapter}{\numberline {3}Anhang}{s}{chapter.3}%
+\contentsline {section}{\numberline {3.1}EBNF Grammatik für DMF}{s}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Beispiel}{u}{section.3.2}%
 \providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
