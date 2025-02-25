@@ -15,6 +15,41 @@
 %  Wie sollte hier adas Modell beschrieben werden?
 %      Wäre ein UML Modell richtig?
 
+    \subsubsection{ErrorElemente}
+    Für eine annehme und effiziente Entwicklung ist die verständliche Kommunikation von Fehlern essenziell.
+    Deshalb enthält das semantische Modell das ErrorElement.
+    \begin{lstlisting}[language=go]
+package err_element
+type ErrorElement struct {
+	Fehler FehlerStelle
+	Error  error
+	// Falls es einen Grund gibt, weshalb ein Fehler aufgetreten ist und dieser Grund an einer anderen Stelle des Codes liegt
+	Cause    *FehlerStelle
+	rendered *string
+}
+
+type FehlerStelle struct {
+	// Die Node von der, der ModelCode stammt, und die ein Parent von der eigentlichen Node ist.
+	// Ist nil, wenn der ModelCode von der eigentlichen Node kommt
+	ContextNode *tree_sitter.Node
+	ModelCode   string
+	Node        *tree_sitter.Node
+}
+    \end{lstlisting}
+    Mithilfe dieser Strukturen lassen sich Fehler festhalten ohne die spätere Darstellung mit einzubeziehen zu müssen.
+    Der Error dokumentiert um welchen Fehler es sich handelt. \\
+    Die FehlerStelle ``Fehler'' dokumentiert den Modellcode, der falsch ist. \\
+    Die FehlerStelle ``Cause'' dokumentiert den Modellcode, wodurch der Modellcode, welcher in der ``Fehler''-FehlerStelle enthalten ist, falsch wurde. \\
+    Jede FehlerStelle beinhaltet zwei Nodes.
+    Diese beinhalten die Positionen in der Modelldatei.
+    Die ContextNode ist optional und wird gesetzt wenn für einen Fehler der umliegende Code wichtig.
+    Es handelt sich dabei um eine der Parent-Nodes. \\
+    Der ModelCode wird erst beim Rendern der FehlerStelle genutzt.
+    Die Variable dient als Zwischenspeicher für den Code den die Nodes referenzieren. \\ \\
+    ErrorElemente werden in der gesamten Semantik-Komponente genutzt und erzeugt.
+    Spätere Komponenten nutzen die ErrorElemente, um den Entwickler*innen die Fehler zu erläutern.
+
+
     \subsection{Übersetzen des ASTs}\label{subsec:ubersetzen-des-asts}
     Die Übersetzung des ASTs beginnt mit dem Erstellen eines SemanticContext.
     Dieser Kontext beinhaltet die erkannten Fehler, das bisherige Modell, den Text der Modelldatei und die TreeCursor.
@@ -24,12 +59,115 @@
 %    Beispiel Call Tree
     Sollte der AST Import Statements beinhalten so werden zunächst die referenzierten Modelle verarbeitet.
     Die importierten Packages werden nun in das Modell übernommen.
-    Das Laden der verschiedenen Modelle wird mithilfe einer Callback Struktur außerhalb der Semantik-Komponente definiert.
+    Das Laden der verschiedenen Modelle wird mithilfe einer Callbackstruktur außerhalb der Semantik-Komponente definiert.
     So können verschiedene Logiken genutzt werden. \\
 %    TODO Anpassen nach Implementierung des Imporierens
     Am Ende des Parsen ist Modell vollständig mit allen gültigen Elementen.
     Elemente die durch den Parser im AST als Fehlerhaft gekennzeichnet wurden, werden ignoriert.
 
+    \subsubsection{Der Lookup}
+    Um anhand des vollständigen Namens (Package Pfad + Name) ein Element schnell zu finden, wird nach dem semantischen Parsen ein Lookup erstellt.
+    Dieser Lookup nutzt eine Map für den schnellen Zugriff.
+    Zum Befüllen des Lookups wird das semantische Modell durchlaufen.
+    Jedes erreichte Package Element wird dem Lookup hinzugefügt.
+    Beim Packages werden auch alle enthaltenen Elemente durchlaufen.
+
     \subsection{Die semantischen Regeln}\label{subsec:die-semantischen-regeln}
+    Die semantischen Regeln basieren alle auf dem Typen ``walkRule''.
+    Dieser Typ verallgemeinert das Iterieren über den Lookup und nutzt eine Instanz der ``iWalkRule'' um die Elemente zu verarbeiten.
+    \begin{lstlisting}[language=go]
+package semantic_rules
+// Supertyp alle Regeln, welche alle Typen durchlaufen.
+type walkRule struct {
+	lookup    *smodel.TypeLookUp
+	elements  []errElement.ErrorElement
+	iWalkRule iWalkRule
+}
+    \end{lstlisting}
+    Semantische Regeln implementieren das Interface ``iWalkRule'' und erweitern die ``walkRule''.
+    Durch das Nutzen der eignen Instanz werden die Methoden der Regel-Implementierung aufgerufen, um Elemente zu verarbeiten.
+    \begin{lstlisting}[language=go]
+package semantic_rules
+func newComputeSuperTypes(lookup *smodel.TypeLookUp) *computeSuperTypes {
+	types := computeSuperTypes{
+		walkRule: &walkRule{
+			lookup:   lookup,
+			elements: make([]errElement.ErrorElement, 0),
+		},
+	}
+    types.iWalkRule = &types
+    return &types
+}\end{lstlisting}
+
+    Die Reihenfolge der semantischen Regeln ist sehr relevant, denn sie überprüfen nicht nur das semantische Modell, sondern setzen auch Referenzen und befüllen Lookups innerhalb der Elemente. \\
+    Im Folgenden werden die Regeln in ihrer Ausführungsreihenfolge erläutert.
+
+    \subsubsection{Compute Supertypes Regel}
+    Die ``Compute Supertypes Regel'' ermittelt und überprüft die Supertypen der PackageElementen.
+    Dazu gehören alle Referenzen in den Extends- und Implements-Blöcken.
+    Dabei werden folgende Bedingungen überprüft:
+    \begin{enumerate}
+        \item Der referenzierte Typ muss im Lookup vorhanden sein.
+        \item Die Vererbung darf nicht rekursiv sein.
+        \item Structs dürfen nur von Structs erben.
+        \item Entities dürfen nur von Structs und Entities erben.
+        \item Es können nur Interfaces implementiert werden.
+        \item Ein Interface kann sich nicht selber implementieren.
+    \end{enumerate}
+
+    Nachdem die referenzierten Type ermittelt wurden, werden Referenzen zu diesen Typen in die jeweiligen PackageElemente eingetragen.
+    So kann später noch schneller auf diese Elemente zugegriffen werden.
+
+    \subsubsection{Compute Elements Regel}
+    Die ``Compute Elements Regel'' ermittelt alle Elemente innerhalb der PackageElemente.
+    Diese werden als NamedElements in dem jeweiligen PackageElement eingetragen, sodass mithilfe des Namens schnell auf das Element zugegriffen werden kann.
+    Zu den NamedElements gehören:
+    \begin{enumerate}
+        \item Argumente
+        \item Referenzen
+        \item Multireferenzen
+        \item Funktionen
+        \item Konstanten
+    \end{enumerate}
+    Beim Hinzufügen eines Elementes wird überprüft, ob der Name schon von einem Element in der Map genutzt wird. \\ \\
+    Die ``Compute Elements Regel'' einzigartig, denn sie überschreibt das Verhalten des Iterierens durch den Lookup mit einem zweifachen Durchlauf.
+    Denn um alle geerbten Elemente zu Bestimmen müssen die NamedElements-Maps der anderen PackageElemente schon die eigenen Elemente enthalten.
+    \begin{lstlisting}[language=Go]
+package semantic_rules
+func (c *computeElements) walk() []errElement.ErrorElement {
+	c.walkRule.walk()
+
+	for _, element := range *c.lookup {
+		c.handleAbstraction(element)
+	}
+
+	return c.elements
+}
+    \end{lstlisting}
+    Das Bestimmen der gerbten Elemente (handleAbstraction) ist rekursiv implementiert.
+    So werden auch alle Elemente, die das erweiterte Element erbt mit eingeschlossen.
+
+    \subsubsection{Check Entity Identifier Regel}
+    Die ``Check Entity Identifier Regel'' überprüft, ob alle im Entity-Identifier referenzierten Variablen enthalten sind.
+
+    \subsubsection{Check Enum Constants Regel}
+    Die Konstanten eines Enums müssen semantische Regeln folgen.
+    Deshalb überprüft diese Regel folgende Bedingungen für jede Konstante:
+    \begin{enumerate}
+        \item Der Name jeder Konstante muss innerhalb eines Enums einzigartig sein.
+        \item Der erste Wert muss ein Integer sein (Index).
+        \item Die Anzahl der Werte muss mit der Anzahl der Argumente im Enum übereinstimmen.
+        \item Der Typ der Werte muss mit den entsprechenden Argumenten übereinstimmen. \\
+        Für die Reihenfolge der Argumente wird die Reihenfolge in der Modelldatei genutzt.
+    \end{enumerate}
+
+    \subsubsection{Check Referenzen Regel}
+    Die ``Check Referenzen Regel'' überprüft, dass alle Referenzen existieren.
+    In folgenden Elementen werden Referenzen überprüft:
+    \begin{enumerate}
+        \item Referenzen in Structs und Entities.
+        \item Return Typ und Parameter von Funktionen in Structs, Entities und Interfaces.
+        \item Generische Typen der Multireferenzen in Structs und Entities.
+    \end{enumerate}
 
 \end{document}
