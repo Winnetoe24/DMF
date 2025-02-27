@@ -1,10 +1,259 @@
 \documentclass[./einleitung.tex]{subfiles}
+\usepackage{mdwtab}
 \normalsize
 
 \begin{document}
     \section{Der LSP-Server}\label{sec:der-lsp-server}
+    Der LSP-Server besteht aus 3 Bereichen:
+    \begin{enumerate}
+        \item Dem Modell für das LSP-Protokoll.
+        \item Der Implementierung der Server-Schicht, welche die Kommunikation mit den Clients verwaltet und die Services aufruft.
+        \item Die Service-Schicht, welche Funktionen des LSP-Protokolls in Service implementiert.
+    \end{enumerate}
+
+    In den folgenden Abschnitten werden der Aufbau, die Aufrufe und die Funktionen dieser Schichten erläutert.
     \subsection{Das LSP-Protokoll}
+    % LSP Protokoll ist modular
+    % Verschiedene Packages aufzählen
+
     \subsection{Die Server Implementierung}
+    % Wie funktioniert JSON-RPC
+    % Wie parsed Golang json
+    % Wie werden Service Aufgerufen
+
+    \subsubsection{Abstraktion der Server-Client-Verbindung}
+    Da das LSP-Protokoll Medium unabhängig ist, muss der Server eine Abstraktion für die Verbindung bereitstellen.
+    \begin{lstlisting}[language=Go]
+package connect
+type Connection interface {
+	// WriteMessage Writes Message. May queue the Message the syncronise the Writing
+	WriteMessage(message protokoll.Message)
+
+	// WaitForMessage Waits for the next Message and returns the Message or the error.
+	// Call to this method blocks execution.
+	WaitForMessage() (protokoll.Message, error)
+
+	BlockResponse(id json.RawMessage)
+	Close() error
+}
+    \end{lstlisting}
+    Das Interface Connection stellt diese Abstraktion bereit.
+    Es wird für jeden Verbindungstyp implementiert.
+
+    % Wie funktioniert die Kommunikation über HTTP
     \subsection{Die LSP-Services}
+    Die Schnittstelle für alle Services zu der Server-Schicht bildet das MethodHandler-Interface:
+    \begin{lstlisting}[language=Go]
+package service
+type MethodHandler interface {
+	Initialize(params *initialize.InitializeParams,
+                result *initialize.InitializeResult)
+	GetMethods() []string
+	HandleMethod(message protokoll.Message)
+}
+    \end{lstlisting}
+    Jeder Service implementiert die drei Methoden.
+    \begin{enumerate}
+        \item \textbf{Initialize} \\
+        Der Service liest die Fähigkeiten des Clients und konfiguriert sich selbständig.
+        Sollte der Client den Service nicht unterstützen, muss er sich deaktivieren.
+        Der Service schreibt seine Fähigkeiten in die Antwort des Servers.
+        \item \textbf{GetMethods} \\
+        Gibt die Methoden aus dem LSP-Protokoll zurück für die der Service Meldungen verarbeitet.
+        \item \textbf{HandleMethod} \\
+        Verarbeite die Nachricht.
+    \end{enumerate}
+
+    
+    \subsubsection{FileService}
+    Der FileService ist die Schnittstelle zwischen den Dateien, den Parsern und den restlichen Services.
+    Wenn ein anderer Service auf Dateien, semantische Modell oder den Lookup zugreifen möchte, werden Methoden des FileServices genutzt.
+    \begin{lstlisting}[language=Go]
+package fileService
+type FileService struct {
+	handleMap map[string]*fileHandle
+	listeners []FileChangeListener
+	con       connect.Connection
+}
+    \end{lstlisting}
+    In der ``handleMap'' werden ``fileHandles'' gespeichert.
+    Ein FileHandle speichert alle Daten zu einer Datei und wird mit jeder Veränderung aktualisiert.
+    \begin{lstlisting}[language=Go]
+package fileService
+type fileHandle struct {
+	FileContent string
+	Ast         *tree_sitter.Tree
+	Model       *smodel.Model
+	LookUp      *smodel.TypeLookUp
+	Version     int32
+}
+    \end{lstlisting}
+    Um einen FileHandle zu erzeugen, wird der Inhalt der Datei mithilfe Semantik-Schicht geparst.\\
+    Wird der Dateiinhalt geändert, so werden die Änderungen an die Semantik-Schicht übergeben.
+    Dort werden die Änderungen zum iterativen Parsen des neuen Dateiinhalts genutzt.
+    Abschließend werden der Lookup erzeugt und die semantischen Regeln durchlaufen. \\
+    \paragraph{FileChangeListener}
+    Es gibt Funktionen im LSP-Protokoll die nicht durch eingehende Nachrichten ausgelöst werden, sondern nach Dateiänderungen automatisch an den Client übermittelt werden.
+    Dafür gibt es im DMF-LSP-Server die FileChangeListener.
+    \begin{lstlisting}[language=Go]
+package fileService
+type FileChangeListener interface {
+	// HandleFileChange gets called when the FileService
+    // finishes parsing the File.
+    // It may be called in its own routine.
+    // Changes to the Parameters are ignored.
+	HandleFileChange(file protokoll.DocumentURI, fileContent string,
+                    ast *tree_sitter.Tree, model *smodel.Model,
+                    lookup smodel.TypeLookUp,
+                    errorElements []errElement.ErrorElement,
+                    version int32)
+}
+    \end{lstlisting}
+    Der FileService enthält Referenzen zu allen aktiven Listener.
+    Nachdem ein FileHandle erstellt oder bearbeitet wurde, werden alle Listener durchlaufen.\\
+    Im DMF-LSP-Server ist nur ein FileChangeListener implementiert:
+    \subparagraph{Der DiagnosticsService}
+    übermittelt die aktuellen Fehler in der Modelldatei an den Client.
+    Dafür werden alle ErrorElemente in die Diagnostic Strukturen des LSP-Protokolls übersetzt.
+    Schließlich werden die Daten mithilfe einer Request-Nachricht für die Methode ``textDocument/publishDiagnostics'' an den Client übermittelt.
+
+    \subsubsection{SemanticTokensService}
+    Um ein schnelles Verständnis einer Datei zu ermöglichen, ist die Einfärbung der Syntax und Semantik wichtig.
+    Dafür stellt das LSP-Protokoll die Möglichkeit bereit semantische Tokens zu übermitteln.\\
+    Ein Token bezieht sich immer auf einen Bereich im Sourcecode und übermittelt einen Tokentyp und eine Auswahl der Tokenmodifikatoren.
+    Die Tokentypen und Tokenmodifikatoren werden während der Initialisierung übermittelt.
+    Der Client kann auch während der Initialisierung angeben, ob überlappende Bereich für Token unterstützt werden.
+    Wenn die neuen semantischen Tokens übermittelt werden, werden die Tokens mithilfe einer Zahlenfolge codiert.
+    \begin{center}
+        \begin{tabular}{| c | c | m{21.5em} |}
+            \hline
+            \makecell{Index in der\\ Zahlenfolge\\für Token mit \\Index i} & Name & Erklärung \\
+            \hline
+            5*i & deltaLine & Die Zeilen zwischen dem letzten Token und diesem Token. \\
+            \hline
+            5*i+1 & deltaStart & Die Zeichen zwischen dem letzen Token und diesem Token.
+            Relativ zu 0, falls der aktuelle Token in einer neuen Zeile ist. \\
+            \hline
+            5*i+2 & length & Die Länge des Tokens. \\
+            \hline
+            5*i+3 & tokenType & Index des Typs des Tokens in der Semantik Token Typ Legende. \\
+            \hline
+            5*i+4 & tokenModifiers & Zahl deren Bits als Wahrheitswerte für jeden Modifikator aus der Legende der Semantik Token Modifikatoren.
+            Der erste Bit (0b00000001) steht dabei für den ersten Modifikator. \\
+            \hline
+        \end{tabular}
+    \end{center}
+
+
+    \paragraph{Der Legende für Semantik Token Typen}
+    \begin{center}
+        \begin{tabular}{|c|c|p{\mycolwidth}|}
+            \hline
+            Index & Token Typ & Verwendung im DMF \\
+            \hline
+            0 & namespace & Für den Namen eines Packages.\\
+            \hline
+            1 & type & \makecell[l]{Für das AST-Element ``reftype''.\\Für den Override Wert des Java Typens.}\\
+            \hline
+            2 & class & Für den Override Wert der Java Klasse, der Oberklasse und der implementierten Interfaces.\\
+            \hline
+            3 & enum & Für den Namen eines Enums.\\
+            \hline
+            4 & interface & Für den Namen eines Interfaces.\\
+            \hline
+            5 & struct & Für den Namen eines Structs oder einer Entity.\\
+            \hline
+            6 & parameter & Für die Parameter einer Funktion.\\
+            \hline
+            7 & variable & \makecell[l]{Für die Namen von Argumenten, Referenzen und \\MultiReferenzen.\\Für die Namen der Variablen im Entity Identifier.\\Für den Override Wert des Java Namens.}\\
+            \hline
+            8 & property &\\
+            \hline
+            9 & number & Für alle Zahlenwerte in einer Enum-Konstante.\\
+            \hline
+            10 & enumMember & Für den Namen einer Enum-Konstante.\\
+            \hline
+            11 & function & Für den Namen einer Funktion.\\
+            \hline
+            12 & comment & Für alle Kommentare.\\
+            \hline
+            13 & keyword & Für alle Keywords.\\
+            \hline
+            14 & string & Für alle Strings außer den Werten im Override.\\
+            \hline
+            15 & modifier & \\
+            \hline
+            16 & decorator & Für den Override Wert der Java Annotations.\\
+            \hline
+        \end{tabular}
+    \end{center}
+
+    \paragraph{Generierung der Semantik Tokens}\mbox{}\\
+    Die Semantik Tokens werden mithilfe zweier Algorithmen generiert.
+    \subparagraph{Mithilfe des ASTs} werden alle AST-Elemente durchlaufen.
+    Werden Elemente erreicht, deren semantischer Token allein am AST Element bestimmt werden kann, so werden die Token generiert.
+    \subparagraph{Mithilfe des semantischen Modells} werden die restlichen Token bestimmt.
+    Dies ist möglich da die Elemente im semantischen Modell Referenzen zum AST beinhalten.
+    Dazu gehören die Namen der verschiedenen Inhalte, wie z.B.\ von Argumenten.
+    Bei diesen Namen wird das gleiche AST-Element genutzt, wodurch sie nur das semantische Parsen unterscheidbar sind.
+
+    \subparagraph{Die Codierung der semantischen Tokens} muss zunächst die generierten Tokens sortieren, da keine Garantie für die richtige Reihenfolge durch die beiden Algorithmen existiert.
+    \begin{lstlisting}[language=Go,label={lst:sortSemanticTokens}]
+slices.SortFunc(semanticElements, func(a, b *semanticElement) int {
+    if a.line == b.line {
+        return cmp.Compare(a.start, b.start)
+    }
+    return cmp.Compare(a.line, b.line)
+})
+    \end{lstlisting}
+    Nach der Sortierung können die Tokens durchlaufen werden.
+    \begin{lstlisting}[language=Go]
+data := make([]uint32, len(semanticElements)*5)
+
+lastLine := uint32(0)
+lastStart := uint32(0)
+
+for i, element := range semanticElements {
+    line := element.line
+    start := element.start
+    length := element.length
+    tokenType := element.tokenType
+    tokenModifiers := element.tokenModifiers
+    if line < lastLine {
+        // Tokens must be sorted by line and character
+        continue
+    }
+
+    if line == lastLine && start < lastStart {
+        // Tokens must be sorted by line and character
+        continue
+    }
+
+    // Calculate delta encoding
+    deltaLine := line - lastLine
+    deltaStart := uint32(0)
+    if line == lastLine {
+        deltaStart = start - lastStart
+    } else {
+        deltaStart = start
+    }
+
+    data[i*5] = deltaLine
+    data[i*5+1] = deltaStart
+    data[i*5+2] = length
+    data[i*5+3] = tokenType
+    data[i*5+4] = tokenModifiers
+
+    lastLine = line
+    lastStart = start
+}
+    \end{lstlisting}
+    Beim Durchlaufen wird ein Integer-Slice erstellt. \\
+    Für jeden Token werden die 5 Zahlen nach dem Protokoll hinzugefügt. \\
+    Überschneiden sich Token oder sind nicht in der richtigen Reihenfolge werden die Token ignoriert. \\
+    Die aktuelle Zeile und Spalte im Text wird nach jedem Token aktualisiert.
+
+    
+
 
 \end{document}

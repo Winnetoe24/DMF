@@ -12,6 +12,7 @@ import (
 	"github.com/Winnetoe24/DMF/lsp/service/fileService"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
+	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages/values"
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 	"slices"
 )
@@ -262,8 +263,10 @@ func (s *SemanticTokensService) walkElements(content fileService.FileContent, ad
 					switch value.(type) {
 					case base.StringValue:
 						continue
+					case values.BooleanValue:
+						continue
 					default:
-						addToken(value.GetNode(), indexNumber)
+						addToken(value.GetNode(), indexNumber, indexDefinition)
 
 					}
 				}
@@ -288,6 +291,8 @@ func (s *SemanticTokensService) WalkNode(cursor *tree_sitter.TreeCursor, addToke
 	case "override", "javaDoc", "java", "class", "name", "type", "annotations":
 		fallthrough
 	case "func", "arg", "ref":
+		fallthrough
+	case "true", "false":
 		fallthrough
 	case "extends", "implements", "expand":
 		fallthrough

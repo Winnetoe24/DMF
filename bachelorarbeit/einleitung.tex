@@ -2,7 +2,19 @@
 \usepackage{import}
 \usepackage{subfiles}
 \usepackage{array}
+\usepackage{makecell}
 \usepackage{listings}
+\usepackage{calc}
+
+
+\usepackage{pgf}
+
+
+
+\newlength{\mycolwidth}
+\setlength{\mycolwidth}{\textwidth-10em-15.92453pt}
+
+
 \title{Entwicklung eines flexiblen Frameworks zur generierung von Datenmodellen}
 
 
@@ -108,3 +120,9 @@ Data Mining Arbeitsgruppe \\
 \chapter{Anhang}
 \subfile{grammatik.tex}
 \end{document}
+
+% Wohin gehört die Erklärung für das LSP-Protokoll z.B. die Codierung der SemanticTokens
+% Wie soll das Semantic Modell beschrieben werden
+% Wie soll das Parsen beschrieben werden
+% Ist der bisherige Tel gut
+% Zitate?
