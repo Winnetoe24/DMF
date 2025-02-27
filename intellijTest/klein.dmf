@@ -38,8 +38,15 @@ package de.alex.brand.klein {
             func void Hi();
             func void Zwei();
         }
-        {
-                java {}
+        override {
+                java {
+                    extends ""
+                    annotations "@Deprecated"
+                    javaDoc "asd"
+                    implements "asd"
+                    type "asd"
+                    class "asd"
                 }
+        }
 
 }

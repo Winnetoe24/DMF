@@ -56,8 +56,8 @@ const (
 	TokenTypeEnumMember = "enumMember"
 	TokenTypeFunction   = "function"
 	TokenTypeComment    = "comment"
-	TokenTypeString     = "string"
 	TokenTypeKeyword    = "keyword"
+	TokenTypeString     = "string"
 	TokenTypeModifier   = "modifier"
 	TokenTypeDecorator  = "decorator"
 )

@@ -154,15 +154,27 @@ func (s *SemanticTokensService) computeSemanticTokens(content fileService.FileCo
 			tokenModifiers: tokenModifiers,
 		})
 	}
+	byteContent := []byte(content.Content)
+	addTokenWrapper := func(cNode *tree_sitter.Node, tokenType int, tokenModifiers ...int) {
+		startPosition := cNode.StartPosition()
+		text := cNode.Utf8Text(byteContent)
+		modifier := uint32(0)
+		for _, tokenModifier := range tokenModifiers {
+			cMod := uint32(1)
+			cMod = cMod << tokenModifier
+			modifier |= cMod
+		}
+		addToken(uint32(startPosition.Row), uint32(startPosition.Column), uint32(len(text)), uint32(tokenType), modifier)
+	}
 
 	cursor := content.Ast.Walk()
 	//logger := logService.GetLogger()
 	//logger.Printf("%s Call Walk:\n", logService.TRACE)
-	s.WalkNode(cursor, []byte(content.Content), addToken)
+	s.WalkNode(cursor, addTokenWrapper)
 	// Process all elements in the lookup
 	//logger.Printf("%s Call Walk:\n", logService.TRACE)
 
-	s.walkElements(content, addToken)
+	s.walkElements(content, addTokenWrapper)
 
 	slices.SortFunc(semanticElements, func(a, b *semanticElement) int {
 		if a.line == b.line {
@@ -214,144 +226,85 @@ func (s *SemanticTokensService) computeSemanticTokens(content fileService.FileCo
 	}
 }
 
-func (s *SemanticTokensService) walkElements(content fileService.FileContent, addToken func(line uint32, start uint32, length uint32, tokenType uint32, tokenModifiers uint32)) {
+func (s *SemanticTokensService) walkElements(content fileService.FileContent, addToken func(cNode *tree_sitter.Node, tokenType int, tokenModifiers ...int)) {
 	for _, element := range content.LookUp {
 		for _, namedElement := range element.GetBase().NamedElements {
 			switch element := namedElement.(type) {
 			case *packages.Argument:
-				node := element.Name.Node
-				pos := node.StartPosition()
-				addToken(uint32(pos.Row), uint32(pos.Column), uint32(len(node.Utf8Text([]byte(content.Content)))), indexVariable, indexReadonly)
+				addToken(element.Name.Node, indexVariable, indexDeclaration)
 			case *packages.Referenz:
-				node := element.Name.Node
-				pos := node.StartPosition()
-				addToken(uint32(pos.Row), uint32(pos.Column), uint32(len(node.Utf8Text([]byte(content.Content)))), indexVariable, 0)
+				addToken(element.Name.Node, indexVariable, indexDeclaration)
+			case *packages.MultiReferenz:
+				addToken(element.Name.Node, indexVariable, indexDeclaration)
+
 			case *packages.Funktion:
-				node := element.Name.Node
-				pos := node.StartPosition()
-				addToken(uint32(pos.Row), uint32(pos.Column), uint32(len(node.Utf8Text([]byte(content.Content)))), indexFunction, indexDeclaration)
+				addToken(element.Name.Node, indexFunction, indexDeclaration)
+				for _, p := range element.Parameter {
+					switch variable := p.(type) {
+					case *packages.Argument:
+						addToken(variable.Name.Node, indexParameter, indexDeclaration)
+					case *packages.Referenz:
+						addToken(variable.Name.Node, indexParameter, indexDeclaration)
+					case *packages.MultiReferenz:
+						addToken(element.Name.Node, indexParameter, indexDeclaration)
+					}
+				}
 
 			}
 		}
 		switch e := element.(type) {
 		case *packages.EnumElement:
-			// Token for enum name
-			//node := e.GetBase().Node
-			//pos := node.StartPosition()
-			//addToken(uint32(pos.Row), uint32(pos.Column), uint32(len(e.EntityIdentifier.Name)), 3, 1)
-			//
 			// Process enum constants
 			for _, konstante := range e.Konstanten {
-				node := konstante.Name.Node
-				pos := node.StartPosition()
-				addToken(uint32(pos.Row), uint32(pos.Column), uint32(len(node.Utf8Text([]byte(content.Content)))), indexProperty, indexStatic)
+				addToken(konstante.Name.Node, indexEnumMember, indexDeclaration)
 
 				for _, value := range konstante.Values {
 					switch value.(type) {
 					case base.StringValue:
 						continue
 					default:
-						node := value.GetNode()
-						pos := node.StartPosition()
-						addToken(uint32(pos.Row), uint32(pos.Column), uint32(len(node.Utf8Text([]byte(content.Content)))), indexNumber, 0)
+						addToken(value.GetNode(), indexNumber)
 
 					}
 				}
+			}
+		case *packages.EntityElement:
+			for _, identifier := range e.EntityIdentifier.Variablen {
+				addToken(identifier.Node, indexVariable)
 			}
 		}
 	}
 }
 
-func (s *SemanticTokensService) WalkNode(cursor *tree_sitter.TreeCursor, content []byte, addToken func(line uint32, start uint32, length uint32, tokenType uint32, tokenModifiers uint32)) {
+func (s *SemanticTokensService) WalkNode(cursor *tree_sitter.TreeCursor, addToken func(cNode *tree_sitter.Node, tokenType int, tokenModifiers ...int)) {
 	node := cursor.Node()
 	//logger := logService.GetLogger()
 	//logger.Printf("%sStart Walk:\n", logService.TRACE)
 
 	switch node.GrammarName() {
 	// Keywords
-	case "struct":
+	case "struct", "entity", "enum", "interface":
 		fallthrough
-	case "entity":
+	case "override", "javaDoc", "java", "class", "name", "type", "annotations":
 		fallthrough
-	case "enum":
+	case "func", "arg", "ref":
 		fallthrough
-	case "interface":
+	case "extends", "implements", "expand":
 		fallthrough
-
-	case "override":
+	case "model", "dmf", "version":
 		fallthrough
-	case "javaDoc":
-		fallthrough
-	case "java":
-		fallthrough
-	case "class":
-		fallthrough
-	case "name":
-		fallthrough
-	case "type":
-		fallthrough
-	case "annotations":
-		fallthrough
-
-	case "func":
-		fallthrough
-	case "arg":
-		fallthrough
-	case "ref":
-		fallthrough
-
-	case "extends":
-		fallthrough
-	case "implements":
-		fallthrough
-	case "expand":
-		fallthrough
-
-	case "model":
-		fallthrough
-	case "dmf":
-		fallthrough
-	case "version":
-		fallthrough
-
-	case "int":
-		fallthrough
-	case "long":
-		fallthrough
-	case "double":
-		fallthrough
-	case "byte":
-		fallthrough
-	case "string":
-		fallthrough
-	case "date":
-		fallthrough
-	case "datetime":
-		fallthrough
-	case "boolean":
-		fallthrough
-	case "void":
-		fallthrough
-	case "package":
-		startPosition := node.StartPosition()
-		text := node.Utf8Text(content)
-		addToken(uint32(startPosition.Row), uint32(startPosition.Column), uint32(len(text)), uint32(indexKeyword), 0)
+	case "int", "long", "double", "byte", "string", "date", "datetime", "boolean", "void", "package":
+		addToken(node, indexKeyword)
 	// EntityIdentifier keyword anhand parent, da identifier auch alle Namen der Elemente sind
 	case "identifier_statement":
 		identifierNode := node.Child(0)
-		startPosition := identifierNode.StartPosition()
-		text := identifierNode.Utf8Text(content)
-		addToken(uint32(startPosition.Row), uint32(startPosition.Column), uint32(len(text)), uint32(indexKeyword), 0)
+		addToken(identifierNode, indexKeyword)
 	// Type
 	case "reftype":
-		startPosition := node.StartPosition()
-		text := node.Utf8Text(content)
-		addToken(uint32(startPosition.Row), uint32(startPosition.Column), uint32(len(text)), uint32(indexType), 0)
-
+		addToken(node, indexType)
 	// String
 	case "stringValue":
 		tokenType := indexString
-		modifiers := 0
 		switch node.Parent().GrammarName() {
 		case "java_implements":
 			fallthrough
@@ -368,23 +321,25 @@ func (s *SemanticTokensService) WalkNode(cursor *tree_sitter.TreeCursor, content
 			tokenType = indexComment
 		case "java_type":
 			tokenType = indexType
-		
+
 		}
-		startPosition := node.StartPosition()
-		text := node.Utf8Text(content)
+		addToken(node, tokenType)
 
-		addToken(uint32(startPosition.Row), uint32(startPosition.Column), uint32(len(text)), uint32(tokenType), uint32(modifiers))
-
-	// PackageString
+	// Identifier / Package String
+	case "entity_block", "struct_block":
+		child := node.Child(1)
+		addToken(child, indexStruct, indexDeclaration)
+	case "interface_block":
+		child := node.Child(1)
+		addToken(child, indexInterface, indexDeclaration)
+	case "enum_block":
+		child := node.Child(1)
+		addToken(child, indexEnum, indexDeclaration)
 	case "package_block":
 		child := node.Child(1)
-		startPosition := child.StartPosition()
-		text := child.Utf8Text(content)
-		addToken(uint32(startPosition.Row), uint32(startPosition.Column), uint32(len(text)), indexClass, indexDeclaration)
+		addToken(child, indexNamespace, indexDeclaration)
 	case "comment_block":
-		startPosition := node.StartPosition()
-		text := node.Utf8Text(content)
-		addToken(uint32(startPosition.Row), uint32(startPosition.Column), uint32(len(text)), uint32(indexComment), 0)
+		addToken(node, indexComment)
 	default:
 		//logger.Println("Cant Color: " + node.GrammarName())
 
@@ -397,7 +352,7 @@ func (s *SemanticTokensService) WalkNode(cursor *tree_sitter.TreeCursor, content
 	defer cursor.GotoParent()
 
 	for {
-		s.WalkNode(cursor, content, addToken)
+		s.WalkNode(cursor, addToken)
 		if !cursor.GotoNextSibling() {
 			break
 		}
