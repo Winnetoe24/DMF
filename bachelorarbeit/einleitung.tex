@@ -104,13 +104,31 @@ Data Mining Arbeitsgruppe \\
 
 \usepackage{hhline}
 
+\usepackage[acronym,toc]{glossaries}
+
+\glstoctrue
+\makeglossaries
+\newacronym{emf}{EMF}{Eclipse Modelling Framework}
+\newacronym{ple}{PLE}{Product Line Engineering}
+\newacronym{ide}{IDE}{Integrated Development Environment}
+\newacronym{dmf}{DMF}{Domain Modell Framework}
+\newacronym{ast}{AST}{Abstract Syntax Tree}
+\newacronym{lsp}{LSP}{Language Server Protokoll}
+\newacronym{dsl}{DSL}{Domain Specific Language}
+\newacronym{api}{API}{Application Programming Interface}
+\newacronym{cli}{CLI}{Command Line Interface}
+\newacronym{ant}{ANTLR}{ANother Tool for Language Recognition}
+\newacronym{llm}{LLM}{Large Language Model}
+\newacronym{}{}{}
+
+
+
 \begin{document}
 \maketitle
 \tableofcontents
+\printglossary[type=\acronymtype,title=Abkürzungsverzeichnis,toctitle=Abkürzungsverzeichnis]
 \chapter{Einleitung}
-
 \subfile{motivation.tex}
-\chapter{Entwicklung}
 \subfile{tools.tex}
 \subfile{abstraktion.tex}
 \subfile{sprache.tex}
