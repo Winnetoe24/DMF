@@ -64,7 +64,7 @@ type MethodHandler interface {
         Verarbeite die Nachricht.
     \end{enumerate}
 
-    
+
     \subsubsection{FileService}
     Der FileService ist die Schnittstelle zwischen den Dateien, den Parsern und den restlichen Services.
     Wenn ein anderer Service auf Dateien, semantische Modell oder den Lookup zugreifen möchte, werden Methoden des FileServices genutzt.
@@ -187,7 +187,7 @@ type FileChangeListener interface {
             \hline
         \end{tabular}
     \end{center}
-
+%TODO Modifier
     \paragraph{Generierung der Semantik Tokens}\mbox{}\\
     Die Semantik Tokens werden mithilfe zweier Algorithmen generiert.
     \subparagraph{Mithilfe des ASTs} werden alle AST-Elemente durchlaufen.
@@ -253,7 +253,36 @@ for i, element := range semanticElements {
     Überschneiden sich Token oder sind nicht in der richtigen Reihenfolge werden die Token ignoriert. \\
     Die aktuelle Zeile und Spalte im Text wird nach jedem Token aktualisiert.
 
-    
+    \subsubsection{SelectionRangeService}
+    Der SelectionRangeService implementiert die LSP-Methode ``textDocument/selectionRange''.
+    Diese wird dafür genutzt, dass bei der Auswahl immer der richtige Text ausgewählt wird. \\
+    Die Bereiche werden im Service mithilfe des ASTs berechnet.
+    \begin{lstlisting}[language=Go]
+package selectionRangeService
+func (s *SelectionRangeService) computeSelectionRangeForPosition(
+        content fileService.FileContent,
+        position protokoll.Position) *selectionRange.SelectionRange {
+	finder := util.NewNodeFinder([]byte(content.Content))
+	node := finder.FindSmallestNodeAroundPosition(content.Ast, position)
+	var currentRange *selectionRange.SelectionRange
+	for node != nil {
+		newRange := &selectionRange.SelectionRange{
+			Range: protokoll.ToRange(node.Range()),
+		}
+		newRange.Parent = currentRange
+		currentRange = newRange
 
+		node = node.Parent()
+	}
+	return currentRange
+}
+    \end{lstlisting}
+    Es wird zunächst das kleinste Element(das ``Blatt'' des Baums) des ASTs für die Position Code bestimmt.\\
+    Nun wird durch die Schichten des ASTs bis zur Wurzel iteriert.
+    Bei jedem Element eine neue ``SelectionRange'' Instanz  angelegt.
+    Dieses ``SelectionRange'' enthält immer den Bereich und eine Referenz zu der vorherigen ``SelectionRange''.
+    Durch die Referenz wird die Baum-Struktur auch im Ergebnis übermittelt und es müssen weniger Anfragen an den Server gesendet werden.\\
 
+    Ein Request kann mehrere Positionen enthalten.
+    Deshalb wird der Algorithmus für jede Position ausgeführt.
 \end{document}
