@@ -3,12 +3,14 @@
 \usepackage{subfiles}
 \usepackage{array}
 \usepackage{makecell}
-\usepackage{listings}
+\usepackage{listings, listings-rust}
 \usepackage{calc}
-
-
 \usepackage{pgf}
 
+
+
+\colorlet{currenttext}{.}% store current text color
+%\hypersetup{linkcolor=currenttext}% set link color
 
 
 \newlength{\mycolwidth}
@@ -91,6 +93,23 @@
 \DeclareCaptionType{mytype}[Listing][List of mytype]
 \newenvironment{myenv}{\captionsetup{type=mytype}}{}
 
+
+%\usepackage[
+%backend=biber,
+%style=alphabetic,
+%sorting=ynt
+%]{biblatex}
+%\usepackage{biblatex}
+\usepackage[backend=biber, % moderneres backend als bibtex
+    style=alphabetic, % Alphabetischer Stil besser bei viel Literatur
+    doi=true, isbn=true, url=true,  % DOI, ISBN und URLs anzeigen
+    maxnames=3, minnames=1,         % Ab 4 Autoren bei Quellenangaben et al. verwenden
+    maxbibnames=99, minbibnames=99, % Literaturverzeichnis vollständig
+]{biblatex}
+\let\cite=\textcite % Bevorzugte Zitierweise ist mit Autorennamen, aber \parencite ist auch ok!
+\addbibresource{zitate.bib}
+
+
 \newcommand{\matrikelnummer}{123456}
 \newcommand{\erstgutachterIn}{Prof.{} Dr.{} Erich Schubert}
 \newcommand{\zweitgutachterIn}{Name des Zweitgutachters}
@@ -119,6 +138,7 @@ Data Mining Arbeitsgruppe \\
 \newacronym{cli}{CLI}{Command Line Interface}
 \newacronym{ant}{ANTLR}{ANother Tool for Language Recognition}
 \newacronym{llm}{LLM}{Large Language Model}
+\newacronym{sql}{SQL}{Structured Query Language}
 \newacronym{}{}{}
 
 
@@ -126,17 +146,20 @@ Data Mining Arbeitsgruppe \\
 \begin{document}
 \maketitle
 \tableofcontents
+\printbibliography[title={Whole bibliography}]
 \printglossary[type=\acronymtype,title=Abkürzungsverzeichnis,toctitle=Abkürzungsverzeichnis]
 \chapter{Einleitung}
-\subfile{motivation.tex}
-\subfile{tools.tex}
+%\subfile{motivation.tex}
+%\subfile{tools.tex}
 \subfile{abstraktion.tex}
-\subfile{sprache.tex}
-\subfile{semantik.tex}
-\subfile{lsp.tex}
-\subfile{javaGenerator.tex}
-\chapter{Anhang}
-\subfile{grammatik.tex}
+%\subfile{sprache.tex}
+%\subfile{semantik.tex}
+%\subfile{lsp.tex}
+%\subfile{javaGenerator.tex}
+%\chapter{Anhang}
+%\subfile{grammatik.tex}
+
+
 \end{document}
 
 % Wohin gehört die Erklärung für das LSP-Protokoll z.B. die Codierung der SemanticTokens
