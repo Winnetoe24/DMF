@@ -122,8 +122,14 @@ Data Mining Arbeitsgruppe \\
 \author{Alexander Brand}
 
 \usepackage{hhline}
+\usepackage{hyperref}
 
 \usepackage[acronym,toc]{glossaries}
+
+
+
+
+
 
 \glstoctrue
 \makeglossaries
@@ -137,7 +143,14 @@ Data Mining Arbeitsgruppe \\
 \newacronym{ebnf}{EBNF}{Erweiterte Backus-Naur-Form}
 \newacronym{ide}{IDE}{Integrated Development Environment}
 \newacronym{llm}{LLM}{Large Language Model}
-\newacronym{lsp}{LSP}{Language Server Protokoll}
+%\setacronymstyle{sm-short-long-desc}
+\newacronym[description={Language Server Protokoll.\\
+Spezifikation in den \hyperlink{lsp-quelle}{Quellen}.
+Das Ziel des LSPs wird im \hyperlink{lsp-ziel}{Abschnitt 1.3.3} beschrieben.
+Die Erklärung der technischen Spezifikation befindet sich im Abschnitt zum \hyperlink{lsp-tech}{LSP-Server}.
+}]
+{lsp}{LSP}{Language Server Protokoll}
+%\setacronymstyle{long-short}
 \newacronym{ple}{PLE}{Product Line Engineering}
 \newacronym{sql}{SQL}{Structured Query Language}
 \newacronym{xml}{XML}{Extensible Markup Language}
@@ -148,9 +161,9 @@ Data Mining Arbeitsgruppe \\
 \begin{document}
 \maketitle
 \tableofcontents
-\printbibliography[title={Whole bibliography}]
+\printbibliography[title={Whole bibliography}]\hypertarget{lsp-quelle}
 \printglossary[type=\acronymtype,title=Abkürzungsverzeichnis,toctitle=Abkürzungsverzeichnis]
-\chapter{Einleitung}
+\chapter{Einleitung}\label{ch:einleitung}
 \subfile{motivation.tex}
 \subfile{tools.tex}
 \subfile{abstraktion.tex}
