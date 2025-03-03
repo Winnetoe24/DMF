@@ -153,10 +153,7 @@
 
     \begin{center}
         \textit{
-            In nahezu allen Programmiersprachen gibt es die Möglichkeit, mit sogenannten zusammengesetzten oder komplexen Datentypen zu arbeiten. Ihnen ist gemeinsam, dass wir mehrere Werte nebeneinander dort abspeichern können.}
-
-%            \cite{978-3-8348-9999-6.pdf}
-
+            In nahezu allen Programmiersprachen gibt es die Möglichkeit, mit sogenannten zusammengesetzten oder komplexen Datentypen zu arbeiten. Ihnen ist gemeinsam, dass wir mehrere Werte nebeneinander dort abspeichern können.\cite{978-3-8348-9999-6.pdf}}
     \end{center}
     Das \acrshort{dmf} muss diese Datentypen auch abbilden können.
     Deshalb beinhaltet es Structs.
@@ -187,27 +184,34 @@
     Aufzählungen sind Bestandteil vieler Programmiersprachen.
     Häufig existieren sie als reine Liste aus Codesymbolen.
     Aus Sprachen wie Rust sind jedoch auch Aufzählungstypen, dessen Einträge konstante Werte beinhalten können, bekannt.
-    \begin{lstlisting}[language=Rust, caption=Ein Enum in Rust\cite{rustcookbook}]
+    %! suppress = MissingLabel
+    \begin{lstlisting}[language=Rust, caption=Ein Enum in Rust von \cite{rustcookbook}]
 enum IpAddr {
         V4(u8, u8, u8, u8),
         V6(String),
 }
     \end{lstlisting}
 
-    Diese Funktion kann auch in Sprachen dessen Enums diese Möglichkeit nicht beinhalten, durch Funktionen die für den Enumeintrag den modellierten Wert zurückgeben, emuliert werden.
+    Diese Funktion kann auch in Sprachen dessen Enums diese Möglichkeit nicht beinhalten, durch Funktionen, die für den Enum-Eintrag den modellierten Wert zurückgeben, emuliert werden.
 
-    Im DMF lassen sich diese Werte mithilfe von Argumenten modellieren. Bei der Definition eines Enumeintrags müssen die Konstanten mit angeben werden.
+    Im \acrshort{dmf} lassen sich diese Werte mithilfe von Argumenten modellieren.
+    Bei der Definition eines Enum-Eintrags müssen die Konstanten mit angeben werden.
 
     \subsubsection{Interfaces}
-    Wichtig für die Abstraktion sind Interfaces. Sie stellen Funktionen bereit und können zusammen mit anderen Interfaces in Structs und Enities implementiert werden.
+    Wichtig für die Abstraktion sind Interfaces.
+    Sie stellen Funktionen bereit und können zusammen mit anderen Interfaces in Structs und Entities implementiert werden.
 
     \subsubsection{Organisation der Elemente}
-    In großen Softwareprojekten werden Datentypen generell in Gruppen organisiert. Diese Gruppierung erfolgt meistens über das Dateisystem. Dabei repräsentiert ein Ordner eine Gruppe. Diese Gruppe wird meistens 'Package' genannt. \\
-    Das DMF beinhaltet auch Packages. Diese werden jedoch nicht im Dateisystem modelliert, sondern sollen als Elemente im Modell enthalten sein.
+    In großen Softwareprojekten werden Datentypen generell in Gruppen organisiert.
+    Diese Gruppierung erfolgt meistens über das Dateisystem.
+    Dabei repräsentiert ein Ordner eine Gruppe.
+    Diese Gruppe wird meistens `Package' genannt. \\
+    Das \acrshort{dmf} beinhaltet auch Packages.
+    Diese werden jedoch nicht im Dateisystem modelliert, sondern sollen als Elemente im Modell enthalten sein.
 
     \subsection{Zuweisungen der Abstraktionen}
 
-    Damit diese Abstraktion genutzt werden kann, müssen für jeden abstrakten Typen im DMF eine Zuweisung in jeder Sprache festgelegt werden.
+    Damit diese Abstraktion genutzt werden kann, müssen für jeden abstrakten Typen im \acrshort{dmf} eine Zuweisung in jeder Sprache festgelegt werden.
 
     \subsubsection{Java}
     \begin{center}
@@ -227,7 +231,9 @@ enum IpAddr {
             \hline
         \end{tabular}
     \end{center}
-    Die DMF Elemente können sehr gut in Java übersetzt werden. Für die Entity kann sogar die Identität mithilfe der Implementation von der Methoden 'hashCode' und 'equals' übernommen werden. Die Enums unterstützen auch die zusätzlichen Argumente.
+    Die \acrshort{dmf} Elemente können sehr gut in Java übersetzt werden.
+    Für die Entity kann sogar die Identität mithilfe der Implementation von der Methoden `hashCode' und `equals' übernommen werden.
+    Die Enums unterstützen auch die zusätzlichen Argumente.
 
     \begin{center}
         \begin{tabular}{| c || c |}
@@ -252,7 +258,8 @@ enum IpAddr {
             \hline
         \end{tabular}
     \end{center}
-    Das DMF kann bei den Zahlen und Wahrheitswerten genau auf Java übersetzt werden. Für Text- und Zeitwerte werden Klassen der Standardbibliothek verwendet.
+    Das \acrshort{dmf} kann bei den Zahlen und Wahrheitswerten genau auf Java übersetzt werden.
+    Für Text- und Zeitwerte werden Klassen der Standardbibliothek verwendet.
 
     \subsubsection{Typescript}
     \begin{center}

@@ -1,46 +1,51 @@
 \documentclass[./einleitung.tex]{subfiles}
 
 \begin{document}
-\section{Aufbau der DMF-DSL}
-Im Kern des DMFs sind die Modelldateien.
-Sie enthalten alle Informationen und sind die Schnittstelle zwischen DMF und Entwickler*innen.
-Deswegen ist das Format essentiell.
-EMF setzt auf XML als Format für die Modelldateien und erleichtert dadurch die Bearbeitung durch Grafische Editoren in Eclipse.
-Grafische Editoren funktionieren für das DMF nicht, da DMF mithilfe des LSP-Protokolls nur direkt Text-Editoren unterstützt.
-Text-Editoren bieten auch eine schnellere Entwicklung, da sie direkt auf der Textbearbeitung der jeweiligen IDE aufsetzen. \\
-Somit wurde für das DMF eine DSL entwickelt.
+\section{Aufbau der \acrshort{dmf}-\acrshort{dsl}}
+Im Kern des \acrshort{dmf}s sind die Modelldateien.
+Sie enthalten alle Informationen und sind die Schnittstelle zwischen \acrshort{dmf} und Entwickler*innen.
+Deswegen ist das Format essenziell.
+\acrshort{emf} setzt auf \acrshort{xml} als Format für die Modelldateien und erleichtert dadurch die Bearbeitung durch grafische Editoren in Eclipse.
+Grafische Editoren funktionieren für das \acrshort{dmf} nicht, da das \acrshort{dmf} mithilfe des \acrlong{lsp}s nur direkt Text-Editoren unterstützt.
+Text-Editoren bieten eine schnellere Entwicklung, da sie direkt auf der Textbearbeitung der jeweiligen \acrshort{ide} aufsetzen. \\
+Somit wurde für das \acrshort{dmf} eine \acrfull{dsl} entwickelt.
 \subsection{Die DSL und die EBNF}
-Die DMF-DSL besteht aus vielen Segmente die in einer EBNF dargestellt werden können. In diesem Abschnitt werden die verschiedenen Segmente und ihre Beziehung zur Abstraktion vorgestellt. Mithilfe ausgewählter EBNF-Regeln wird die Grammatik erläutert.\newline \newline
-Die EBNF Grammatik nutzt '[]' für Optionale Elemente, '*' für optionale Wiederholungen (mindestens 0 Elemente) und '+' erforderliche Wiederholungen (mindestens 1 Element).  Es können Elemente mit Klammern gruppiert werden. Für Tokens werden die Regulären Ausdrücke angegeben und mit einem 'R' markiert.\\
+Die \acrshort{dmf}-\acrshort{dsl} besteht aus vielen Segmenten, die in einer \acrfull{ebnf} dargestellt werden können.
+In diesem Abschnitt werden die verschiedenen Segmente und ihre Beziehung zur Abstraktion vorgestellt.
+Mithilfe ausgewählter \acrshort{ebnf}-Regeln wird die Grammatik erläutert.\newline \newline
+Die \acrshort{ebnf} Grammatik nutzt `[]' für optionale Elemente, `*' für optionale Wiederholungen (mindestens 0 Elemente) und `+' erforderliche Wiederholungen (mindestens 1 Element).
+Es können Elemente mit Klammern gruppiert werden.
+Für Tokens werden die regulären Ausdrücke angegeben und mit einem `R' markiert.\\
 
-Die Grammatik beginnt mit der Regel 'source_file':
+Die Grammatik beginnt mit der Regel `source\_file':
 \begin{grammar}
-<source_file> ::= <dmf_declaration> <new_line> <model_declaration> <new_line> [ <import_block>] <model_content>
+<source\_file> ::= <dmf_declaration> <new_line> <model_declaration> <new_line> [ <import_block>] <model_content>
 \end{grammar}
-In ihr sind die Regeln des Headers, des Importblocks und des Modelinhalts enthalten.
+In ihr sind die Regeln des Headers, des Importblocks und des Modellinhalts enthalten.
 
-\subparagraph{Namenskonvention in der DMF Grammatik}
-Die Grammatik des DMFs nutzt eine Namenskonvention, um den Zweck einer Regel zu dokumentieren.\\
-Ein Block beschreibt immer die Regeln die ein Element umschließen. \\
-Eine Content-Regeln beschreibt den Inhalt in einem Block. Ein Block kann immer mehrere Content Elemente beinhalten. Ein Content-Element schreibt auch ein modelliertes Element, z.B. ein Argument. \\
-Eine Value-Regel beschreibt eine Regel welche einen Wert welcher während der Semantischen Verarbeitung des ASTs eingelesen wird.
+\subparagraph{Namenskonvention in der \acrshort{dmf} Grammatik}
+Die Grammatik des \acrshort{dmf}s nutzt eine Namenskonvention, um den Zweck einer Regel zu dokumentieren.\\
+Ein Block beschreibt immer die Regeln, die ein Element umschließen. \\
+Eine Content-Regel beschreibt den Inhalt in einem Block.
+Ein Block kann immer mehrere Content-Elemente beinhalten.
+Ein Content-Element schreibt auch ein modelliertes Element, z.B.\ ein Argument. \\
+Eine Value-Regel beschreibt eine Regel, welche einen Wert welcher während der semantischen Verarbeitung des ASTs eingelesen wird.
 
 \subsubsection{Header}
-Jede DMF Datei beginnt mit einem Header. Dieser Header wird genutzt die Version des Formats und Metadaten über das Modell zu dokumentieren.
-\begin{lstlisting}[caption={Header einer DMF-Modelldatei}]
+Jede \acrshort{dmf} Datei beginnt mit einem Header.
+Dieser Header wird genutzt die Version des Formats und Metadaten über das Modell zu dokumentieren.
+\begin{lstlisting}[caption={Header einer \acrshort{dmf}-Modelldatei}]
 dmf 1.0.0
 model "beispiel" version 0.0.1
 \end{lstlisting}
-Der Header besteht aus 2 wichtigen Grammatik-Regeln: "dmf_declaration" und "model_declaration". Beide bilden jeweils eine Zeile ab.
-\begin{myenv}
-\caption{Die EBNF Regeln}
+Der Header besteht aus 2 wichtigen Grammatik-Regeln: `dmf_declaration' und `model_declaration'.
+Beide bilden jeweils eine Zeile ab.
+
 \begin{grammar}
 <dmf_declaration> ::= 'dmf' <version_number>
 
 <model_declaration> ::= 'model' <string_value> 'version' <version_number>
 \end{grammar}
-\end{myenv}
-
 
 \subsubsection{Importblock}
 Es gibt zwei Gründe für den Import von vorhandenen Modellen:
@@ -48,34 +53,43 @@ Es gibt zwei Gründe für den Import von vorhandenen Modellen:
 \item Um die enthaltenen Klassen in das eigene Modell zu kopieren.
 \item Um die enthaltenen Klassen zu erweitern.
 \end{enumerate}
-Um ein DMF Modell zu Importieren wird die Datei und das Package das vom Modell übernommen werden soll. Es muss ein Package angegeben werden damit immer klar ist, welche Pfade schon belegt sind.
+Um ein \acrshort{dmf} Modell zu importieren wird die Datei und das Package das vom Modell übernommen werden soll.
+Es muss ein Package angegeben werden damit immer klar ist, welche Pfade schon belegt sind.
+%! suppress = MissingLabel
 \begin{lstlisting}[caption={Import des Package de.base}]
 import de.base from "./base.dmf"
 \end{lstlisting}
-Diese Importstatements werden alle im Import-Block zusammengefasst. Sollten keine Imports genutzt werden, so wird das komplette Import-Block aus dem AST entfernt, statt ein leeres Import-Block Element zu enthalten.
+Diese Importstatements werden alle in einem Importblock zusammengefasst.
+Sollten keine Importstatements genutzt werden, so wird der komplette Importblock aus dem \acrshort{ast} entfernt, statt einen leeren Importblock zu enthalten.
 \begin{grammar}
 <import_block> ::= <import_statement>+
 
 <import_statement> ::= 'import' <package_string> 'from' <string_value>
 \end{grammar}
 
-\subparagraph{Modellelemente erweitern} Das DMF beinhaltet die Möglichkeit Elemente zu erweitern. Dies ermöglicht Code für das Ursprüngliche Modell wiederzuverwenden und trotzdem Argumente, Referenzen und Funktionen hinzuzufügen. \\
-Eine Erweiterung im DMF muss generell explizit gekennzeichnet sein. Dafür muss zuerst das Package, indem der Entwickler*in etwas erweitern erweitern will, importiert werden.
-Das importierte Package muss nun im Modell modelliert werden. Es muss bei jedem, schon im importierten Modell vorhandenen Element, das Keyword 'expand' verwendet werden.
-In den mit 'expand' gekennzeichneten Elementen können nun neue Inhalte modelliert werden.
-
+\subparagraph{Modellelemente erweitern} Das \acrshort{dmf} beinhaltet die Möglichkeit Elemente zu erweitern.
+Dies ermöglicht Code für das ursprüngliche Modell wiederzuverwenden und trotzdem Argumente, Referenzen und Funktionen hinzuzufügen. \\
+Eine Erweiterung im \acrshort{dmf} muss generell explizit gekennzeichnet sein.
+Dafür muss zuerst das Package, indem der Entwickler*in etwas erweitern will, importiert werden.
+Das importierte Package muss nun im Modell modelliert werden.
+Es muss bei jedem, schon im importierten Modell vorhandenen Element, das Keyword `expand' verwendet werden.
+In den mit `expand' gekennzeichneten Elementen können neue Inhalte modelliert werden.
 
 \subsubsection{Modellinhalt}
-Der Modellinhalt enthält alle Elemente aus der Abstraktion des DMFs.
-Die Elemente werden in den Packages organisiert. Deshalb enthält die Regeln für den Modellinhalt auch die Regeln für Packages.
+Der Modellinhalt enthält alle Elemente aus der Abstraktion des \acrshort{dmf}s.
+Die Elemente werden in den Packages organisiert.
+Deshalb enthält die Regeln für den Modellinhalt auch die Regeln für Packages.
 
 \begin{grammar}
 <model_content> ::= <package_content>+
 \end{grammar}
 
 \subparagraph{Override}
-Die Abstraktion des DMFs kann bei manchen Sprachspezifischen Anforderungen an ihre Grenzen stoßen. Deshalb gibt es in der DMF DSL das Konzept des Overrides. An jedem PackageElement und jedem Element innerhalb des PackageElements kann ein Override-Block hinzugefügt werden. \\
-Dieser Block beinhaltet eine Section für einen Generat. In dieser Sektion können Werte überschrieben werden und Sprachspezifische Werte hinzugefügt werden. \\ 
+Die Abstraktion des \acrshort{dmf}s kann bei manchen sprachspezifischen Anforderungen an ihre Grenzen stoßen.
+Deshalb gibt es in der \acrshort{dmf} \acrshort{dsl} das Konzept des Overrides.
+An jedem PackageElement und jedem Element innerhalb des PackageElements kann ein Override-Block hinzugefügt werden. \\
+Dieser Block beinhaltet eine Section für einen Generat.
+In dieser Sektion können Werte überschrieben werden und sprachspezifische Werte hinzugefügt werden.\\
 \begin{grammar}
 <override_block> ::= 'override' '\{' (<java_override> | <typescript_override> )* '\}'
 
@@ -88,7 +102,8 @@ Dieser Block beinhaltet eine Section für einen Generat. In dieser Sektion könn
 \hline
 Java Override Option & Funktion\\
 \hhline{|=||=|}
-Annotations & Fügt den Text als Annotation zu dem jeweiligen Element hinzu. Java-Annotations gehören nicht zur DMF Abstraktion, sind jedoch für viele Frameworks wichtig.\\
+Annotations & Fügt den Text als Annotation zu dem jeweiligen Element hinzu.
+Java-Annotations gehören nicht zur \acrshort{dmf} Abstraktion, sind jedoch für viele Frameworks wichtig.\\
 \hline
 Extends & Überschreibt die Oberklasse.\\
 \hline
@@ -96,9 +111,9 @@ Implements & Überschreibt die implementierten Interfaces.\\
 \hline
 Class & Überschreibt den Klassennamen.\\
 \hline
-Name & Überschreibt den Namen des Elements (z.B. Variablenname).\\
+Name & Überschreibt den Namen des Elements (z.B.\ Variablenname).\\
 \hline
-Type & Überschreibt den Typen des Elements (z.B. Variablentyp).\\
+Type & Überschreibt den Typen des Elements (z.B.\ Variablentyp).\\
 \hline
 JavaDoc & Überschreibt den Kommentar.\\
 \hline
@@ -106,13 +121,14 @@ JavaDoc & Überschreibt den Kommentar.\\
 \end{center}
 
 \paragraph{Packages}
-Innerhalb eines Package können weitere Packages, Structs, Entities, Enums und Interfaces enthalten sein. Diese verschiedenen Elemente werden im weiterem als PackageElemente bezeichnet.\\
+Innerhalb eines Package können weitere Packages, Structs, Entities, Enums und Interfaces enthalten sein.
+Diese verschiedenen Elemente werden im weiterem als PackageElemente bezeichnet.\\
 \begin{lstlisting}
 package de.beispiel {
 
 }
 \end{lstlisting}
-Jedes PackageElement kann mit einem Kommentar, dem Keyword "expand" und einem Override-Block versehen werden:
+Jedes PackageElement kann mit einem Kommentar, dem Keyword `expand' und einem Override-Block versehen werden:
 \begin{lstlisting}
 // Das ist ein Packages mit dem Pfad "de.beispiel"
 expand package de.beispiel {
@@ -122,7 +138,8 @@ override {
 }
 \end{lstlisting}
 
-Die Regeln für ein Package folgen der Namenkonvention. Der 'package_string' beinhaltet Regeln für die Seperation der Packages mit Punkten.
+Die Regeln für ein Package folgen der Namenskonvention.
+Der `package_string' beinhaltet Regeln für die Separation der Packages mit Punkten.
 \begin{grammar}
 <package_content> ::= [<comment_block>] [ 'expand'] <package_block> [<override_block>]
 \alt [<comment_block>] ['expand'] <struct_block> [<override_block>]
@@ -134,14 +151,16 @@ Die Regeln für ein Package folgen der Namenkonvention. Der 'package_string' bei
 \end{grammar}
 
 \paragraph{Structs} 
-Structs beginnen wie Packages mit ihrem Identifizierenden Keyword. Die Syntax für die Abstraktion folgt der Java-Syntax.
+Structs beginnen wie Packages mit ihrem identifizierenden Keyword.
+Die Syntax für die Abstraktion folgt der Java-Syntax.
 \begin{lstlisting}
 struct Beispiel extends SuperBeispiel implements IBeispiel, IABeispiel {
 
 }
 \end{lstlisting}
 
-Die Grammatik-Regeln für ein Struct folgen der Namenskonvention. Der Inhalt eines Structs können Argumente, Referenzen, Multi-Referenzen (Collections) oder Funktionen sein.
+Die Grammatik-Regeln für ein Struct folgen der Namenskonvention.
+Der Inhalt eines Structs können Argumente, Referenzen, Multi-Referenzen (Collections) oder Funktionen sein.
 \begin{grammar}
 <struct_block> ::= 'struct' <identifier> [<extends_block>] [<implements_block>] '\{' <struct_content>* '\}'
 
@@ -153,13 +172,14 @@ Die Grammatik-Regeln für ein Struct folgen der Namenskonvention. Der Inhalt ein
 \end{grammar}
 
 \paragraph{Inhalt-Elemente}
-Die Regeln für Argumente, Referenzen, Multi-Referenzen (Collections) und Funktionen werden in den verschiedenen PackageElementen wiederverwendet. Deshalb werden sie hier zentral vorgestellt.
+Die Regeln für Argumente, Referenzen, Multi-Referenzen (Collections) und Funktionen werden in den verschiedenen PackageElementen wiederverwendet.
+Deshalb werden sie hier zentral vorgestellt.
 
 \subparagraph{Argument}
 \begin{lstlisting}
 arg int i;
 \end{lstlisting}
-Beim Argument werden die verschiedenen primitiven Typen mit einer Regeln zusammengefasst. 
+Beim Argument werden die verschiedenen primitiven Typen mit einer Regel zusammengefasst.
 \begin{grammar}
 <arg_block> ::= 'arg' <primitive_type> <identifier> ';'
 \end{grammar}
@@ -170,7 +190,8 @@ ref ..beispiel.Beispiel beilspiel;
 ref de.beispiel.Beispiel zweitesBeispiel;
 \end{lstlisting}
 Referenzen besitzen zwei verschiedene Arten einen Typen zu spezifizieren. \\
-Entweder kann ein Typ anhand seines relativen Pfades oder seines absoluten Pfades angegeben werden. Die Punkte zu beginn einer relativen Pfades folgen dabei den Regeln eines relativen Dateipfades.
+Entweder kann ein Typ anhand seines relativen Pfades oder seines absoluten Pfades angegeben werden.
+Die Punkte zu Beginn eines relativen Pfades folgen dabei den Regeln eines relativen Dateipfades.
 \begin{grammar}
 <ref_block> ::= 'ref' <reftype> <identifier> ';'
 
@@ -182,7 +203,10 @@ Entweder kann ein Typ anhand seines relativen Pfades oder seines absoluten Pfade
 ref Map<int, .Beispiel> beispielLookup;
 ref Set<string> namen;
 \end{lstlisting}
-Multi-Referenzen werden für die Collection-Typen des DMFs genutzt und teilen sich das Keyword 'ref' mit den normalen Referenzen. Innerhalb von '<>' können bis zu zwei Typen angegeben werden. Nur die Map erlaubt zwei Typen. Liste und Set erlauben einen. \\
+Multi-Referenzen werden für die Collection-Typen des \acrshort{dmf}s genutzt und teilen sich das Keyword `ref' mit den normalen Referenzen.
+Innerhalb von `<>' können bis zu zwei Typen angegeben werden.
+Nur die Map erlaubt zwei Typen.
+Liste und Set erlauben einen. \\
 Die Typen können Referenzen oder primitive Typen sein.
 \begin{grammar}
 <multi_block> ::= 'ref' <multi_name> '"<"' <primitive_type> [',' <primitive_type>] '">"' <identifier> ';'
@@ -197,8 +221,10 @@ func void displayBeispiel(.Beispiel beispiel);
 func int add(int a, int b);
 func void execute();
 \end{lstlisting}
-Funktionen bestehen aus dem Keyword 'func' dem Rückgabetypen, dem Namen und den Parametern;
-Der Rückgabetyp kann ein primitiver Typ, eine Referenz oder 'void' sein. 'void' bedeutet, dass kein Wert zurückgegeben wurde. Die Parameter bestehen aus einem Typen, der entweder zu den primitiven Typen gehört oder eine Referenz ist, und einem Namen.
+Funktionen bestehen aus dem Keyword `func' dem Rückgabetypen, dem Namen und den Parametern.
+Der Rückgabetyp kann ein primitiver Typ, eine Referenz oder `void' sein.
+`void' bedeutet, dass kein Wert zurückgegeben wird.
+Die Parameter bestehen aus einem Typen, der entweder zu den primitiven Typen gehört oder eine Referenz ist, und einem Namen.
 \begin{grammar}
 <func_block> ::= 'func' <reftype> <identifier> '(' [<param_definition> ( ',' <param_definition>)*] ')' ';'
 \alt 'func' <primitive_type> <identifier> '(' [<param_definition> ( ',' <param_definition>)*] ')' ';'
@@ -209,7 +235,8 @@ Der Rückgabetyp kann ein primitiver Typ, eine Referenz oder 'void' sein. 'void'
 \end{grammar}
 
 \paragraph{Entity}
-Entities sind im Aufbau sehr ähnlich zu Structs. Sie unterschieden sich im Keyword und im Identifier-Statement.
+Entities sind im Aufbau sehr ähnlich zu Structs.
+Sie unterschieden sich im Keyword und im Identifier-Statement.
 \begin{lstlisting}
 entity BeispielEntity extends AndereEntity implements IBeispiel, IABeispiel {
     arg int i;
@@ -217,7 +244,9 @@ entity BeispielEntity extends AndereEntity implements IBeispiel, IABeispiel {
     identifier(i,d);
 }
 \end{lstlisting}
-Besonders bei der "entity_block"-Regel ist, dass sie direkt die "struct_content"-Regel verwendet. Das Identifier-Statement schließt immer den Inhalt einer Entity ab. Hierbei ist zu beachten, dass "identifier" als Keyword und als Regelname verwendet wird.
+Besonders bei der `entity_block'-Regel ist, dass sie direkt die `struct_content'-Regel verwendet.
+Das Identifier-Statement schließt immer den Inhalt einer Entity ab.
+Hierbei ist zu beachten, dass `identifier' als Keyword und als Regelname verwendet wird.
 \begin{grammar}
 <entity_block> ::= 'entity' <identifier> [<extends_block>] [<implements_block>] '\{' <struct_content>* <identifier_statement> '\}' 
 
@@ -225,13 +254,14 @@ Besonders bei der "entity_block"-Regel ist, dass sie direkt die "struct_content"
 \end{grammar}
 
 \paragraph{Interface}
-Der Aufbau eines Interfaces ist simpler im Vergleich zu einem Struct. Es entfällt der Extends-Block und alle Inhalte bis auf Funktionen.
+Der Aufbau eines Interfaces ist simpler im Vergleich zu einem Struct.
+Es entfällt der Extends-Block und alle Inhalte bis auf Funktionen.
 \begin{lstlisting}
 interface IBeispiel implements IAnderesBeispiel {
 
 }
 \end{lstlisting}
-Da nur Funktionen in einem Interface vorkommen können, besitzt die Content-Regel nur eine Varainte.
+Da nur Funktionen in einem Interface vorkommen können, besitzt die Content-Regel nur eine Variante.
 \begin{grammar}
 <interface_block> ::= 'interface' <identifier> [<implements_block>] '\{' <interface_content>* '\}'
 
@@ -239,7 +269,7 @@ Da nur Funktionen in einem Interface vorkommen können, besitzt die Content-Rege
 \end{grammar}
 
 \paragraph{Enum}
-Enum beinhalten ein neues Element: Die Konstante. \\
+Enum beinhalten ein neues Element: die Konstante. \\
 Konstanten sind die Einträge eines Enums und bilden mit Argumenten den Inhalt eines Enums.
 \begin{lstlisting}
 enum EBeispiel {
@@ -248,9 +278,12 @@ enum EBeispiel {
     KONSTANTE(_,1);
 }
 \end{lstlisting}
-Konstanten beinhalten immer einen Index. Dieser Index wird in Datenbanktabellen hinterlegt. Es müssen zusätzlich für jedes Argument ein passender Wert angegeben werden. \\
-Damit das DMF den Index automatisch berechnet kann ein '_' verwendet werden. Die Regel 'enum_index' bildet diese Besonderheit ab. \\
-Die Regel 'primitive_value' vereinigt alle Value-Regeln.
+Konstanten beinhalten immer einen Index.
+Dieser Index wird in Datenbanktabellen hinterlegt.
+Es müssen zusätzlich für jedes Argument ein passender Wert angegeben werden. \\
+Damit das \acrshort{dmf} den Index automatisch berechnet kann ein `_' verwendet werden.
+Die Regel `enum_index' bildet diese Besonderheit ab. \\
+Die Regel `primitive_value' vereinigt alle Value-Regeln.
 \begin{grammar}
 <enum_block> ::= 'enum' <identifier> '\{' <enum_content>* '\}'
 
@@ -295,7 +328,12 @@ package de.beispiel {
     }
 }
 \end{lstlisting}
-Dieses Beispiel zeigt wie man mithilfe des DMFs eine Struktur modelliert. Diese Struktur beinhaltet Aufgaben, die Benutzer*innen beantworten sollen. Als Hilfestellung gibt es ein Beispiel. Zur korrekten Darstellung wird am Beispiel der BeispielTyp referenziert. Ein Beispiel nutzt ein Interface aus einem anderen Modell. Dieses Interface wird mit einer neuen Methode erweitert, um das Beispiel auch in Markdown zu rendern.
+Dieses Beispiel zeigt wie man mithilfe des \acrshort{dmf}s eine Struktur modelliert.
+Diese Struktur beinhaltet Aufgaben, die Benutzer*innen beantworten sollen.
+Als Hilfestellung gibt es ein Beispiel.
+Zur korrekten Darstellung wird am Beispiel der BeispielTyp referenziert.
+Ein Beispiel nutzt ein Interface aus einem anderen Modell.
+Dieses Interface wird mit einer neuen Methode erweitert, um das Beispiel auch in Markdown zu rendern.
 
 %\begin{grammar}
 %\end{grammar}

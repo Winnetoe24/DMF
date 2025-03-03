@@ -2,16 +2,16 @@
 \normalsize
 
 \begin{document}
-    \section{Semantische Verarbeitung des AST}\label{sec:semantische-verarbeitung-des-ast}
-    Für die korrekte Verwendung des ASTs benötigt das DMF auch eine Softwarekomponente,
-    welche den AST durchläuft und ein semantisches Modell erstellt.
+    \section{Semantische Verarbeitung des \acrfull{ast}}\label{sec:semantische-verarbeitung-des-ast}
+    Für die korrekte Verwendung des \acrshort{ast}s benötigt das \acrshort{dmf} auch eine Softwarekomponente,
+    welche den \acrshort{ast} durchläuft und ein semantisches Modell erstellt.
     Anhand dieses semantischen Modells werden semantische Regeln überprüft. \\
 
     Diese Softwarekomponente ist die erste Komponente welche mithilfe von Golang implementiert wird.
 
     \subsection{Das semantische Modell}\label{subsec:das-semantische-modell}
-    Das semantische Modell bildet alle Informationen, die aus dem AST entnommen werden können, ab.
-    Dazu gehören Referenzen zum AST für Positionen in der Modelldatei, die verschiedenen PackageElemente und die NamendElemente.
+    Das semantische Modell bildet alle Informationen, die aus dem \acrshort{ast} entnommen werden können, ab.
+    Dazu gehören Referenzen zum \acrshort{ast} für Positionen in der Modelldatei, die verschiedenen PackageElemente und die NamedElemente.
 %  Wie sollte hier adas Modell beschrieben werden?
 %      Wäre ein UML Modell richtig?
 
@@ -36,10 +36,10 @@ type FehlerStelle struct {
 	Node        *tree_sitter.Node
 }
     \end{lstlisting}
-    Mithilfe dieser Strukturen lassen sich Fehler festhalten ohne die spätere Darstellung mit einzubeziehen zu müssen.
+    Mithilfe dieser Strukturen lassen sich Fehler festhalten, ohne die spätere Darstellung mit einzubeziehen zu müssen.
     Der Error dokumentiert um welchen Fehler es sich handelt. \\
-    Die FehlerStelle ``Fehler'' dokumentiert den Modellcode, der falsch ist. \\
-    Die FehlerStelle ``Cause'' dokumentiert den Modellcode, wodurch der Modellcode, welcher in der ``Fehler''-FehlerStelle enthalten ist, falsch wurde. \\
+    Die FehlerStelle `Fehler' dokumentiert den Modellcode, der falsch ist. \\
+    Die FehlerStelle `Cause' dokumentiert den Modellcode, wodurch der Modellcode, welcher in der `Fehler'-FehlerStelle enthalten ist, falsch wurde. \\
     Jede FehlerStelle beinhaltet zwei Nodes.
     Diese beinhalten die Positionen in der Modelldatei.
     Die ContextNode ist optional und wird gesetzt wenn für einen Fehler der umliegende Code wichtig.
@@ -50,20 +50,20 @@ type FehlerStelle struct {
     Spätere Komponenten nutzen die ErrorElemente, um den Entwickler*innen die Fehler zu erläutern.
 
 
-    \subsection{Übersetzen des ASTs}\label{subsec:ubersetzen-des-asts}
-    Die Übersetzung des ASTs beginnt mit dem Erstellen eines SemanticContext.
+    \subsection{Übersetzen des \acrshort{ast}s}\label{subsec:ubersetzen-des-asts}
+    Die Übersetzung des \acrshort{ast}s beginnt mit dem Erstellen eines SemanticContext.
     Dieser Kontext beinhaltet die erkannten Fehler, das bisherige Modell, den Text der Modelldatei und die TreeCursor.
-    Mithilfe des TreeCursors kann der AST durchlaufen werden.
-    Der Kontext durchläuft den AST in der PreOrder-Reihenfolge.
-    Für jedes Element des ASTs enthält der Kontext eine Methode zum Parsen.\\
+    Mithilfe des TreeCursors kann der \acrshort{ast} durchlaufen werden.
+    Der Kontext durchläuft den \acrshort{ast} in der PreOrder-Reihenfolge.
+    Für jedes Element des \acrshort{ast}s enthält der Kontext eine Methode zum Parsen.\\
 %    Beispiel Call Tree
-    Sollte der AST Import Statements beinhalten so werden zunächst die referenzierten Modelle verarbeitet.
+    Sollte der \acrshort{ast} Import Statements beinhalten, so werden zunächst die referenzierten Modelle verarbeitet.
     Die importierten Packages werden nun in das Modell übernommen.
     Das Laden der verschiedenen Modelle wird mithilfe einer Callbackstruktur außerhalb der Semantik-Komponente definiert.
     So können verschiedene Logiken genutzt werden. \\
 %    TODO Anpassen nach Implementierung des Imporierens
     Am Ende des Parsen ist Modell vollständig mit allen gültigen Elementen.
-    Elemente die durch den Parser im AST als Fehlerhaft gekennzeichnet wurden, werden ignoriert.
+    Elemente die durch den Parser im \acrshort{ast} als Fehlerhaft gekennzeichnet wurden, werden ignoriert.
 
     \subsubsection{Der Lookup}
     Um anhand des vollständigen Namens (Package Pfad + Name) ein Element schnell zu finden, wird nach dem semantischen Parsen ein Lookup erstellt.
@@ -73,8 +73,8 @@ type FehlerStelle struct {
     Beim Packages werden auch alle enthaltenen Elemente durchlaufen.
 
     \subsection{Die semantischen Regeln}\label{subsec:die-semantischen-regeln}
-    Die semantischen Regeln basieren alle auf dem Typen ``walkRule''.
-    Dieser Typ verallgemeinert das Iterieren über den Lookup und nutzt eine Instanz der ``iWalkRule'' um die Elemente zu verarbeiten.
+    Die semantischen Regeln basieren alle auf dem Typen `walkRule'.
+    Dieser Typ verallgemeinert das Iterieren über den Lookup und nutzt eine Instanz der `iWalkRule' um die Elemente zu verarbeiten.
     \begin{lstlisting}[language=go]
 package semantic_rules
 // Supertyp alle Regeln, welche alle Typen durchlaufen.
@@ -84,7 +84,7 @@ type walkRule struct {
 	iWalkRule iWalkRule
 }
     \end{lstlisting}
-    Semantische Regeln implementieren das Interface ``iWalkRule'' und erweitern die ``walkRule''.
+    Semantische Regeln implementieren das Interface `iWalkRule' und erweitern die `walkRule'.
     Durch das Nutzen der eignen Instanz werden die Methoden der Regel-Implementierung aufgerufen, um Elemente zu verarbeiten.
     \begin{lstlisting}[language=go]
 package semantic_rules
@@ -130,7 +130,7 @@ func newComputeSuperTypes(lookup *smodel.TypeLookUp) *computeSuperTypes {
         \item Konstanten
     \end{enumerate}
     Beim Hinzufügen eines Elementes wird überprüft, ob der Name schon von einem Element in der Map genutzt wird. \\ \\
-    Die ``Compute Elements Regel'' einzigartig, denn sie überschreibt das Verhalten des Iterierens durch den Lookup mit einem zweifachen Durchlauf.
+    Die `Compute Elements Regel' einzigartig, denn sie überschreibt das Verhalten des iterierens durch den Lookup mit einem zweifachen Durchlauf.
     Denn um alle geerbten Elemente zu Bestimmen müssen die NamedElements-Maps der anderen PackageElemente schon die eigenen Elemente enthalten.
     \begin{lstlisting}[language=Go]
 package semantic_rules
@@ -148,7 +148,7 @@ func (c *computeElements) walk() []errElement.ErrorElement {
     So werden auch alle Elemente, die das erweiterte Element erbt mit eingeschlossen.
 
     \subsubsection{Check Entity Identifier Regel}
-    Die ``Check Entity Identifier Regel'' überprüft, ob alle im Entity-Identifier referenzierten Variablen enthalten sind.
+    Die `Check Entity Identifier Regel' überprüft, ob alle im Entity-Identifier referenzierten Variablen enthalten sind.
 
     \subsubsection{Check Enum Constants Regel}
     Die Konstanten eines Enums müssen semantische Regeln folgen.
@@ -162,7 +162,7 @@ func (c *computeElements) walk() []errElement.ErrorElement {
     \end{enumerate}
 
     \subsubsection{Check Referenzen Regel}
-    Die ``Check Referenzen Regel'' überprüft, dass alle Referenzen existieren.
+    Die `Check Referenzen Regel' überprüft, dass alle Referenzen existieren.
     In folgenden Elementen werden Referenzen überprüft:
     \begin{enumerate}
         \item Referenzen in Structs und Entities.

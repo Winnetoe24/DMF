@@ -3,16 +3,16 @@
 \normalsize
 
 \begin{document}
-    \section{Der LSP-Server}\label{sec:der-lsp-server}
-    Der LSP-Server besteht aus 3 Bereichen:
+    \section{Der \acrshort{lsp}-Server}\label{sec:der-lsp-server}
+    Der \acrshort{lsp}-Server besteht aus 3 Bereichen:
     \begin{enumerate}
-        \item Dem Modell für das LSP-Protokoll.
+        \item Dem Modell für das \acrlong{lsp}.
         \item Der Implementierung der Server-Schicht, welche die Kommunikation mit den Clients verwaltet und die Services aufruft.
-        \item Die Service-Schicht, welche Funktionen des LSP-Protokolls in Service implementiert.
+        \item Die Service-Schicht, welche Funktionen des \acrshort{lsp}s in Services implementiert.
     \end{enumerate}
 
     In den folgenden Abschnitten werden der Aufbau, die Aufrufe und die Funktionen dieser Schichten erläutert.
-    \subsection{Das LSP-Protokoll}
+    \subsection{Das \acrfull{lsp}}
     % LSP Protokoll ist modular
     % Verschiedene Packages aufzählen
 
@@ -22,7 +22,7 @@
     % Wie werden Service Aufgerufen
 
     \subsubsection{Abstraktion der Server-Client-Verbindung}
-    Da das LSP-Protokoll Medium unabhängig ist, muss der Server eine Abstraktion für die Verbindung bereitstellen.
+    Da das \acrshort{lsp} Medium unabhängig ist, muss der Server eine Abstraktion für die Verbindung bereitstellen.
     \begin{lstlisting}[language=Go]
 package connect
 type Connection interface {
@@ -41,7 +41,7 @@ type Connection interface {
     Es wird für jeden Verbindungstyp implementiert.
 
     % Wie funktioniert die Kommunikation über HTTP
-    \subsection{Die LSP-Services}
+    \subsection{Die \acrshort{lsp}-Services}
     Die Schnittstelle für alle Services zu der Server-Schicht bildet das MethodHandler-Interface:
     \begin{lstlisting}[language=Go]
 package service
@@ -59,7 +59,7 @@ type MethodHandler interface {
         Sollte der Client den Service nicht unterstützen, muss er sich deaktivieren.
         Der Service schreibt seine Fähigkeiten in die Antwort des Servers.
         \item \textbf{GetMethods} \\
-        Gibt die Methoden aus dem LSP-Protokoll zurück für die der Service Meldungen verarbeitet.
+        Gibt die Methoden aus dem \acrshort{lsp} zurück für die der Service Meldungen verarbeitet.
         \item \textbf{HandleMethod} \\
         Verarbeite die Nachricht.
     \end{enumerate}
@@ -93,8 +93,8 @@ type fileHandle struct {
     Dort werden die Änderungen zum iterativen Parsen des neuen Dateiinhalts genutzt.
     Abschließend werden der Lookup erzeugt und die semantischen Regeln durchlaufen. \\
     \paragraph{FileChangeListener}
-    Es gibt Funktionen im LSP-Protokoll die nicht durch eingehende Nachrichten ausgelöst werden, sondern nach Dateiänderungen automatisch an den Client übermittelt werden.
-    Dafür gibt es im DMF-LSP-Server die FileChangeListener.
+    Es gibt Funktionen im \acrshort{lsp} die nicht durch eingehende Nachrichten ausgelöst werden, sondern nach Dateiänderungen automatisch an den Client übermittelt werden.
+    Dafür gibt es im \acrshort{dmf}-\acrshort{lsp}-Server die FileChangeListener.
     \begin{lstlisting}[language=Go]
 package fileService
 type FileChangeListener interface {
@@ -111,15 +111,15 @@ type FileChangeListener interface {
     \end{lstlisting}
     Der FileService enthält Referenzen zu allen aktiven Listener.
     Nachdem ein FileHandle erstellt oder bearbeitet wurde, werden alle Listener durchlaufen.\\
-    Im DMF-LSP-Server ist nur ein FileChangeListener implementiert:
+    Im \acrshort{dmf}-\acrshort{lsp}-Server ist nur ein FileChangeListener implementiert:
     \subparagraph{Der DiagnosticsService}
     übermittelt die aktuellen Fehler in der Modelldatei an den Client.
-    Dafür werden alle ErrorElemente in die Diagnostic Strukturen des LSP-Protokolls übersetzt.
+    Dafür werden alle ErrorElemente in die Diagnostic Strukturen des \acrshort{lsp}s übersetzt.
     Schließlich werden die Daten mithilfe einer Request-Nachricht für die Methode ``textDocument/publishDiagnostics'' an den Client übermittelt.
 
     \subsubsection{SemanticTokensService}
     Um ein schnelles Verständnis einer Datei zu ermöglichen, ist die Einfärbung der Syntax und Semantik wichtig.
-    Dafür stellt das LSP-Protokoll die Möglichkeit bereit semantische Tokens zu übermitteln.\\
+    Dafür stellt das \acrshort{lsp} die Möglichkeit bereit semantische Tokens zu übermitteln.\\
     Ein Token bezieht sich immer auf einen Bereich im Sourcecode und übermittelt einen Tokentyp und eine Auswahl der Tokenmodifikatoren.
     Die Tokentypen und Tokenmodifikatoren werden während der Initialisierung übermittelt.
     Der Client kann auch während der Initialisierung angeben, ob überlappende Bereich für Token unterstützt werden.
@@ -131,7 +131,7 @@ type FileChangeListener interface {
             \hline
             5*i & deltaLine & Die Zeilen zwischen dem letzten Token und diesem Token. \\
             \hline
-            5*i+1 & deltaStart & Die Zeichen zwischen dem letzen Token und diesem Token.
+            5*i+1 & deltaStart & Die Zeichen zwischen dem letzten Token und diesem Token.
             Relativ zu 0, falls der aktuelle Token in einer neuen Zeile ist. \\
             \hline
             5*i+2 & length & Die Länge des Tokens. \\
@@ -190,12 +190,12 @@ type FileChangeListener interface {
 %TODO Modifier
     \paragraph{Generierung der Semantik Tokens}\mbox{}\\
     Die Semantik Tokens werden mithilfe zweier Algorithmen generiert.
-    \subparagraph{Mithilfe des ASTs} werden alle AST-Elemente durchlaufen.
-    Werden Elemente erreicht, deren semantischer Token allein am AST Element bestimmt werden kann, so werden die Token generiert.
+    \subparagraph{Mithilfe des \acrshort{ast}s} werden alle \acrshort{ast}-Elemente durchlaufen.
+    Werden Elemente erreicht, deren semantischer Token allein am \acrshort{ast} Element bestimmt werden kann, so werden die Token generiert.
     \subparagraph{Mithilfe des semantischen Modells} werden die restlichen Token bestimmt.
-    Dies ist möglich da die Elemente im semantischen Modell Referenzen zum AST beinhalten.
+    Dies ist möglich da die Elemente im semantischen Modell Referenzen zum \acrshort{ast} beinhalten.
     Dazu gehören die Namen der verschiedenen Inhalte, wie z.B.\ von Argumenten.
-    Bei diesen Namen wird das gleiche AST-Element genutzt, wodurch sie nur das semantische Parsen unterscheidbar sind.
+    Bei diesen Namen wird das gleiche \acrshort{ast}-Element genutzt, wodurch sie nur das semantische Parsen unterscheidbar sind.
 
     \subparagraph{Die Codierung der semantischen Tokens} muss zunächst die generierten Tokens sortieren, da keine Garantie für die richtige Reihenfolge durch die beiden Algorithmen existiert.
     \begin{lstlisting}[language=Go,label={lst:sortSemanticTokens}]
@@ -254,9 +254,9 @@ for i, element := range semanticElements {
     Die aktuelle Zeile und Spalte im Text wird nach jedem Token aktualisiert.
 
     \subsubsection{SelectionRangeService}
-    Der SelectionRangeService implementiert die LSP-Methode ``textDocument/selectionRange''.
+    Der SelectionRangeService implementiert die \acrshort{lsp}-Methode ``textDocument/selectionRange''.
     Diese wird dafür genutzt, dass bei der Auswahl immer der richtige Text ausgewählt wird. \\
-    Die Bereiche werden im Service mithilfe des ASTs berechnet.
+    Die Bereiche werden im Service mithilfe des \acrshort{ast}s berechnet.
     \begin{lstlisting}[language=Go]
 package selectionRangeService
 func (s *SelectionRangeService) computeSelectionRangeForPosition(
@@ -277,8 +277,8 @@ func (s *SelectionRangeService) computeSelectionRangeForPosition(
 	return currentRange
 }
     \end{lstlisting}
-    Es wird zunächst das kleinste Element(das ``Blatt'' des Baums) des ASTs für die Position Code bestimmt.\\
-    Nun wird durch die Schichten des ASTs bis zur Wurzel iteriert.
+    Es wird zunächst das kleinste Element(das ``Blatt'' des Baums) des \acrshort{ast}s für die Position Code bestimmt.\\
+    Nun wird durch die Schichten des \acrshort{ast}s bis zur Wurzel iteriert.
     Bei jedem Element eine neue ``SelectionRange'' Instanz  angelegt.
     Dieses ``SelectionRange'' enthält immer den Bereich und eine Referenz zu der vorherigen ``SelectionRange''.
     Durch die Referenz wird die Baum-Struktur auch im Ergebnis übermittelt und es müssen weniger Anfragen an den Server gesendet werden.\\

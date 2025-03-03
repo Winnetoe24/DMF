@@ -1,0 +1,106 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{anyt/global//global/global}
+    \entry{twagner}{online}{}
+      \name{author}{1}{}{%
+        {{hash=02bd92faa38aaa6cc0ea75e59937a1ef}{%
+           family={author},
+           familyi={a\bibinitperiod}}}%
+      }
+      \strng{namehash}{02bd92faa38aaa6cc0ea75e59937a1ef}
+      \strng{fullhash}{02bd92faa38aaa6cc0ea75e59937a1ef}
+      \strng{bibnamehash}{02bd92faa38aaa6cc0ea75e59937a1ef}
+      \strng{authorbibnamehash}{02bd92faa38aaa6cc0ea75e59937a1ef}
+      \strng{authornamehash}{02bd92faa38aaa6cc0ea75e59937a1ef}
+      \strng{authorfullhash}{02bd92faa38aaa6cc0ea75e59937a1ef}
+      \field{labelalpha}{aut}
+      \field{sortinit}{a}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{title}
+      \verb{urlraw}
+      \verb url
+      \endverb
+      \verb{url}
+      \verb url
+      \endverb
+      \warn{\item online entry 'twagner' (zitate.bib): Invalid format 'date' of date field 'date' - ignoring}
+    \endentry
+    \entry{978-3-8348-9999-6.pdf}{book}{}
+      \name{author}{1}{}{%
+        {{hash=5b88ffe1478833ab2255931d260067ac}{%
+           family={Kämper},
+           familyi={K\bibinitperiod},
+           given={Sabine},
+           giveni={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{5b88ffe1478833ab2255931d260067ac}
+      \strng{fullhash}{5b88ffe1478833ab2255931d260067ac}
+      \strng{bibnamehash}{5b88ffe1478833ab2255931d260067ac}
+      \strng{authorbibnamehash}{5b88ffe1478833ab2255931d260067ac}
+      \strng{authornamehash}{5b88ffe1478833ab2255931d260067ac}
+      \strng{authorfullhash}{5b88ffe1478833ab2255931d260067ac}
+      \field{labelalpha}{Käm}
+      \field{sortinit}{K}
+      \field{sortinithash}{c02bf6bff1c488450c352b40f5d853ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Grundkurs Programmieren mit Visual Basic}
+      \warn{\item book entry '978-3-8348-9999-6.pdf' (zitate.bib): Invalid format '3.,aktualisierte Auflage 2009' of date field 'date' - ignoring}
+    \endentry
+    \entry{rustcookbook}{online}{}
+      \name{author}{2}{}{%
+        {{hash=a05bf4986ba27806856d803a0fc41761}{%
+           family={Steve\bibnamedelima Klabnik},
+           familyi={S\bibinitperiod\bibinitdelim K\bibinitperiod},
+           given={Carol\bibnamedelima Nichols},
+           giveni={C\bibinitperiod\bibinitdelim N\bibinitperiod}}}%
+        {{hash=64b0fab77d38cc6965c24b8c0fe0f1c6}{%
+           family={Chris\bibnamedelima Krycho},
+           familyi={C\bibinitperiod\bibinitdelim K\bibinitperiod},
+           given={with\bibnamedelimb contributions\bibnamedelimb from\bibnamedelimb the\bibnamedelimb Rust\bibnamedelima Community},
+           giveni={w\bibinitperiod\bibinitdelim c\bibinitperiod\bibinitdelim f\bibinitperiod\bibinitdelim t\bibinitperiod\bibinitdelim R\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \strng{namehash}{d6a18ec40e2027db8562f98a85ef2c4f}
+      \strng{fullhash}{d6a18ec40e2027db8562f98a85ef2c4f}
+      \strng{bibnamehash}{d6a18ec40e2027db8562f98a85ef2c4f}
+      \strng{authorbibnamehash}{d6a18ec40e2027db8562f98a85ef2c4f}
+      \strng{authornamehash}{d6a18ec40e2027db8562f98a85ef2c4f}
+      \strng{authorfullhash}{d6a18ec40e2027db8562f98a85ef2c4f}
+      \field{labelalpha}{SC}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Defining an Enum - The Rust Programming Language}
+      \verb{urlraw}
+      \verb https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html
+      \endverb
+      \verb{url}
+      \verb https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html
+      \endverb
+      \warn{\item online entry 'rustcookbook' (zitate.bib): Invalid format '01.03.2025' of date field 'date' - ignoring}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
