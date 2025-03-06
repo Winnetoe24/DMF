@@ -1,5 +1,7 @@
 \documentclass[./einleitung.tex]{subfiles}
 \usepackage{mdwtab}
+\usepackage{makecell}
+\usepackage{mdwtab}
 \normalsize
 
 \begin{document}
@@ -392,8 +394,131 @@ export type MarkupKind = 'plaintext' | 'markdown';
     \\\\
     Die Implementierung der Faltbereiche wird im Abschnitt \nameref{subsubsec:folding} beschrieben.
 
-    \subsubsection[Auswahlbereich]
+    \subsubsection[Auswahlbereich]{Auswahlbereich\\ {\textnormal{\footnotesize Selection Range (textDocument/selectionRange) \cite{selection}}}}\label{subsubsec:selection}
+    Durch die unterschiedlichen Grammatiken aller Programmiersprachen ist eine Verallgemeinerung der Auswahlbereiche in einem Dokument unmöglich.
+    Deshalb bietet das \acrshort{lsp} die Möglichkeit diese Bereiche vom Server abzufragen.
+    \\\\
+    Die Anfrage beinhaltet ein Dokument und verschiedene Positionen, zu denen die Auswahlbereiche erfragt werden.
+    Der Vorteil von mehreren Positionen ist die Bündlung der Anfragen für Editoren mit mehreren Eingabemarken(Cursor).
+    \begin{lstlisting}[language=Go, title=Auszug aus den Parametern, label=lst:selectionParams]
+type SelectionRangeParams struct {
+	// TextDocument identifies the document to compute selection ranges for.
+	TextDocument protokoll.TextDocumentIdentifier `json:"textDocument"`
 
+	// Positions is an array of positions in the text document for which to compute
+	// selection ranges.
+	Positions []protokoll.Position `json:"positions"`
+}
+    \end{lstlisting}
+    Auswahlbereiche bilden einen Auszug aus dem \acrshort{ast}.
+    Um eine Auswahl zu vergrößern oder zu verkleinern wird der höhere bzw.\ tiefere Auswahlbereich aus der Hierarchie des \acrshort{ast}s benötigt.
+    Deshalb beinhaltet die Antwort im \acrshort{lsp} auch die Möglichkeit pro Position eine Kette an Auswahlbereichen zu liefern.
+    Diese Kette wird durch das Parent-Attribut gebildet.
+    \begin{lstlisting}[language=Go, title=Antwort des Servers, label=lst:selectionResult]
+// SelectionRange represents a selection range with its parent selection ranges.
+type SelectionRange struct {
+	// Range is the actual range of this selection range.
+	Range protokoll.Range `json:"range"`
+
+	// Parent is the parent selection range containing this range. Therefore,
+	// multiple selection ranges can be encoded into a tree structure.
+	Parent *SelectionRange `json:"parent,omitempty"`
+}
+
+// SelectionRangeResult represents the result of a selection range request.
+// It's an array of SelectionRange objects, one for each position in the request.
+type SelectionRangeResult []SelectionRange
+    \end{lstlisting}
+    Die Implementierung der Auswahlbereiche wird im Abschnitt \nameref{subsubsec:selection-service} beschrieben.
+
+    \subsubsection[Semantische Tokens]{Semantische Tokens\\ {\textnormal{\footnotesize Semantic Tokens (textDocument/semanticTokens/full) \cite{semantic}}}}\label{subsubsec:semantic}
+    Um ein schnelles Verständnis einer Datei zu ermöglichen, ist die Einfärbung der Syntax und Semantik wichtig.
+    Dafür stellt das \acrshort{lsp} die Möglichkeit bereit semantische Tokens/Symbole zu übermitteln.\\
+    Ein Token bezieht sich immer auf einen Bereich im Sourcecode und übermittelt einen Tokentyp und eine Auswahl der Tokenmodifikatoren.
+    Die Tokentypen und Tokenmodifikatoren werden während der Initialisierung übermittelt.
+    Für jeden Token wird ein Tokentyp und eine Auswahl der Tokenmodifikatoren übermittelt.
+    \\\\
+    Für das \acrshort{dmf} wird nur die folgende Auswahl der Tokenmodifikatoren genutzt.
+    \begin{center}
+        \begin{tabular}{|c|c|}
+            1 & declaration \\
+            \hline
+            2 & definition
+        \end{tabular}
+    \end{center}
+    \paragraph{Die Tokentypen und ihre Verwendung zusammen mit den Tokenmodifikatoren}
+    \begin{center}
+        \begin{tabular}{|c|c|>{\centering\arraybackslash}m{\mycolwidth}|}
+                \hline
+                Index & Token Typ & \makecell{Verwendung im DMF \\
+                \begin{tabular}{c|c}
+                    Tokenmodifikator(-en) & Verwendung
+                \end{tabular}}\tabularnewline
+                \hline
+                0 & namespace & \tablecell{declaration & Für den Namen eines Packages.}\\
+                \hline
+                1 & type & \tablecell{- &
+                \makecell[l]{Für das AST-Element ``reftype''.\\Für den Override Wert des Java Typens.}
+                }\\
+                \hline
+                2 & class & \tablecell{- & Für den Override Wert der Java Klasse, der Oberklasse und der implementierten Interfaces.}\\
+                \hline
+                3 & enum & \tablecell{ declaration &  Für den Namen eines Enums.}\\
+                \hline
+                4 & interface & \tablecell{ declaration & Für den Namen eines Interfaces.}\\
+                \hline
+                5 & struct & \tablecell{ declaration & Für den Namen eines Structs oder einer Entity.}\\
+                \hline
+                6 & parameter & \tablecell{ declaration & Für die Parameter einer Funktion. }\\
+                \hline
+                7 & variable &
+                \tablecell{
+                    - & Für die Namen der Variablen im Entity Identifier. Für den Override Wert des Java Namens.\\
+                    \hline
+                    declaration & Für die Namen von Argumenten, Referenzen und MultiReferenzen.\\
+                }\\
+                \hline
+                8 & property & Platzhalter\\
+                \hline
+                9 & number & \tablecell{ definition & Für alle Zahlenwerte in einer Enum-Konstante. }\\
+                \hline
+                10 & enumMember & \tablecell{ declaration & Für den Namen einer Enum-Konstante. }\\
+                \hline
+                11 & function & \tablecell{ declaration & Für den Namen einer Funktion. }\\
+                \hline
+                12 & comment & \tablecell{ - & Für alle Kommentare.}\\
+                \hline
+                13 & keyword & \tablecell{ - & Für alle Keywords.}\\
+                \hline
+                14 & string & \tablecell{ - & Für alle Strings außer den Werten im Override. }\\
+                \hline
+                15 & modifier & Platzhalter\\
+                \hline
+                16 & decorator & \tablecell{ - & Für den Override Wert der Java Annotations. }\\
+                \hline
+            \end{tabular}
+    \end{center}
+    \\\\
+    Wenn die neuen semantischen Tokens übermittelt werden, werden die Tokens mithilfe einer Zahlenfolge codiert.
+    \begin{center}
+        \begin{tabular}{| c | c | m{21.5em} |}
+            \hline
+            \makecell{Index in der\\ Zahlenfolge\\für Token mit \\Index i} & Name & Erklärung \\
+            \hline
+            5*i & deltaLine & Die Zeilen zwischen dem letzten Token und diesem Token. \\
+            \hline
+            5*i+1 & deltaStart & Die Zeichen zwischen dem letzten Token und diesem Token.
+            Relativ zu 0, falls der aktuelle Token in einer neuen Zeile ist. \\
+            \hline
+            5*i+2 & length & Die Länge des Tokens. \\
+            \hline
+            5*i+3 & tokenType & Index des Typs des Tokens in der Semantik Token Typ Legende. \\
+            \hline
+            5*i+4 & tokenModifiers & Zahl deren Bits als Wahrheitswerte für jeden Modifikator aus der Legende der Semantik Token Modifikatoren.
+            Der erste Bit (0b00000001) steht dabei für den ersten Modifikator. \\
+            \hline
+        \end{tabular}
+    \end{center}
     \subsection{Server Implementierung}\label{subsec:server-implementierung}
     % Wie funktioniert JSON-RPC
     % Wie parsed Golang json
@@ -504,25 +629,7 @@ type FileChangeListener interface {
     Die Tokentypen und Tokenmodifikatoren werden während der Initialisierung übermittelt.
     Der Client kann auch während der Initialisierung angeben, ob überlappende Bereich für Token unterstützt werden.
     Wenn die neuen semantischen Tokens übermittelt werden, werden die Tokens mithilfe einer Zahlenfolge codiert.
-    \begin{center}
-        \begin{tabular}{| c | c | m{21.5em} |}
-            \hline
-            \makecell{Index in der\\ Zahlenfolge\\für Token mit \\Index i} & Name & Erklärung \\
-            \hline
-            5*i & deltaLine & Die Zeilen zwischen dem letzten Token und diesem Token. \\
-            \hline
-            5*i+1 & deltaStart & Die Zeichen zwischen dem letzten Token und diesem Token.
-            Relativ zu 0, falls der aktuelle Token in einer neuen Zeile ist. \\
-            \hline
-            5*i+2 & length & Die Länge des Tokens. \\
-            \hline
-            5*i+3 & tokenType & Index des Typs des Tokens in der Semantik Token Typ Legende. \\
-            \hline
-            5*i+4 & tokenModifiers & Zahl deren Bits als Wahrheitswerte für jeden Modifikator aus der Legende der Semantik Token Modifikatoren.
-            Der erste Bit (0b00000001) steht dabei für den ersten Modifikator. \\
-            \hline
-        \end{tabular}
-    \end{center}
+
 
 
     \paragraph{Der Legende für Semantik Token Typen}

@@ -16,6 +16,16 @@
 \newlength{\mycolwidth}
 \setlength{\mycolwidth}{\textwidth-10em-15.92453pt}
 
+\newlength{\mysubcolwidth}
+\setlength{\mysubcolwidth}{\mycolwidth-6.5em}
+\newcommand{\tablecell}[1]{\gape[t]{
+    \makecell[t]{
+        \begin{tabular}{ >{\centering\arraybackslash}p{4.5em}|p{\mysubcolwidth}}
+    #1
+    \end{tabular}
+    }
+}}
+
 
 \title{Entwicklung eines flexiblen Frameworks zur generierung von Datenmodellen}
 
