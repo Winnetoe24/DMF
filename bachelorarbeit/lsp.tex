@@ -31,7 +31,7 @@ interface Message {
 }
     \end{lstlisting}
     Die Nachrichten gehören zusätzlich zu einem der folgenden Typen:
-    \paragraph{Anfragen}\textlf{\footnotesize Request-Message}\\
+    \paragraph{Anfragen}\footnotesize{Request-Message\\}
     \begin{lstlisting}[language=Typescript]
 interface RequestMessage extends Message {
 
@@ -178,7 +178,6 @@ interface NotificationMessage extends Message {
     Hat der Server vorher eine `shutdown'-Anfrage erfolgreich beantwortet, so soll er mit dem Exit-Code 0 beenden.
     Ansonsten soll er sich mit dem Exit-Code 1 beenden.\\
     Der Exit-Code kann nur vom Client gelesen werden, wenn dieser den Prozess des Servers auch gestartet hat.
-
     \\\\
     In den folgenden Abschnitten werden die Funktionen die der \acrshort{dmf}-\acrshort{lsp}-Server unterstützt vorgestellt.
 
@@ -387,7 +386,7 @@ export type MarkupKind = 'plaintext' | 'markdown';
     ob nur komplette Zeilen gefaltet werden können,
     welche Falttypen unterstützt werden und ob vom Server generierte Zusammenfassungen angezeigt werden können.
     \\\\
-    Die Anfrage an den Server beinhaltet nur die \acrshor{uri} der Datei.\\
+    Die Anfrage an den Server beinhaltet nur die \acrshort{uri} der Datei.\\
     Die Antwort des Servers enthält eine Liste mit Faltbereichen.
     Die Faltbereiche decken die komplette Datei ab.
     Jeder Faltbereich enthält zusätzlich zur Startposition und Endposition auch den Falttypen und optional auch eine Zusammenfassung.
@@ -464,7 +463,50 @@ type SelectionRangeResult []SelectionRange
     \end{center}
     Die Implementierung der semantischen Tokens wird im Abschnitt \nameref{subsubsec:semantic-service} beschrieben.
 
+    \subsubsection[Diagnosen]{Diagnosen\\ {\textnormal{\footnotesize Publish Diagnostics (textDocument/publishDiagnostics) \cite{diagnostics}}}}\label{subsubsec:diagnostics}
+    Um Fehler, Warnungen, Informationen und Hinweise den Entwickler*innen anzeigen zu können bietet das \acrshort{lsp} die Möglichkeit Diagnosen zu übermitteln.
+    Hierbei ist die Besonderheit, dass nur der Server weiß, ob und wann die Diagnosen einer Datei sich verändern.
+    Deshalb bietet das \acrshort{lsp} die Möglichkeit, dass der Server Benachrichtigungen an den Client mit den Diagnosen sendet.
+    \\\\
+    Während der Initialisierung kann der Client (neben der Unterstützung von Feinheiten der Spezifikation) angeben, ob er Diagnosen-Tags (eng.\ diagnostic tag) unterstützt.
+    Diese Tags differenzieren die Diagnosen, wie die semantischen Modifikatoren die semantisch Tokens weiter differenzieren.
+    \\\\
+    Die Benachrichtigung beinhalten eine Liste mit Diagnosen.
+    Jede Diagnose bezieht sich auf einen Bereich im Sourcecode.
+    Eine Diagnose kann ein Fehler, eine Warnung, eine Information oder ein Hinweis sein.\\
+    Der Unterschied zwischen einer Information und einem Hinweis liegt Bedeutsamkeit der enthaltenen Information.
+    Eine Diagnose mit einer Information sollte beim Ermitteln eines Fehlers vor den Hinweisen beachtet werden.\\
+    Der Inhalt einer Diagnose setzt sich aus den Feldern `Message' und `Source' zusammen.
+    `Message' beschreibt den Fehler und `Source' den Grund.\\
+    Es können auch zusätzliche Informationen in einer Diagnose enthalten sein.
+    Diese könne andere Stellen im Code erwähnen, die für die Diagnose bedeutend sind.
+    \begin{lstlisting}[language=Go, caption=Definition des Inhalts der Benachrichtigung, label=lst:diagnostics-result]
+// Diagnostic represents a diagnostic, such as a compiler error or warning
+type Diagnostic struct {
+	// Range is the range at which the message applies
+	Range Range `json:"range"`
+	// Severity is the diagnostic's severity. Can be omitted. If omitted it is up to the
+	// client to interpret diagnostics as error, warning, info or hint
+	Severity *DiagnosticSeverity `json:"severity,omitempty"`
+    // Source is a human-readable string describing the source of this diagnostic
+	Source string `json:"source,omitempty"`
+	// Message is the diagnostic's message. It usually appears in the user interface
+	Message string `json:"message"`
+	// Tags provides additional metadata about the diagnostic
+	Tags []DiagnosticTag `json:"tags,omitempty"`
+	// RelatedInformation provides related diagnostic information
+	RelatedInformation []DiagnosticRelatedInformation `json:"relatedInformation,omitempty"`
+}
+// DiagnosticRelatedInformation represents related diagnostic information, such as related diagnostics
+type DiagnosticRelatedInformation struct {
+	// Location of this related diagnostic information
+	Location Location `json:"location"`
+	// Message is a message about this related diagnostic information
+	Message string `json:"message"`
+}
+    \end{lstlisting}
 
+    Die Implementierung für die Erstellung der Diagnosen wird im Abschnitt \nameref{subsubsec:diagnostics-service} beschrieben.
     \subsection{Server Implementierung}\label{subsec:server-implementierung}
     % Wie funktioniert JSON-RPC
     % Wie parsed Golang json
@@ -563,7 +605,7 @@ type FileChangeListener interface {
     Der FileService enthält Referenzen zu allen aktiven Listener.
     Nachdem ein FileHandle erstellt oder bearbeitet wurde, werden alle Listener durchlaufen.\\
     Im \acrshort{dmf}-\acrshort{lsp}-Server ist nur ein FileChangeListener implementiert:
-    \subparagraph{Der DiagnosticsService}
+    \subparagraph{Der DiagnosticsService}\label{subsubsec:diagnostics-service}
     übermittelt die aktuellen Fehler in der Modelldatei an den Client.
     Dafür werden alle ErrorElemente in die Diagnostic Strukturen des \acrshort{lsp}s übersetzt.
     Schließlich werden die Daten mithilfe einer Request-Nachricht für die Methode ``textDocument/publishDiagnostics'' an den Client übermittelt.
@@ -647,8 +689,8 @@ type FileChangeListener interface {
     Bei diesen Namen wird das gleiche \acrshort{ast}-Element genutzt, wodurch sie nur das semantische Parsen unterscheidbar sind.
     \\\\
     Die semantischen Tokens befinden sich nun in einer Liste mit semantischen Elementen.
-    Diese müssen nun codiert werden.
-    \begin{lstlisting}[language=Go, cpation=semantisches Element, label=lst:semantic-element]
+    Diese müssen für die Antwort codiert werden.
+    \begin{lstlisting}[language=Go, caption=semantisches Element, label=lst:semantic-element]
 type semanticElement struct {
 	line           uint32
 	start          uint32
