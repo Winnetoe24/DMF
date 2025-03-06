@@ -436,70 +436,13 @@ type SelectionRangeResult []SelectionRange
     Dafür stellt das \acrshort{lsp} die Möglichkeit bereit semantische Tokens/Symbole zu übermitteln.\\
     Ein Token bezieht sich immer auf einen Bereich im Sourcecode und übermittelt einen Tokentyp und eine Auswahl der Tokenmodifikatoren.
     Die Tokentypen und Tokenmodifikatoren werden während der Initialisierung übermittelt.
-    Für jeden Token wird ein Tokentyp und eine Auswahl der Tokenmodifikatoren übermittelt.
     \\\\
-    Für das \acrshort{dmf} wird nur die folgende Auswahl der Tokenmodifikatoren genutzt.
-    \begin{center}
-        \begin{tabular}{|c|c|}
-            1 & declaration \\
-            \hline
-            2 & definition
-        \end{tabular}
-    \end{center}
-    \paragraph{Die Tokentypen und ihre Verwendung zusammen mit den Tokenmodifikatoren}
-    \begin{center}
-        \begin{tabular}{|c|c|>{\centering\arraybackslash}m{\mycolwidth}|}
-                \hline
-                Index & Token Typ & \makecell{Verwendung im DMF \\
-                \begin{tabular}{c|c}
-                    Tokenmodifikator(-en) & Verwendung
-                \end{tabular}}\tabularnewline
-                \hline
-                0 & namespace & \tablecell{declaration & Für den Namen eines Packages.}\\
-                \hline
-                1 & type & \tablecell{- &
-                \makecell[l]{Für das AST-Element ``reftype''.\\Für den Override Wert des Java Typens.}
-                }\\
-                \hline
-                2 & class & \tablecell{- & Für den Override Wert der Java Klasse, der Oberklasse und der implementierten Interfaces.}\\
-                \hline
-                3 & enum & \tablecell{ declaration &  Für den Namen eines Enums.}\\
-                \hline
-                4 & interface & \tablecell{ declaration & Für den Namen eines Interfaces.}\\
-                \hline
-                5 & struct & \tablecell{ declaration & Für den Namen eines Structs oder einer Entity.}\\
-                \hline
-                6 & parameter & \tablecell{ declaration & Für die Parameter einer Funktion. }\\
-                \hline
-                7 & variable &
-                \tablecell{
-                    - & Für die Namen der Variablen im Entity Identifier. Für den Override Wert des Java Namens.\\
-                    \hline
-                    declaration & Für die Namen von Argumenten, Referenzen und MultiReferenzen.\\
-                }\\
-                \hline
-                8 & property & Platzhalter\\
-                \hline
-                9 & number & \tablecell{ definition & Für alle Zahlenwerte in einer Enum-Konstante. }\\
-                \hline
-                10 & enumMember & \tablecell{ declaration & Für den Namen einer Enum-Konstante. }\\
-                \hline
-                11 & function & \tablecell{ declaration & Für den Namen einer Funktion. }\\
-                \hline
-                12 & comment & \tablecell{ - & Für alle Kommentare.}\\
-                \hline
-                13 & keyword & \tablecell{ - & Für alle Keywords.}\\
-                \hline
-                14 & string & \tablecell{ - & Für alle Strings außer den Werten im Override. }\\
-                \hline
-                15 & modifier & Platzhalter\\
-                \hline
-                16 & decorator & \tablecell{ - & Für den Override Wert der Java Annotations. }\\
-                \hline
-            \end{tabular}
-    \end{center}
-    \\\\
+    Ein Client kann Anfragen für die semantischen Token an den Server stellen.
+    Für das DMF wurde nur die Methode `textDocument/semanticTokens/full' welche alle semantischen Token für eine Datei generiert beachtet.
+    \paragraph{Die Codierung des semantischen Token}\label{par:semantic-code}\mbox{}\\
     Wenn die neuen semantischen Tokens übermittelt werden, werden die Tokens mithilfe einer Zahlenfolge codiert.
+    Dies führt zu einer starken Komprimierung des Ergebnisses, welche besonders relevant für diese Methode des \acrshort{lsp}s ist, da das Ergebnis besonders viele Daten beinhaltet.\\
+    Die Einträge der Zahlenfolge werden nach dem folgenden Schema codiert:
     \begin{center}
         \begin{tabular}{| c | c | m{21.5em} |}
             \hline
@@ -519,6 +462,9 @@ type SelectionRangeResult []SelectionRange
             \hline
         \end{tabular}
     \end{center}
+    Die Implementierung der semantischen Tokens wird im Abschnitt \nameref{subsubsec:semantic-service} beschrieben.
+
+
     \subsection{Server Implementierung}\label{subsec:server-implementierung}
     % Wie funktioniert JSON-RPC
     % Wie parsed Golang json
@@ -623,66 +569,94 @@ type FileChangeListener interface {
     Schließlich werden die Daten mithilfe einer Request-Nachricht für die Methode ``textDocument/publishDiagnostics'' an den Client übermittelt.
 
     \subsubsection{SemanticTokensService}\label{subsubsec:semantic-service}
-    Um ein schnelles Verständnis einer Datei zu ermöglichen, ist die Einfärbung der Syntax und Semantik wichtig.
-    Dafür stellt das \acrshort{lsp} die Möglichkeit bereit semantische Tokens zu übermitteln.\\
+    Der SematicTokensService implementiert die Methode für die semantischen Tokens (für Definition siehe Abschnitt \nameref{subsubsec:semantic}).
+    Diese Tokens werden für die Einfärbung des Textes einer Datei nach der Syntax und Semantik genutzt.
+    Mit dieser Einfärbung des Sourcecodes können Entwickler*innen schnell ein Verständnis der Datei entwickeln.
+    \\\\
     Ein Token bezieht sich immer auf einen Bereich im Sourcecode und übermittelt einen Tokentyp und eine Auswahl der Tokenmodifikatoren.
     Die Tokentypen und Tokenmodifikatoren werden während der Initialisierung übermittelt.
-    Der Client kann auch während der Initialisierung angeben, ob überlappende Bereich für Token unterstützt werden.
-    Wenn die neuen semantischen Tokens übermittelt werden, werden die Tokens mithilfe einer Zahlenfolge codiert.
-
-
-
-    \paragraph{Der Legende für Semantik Token Typen}
+    Dabei ist für die Codierung (siehe \nameref{par:semantic-code}) der Index in den Listen entscheidend. \\
+    Für das \acrshort{dmf} wird nur die folgende Auswahl der Tokenmodifikatoren genutzt.
     \begin{center}
-        \begin{tabular}{|c|c|p{\mycolwidth}|}
+        \begin{tabular}{|c|c|}
+            1 & declaration \\
             \hline
-            Index & Token Typ & Verwendung im DMF \\
+            2 & definition
+        \end{tabular}
+    \end{center}
+    \paragraph{Die Tokentypen und ihre Verwendung zusammen mit den Tokenmodifikatoren}
+    \begin{center}
+        \begin{tabular}{|c|c|>{\centering\arraybackslash}m{\mycolwidth}|}
             \hline
-            0 & namespace & Für den Namen eines Packages.\\
+            Index & Token Typ & \makecell{Verwendung im DMF \\
+                \begin{tabular}{c|c}
+                    Tokenmodifikator(-en) & Verwendung
+                \end{tabular}}\tabularnewline
             \hline
-            1 & type & \makecell[l]{Für das AST-Element ``reftype''.\\Für den Override Wert des Java Typens.}\\
+            0 & namespace & \tablecell{declaration & Für den Namen eines Packages.}\tabularnewline
             \hline
-            2 & class & Für den Override Wert der Java Klasse, der Oberklasse und der implementierten Interfaces.\\
+            1 & type & \tablecell{- &
+            \makecell[l]{Für das AST-Element ``reftype''.\\Für den Override Wert des Java Typens.}
+            }\tabularnewline
             \hline
-            3 & enum & Für den Namen eines Enums.\\
+            2 & class & \tablecell{- & Für den Override Wert der Java Klasse, der Oberklasse und der implementierten Interfaces.}\tabularnewline
             \hline
-            4 & interface & Für den Namen eines Interfaces.\\
+            3 & enum & \tablecell{ declaration &  Für den Namen eines Enums.}\tabularnewline
             \hline
-            5 & struct & Für den Namen eines Structs oder einer Entity.\\
+            4 & interface & \tablecell{ declaration & Für den Namen eines Interfaces.}\tabularnewline
             \hline
-            6 & parameter & Für die Parameter einer Funktion.\\
+            5 & struct & \tablecell{ declaration & Für den Namen eines Structs oder einer Entity.}\tabularnewline
             \hline
-            7 & variable & \makecell[l]{Für die Namen von Argumenten, Referenzen und \\MultiReferenzen.\\Für die Namen der Variablen im Entity Identifier.\\Für den Override Wert des Java Namens.}\\
+            6 & parameter & \tablecell{ declaration & Für die Parameter einer Funktion. }\tabularnewline
             \hline
-            8 & property &\\
+            7 & variable &
+            \tablecell{
+                - & Für die Namen der Variablen im Entity Identifier. Für den Override Wert des Java Namens.\\
+                \hline
+                declaration & Für die Namen von Argumenten, Referenzen und MultiReferenzen.\\
+            }\\
             \hline
-            9 & number & Für alle Zahlenwerte in einer Enum-Konstante.\\
+            8 & property & Platzhalter\tabularnewline
             \hline
-            10 & enumMember & Für den Namen einer Enum-Konstante.\\
+            9 & number & \tablecell{ definition & Für alle Zahlenwerte in einer Enum-Konstante.}\tabularnewline
             \hline
-            11 & function & Für den Namen einer Funktion.\\
+            10 & enumMember & \tablecell{declaration& Für den Namen einer Enum-Konstante. }\tabularnewline
             \hline
-            12 & comment & Für alle Kommentare.\\
+            11 & function & \tablecell{ declaration & Für den Namen einer Funktion. }\tabularnewline
             \hline
-            13 & keyword & Für alle Keywords.\\
+            12 & comment & \tablecell{ - & Für alle Kommentare.}\tabularnewline
             \hline
-            14 & string & Für alle Strings außer den Werten im Override.\\
+            13 & keyword & \tablecell{ - & Für alle Keywords.}\tabularnewline
             \hline
-            15 & modifier & \\
+            14 & string & \tablecell{ - & Für alle Strings außer den Werten im Override. }\tabularnewline
             \hline
-            16 & decorator & Für den Override Wert der Java Annotations.\\
+            15 & modifier & Platzhalter\tabularnewline
+            \hline
+            16 & decorator & \tablecell{ - & Für den Override Wert der Java Annotations. }\tabularnewline
             \hline
         \end{tabular}
     \end{center}
-%TODO Modifier
     \paragraph{Generierung der Semantik Tokens}\mbox{}\\
     Die Semantik Tokens werden mithilfe zweier Algorithmen generiert.
     \subparagraph{Mithilfe des \acrshort{ast}s} werden alle \acrshort{ast}-Elemente durchlaufen.
     Werden Elemente erreicht, deren semantischer Token allein am \acrshort{ast} Element bestimmt werden kann, so werden die Token generiert.
+    Dazu gehören die meisten semantischen Token.
     \subparagraph{Mithilfe des semantischen Modells} werden die restlichen Token bestimmt.
     Dies ist möglich da die Elemente im semantischen Modell Referenzen zum \acrshort{ast} beinhalten.
     Dazu gehören die Namen der verschiedenen Inhalte, wie z.B.\ von Argumenten.
     Bei diesen Namen wird das gleiche \acrshort{ast}-Element genutzt, wodurch sie nur das semantische Parsen unterscheidbar sind.
+    \\\\
+    Die semantischen Tokens befinden sich nun in einer Liste mit semantischen Elementen.
+    Diese müssen nun codiert werden.
+    \begin{lstlisting}[language=Go, cpation=semantisches Element, label=lst:semantic-element]
+type semanticElement struct {
+	line           uint32
+	start          uint32
+	length         uint32
+	tokenType      uint32
+	tokenModifiers uint32
+}
+    \end{lstlisting}
 
     \subparagraph{Die Codierung der semantischen Tokens} muss zunächst die generierten Tokens sortieren, da keine Garantie für die richtige Reihenfolge durch die beiden Algorithmen existiert.
     \begin{lstlisting}[language=Go,label={lst:sortSemanticTokens}]
