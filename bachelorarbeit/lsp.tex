@@ -15,21 +15,401 @@
     \subsection{Das \acrfull{lsp}}\label{subsec:das-acrfull{lsp}}\hypertarget{lsp-tech}
     % LSP Protokoll ist modular
     % Verschiedene Packages aufzählen
-    TODO
-    \subsection{Die Server Implementierung}
+    Das \acrshort{lsp} wurde von Microsoft für die Verwendung in Visual Studio Code entwickelt. % TODO Quelle
+    Es ermöglicht die Funktionen von Plugins über ein Protokoll zu transportieren. \\
+    Das Protokoll nutzt JSON-RPC.
+    Wie Nachrichten übermittelt werden, wird im Abschnitt \nameref{subsec:server-implementierung} beschrieben.
+    \subsubsection{Grundlegende Nachrichten}
+%! suppress = MissingLabel
+    Im \acrshort{lsp} basieren alle Nachrichten auf dem Message-Interface.
+    Deshalb beinhaltet jede Nachricht die JSON-RPC-Version auf der sie basiert.
+    \begin{lstlisting}[language=Typescript,label={lst:lstlisting}]
+interface Message {
+	jsonrpc: string;
+}
+    \end{lstlisting}
+    Die Nachrichten gehören zusätzlich zu einem der folgenden Typen:
+    \paragraph{Anfragen}\textlf{\footnotesize Request-Message}\\
+    \begin{lstlisting}[language=Typescript]
+interface RequestMessage extends Message {
+
+	/**
+	 * The request id.
+	 */
+	id: integer | string;
+
+	/**
+	 * The method to be invoked.
+	 */
+	method: string;
+
+	/**
+	 * The method's params.
+	 */
+	params?: array | object;
+}
+    \end{lstlisting}
+    Eine Anfrage wird genutzt, um das Ergebnis einer Methode anzufragen.\\
+    Der Type der Parameter wird von der Methode festgelegt.
+    Die Antwort wird zu der Anfrage mithilfe der ID zugeordnet.
+    Diese ID wird von jedem Teilnehmer hochgezählt.
+
+    \paragraph{Antwort}\textlf{\footnotesize Response-Message}\\
+    \begin{lstlisting}[language=Typescript]
+interface ResponseMessage extends Message {
+	/**
+	 * The request id.
+	 */
+	id: integer | string | null;
+
+	/**
+	 * The result of a request. This member is REQUIRED on success.
+	 * This member MUST NOT exist if there was an error invoking the method.
+	 */
+	result?: LSPAny;
+
+	/**
+	 * The error object in case a request fails.
+	 */
+	error?: ResponseError;
+}
+    \end{lstlisting}
+    Antworten werden immer nach einer Anfrage geschickt, selbst bei einem Fehler.\\
+    Die meisten \acrshort{lsp}-Clients geben dem Server für die Antwort 5 Sekunden Zeit.\\
+    Die ID beinhaltet die ID aus der Anfrage.\\
+    Das Ergebnis(`result') existiert immer bei einer erfolgreichen Durchführung der Methode.
+    Soll kein Wert zurückgegeben werden, so wird beim Ergebnis der Wert ``null'' gesetzt.\\
+    Bei einem Fehler während der Ausführung der Methode muss der Fehler(`error') in der Antwort befüllt werden.
+    \begin{lstlisting}[language=Typescript]
+interface ResponseError {
+	/**
+	 * A number indicating the error type that occurred.
+	 */
+	code: integer;
+
+	/**
+	 * A string providing a short description of the error.
+	 */
+	message: string;
+
+	/**
+	 * A primitive or structured value that contains additional
+	 * information about the error. Can be omitted.
+	 */
+	data?: LSPAny;
+}
+    \end{lstlisting}
+    Der beinhaltet zwei wichtige Elemente: den Error-Code und die Error-Nachricht.
+    Die Error-Codes sind vordefiniert vom Protokoll.\cite{response}
+    Die Nachricht ist frei wählbar, sollte jedoch dem Nutzer erklären, wodurch der Fehler entstand.\\
+    Es können zusätzliche Daten übermittelt werden.
+    Jedoch ist das Format nicht definiert.
+    Es bietet sich nur an dieses Element zu nutzen, wenn sowohl Server als auch Client selbst implementiert wurden.
+
+    \paragraph{Benachrichtigungen}\textlf{\footnotesize Notification-Message}\\
+\begin{lstlisting}[language=Typescript]
+interface NotificationMessage extends Message {
+	/**
+	 * The method to be invoked.
+	 */
+	method: string;
+
+	/**
+	 * The notification's params.
+	 */
+	params?: array | object;
+}
+\end{lstlisting}
+    Benachrichtigungen übermitteln Daten, ohne eine Antwort zu erwarten.
+    Sie werden für z.B.\ den Abbruch einer Anfrage oder dem Übermitteln der aktuellen Fehler genutzt.\\
+    Das Datenmodell einer Benachrichtigung unterscheidet sich von einer Anfrage nur durch die fehlende ID.
+
+
+    \subsubsection{Der \acrshort{lsp}-Kommunikation-Lebenszyklus}
+    Die Kommunikation eines Clients mit einem Server folgt einem Ablauf, welcher den Anfang und das Ende der Kommunikation definiert.
+    Der Start eines Vorgangs im Lebenszyklus wird immer vom Client gestartet.
+    %! suppress = MissingLabel
+    \begin{center}
+        \begin{sequencediagram}
+            \newthread{c}{Client}{}
+            \newthreadShift{s}{Server}{25em}
+
+            \begin{sdblock}{Initialisierung}{Start der Kommunikation}
+                \begin{call}{c}{initialize}{s}{}
+                \end{call}
+                \mess{s}{initialized}{c}{}
+            \end{sdblock}
+
+            \begin{sdblock}{Nutzung des Servers}{Inhalt der Kommunikation}
+                \mess{c}{}{s}{}
+                \mess{s}{}{c}{}
+            \end{sdblock}
+
+            \begin{sdblock}{Beenden des Servers}{Ende der Kommunikation}
+                \begin{call}{c}{shutdowm}{s}{}
+                \end{call}
+                \mess{c}{exit}{s}{}
+            \end{sdblock}
+        \end{sequencediagram}
+    \end{center}
+    \paragraph{Initialisierung}\mbox{}\\
+    Die Initialisierung umfasst die ersten Nachrichten, nachdem die Transportschicht die Verbindung etabliert hat. \\
+    Sie beginnt mit dem Aufruf der Methode `initialize' des Servers.
+    In den Parametern des Aufrufs werden die vom Client unterstützten Funktionen des \acrshort{lsp}s übermittelt.
+    Der Server antwortet mit der Auswahl aus den vom Client gesendeten Funktionen, die auch der Server unterstützt.
+    Die Unterstützung einer Funktion muss keine Entscheidungsfrage sein.
+    Server und Client übermitteln auch wie sie Funktionen unterstützen.
+    So können Client oder Server kommunizieren, dass sie z.B.\ die Veränderungen an einer Datei und/oder die vollständigen Dateien unterstützen.
+    (Für genauere Informationen siehe Abschnitt \nameref{subsubsec:dokumenten-synchronisation})
+    \newline
+    \newline
+    Nachdem die Feinheiten der Kommunikation bekannt sind, beginnt der Server mit den Vorbereitungen, um alle vereinbarten Funktionen verarbeiten zu können.
+    Ist diese Vorbereitung abgeschlossen, sendet der Server die `initialized' Benachrichtigung.
+    Nun ist der Start der Kommunikation ist erfolgreich abgeschlossen.
+
+
+    \paragraph{Beenden des Servers}\mbox{}\\
+    Wird der \acrshort{lsp}-Server nicht mehr vom Client benötigt, z.B.\ da keine relevanten Dateien mehr geöffnet sind oder die \acrshort{ide}/das Projekt geschlossen wird, so wird die Methode `shutdown' aufgerufen.
+    Die Methode erwartet leere Parameter und beendet alle Strukturen für die Verarbeitung der \acrshort{lsp}-Funktionen.
+    \\\\
+    Sobald der Client die Kommunikation beendet, sendet er eine `exit'-Benachrichtigung.
+    Hat der Server vorher eine `shutdown'-Anfrage erfolgreich beantwortet, so soll er mit dem Exit-Code 0 beenden.
+    Ansonsten soll er sich mit dem Exit-Code 1 beenden.\\
+    Der Exit-Code kann nur vom Client gelesen werden, wenn dieser den Prozess des Servers auch gestartet hat.
+
+    \\\\
+    In den folgenden Abschnitten werden die Funktionen die der \acrshort{dmf}-\acrshort{lsp}-Server unterstützt vorgestellt.
+
+    \subsubsection[Anfragen stornieren]{Anfragen stornieren\\ {\textnormal{\footnotesize Cancelation Support (\$/cancelRequest) \cite{cancelation}}}}
+    Der Client kann jederzeit entscheiden, dass das Ergebnis einer Anfrage nicht mehr benötigt wird.
+    \begin{lstlisting}[language=Typescript,title=Definition der Parameter \cite{cancelation},label={lst:cancelParams}]
+interface CancelParams {
+	/**
+	 * The request id to cancel.
+	 */
+	id: integer | string;
+}
+    \end{lstlisting}
+    Die Parameter enthalten die ID der Anfrage, dessen Ergebnis nicht mehr benötigt wird.
+    Der Server muss jedoch die Anfrage trotzdem noch beantworten, um dem Ablauf des Protokolls zu folgen.
+    \\\\
+    Diese Funktion wird im \namref{subsubsec:cancel-service} implementiert.
+
+    \subsubsection[Dokumenten Synchronisation]{Dokumenten Synchronisation\\ {\textnormal{\footnotesize Text Document Synchronization \\ (textDocument/didOpen, textDocument/didChange, textDocument/didClose) \cite{dokumente}}}}\label{subsubsec:dokumenten-synchronisation}
+    Damit ein \acrshort{lsp}-Server Aussagen über eine Datei oder ein ganzes Projekt treffen kann, muss der Server den aktuellen Stand der Dateien kennen.
+    \\\\
+    Während der Initialisierung wird vom Server festgelegt, ob das Öffnen und Schließen von Dateien an den Server übertragen und wie die Bearbeitungen an den Server übertragen werden sollen (gar nicht/komplette Datei/inkrementell).
+    Der \acrshort{dmf}-\acrshort{lsp}-Server nutzt sowohl das Öffnen und Schließen der Dateien als auch die inkrementelle Übertragung der Bearbeitungen.
+    \\\\
+    Die Synchronisation beginnt, mit der Methode `textDocument/didOpen', welche beim Öffnen einer Datei ausgeführt wird.
+    \begin{lstlisting}[language=Typescript,title=Definition der Parameter \cite{dokumente}, label=lst:dokumenteParams]
+interface DidOpenTextDocumentParams {
+	/**
+	 * The document that was opened.
+	 */
+	textDocument: TextDocumentItem;
+}
+interface TextDocumentItem {
+	/**
+	 * The text document's URI.
+	 */
+	uri: DocumentUri;
+
+	/**
+	 * The text document's language identifier.
+	 */
+	languageId: string;
+
+	/**
+	 * The version number of this document (it will increase after each
+	 * change, including undo/redo).
+	 */
+	version: integer;
+
+	/**
+	 * The content of the opened text document.
+	 */
+	text: string;
+}
+    \end{lstlisting}
+    Die Parameter der Methode enthalten die \acrfull{uri}, den Inhalt der Datei, die Sprache und die Version.
+    Von diesen Parametern sind die \acrshort{uri} und der Inhalt sehr bedeutend.
+    Sie bestimmen welcher Inhalt unter welcher \acrshort{uri} vom Server gespeichert und verarbeitet wird.
+    \\\\
+    Nachdem ein Dokument geöffnet wurde, wird bei jeder Änderung die Methode `textDocument/didChange' aufgerufen.
+    Die Parameter enthalten neben der \acrshort{uri} die Änderungen, welche die direkt in die Bearbeitungen der Treesitter-API übersetzt werden können.
+    \begin{lstlisting}[language=Typescript, title=Definition der Bearbeitungen (ohne irrelevante Elemente)\cite{dokumente}, label=lst:dokumenteBearbeitung]
+export type TextDocumentContentChangeEvent = {
+	/**
+	 * The range of the document that changed.
+	 */
+	range: Range;
+
+	/**
+	 * The new text for the provided range.
+	 */
+	text: string;
+}
+    \end{lstlisting}
+
+    Wird eine Datei geschlossen, können im Server alle Ressourcen für die Datei freigegeben werden.
+    Dafür ruft der Client die Methode `textDocument/didClose' auf.
+    \\\\
+    Die Funktionen für die Dokumenten Synchronization werden im \nameref{subsubsec:file-service} implementiert.
+
+    \subsubsection[Referenzen bestimmen]{Referenzen bestimmen\\ {\textnormal{\footnotesize Go to Declaration \& Find References \\ (textDocument/declaration, textDocument/references) \cite{declaration} \cite{references}}}}\label{subsubsec:referenzen}
+    Referenzen sind ein großer Teil des Typsystems des \acrshort{dmf}s.
+    Damit diese Referenzen auch nachvollziehbar für die Entwickler*innen sind, bietet das \acrshort{lsp} mehrere Funktionen an.
+    \paragraph{Die Deklaration eines Typs} kann mit der Methode `textDocument/declaration' abfragt werden.
+    \begin{lstlisting}[language=Typescript, title=Definition der Parameter \cite{declaration}, caption=Definition der Deklarations-Parameter \cite{declaration}, label=lst:declarationParams]
+export interface DeclarationParams extends TextDocumentPositionParams,
+	WorkDoneProgressParams, PartialResultParams {
+}
+interface TextDocumentPositionParams {
+	/**
+	 * The text document.
+	 */
+	textDocument: TextDocumentIdentifier;
+
+	/**
+	 * The position inside the text document.
+	 */
+	position: Position;
+}
+    \end{lstlisting}
+    Die Deklaration wird als LocationLink als Ergebnis bereitgestellt.
+    \begin{lstlisting}[language=Typescript, title=Definition des LocationLink \cite{declaration}, label=lst:locationLink]
+interface LocationLink {
+
+	/**
+	 * Span of the origin of this link.
+	 *
+	 * Used as the underlined span for mouse interaction. Defaults to the word
+	 * range at the mouse position.
+	 */
+	originSelectionRange?: Range;
+
+	/**
+	 * The target resource identifier of this link.
+	 */
+	targetUri: DocumentUri;
+
+	/**
+	 * The full target range of this link. If the target for example is a symbol
+	 * then target range is the range enclosing this symbol not including
+	 * leading/trailing whitespace but everything else like comments. This
+	 * information is typically used to highlight the range in the editor.
+	 */
+	targetRange: Range;
+
+	/**
+	 * The range that should be selected and revealed when this link is being
+	 * followed, e.g the name of a function. Must be contained by the
+	 * `targetRange`. See also `DocumentSymbol#range`
+	 */
+	targetSelectionRange: Range;
+}
+    \end{lstlisting}
+    Ein LocationLink beschriebt einen Bereich in einem, auch vom aktuellem Dokument unterschiedlichem, Dokument.
+    Dabei wird zwischen dem kompletten Bereich der Deklaration und dem Bereich welcher automatisch ausgewählt und in einer Auswahl angezeigt werden soll.
+
+    \paragraph{Alle Referenzen zu einem Typ} können mit der Methode `textDocument/references' abgefragt werden.
+    Zu den Referenzen gehören die Deklarationen und die Verwendung des Typs in Referenzen, Multireferenzen, Funktionen und Abstraktionen.\\
+    Die Parameter unterscheiden sich von den der Deklaration nur im ReferenceContext.
+    Dieser beinhaltet die Information, ob die Deklaration in der Antwort enthalten sein soll.
+    \begin{lstlisting}[language=Typescript, title=Definition des ReferenceContext \cite{references}, label=lst:referenceContext]
+export interface ReferenceContext {
+	/**
+	 * Include the declaration of the current symbol.
+	 */
+	includeDeclaration: boolean;
+}
+    \end{lstlisting}
+    Im Ergebnis werden die Referenzen nicht in einem LocationLink zurückgegeben, sondern nur in einer Location.
+    Diese Location enthält nur die \acrshort{uri} der Datei und den Bereich der Referenz.
+    \begin{lstlisting}[language=Typescript, title=Definition der Location \cite{references}, label=lst:location]
+interface Location {
+	uri: DocumentUri;
+	range: Range;
+}
+    \end{lstlisting}
+
+    Die Beschreibung der Implementierung beider Methoden befindet sich im Abschnitt \nameref{subsubsec:reference-service}.
+
+    \subsubsection[Hover-Effekt]{Hover-Effekt\\ {\textnormal{\footnotesize Hover (textDocument/hover) \cite{hover}}}}\label{subsubsec:hover}
+    Das \acrshort{lsp} bietet die Funktion Informationen über ein Element bereitzustellen, wenn die Entwickler*innen über den Text ``hovern''.
+    \\\\
+    Während der Initialisierung gibt der Client die Formate an, die er für die Dokumentation unterstützt.
+    Das \acrshort{lsp} beinhaltet zwei Formate in der Spezifikation: normaler Text und Mardown.
+    \\\\
+    Die Parameter der Anfrage erben von den TextDocumentPositionParams (siehe \nameref{lst:declarationParams}).
+    Sie enthalten die \acrshort{uri} der Datei und die Position.\\
+    Die Dokumentation wird zusammen mit einem optionalen Bereich übermittelt.
+    \begin{lstlisting}[language=Typescript, caption=Definition des Hover Ergebnis \cite{hover}, label=lst:hover]
+/**
+ * The result of a hover request.
+ */
+export interface Hover {
+	/**
+	 * The hover's content
+	 */
+	contents: MarkedString | MarkedString[] | MarkupContent;
+
+	/**
+	 * An optional range is a range inside a text document
+	 * that is used to visualize a hover, e.g. by changing the background color.
+	 */
+	range?: Range;
+}
+export interface MarkupContent {
+	/**
+	 * The type of the Markup
+	 */
+	kind: MarkupKind;
+
+	/**
+	 * The content itself
+	 */
+	value: string;
+}
+export type MarkupKind = 'plaintext' | 'markdown';
+    \end{lstlisting}
+    Die Implementierung des Hover-Effekts wird im Abschnitt \nameref{subsubsec:hover-service} beschrieben.
+
+    \subsubsection[Faltbereich]{Faltbereich\\ {\textnormal{\footnotesize Folding Ranges (textDocument/foldingRange) \cite{folding}}}}\label{subsubsec:folding}
+    Die Möglichkeit den Code in Abschnitte zu unterteilen und diese einfalten zu können, erleichtert die Übersicht in großen Dateien.
+    Deshalb definiert das \acrshort{lsp} eine Funktion, um diese Bereiche an die \acrshort{ide} zu übermitteln.
+    \\\\
+    Während der Initialisierung kann der Client viele Vorgaben und Wünsche an den Server machen.
+    Dazu zählen die gewünschte maximale Anzahl der Bereiche,
+    ob nur komplette Zeilen gefaltet werden können,
+    welche Falttypen unterstützt werden und ob vom Server generierte Zusammenfassungen angezeigt werden können.
+    \\\\
+    Die Anfrage an den Server beinhaltet nur die \acrshor{uri} der Datei.\\
+    Die Antwort des Servers enthält eine Liste mit Faltbereichen.
+    Die Faltbereiche decken die komplette Datei ab.
+    Jeder Faltbereich enthält zusätzlich zur Startposition und Endposition auch den Falttypen und optional auch eine Zusammenfassung.
+    \\\\
+    Die Implementierung der Faltbereiche wird im Abschnitt \nameref{subsubsec:folding} beschrieben.
+
+    \subsubsection[Auswahlbereich]
+
+    \subsection{Server Implementierung}\label{subsec:server-implementierung}
     % Wie funktioniert JSON-RPC
     % Wie parsed Golang json
     % Wie werden Service Aufgerufen
-
+       TODO
     \subsubsection{Abstraktion der Server-Client-Verbindung}
     Da das \acrshort{lsp} Medium unabhängig ist, muss der Server eine Abstraktion für die Verbindung bereitstellen.
     \begin{lstlisting}[language=Go]
 package connect
 type Connection interface {
-	// WriteMessage Writes Message. May queue the Message the syncronise the Writing
+	// WriteMessage Writes Message.
+    // May queue the Message the syncronise the Writing
 	WriteMessage(message protokoll.Message)
 
-	// WaitForMessage Waits for the next Message and returns the Message or the error.
+	// WaitForMessage Waits for the next Message
+    // and returns the Message or the error.
 	// Call to this method blocks execution.
 	WaitForMessage() (protokoll.Message, error)
 
@@ -65,7 +445,7 @@ type MethodHandler interface {
     \end{enumerate}
 
 
-    \subsubsection{FileService}
+    \subsubsection{FileService}\label{subsubsec:file-service}
     Der FileService ist die Schnittstelle zwischen den Dateien, den Parsern und den restlichen Services.
     Wenn ein anderer Service auf Dateien, semantische Modell oder den Lookup zugreifen möchte, werden Methoden des FileServices genutzt.
     \begin{lstlisting}[language=Go]
@@ -117,7 +497,7 @@ type FileChangeListener interface {
     Dafür werden alle ErrorElemente in die Diagnostic Strukturen des \acrshort{lsp}s übersetzt.
     Schließlich werden die Daten mithilfe einer Request-Nachricht für die Methode ``textDocument/publishDiagnostics'' an den Client übermittelt.
 
-    \subsubsection{SemanticTokensService}
+    \subsubsection{SemanticTokensService}\label{subsubsec:semantic-service}
     Um ein schnelles Verständnis einer Datei zu ermöglichen, ist die Einfärbung der Syntax und Semantik wichtig.
     Dafür stellt das \acrshort{lsp} die Möglichkeit bereit semantische Tokens zu übermitteln.\\
     Ein Token bezieht sich immer auf einen Bereich im Sourcecode und übermittelt einen Tokentyp und eine Auswahl der Tokenmodifikatoren.
@@ -253,7 +633,7 @@ for i, element := range semanticElements {
     Überschneiden sich Token oder sind nicht in der richtigen Reihenfolge werden die Token ignoriert. \\
     Die aktuelle Zeile und Spalte im Text wird nach jedem Token aktualisiert.
 
-    \subsubsection{SelectionRangeService}
+    \subsubsection{SelectionRangeService}\label{subsubsec:selection-service}
     Der SelectionRangeService implementiert die \acrshort{lsp}-Methode ``textDocument/selectionRange''.
     Diese wird dafür genutzt, dass bei der Auswahl immer der richtige Text ausgewählt wird. \\
     Die Bereiche werden im Service mithilfe des \acrshort{ast}s berechnet.

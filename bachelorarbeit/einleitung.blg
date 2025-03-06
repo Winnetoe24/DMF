@@ -1,20 +1,20 @@
 [0] Config.pm:307> INFO - This is Biber 2.19
 [0] Config.pm:310> INFO - Logfile is 'einleitung.blg'
-[141] biber-MSWIN64:340> INFO - === 
-[194] Biber.pm:419> INFO - Reading 'einleitung.bcf'
-[325] Biber.pm:979> INFO - Found 3 citekeys in bib section 0
-[342] Biber.pm:4419> INFO - Processing section 0
-[356] Biber.pm:4610> INFO - Looking for bibtex file 'zitate.bib' for section 0
-[441] bibtex.pm:1713> INFO - LaTeX decoding ...
-[450] bibtex.pm:1519> INFO - Found BibTeX data source 'zitate.bib'
-[510] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
-[511] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[511] Biber.pm:4239> INFO - Sorting list 'anyt/global//global/global' of type 'entry' with template 'anyt' and locale 'de-DE'
-[511] Biber.pm:4245> INFO - No sort tailoring available for locale 'de-DE'
-[522] bbl.pm:660> INFO - Writing 'einleitung.bbl' with encoding 'UTF-8'
-[525] bbl.pm:763> INFO - Output to einleitung.bbl
-[526] Biber.pm:131> WARN - online entry 'twagner' (zitate.bib): Invalid format 'date' of date field 'date' - ignoring
-[526] Biber.pm:131> WARN - book entry '978-3-8348-9999-6.pdf' (zitate.bib): Invalid format '3.,aktualisierte Auflage 2009' of date field 'date' - ignoring
-[526] Biber.pm:131> WARN - online entry 'rustcookbook' (zitate.bib): Invalid format '01.03.2025' of date field 'date' - ignoring
-[527] Biber.pm:131> WARN - BibTeX subsystem: warning: comma(s) at end of name (removing)
-[527] Biber.pm:133> INFO - WARNINGS: 4
+[150] biber-MSWIN64:340> INFO - === 
+[205] Biber.pm:419> INFO - Reading 'einleitung.bcf'
+[339] Biber.pm:979> INFO - Found 3 citekeys in bib section 0
+[358] Biber.pm:4419> INFO - Processing section 0
+[373] Biber.pm:4610> INFO - Looking for bibtex file 'zitate.bib' for section 0
+[455] bibtex.pm:1713> INFO - LaTeX decoding ...
+[467] bibtex.pm:1519> INFO - Found BibTeX data source 'zitate.bib'
+[526] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'variable = shifted' with 'variable = non-ignorable'
+[527] UCollate.pm:68> INFO - Overriding locale 'de-DE' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[527] Biber.pm:4239> INFO - Sorting list 'anyt/global//global/global' of type 'entry' with template 'anyt' and locale 'de-DE'
+[527] Biber.pm:4245> INFO - No sort tailoring available for locale 'de-DE'
+[538] bbl.pm:660> INFO - Writing 'einleitung.bbl' with encoding 'UTF-8'
+[540] bbl.pm:763> INFO - Output to einleitung.bbl
+[541] Biber.pm:131> WARN - online entry 'twagner' (zitate.bib): Invalid format 'date' of date field 'date' - ignoring
+[541] Biber.pm:131> WARN - book entry '978-3-8348-9999-6.pdf' (zitate.bib): Invalid format '3.,aktualisierte Auflage 2009' of date field 'date' - ignoring
+[542] Biber.pm:131> WARN - online entry 'rustcookbook' (zitate.bib): Invalid format '01.03.2025' of date field 'date' - ignoring
+[542] Biber.pm:131> WARN - BibTeX subsystem: warning: comma(s) at end of name (removing)
+[542] Biber.pm:133> INFO - WARNINGS: 4

@@ -71,7 +71,7 @@
     numberstyle=\tiny\color{codegray},
     stringstyle=\color{codepurple},
     basicstyle=\ttfamily\footnotesize,
-    breakatwhitespace=false,
+    breakatwhitespace=true,
     breaklines=true,
     captionpos=b,
     keepspaces=true,
@@ -81,8 +81,10 @@
     showstringspaces=false,
     showtabs=false,
     tabsize=2
+    literate={ }{ \allowbreak}1  % ADDED
 }
 \lstset{style=dmfstyle}
+\lstset{numbers=left,xleftmargin=2em,frame=lines,framexleftmargin=1.75em}
 \usepackage{./lstlang0}
 
 \usepackage{syntax}
@@ -106,7 +108,7 @@
     maxnames=3, minnames=1,         % Ab 4 Autoren bei Quellenangaben et al. verwenden
     maxbibnames=99, minbibnames=99, % Literaturverzeichnis vollständig
 ]{biblatex}
-\let\cite=\textcite % Bevorzugte Zitierweise ist mit Autorennamen, aber \parencite ist auch ok!
+%\let\cite=\textcite % Bevorzugte Zitierweise ist mit Autorennamen, aber \parencite ist auch ok!
 \addbibresource{zitate.bib}
 
 
@@ -121,15 +123,27 @@ Data Mining Arbeitsgruppe \\
 }
 \author{Alexander Brand}
 
+% UML-Sequence-Diagramm
+\usepackage{pgf-umlsd}
+
+% based on \newthread macro from pgf-umlsd.sty
+% add fourth argument (third mandatory) that defines the xshift of a thread.
+% that argument gets passed to \newinst, which has an optional
+% argument that defines the shift
+\newcommand{\newthreadShift}[4][gray!30]{
+  \newinst[#4]{#2}{#3}
+  \stepcounter{threadnum}
+  \node[below of=inst\theinstnum,node distance=0.8cm] (thread\thethreadnum) {};
+  \tikzstyle{threadcolor\thethreadnum}=[fill=#1]
+  \tikzstyle{instcolor#2}=[fill=#1]
+}
+
+
+
+
 \usepackage{hhline}
 \usepackage{hyperref}
-
 \usepackage[acronym,toc]{glossaries}
-
-
-
-
-
 
 \glstoctrue
 \makeglossaries
@@ -154,6 +168,7 @@ Die Erklärung der technischen Spezifikation befindet sich im Abschnitt zum \hyp
 \newacronym{ple}{PLE}{Product Line Engineering}
 \newacronym{sql}{SQL}{Structured Query Language}
 \newacronym{xml}{XML}{Extensible Markup Language}
+\newacronym{uri}{URI}{Uniform Resource Identifier}
 \newacronym{}{}{}
 
 
@@ -161,7 +176,9 @@ Die Erklärung der technischen Spezifikation befindet sich im Abschnitt zum \hyp
 \begin{document}
 \maketitle
 \tableofcontents
-\printbibliography[title={Whole bibliography}]\hypertarget{lsp-quelle}
+\printbibliography[title={Whole bibliography}]
+\hypertarget{lsp-quelle}{}
+
 \printglossary[type=\acronymtype,title=Abkürzungsverzeichnis,toctitle=Abkürzungsverzeichnis]
 \chapter{Einleitung}\label{ch:einleitung}
 \subfile{motivation.tex}
