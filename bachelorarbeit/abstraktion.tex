@@ -3,7 +3,7 @@
 \begin{document}
     \section{Abstraktion des \acrshort{dmf}}
     Das \acrshort{dmf} basiert auf einer Abstraktion der Datenstrukturen aus mehreren Sprachen.
-    Diese Abstraktion wurde nach einer Analyse entwickelt.
+    Diese Abstraktion wurde nach folgender Analyse entwickelt.
 
     \subsection{Analyse}
     Für die Analyse wurden die Sprachen Java, Typescript, Python, Golang, Rust und C analysiert.
@@ -25,11 +25,11 @@
             \hline
             Wert     & primitive Typen & primitive Typen                      & primitive Typen             & alle Typen & alle Typen & alle Typen \\
             \hline
-            Referenz & Objekte         & Objekte, Arrays, Funktionen, Klassen & alles außer primitive Typen & Explizit & Explizit & Explizit \\
+            Referenz & Objekte         & Objekte & alles außer primitive Typen & Explizit & Explizit & Explizit \\
             \hline
         \end{tabular}
     \end{center}
-    Bei den Sprachen Java, Typescript und Python werden nur primitive Typen als Wert Variablen gespeichert.
+    Bei den Sprachen Java, Typescript und Python werden nur primitive Typen als Werte und nicht als Referenzen in Variablen gespeichert.
     Deshalb wurden die primitiven Typen dieser Sprachen genauer verglichen:
     \begin{center}
         \begin{tabular}{| c || m{7em} | m{7em} | m{7em} | m{4.5em} | m{4.5em} | m{4.5em} |}

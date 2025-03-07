@@ -15,25 +15,32 @@ Im DMF müssen folgende Aufgaben gelöst werden:
 \subsection{Parser}
 Der Parser für das \acrshort{dmf} muss große Dateien wiederholt mit kleinen Änderungen parsen.
 Diese Anforderung stammt aus der Notwendigkeit des \acrshort{ast}'s um Syntaktische und Semantische Fehler, sowie die verschiedenen Tokens(siehe Abschnitt \acrshort{lsp}) nach jeder Eingabe an die \acrshort{ide} zu übermitteln.
-Hierbei ist Latenz die höchste Priorität, denn die Reaktionsfähigkeit der \acrshort{ide} beeinflusst die Geschwindigkeit mit der Entwickelt werden kann. \\
+Hierbei ist Latenz die höchste Priorität, denn die Reaktionsfähigkeit der \acrshort{ide} beeinflusst die Geschwindigkeit mit der entwickelt werden kann. \\
 Zusätzlich muss der Parser auch von jeder anderen Komponente des \acrshort{dmf}'s verwendet werden.
-Deshalb ist hier die Einschränkung der anderen Technologien unerwünscht.
+Deshalb ist hier die Einschränkung der Technologien anderer Komponenten unerwünscht.
 \subsubsection{XText}
 XText ist ein Framework der Eclipse Foundation.\\
 Es bietet die Möglichkeit eine \acrfull{dsl} mit verschiedenen Modellen zu modellieren und Regeln automatisch zu überprüfen.
 XText setzt auf Modellierung vieler Bestandteile und generiert andere Komponenten komplett.
-Dies ermöglicht eine schnelle Entwicklung wenn die Anforderungen perfekt zu XText passen.
+Dies ermöglicht eine schnelle Entwicklung, wenn die Anforderungen perfekt zu XText passen.
 XText schränkt stark ein, wo Anpassungen vorgenommen werden können.
-So ist es nicht vorgesehen die \acrshort{lsp}-Server Implementierung anzupassen, obwohl XText nicht alle Features des \acrlong{lsp}-Protokolls unterstützt.
+So ist es nicht vorgesehen die \acrshort{lsp}-Server (\nameref{sec:der-lsp-server}) Implementierung anzupassen, obwohl XText nicht alle Features des \acrlong{lsp}-Protokolls unterstützt.
 Dateigeneration und die Verarbeitung des AST's müssen auch mit den Java-Interfaces von XText vorgenommen werden.
 Dies setzt immer die Verwendung von JVM basierten Sprachen voraus.
 Jede JVM-Implementierung benötigt beachtliche Zeit zum Starten weshalb Code Generation immer auf den Start Warten muss. \\
-Abschließend waren an XText die nicht funktionierenden Beispiel Projekte, sowie zwingende Entwicklung in Eclipse, sehr abweisend.
+Abschließend waren an XText die nicht funktionierenden Beispiel-Projekte und die zwingende Entwicklung in Eclipse sehr abweisend.
 Ein Framework welche eine einfache und flexible Entwicklung ermöglichen soll, sollte nicht schwer und nur in einer \acrshort{ide} zu entwickeln sein.
 \subsubsection{Treesitter}
-Treesitter ist ein Open Source Framework zur Generierung von Parsern. \\
+Treesitter ist ein Open Source Framework zur Generierung von Parsern.\\
 Dabei wird die Grammatik mithilfe einer Javascript \acrlong{api} definiert.
-Mithilfe der Treesitter \acrlong{cli} wird aus der Javascript Datei der Parser generiert.
+Mithilfe der Treesitter \acrlong{cli} wird aus der Javascript Datei der Parser generiert. \\
+
+\paragraph[LR-Parsern]{Bei LR-Parsern}\label{par:lr-parser} handelt es um sogenannte ``Bottom-Up-Parser''.
+Diese Parser bauen den \acrshort{ast} von den Blättern auf.
+Sie zeichnen durch ihr deterministisches Parsen und die große Klasse an nutzbaren Grammatiken aus.\newline
+Für die Generierung von Parsern eignen sich LR-Parser, da die Aktions-Tabellen, auf denen das Parsen aufbaut, automatisch generiert werden kann und während des Parsens keine Rückverfolgung durchgeführt werden muss. \cite{aho1974lr}
+Aus diesen Gründen generiert Treesitter LR(1)-Parser.
+\\\\
 Der generierte Parser nutzt C.
 C eignet sich hier sehr gut, da es die höchste Performance und die Möglichkeit es in jeder anderen Sprache zu nutzen bietet.
 Das Nutzen von C ist für jede Sprache eine Voraussetzung, um mit dem Betriebssystem zu kommunizieren.
@@ -49,20 +56,30 @@ tuition; the size of the development record is decreased; and the performance
  \end{center}
 Beim iterativen Parsen ist das Ziel den \acrshort{ast} nicht bei jedem Parse-Durchlauf neu zu erstellen, sondern möglichst viel des \acrshort{ast}'s wiederzuverwenden.
 Für das Iterative Parsen muss der \acrshort{ast} sowie die bearbeiteten Textstellen an Treesitter übergeben werden.
-Die Durchlaufzeit des iterativen Parsedurchlaufs hängt nicht mehr der Länge der kompletten Modelldatei ab, sondern nur von den neuen Terminalsymbolen und Modifikationen im \acrshort{ast}:
+Die Durchlaufzeit des iterativen Parse-Durchlaufs hängt nicht mehr der Länge der kompletten Modelldatei ab, sondern nur von den neuen Terminalsymbolen und Modifikationen im \acrshort{ast}:
  \newline
  \begin{center}
  \textit{Our incremental parsing algorithm runs in O(t + slgN) time for t new terminal symbols and s modification sites in a tree containing N nodes \cite{twagner}}
  \end{center}
 \subsubsection{\acrfull{ant}}
-\acrshort{ant} ist sehr ähnlich zu Treesitter.
-Die größten Unterschiede sind die \acrlong{api}'s zum Schreiben der Grammatiken und die Möglichkeit iterativ zu Parsen.
-Zusätzlich unterstützt \acrshort{ant} nur Java, C\# und C++.
-Dies zwingt einen in der Wahl der Implementierungssprache ein.
+Das Ziel von \acrshort{ant} ist sehr ähnlich zu Treesitter: ein Framework für die einfache Entwicklung von Parsern zu bieten. \\
+Doch es zeigen sich tiefere Unterschiede in den Strategien der Frameworks.
+\acrshort{ant} benutzt wie auch Treesitter ein eigenes \acrfull{api} zum Schreiben der Grammatiken.
+Diese \acrshort{api} nutzt jedoch keine weitverbreitete Sprache wie Javascript, sondern \acrshort{ant} setzt auf eine eigne \acrfull{dsl}.
+Dies erhöht die Ausdruckskraft der \acrshort{api}, jedoch auch den Einarbeitungsaufwand.\\
+Das \acrshort{ant} Framework verzichtet auf die Möglichkeit iterativ zu Parsen und bietet stattdessen die Generation von LL(*)-Parsern.
+
+\paragraph{LL-Parser} sind im Gegensatz zu \nameref{par:lr-parser} handelt es sich bei LL-Parsern um `top-down-parser'.
+Sie bauen damit den AST von der Wurzel aus auf.
+Dafür benötigen die Parser einen Look-Ahead.
+Bei den Look-Ahead handelt es sich um Eingabe Tokens welche für die Entscheidung zwischen verschiedenen Regeln der Grammatik benötigt werden.
+\acrshort{ant} generiert LL(*)-Parser, welche die Größe des Look-Ahead dynamisch anpassen können.
+So können die Parser deutlich mehr Grammatiken verarbeiten und produzieren bessere ASTs als LL(k)-Parser. \cite{parr2011ll}
+Der Look-Ahead verhindert jedoch das iterative Parsen, da der Zustand des Look-Aheads sich bei jedem Schritt verändert und nicht aus dem AST wiederherstellbar ist.
 
 \subsubsection{Auswahl Parser}
 Für das \acrshort{dmf} Framework wurde Treesitter verwendet.
-Die Exellente Performance sowie die Flexibilität bei der Implementierung der restlichen Komponenten hoben Treesitter von den restlichen Technologien ab.
+Die exzellente Performance sowie die Flexibilität bei der Implementierung der restlichen Komponenten hoben Treesitter von den restlichen Technologien ab.
 
 
 \subsection{\acrshort{ast} Verarbeiten}
@@ -103,18 +120,18 @@ Golang bietet zusätzlich eine simple Anbindung an den Parser und die Möglichke
 Besonders erwähnenswert ist die Geschwindigkeit eines Golang Programmes und die Startgeschwindigkeit ohne auf Speichersicherheit zu verzichten.
 
 \subsubsection{Java}
-Java bietet eine bietet mit "lsp4j" eine Bibliothek zur einfachen Entwicklung.
-Bei der Einbindung des Parsers gestalten sich jedoch zusätzliche Herausforderungen da, der Java Code Plattform unabhängig kompiliert wird und Plattform abhängigen Code aufrufen muss.
+Java bietet eine bietet mit ``lsp4j'' eine Bibliothek zur einfachen Entwicklung.
+Bei der Einbindung des Parsers gestalten sich jedoch zusätzliche Herausforderungen da, der Java Code plattform unabhängig kompiliert wird und plattform abhängigen Code aufrufen muss.
 Java benötigt für die Ausführung eine installierte Instanz der JRE. Die JRE muss nicht nur zusätzlich zum \acrlong{lsp}-Server verwaltet werden, sondern benötigt zusätzlich Zeit zum Starten.
 So muss der Entwickler länger warten bis seine Entwicklungsumgebung bereitsteht.
 
 
 \subsection{Generation von Codedateien in verschiedenen Sprachen}
-Ziel des DMFs ist es große Mengen an Sourcecode zu generieren.
+Ziel des DMFs ist aus Modellen viel Sourcecode zu generieren.
 Dabei soll den Entwicklern die Wahl zwischen mehreren Zielsprachen gegeben werden.
 Diese Generation wird beim Build und damit sehr häufig ausgeführt.
 Eine langsame Generation wird jeder Organisation viel Geld kosten.
-
+\\\\
 Die Generation muss somit schnell und Zielsprachen unabhängig sein.
 Sie muss auch aus von den Build Tools gestartet werden.
 
@@ -127,7 +144,7 @@ Golang Templates stechen besonders für ihre Integration in \acrshort{ide}'s wie
 
 \subsubsection{Java}
 Es gibt mehrere Template Engines für Java.
-Einige Beispiele wäre FreeMaker oder Apache Velocity.
+Einige Beispiele wäre FreeMarker oder Apache Velocity.
 Beide sind gut unterstützt und bieten alle nötigen Features für die Generierung von Code.
 
 \subsubsection{Typescript}
@@ -136,10 +153,11 @@ Zu den bekannten gehören Eta, liquidjs und squirrelly.
 Sie bieten alle die Möglichkeit verschiedene Zielsprachen zu generieren und können mit nodejs ausgeführt werden.
 
 \subsubsection{Auswahl}
-Da Golang eine exzellente Unterstützung in Intellij hat und keine Zusätzliche Installation wie NodeJs oder JRE verwalten muss, fiel meine Wahl auf Golang.
+Da Golang eine exzellente Unterstützung in Intellij hat und keine zusätzliche Installation wie NodeJs oder JRE verwalten muss, fiel meine Wahl auf Golang.
+Die Verwaltung von zusätzlichen Runtimes stellt immer eine besondere Herausforderung dar, denn diese Runtimes werden häufig schon von den Entwicklern in einer bestimmten Version, die potenziell nicht kompatibel mit dem \acrshort{dmf} wäre, genutzt.
+Es müssen auch der Pfad zur Installation verwaltet werden, welcher sich zwischen Betriebssystemen unterscheiden kann.
 \newline
-% Warum sind Installation verwalten nicht so gut
-Mit der Wahl für Golang für den Generator, ist auch die Wahl für die Verarbeitung des \acrshort{ast}'s und für den \acrlong{lsp}-Server gefallen.
+Mit der Wahl für Golang für den Generator ist auch die Wahl für die Verarbeitung des \acrshort{ast}'s und für den \acrlong{lsp}-Server gefallen.
 
 \subsection{Integration mit verschiedenen Build Tools}
 Damit eine Generation während des Buildvorgangs ist essenziell, um sicherzustellen, dass der generierte Code aktuell ist.

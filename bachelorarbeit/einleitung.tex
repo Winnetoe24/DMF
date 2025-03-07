@@ -27,10 +27,19 @@
 }}
 
 
-\title{Entwicklung eines flexiblen Frameworks zur generierung von Datenmodellen}
+\title{Entwicklung eines flexiblen Frameworks zur Generierung von Datenmodellen}
 
 
 \lstdefinelanguage{DMF}{
+    morekeywords=[1]{dmf, model, version, package, struct, entity, interface, enum, arg, ref, func, identifier, import, from, extends, implements, expand, override, java, annotations, javaDoc, class, name, type},
+    morekeywords=[2]{},
+    morekeywords=[3]{int,byte,double,void,boolean, string, date, datetime},
+    sensitive=false, % keywords are not case-sensitive
+    morecomment=[l]{//}, % l is for line comment
+    morestring=[b]" % defines that strings are enclosed in double quotes
+} %
+
+\lstdefinelanguage{Typescript}{ %TODO Typescript lst
     morekeywords=[1]{dmf, model, version, package, struct, entity, interface, enum, arg, ref, func, identifier, import, from, extends, implements, expand, override, java, annotations, javaDoc, class, name, type},
     morekeywords=[2]{},
     morekeywords=[3]{int,byte,double,void,boolean, string, date, datetime},
@@ -122,15 +131,16 @@
 \addbibresource{zitate.bib}
 
 
-\newcommand{\matrikelnummer}{123456}
-\newcommand{\erstgutachterIn}{Prof.{} Dr.{} Erich Schubert}
-\newcommand{\zweitgutachterIn}{Name des Zweitgutachters}
+\newcommand{\matrikelnummer}{123456} %TODO
+\newcommand{\erstgutachterIn}{Prof.{} Dr.{} Bernhard Steffen}
+\newcommand{\zweitgutachterIn}{Dr. Oliver Rüthing}
 \newcommand{\arbeitsgruppe}{
 Technische Universität Dortmund \\
 Fakultät für Informatik\\
-Data Mining Arbeitsgruppe \\
-\href{https://dm.cs.tu-dortmund.de/}{https://dm.cs.tu-dortmund.de/}% URL, aber als Text
+Lehrstuhl 5 \\
+\href{https://ps.cs.tu-dortmund.de/}{ps.cs.tu-dortmund.de}% URL, aber als Text
 }
+
 \author{Alexander Brand}
 
 % UML-Sequence-Diagramm
@@ -186,7 +196,7 @@ Die Erklärung der technischen Spezifikation befindet sich im Abschnitt zum \hyp
 \begin{document}
 \maketitle
 \tableofcontents
-\printbibliography[title={Whole bibliography}]
+\printbibliography[title={Literatur}]
 \hypertarget{lsp-quelle}{}
 
 \printglossary[type=\acronymtype,title=Abkürzungsverzeichnis,toctitle=Abkürzungsverzeichnis]
