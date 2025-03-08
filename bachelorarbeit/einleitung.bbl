@@ -19,6 +19,41 @@
 
 \refsection{0}
   \datalist[entry]{anyt/global//global/global}
+    \entry{aho1974lr}{article}{}
+      \name{author}{2}{}{%
+        {{hash=87e9142329f09390b038692270dc2168}{%
+           family={Aho},
+           familyi={A\bibinitperiod},
+           given={Alfred\bibnamedelima V.},
+           giveni={A\bibinitperiod\bibinitdelim V\bibinitperiod}}}%
+        {{hash=0c8b2064a4e458d0685b3ce22b6e88ce}{%
+           family={Johnson},
+           familyi={J\bibinitperiod},
+           given={Stephen\bibnamedelima C.},
+           giveni={S\bibinitperiod\bibinitdelim C\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {ACM New York, NY, USA}%
+      }
+      \strng{namehash}{7336bbad231776727b2cf03a6e3d7cf2}
+      \strng{fullhash}{7336bbad231776727b2cf03a6e3d7cf2}
+      \strng{bibnamehash}{7336bbad231776727b2cf03a6e3d7cf2}
+      \strng{authorbibnamehash}{7336bbad231776727b2cf03a6e3d7cf2}
+      \strng{authornamehash}{7336bbad231776727b2cf03a6e3d7cf2}
+      \strng{authorfullhash}{7336bbad231776727b2cf03a6e3d7cf2}
+      \field{labelalpha}{AJ74}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ACM Computing Surveys (CSUR)}
+      \field{number}{2}
+      \field{title}{LR parsing}
+      \field{volume}{6}
+      \field{year}{1974}
+      \field{pages}{99\bibrangedash 124}
+      \range{pages}{26}
+    \endentry
     \entry{twagner}{online}{}
       \name{author}{1}{}{%
         {{hash=02bd92faa38aaa6cc0ea75e59937a1ef}{%
@@ -45,6 +80,70 @@
       \endverb
       \warn{\item online entry 'twagner' (zitate.bib): Invalid format 'date' of date field 'date' - ignoring}
     \endentry
+    \entry{bergeon2009swiss}{article}{}
+      \name{author}{2}{}{%
+        {{hash=3e5bf0860f4a8b471f402164db2e6d89}{%
+           family={Bergeon},
+           familyi={B\bibinitperiod},
+           given={François},
+           giveni={F\bibinitperiod}}}%
+        {{hash=c452cc5d19c4e70f1c972e90eb90a0da}{%
+           family={Hensley},
+           familyi={H\bibinitperiod},
+           given={Matthew},
+           giveni={M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Incisive Media Limited}%
+      }
+      \strng{namehash}{cb8540b9f6553e9b92ce84e3ac3f96b4}
+      \strng{fullhash}{cb8540b9f6553e9b92ce84e3ac3f96b4}
+      \strng{bibnamehash}{cb8540b9f6553e9b92ce84e3ac3f96b4}
+      \strng{authorbibnamehash}{cb8540b9f6553e9b92ce84e3ac3f96b4}
+      \strng{authornamehash}{cb8540b9f6553e9b92ce84e3ac3f96b4}
+      \strng{authorfullhash}{cb8540b9f6553e9b92ce84e3ac3f96b4}
+      \field{labelalpha}{BH09}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Journal of Operational Risk}
+      \field{number}{3}
+      \field{title}{Swiss cheese and the PRiMA model: what can information technology learn from aviation accidents?}
+      \field{volume}{4}
+      \field{year}{2009}
+      \field{pages}{47}
+      \range{pages}{1}
+    \endentry
+    \entry{ibmZeroDay}{online}{}
+      \name{author}{1}{}{%
+        {{hash=cbf44511d041dc6d1dd73cc0c033122c}{%
+           family={IBM},
+           familyi={I\bibinitperiod}}}%
+      }
+      \strng{namehash}{cbf44511d041dc6d1dd73cc0c033122c}
+      \strng{fullhash}{cbf44511d041dc6d1dd73cc0c033122c}
+      \strng{bibnamehash}{cbf44511d041dc6d1dd73cc0c033122c}
+      \strng{authorbibnamehash}{cbf44511d041dc6d1dd73cc0c033122c}
+      \strng{authornamehash}{cbf44511d041dc6d1dd73cc0c033122c}
+      \strng{authorfullhash}{cbf44511d041dc6d1dd73cc0c033122c}
+      \field{labelalpha}{IBM25}
+      \field{sortinit}{I}
+      \field{sortinithash}{8d291c51ee89b6cd86bf5379f0b151d8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{6}
+      \field{month}{3}
+      \field{title}{Was ist ein Zero-Day-Exploit?}
+      \field{year}{2025}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://www.ibm.com/de-de/topics/zero-day
+      \endverb
+      \verb{url}
+      \verb https://www.ibm.com/de-de/topics/zero-day
+      \endverb
+    \endentry
     \entry{978-3-8348-9999-6.pdf}{book}{}
       \name{author}{1}{}{%
         {{hash=5b88ffe1478833ab2255931d260067ac}{%
@@ -66,6 +165,351 @@
       \field{labeltitlesource}{title}
       \field{title}{Grundkurs Programmieren mit Visual Basic}
       \warn{\item book entry '978-3-8348-9999-6.pdf' (zitate.bib): Invalid format '3.,aktualisierte Auflage 2009' of date field 'date' - ignoring}
+    \endentry
+    \entry{response}{online}{}
+      \name{author}{1}{}{%
+        {{hash=140864078aeca1c7c35b4beb33c53c34}{%
+           family={Microsoft},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{fullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{bibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorbibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authornamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorfullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \field{extraname}{1}
+      \field{labelalpha}{Mic25}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extraalpha}{1}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{3}
+      \field{month}{3}
+      \field{title}{Language Server Protokoll Specification - 3.17}
+      \field{year}{2025}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#responseMessage
+      \endverb
+      \verb{url}
+      \verb https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#responseMessage
+      \endverb
+    \endentry
+    \entry{cancelation}{online}{}
+      \name{author}{1}{}{%
+        {{hash=140864078aeca1c7c35b4beb33c53c34}{%
+           family={Microsoft},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{fullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{bibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorbibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authornamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorfullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \field{extraname}{2}
+      \field{labelalpha}{Mic25}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extraalpha}{2}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{3}
+      \field{month}{3}
+      \field{title}{Language Server Protokoll Specification - 3.17}
+      \field{year}{2025}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#cancelRequest
+      \endverb
+      \verb{url}
+      \verb https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#cancelRequest
+      \endverb
+    \endentry
+    \entry{dokumente}{online}{}
+      \name{author}{1}{}{%
+        {{hash=140864078aeca1c7c35b4beb33c53c34}{%
+           family={Microsoft},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{fullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{bibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorbibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authornamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorfullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \field{extraname}{3}
+      \field{labelalpha}{Mic25}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extraalpha}{3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{3}
+      \field{month}{3}
+      \field{title}{Language Server Protokoll Specification - 3.17}
+      \field{year}{2025}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_synchronization
+      \endverb
+      \verb{url}
+      \verb https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_synchronization
+      \endverb
+    \endentry
+    \entry{declaration}{online}{}
+      \name{author}{1}{}{%
+        {{hash=140864078aeca1c7c35b4beb33c53c34}{%
+           family={Microsoft},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{fullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{bibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorbibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authornamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorfullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \field{extraname}{4}
+      \field{labelalpha}{Mic25}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extraalpha}{4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{3}
+      \field{month}{3}
+      \field{title}{Language Server Protokoll Specification - 3.17}
+      \field{year}{2025}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_declaration
+      \endverb
+      \verb{url}
+      \verb https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_declaration
+      \endverb
+    \endentry
+    \entry{references}{online}{}
+      \name{author}{1}{}{%
+        {{hash=140864078aeca1c7c35b4beb33c53c34}{%
+           family={Microsoft},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{fullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{bibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorbibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authornamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorfullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \field{extraname}{5}
+      \field{labelalpha}{Mic25}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extraalpha}{5}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{3}
+      \field{month}{3}
+      \field{title}{Language Server Protokoll Specification - 3.17}
+      \field{year}{2025}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_references
+      \endverb
+      \verb{url}
+      \verb https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_references
+      \endverb
+    \endentry
+    \entry{hover}{online}{}
+      \name{author}{1}{}{%
+        {{hash=140864078aeca1c7c35b4beb33c53c34}{%
+           family={Microsoft},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{fullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{bibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorbibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authornamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorfullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \field{extraname}{6}
+      \field{labelalpha}{Mic25}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extraalpha}{6}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{3}
+      \field{month}{3}
+      \field{title}{Language Server Protokoll Specification - 3.17}
+      \field{year}{2025}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_hover
+      \endverb
+      \verb{url}
+      \verb https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_hover
+      \endverb
+    \endentry
+    \entry{folding}{online}{}
+      \name{author}{1}{}{%
+        {{hash=140864078aeca1c7c35b4beb33c53c34}{%
+           family={Microsoft},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{fullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{bibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorbibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authornamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorfullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \field{extraname}{7}
+      \field{labelalpha}{Mic25}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extraalpha}{7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{3}
+      \field{month}{3}
+      \field{title}{Language Server Protokoll Specification - 3.17}
+      \field{year}{2025}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_foldingRange
+      \endverb
+      \verb{url}
+      \verb https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_foldingRange
+      \endverb
+    \endentry
+    \entry{selection}{online}{}
+      \name{author}{1}{}{%
+        {{hash=140864078aeca1c7c35b4beb33c53c34}{%
+           family={Microsoft},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{fullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{bibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorbibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authornamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorfullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \field{extraname}{8}
+      \field{labelalpha}{Mic25}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extraalpha}{8}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{3}
+      \field{month}{3}
+      \field{title}{Language Server Protokoll Specification - 3.17}
+      \field{year}{2025}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_selectionRange
+      \endverb
+      \verb{url}
+      \verb https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_selectionRange
+      \endverb
+    \endentry
+    \entry{semantic}{online}{}
+      \name{author}{1}{}{%
+        {{hash=140864078aeca1c7c35b4beb33c53c34}{%
+           family={Microsoft},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{fullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{bibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorbibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authornamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorfullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \field{extraname}{9}
+      \field{labelalpha}{Mic25}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extraalpha}{9}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{3}
+      \field{month}{3}
+      \field{title}{Language Server Protokoll Specification - 3.17}
+      \field{year}{2025}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_semanticTokens
+      \endverb
+      \verb{url}
+      \verb https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_semanticTokens
+      \endverb
+    \endentry
+    \entry{diagnostics}{online}{}
+      \name{author}{1}{}{%
+        {{hash=140864078aeca1c7c35b4beb33c53c34}{%
+           family={Microsoft},
+           familyi={M\bibinitperiod}}}%
+      }
+      \strng{namehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{fullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{bibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorbibnamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authornamehash}{140864078aeca1c7c35b4beb33c53c34}
+      \strng{authorfullhash}{140864078aeca1c7c35b4beb33c53c34}
+      \field{extraname}{10}
+      \field{labelalpha}{Mic25}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extraalpha}{10}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{day}{3}
+      \field{month}{3}
+      \field{title}{Language Server Protokoll Specification - 3.17}
+      \field{year}{2025}
+      \field{dateera}{ce}
+      \verb{urlraw}
+      \verb https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_publishDiagnostics
+      \endverb
+      \verb{url}
+      \verb https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#textDocument_publishDiagnostics
+      \endverb
+    \endentry
+    \entry{parr2011ll}{article}{}
+      \name{author}{2}{}{%
+        {{hash=c47f872d41a4441186be0d66723a9e57}{%
+           family={Parr},
+           familyi={P\bibinitperiod},
+           given={Terence},
+           giveni={T\bibinitperiod}}}%
+        {{hash=da1b19e5d5688323cf6dc713732ac4fb}{%
+           family={Fisher},
+           familyi={F\bibinitperiod},
+           given={Kathleen},
+           giveni={K\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {ACM New York, NY, USA}%
+      }
+      \strng{namehash}{686e4943d949b6765bcd8abbabf08e09}
+      \strng{fullhash}{686e4943d949b6765bcd8abbabf08e09}
+      \strng{bibnamehash}{686e4943d949b6765bcd8abbabf08e09}
+      \strng{authorbibnamehash}{686e4943d949b6765bcd8abbabf08e09}
+      \strng{authornamehash}{686e4943d949b6765bcd8abbabf08e09}
+      \strng{authorfullhash}{686e4943d949b6765bcd8abbabf08e09}
+      \field{labelalpha}{PF11}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ACM Sigplan Notices}
+      \field{number}{6}
+      \field{title}{LL (*) the foundation of the ANTLR parser generator}
+      \field{volume}{46}
+      \field{year}{2011}
+      \field{pages}{425\bibrangedash 436}
+      \range{pages}{12}
     \endentry
     \entry{rustcookbook}{online}{}
       \name{author}{2}{}{%
@@ -99,6 +543,56 @@
       \verb https://doc.rust-lang.org/book/ch06-01-defining-an-enum.html
       \endverb
       \warn{\item online entry 'rustcookbook' (zitate.bib): Invalid format '01.03.2025' of date field 'date' - ignoring}
+    \endentry
+    \entry{wang2013k}{article}{}
+      \name{author}{5}{}{%
+        {{hash=d109359382de3d1a09bcbf4b791d9d39}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Lingyu},
+           giveni={L\bibinitperiod}}}%
+        {{hash=f21aa520ad69374e7b6d40b5c0891da7}{%
+           family={Jajodia},
+           familyi={J\bibinitperiod},
+           given={Sushil},
+           giveni={S\bibinitperiod}}}%
+        {{hash=be68bdccd8d20ba63b87fd0fde09fcd2}{%
+           family={Singhal},
+           familyi={S\bibinitperiod},
+           given={Anoop},
+           giveni={A\bibinitperiod}}}%
+        {{hash=732ab0b4ee1e10cb5c96e5a7672d6f12}{%
+           family={Cheng},
+           familyi={C\bibinitperiod},
+           given={Pengsu},
+           giveni={P\bibinitperiod}}}%
+        {{hash=71d47a0b473746c68c53b4f5bef94607}{%
+           family={Noel},
+           familyi={N\bibinitperiod},
+           given={Steven},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {IEEE}%
+      }
+      \strng{namehash}{d0c97547eda6b56e4c81e9d2aeba8e58}
+      \strng{fullhash}{21477f38056a63fd377ef7d031c78010}
+      \strng{bibnamehash}{21477f38056a63fd377ef7d031c78010}
+      \strng{authorbibnamehash}{21477f38056a63fd377ef7d031c78010}
+      \strng{authornamehash}{d0c97547eda6b56e4c81e9d2aeba8e58}
+      \strng{authorfullhash}{21477f38056a63fd377ef7d031c78010}
+      \field{labelalpha}{Wan+13}
+      \field{sortinit}{W}
+      \field{sortinithash}{4315d78024d0cea9b57a0c6f0e35ed0d}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IEEE Transactions on Dependable and Secure Computing}
+      \field{number}{1}
+      \field{title}{k-zero day safety: A network security metric for measuring the risk of unknown vulnerabilities}
+      \field{volume}{11}
+      \field{year}{2013}
+      \field{pages}{30\bibrangedash 44}
+      \range{pages}{15}
     \endentry
   \enddatalist
 \endrefsection

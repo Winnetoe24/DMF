@@ -56,7 +56,7 @@ interface RequestMessage extends Message {
     Die Antwort wird zu der Anfrage mithilfe der ID zugeordnet.
     Diese ID wird von jedem Teilnehmer hochgezählt.
 
-    \paragraph{Antwort}\textlf{\footnotesize Response-Message}\\
+    \paragraph{Antwort}{\footnotesize Response-Message}\\
     \begin{lstlisting}[language=Typescript]
 interface ResponseMessage extends Message {
 	/**
@@ -108,7 +108,7 @@ interface ResponseError {
     Jedoch ist das Format nicht definiert.
     Es bietet sich nur an dieses Element zu nutzen, wenn sowohl Server als auch Client selbst implementiert wurden.
 
-    \paragraph{Benachrichtigungen}\textlf{\footnotesize Notification-Message}\\
+    \paragraph{Benachrichtigungen}{\footnotesize Notification-Message}\\
 \begin{lstlisting}[language=Typescript]
 interface NotificationMessage extends Message {
 	/**
@@ -558,7 +558,8 @@ type MethodHandler interface {
     \end{enumerate}
 
 
-    \subsubsection{FileService}\label{subsubsec:file-service}
+    \subsubsection[FileService]{FileService \secsubtitle{\nameref{subsubsec:dokumenten-synchronisation}}}
+    \label{subsubsec:file-service}
     Der FileService ist die Schnittstelle zwischen den Dateien, den Parsern und den restlichen Services.
     Wenn ein anderer Service auf Dateien, semantische Modell oder den Lookup zugreifen möchte, werden Methoden des FileServices genutzt.
     \begin{lstlisting}[language=Go]
@@ -605,12 +606,13 @@ type FileChangeListener interface {
     Der FileService enthält Referenzen zu allen aktiven Listener.
     Nachdem ein FileHandle erstellt oder bearbeitet wurde, werden alle Listener durchlaufen.\\
     Im \acrshort{dmf}-\acrshort{lsp}-Server ist nur ein FileChangeListener implementiert:
-    \subparagraph{Der DiagnosticsService}\label{subsubsec:diagnostics-service}
+    \subparagraph[DiagnosticsService]{Der DiagnosticsService }\label{subsubsec:diagnostics-service}
+    (Protokoll im Abschnitt \ref{subsubsec:diagnostics})
     übermittelt die aktuellen Fehler in der Modelldatei an den Client.
     Dafür werden alle ErrorElemente in die Diagnostic Strukturen des \acrshort{lsp}s übersetzt.
     Schließlich werden die Daten mithilfe einer Request-Nachricht für die Methode ``textDocument/publishDiagnostics'' an den Client übermittelt.
 
-    \subsubsection{SemanticTokensService}\label{subsubsec:semantic-service}
+    \subsubsection{SemanticTokensService \secsubtitle{\nameref{subsubsec:semantic}}}\label{subsubsec:semantic-service}
     Der SematicTokensService implementiert die Methode für die semantischen Tokens (für Definition siehe Abschnitt \nameref{subsubsec:semantic}).
     Diese Tokens werden für die Einfärbung des Textes einer Datei nach der Syntax und Semantik genutzt.
     Mit dieser Einfärbung des Sourcecodes können Entwickler*innen schnell ein Verständnis der Datei entwickeln.
@@ -756,7 +758,7 @@ for i, element := range semanticElements {
     Überschneiden sich Token oder sind nicht in der richtigen Reihenfolge werden die Token ignoriert. \\
     Die aktuelle Zeile und Spalte im Text wird nach jedem Token aktualisiert.
 
-    \subsubsection{SelectionRangeService}\label{subsubsec:selection-service}
+    \subsubsection[SelectionRangeService]{SelectionRangeService \secsubtitle{\nameref{subsubsec:selection}}}\label{subsubsec:selection-service}
     Der SelectionRangeService implementiert die \acrshort{lsp}-Methode ``textDocument/selectionRange''.
     Diese wird dafür genutzt, dass bei der Auswahl immer der richtige Text ausgewählt wird. \\
     Die Bereiche werden im Service mithilfe des \acrshort{ast}s berechnet.
@@ -788,4 +790,6 @@ func (s *SelectionRangeService) computeSelectionRangeForPosition(
 
     Ein Request kann mehrere Positionen enthalten.
     Deshalb wird der Algorithmus für jede Position ausgeführt.
+
+
 \end{document}

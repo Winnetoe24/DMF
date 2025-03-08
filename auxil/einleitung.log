@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.1.29)  6 MAR 2025 16:18
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 23.10) (preloaded format=pdflatex 2025.1.29)  7 MAR 2025 14:44
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -1263,6 +1263,16 @@ Package biblatex Info: ... file 'blx-compat.def' found.
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\blx-compat.def
 File: blx-compat.def 2023/03/05 v3.19 biblatex compatibility (PK/MW)
 )
+Package biblatex Info: Trying to load BibTeX backend compatibility...
+Package biblatex Info: ... file 'blx-bibtex.def' found.
+
+(C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\blx-bibtex.def
+File: blx-bibtex.def 2023/03/05 v3.19 biblatex compatibility (PK/MW)
+
+Package biblatex Warning: Using fall-back bibtex backend:
+(biblatex)                functionality may be reduced/unavailable.
+
+)
 Package biblatex Info: Trying to load generic definitions...
 Package biblatex Info: ... file 'biblatex.def' found.
  (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/biblatex\biblatex.def
@@ -1608,17 +1618,17 @@ Package: glossary-tree 2024/11/01 v4.55 (NLCT)
 \glo@main@file=\write6
 \openout6 = `einleitung.glo'.
 
-Package glossaries Info: Writing glossary file einleitung.glo on input line 169
+Package glossaries Info: Writing glossary file einleitung.glo on input line 170
 .
 \glo@acronym@file=\write7
 \openout7 = `einleitung.acn'.
 
-Package glossaries Info: Writing glossary file einleitung.acn on input line 169
+Package glossaries Info: Writing glossary file einleitung.acn on input line 170
 .
 Package csquotes Info: Checking for multilingual support...
 Package csquotes Info: ... found 'babel' package.
 LaTeX Font Info:    Trying to load font information for T1+LinuxLibertineT-TLF 
-on input line 196.
+on input line 197.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/libertine\t1linuxlibert
 inet-tlf.fd
@@ -1626,60 +1636,60 @@ File: T1LinuxLibertineT-TLF.fd 2017/03/20 (autoinst) Font definitions for T1/Li
 nuxLibertineT-TLF.
 )
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 12.0pt on input line 196.
- (einleitung.aux)
+(Font)              scaled to size 12.0pt on input line 197.
+ (C:/Code\DMF\auxil\einleitung.aux)
 \openout1 = `einleitung.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/nxlmi/m/it on input line 196.
+LaTeX Font Info:    Checking defaults for OML/nxlmi/m/it on input line 197.
 LaTeX Font Info:    Trying to load font information for OML+nxlmi on input line
- 196.
+ 197.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/newtx\omlnxlmi.fd
 File: omlnxlmi.fd 2013/11/19 Fontinst v1.933 font definitions for OML/nxlmi.
 )
-LaTeX Font Info:    ... okay on input line 196.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 196.
-LaTeX Font Info:    ... okay on input line 196.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 196.
-LaTeX Font Info:    ... okay on input line 196.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 196.
-LaTeX Font Info:    ... okay on input line 196.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 196.
-LaTeX Font Info:    ... okay on input line 196.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 196.
-LaTeX Font Info:    ... okay on input line 196.
-LaTeX Font Info:    Checking defaults for U/ntxexa/m/n on input line 196.
+LaTeX Font Info:    ... okay on input line 197.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 197.
+LaTeX Font Info:    ... okay on input line 197.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 197.
+LaTeX Font Info:    ... okay on input line 197.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 197.
+LaTeX Font Info:    ... okay on input line 197.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 197.
+LaTeX Font Info:    ... okay on input line 197.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 197.
+LaTeX Font Info:    ... okay on input line 197.
+LaTeX Font Info:    Checking defaults for U/ntxexa/m/n on input line 197.
 LaTeX Font Info:    Trying to load font information for U+ntxexa on input line 
-196.
+197.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/newtx\untxexa.fd
 File: untxexa.fd 2012/04/16 Fontinst v1.933 font definitions for U/ntxexa.
 )
-LaTeX Font Info:    ... okay on input line 196.
-LaTeX Font Info:    Checking defaults for LMS/ntxsy/m/n on input line 196.
+LaTeX Font Info:    ... okay on input line 197.
+LaTeX Font Info:    Checking defaults for LMS/ntxsy/m/n on input line 197.
 LaTeX Font Info:    Trying to load font information for LMS+ntxsy on input line
- 196.
+ 197.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/newtx\lmsntxsy.fd
 File: lmsntxsy.fd 2016/07/02 Fontinst v1.933 font definitions for LMS/ntxsy.
 )
-LaTeX Font Info:    ... okay on input line 196.
-LaTeX Font Info:    Checking defaults for LMX/ntxexx/m/n on input line 196.
+LaTeX Font Info:    ... okay on input line 197.
+LaTeX Font Info:    Checking defaults for LMX/ntxexx/m/n on input line 197.
 LaTeX Font Info:    Trying to load font information for LMX+ntxexx on input lin
-e 196.
+e 197.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/newtx\lmxntxexx.fd
 File: lmxntxexx.fd 2016/07/03 Fontinst v1.933 font definitions for LMX/ntxexx.
 )
-LaTeX Font Info:    ... okay on input line 196.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 196.
-LaTeX Font Info:    ... okay on input line 196.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 196.
-LaTeX Font Info:    ... okay on input line 196.
+LaTeX Font Info:    ... okay on input line 197.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 197.
+LaTeX Font Info:    ... okay on input line 197.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 197.
+LaTeX Font Info:    ... okay on input line 197.
 \c@mv@tabular=\count502
 \c@mv@boldtabular=\count503
-LaTeX Info: Command `\dddot' is already robust on input line 196.
-LaTeX Info: Command `\ddddot' is already robust on input line 196.
+LaTeX Info: Command `\dddot' is already robust on input line 197.
+LaTeX Info: Command `\ddddot' is already robust on input line 197.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/upquote\upquote.sty
 Package: upquote 2012/04/19 v1.3 upright-quote and grave-accent glyphs in verba
@@ -1710,8 +1720,8 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
 fg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-Package hyperref Info: Link coloring ON on input line 196.
- (einleitung.out) (einleitung.out)
+Package hyperref Info: Link coloring ON on input line 197.
+ (C:/Code\DMF\auxil\einleitung.out) (C:/Code\DMF\auxil\einleitung.out)
 \@outlinefile=\write8
 \openout8 = `einleitung.out'.
 
@@ -1722,7 +1732,7 @@ Class scrbook Info: loading recommended package `bookmark'.
 (scrbook)           `bookmarkpackage=false' before \begin{document} and
 (scrbook)           you can avoid this message adding:
 (scrbook)             \usepackage{bookmark}
-(scrbook)           before \begin{document} on input line 196.
+(scrbook)           before \begin{document} on input line 197.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/bookmark\bookmark.sty
 Package: bookmark 2023-12-10 v1.31 PDF bookmarks (HO)
@@ -1775,32 +1785,35 @@ File: german.lbx 2023/03/05 v3.19 biblatex localization (PK/MW)
 Package biblatex Info: Input encoding 'utf8' detected.
 Package biblatex Info: Automatic encoding selection.
 (biblatex)             Assuming data encoding 'utf8'.
-\openout4 = `einleitung.bcf'.
+Package biblatex Info: Input encoding 'utf8' detected.
+Package biblatex Info: Data encoding 'utf8' specified.
+(biblatex)             No need to reencode data.
+\openout4 = `einleitung-blx.bib'.
 
 Package biblatex Info: Trying to load bibliographic data...
 Package biblatex Info: ... file 'einleitung.bbl' found.
  (einleitung.bbl
 
-Package biblatex Warning: Biber reported the following issues
+Package biblatex Warning: BibTeX reported the following issues
 (biblatex)                with 'twagner':
 (biblatex)                - online entry 'twagner' (zitate.bib): Invalid format
  'date' of date field 'date' - ignoring.
 
 
-Package biblatex Warning: Biber reported the following issues
+Package biblatex Warning: BibTeX reported the following issues
 (biblatex)                with '978-3-8348-9999-6.pdf':
 (biblatex)                - book entry '978-3-8348-9999-6.pdf' (zitate.bib): In
 valid format '3.,aktualisierte Auflage 2009' of date field 'date' - ignoring.
 
 
-Package biblatex Warning: Biber reported the following issues
+Package biblatex Warning: BibTeX reported the following issues
 (biblatex)                with 'rustcookbook':
 (biblatex)                - online entry 'rustcookbook' (zitate.bib): Invalid f
 ormat '01.03.2025' of date field 'date' - ignoring.
 
 )
-Package biblatex Info: Reference section=0 on input line 196.
-Package biblatex Info: Reference segment=0 on input line 196.
+Package biblatex Info: Reference section=0 on input line 197.
+Package biblatex Info: Reference segment=0 on input line 197.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/glossaries-english\glos
 saries-dictionary-English.dict
@@ -1811,7 +1824,7 @@ aries-dictionary-German.dict
 Dictionary: glossaries-dictionary, Language: German 
 )
 LaTeX Font Info:    Trying to load font information for T1+FiraSans-LF on input
- line 197.
+ line 198.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/fira\t1firasans-lf.fd
 File: T1FiraSans-LF.fd 2019/10/10 (autoinst) Font definitions for T1/FiraSans-L
@@ -1819,9 +1832,9 @@ F.
 )
 LaTeX Font Info:    Font shape `T1/FiraSans-LF/l/n' in size <12> not available
 (Font)              Font shape `T1/FiraSans-LF/light/n' tried instead on input 
-line 197.
+line 198.
 LaTeX Font Info:    Font shape `T1/FiraSans-LF/light/n' will be
-(Font)              scaled to size 10.79993pt on input line 197.
+(Font)              scaled to size 10.79993pt on input line 198.
 
 
 Package typearea Warning: \typearea used at group level 3.
@@ -1829,7 +1842,7 @@ Package typearea Warning: \typearea used at group level 3.
 (typearea)                environments, math mode, boxes, etc. may result in
 (typearea)                many type setting problems.
 (typearea)                You should move the command \typearea
-(typearea)                outside all groups on input line 197.
+(typearea)                outside all groups on input line 198.
 
 Package typearea Info: These are the values describing the layout:
 (typearea)             DIV  = 13
@@ -1847,31 +1860,31 @@ Package typearea Info: These are the values describing the layout:
 (typearea)              \topskip        = 12.0pt
 (typearea)              \footskip       = 50.75pt
 (typearea)              \baselineskip   = 14.5pt
-(typearea)              on input line 197.
+(typearea)              on input line 198.
 Package typearea Info: Using dirty hack to recalculate internal output
-(typearea)             dimensions of LaTeX on input line 197.
+(typearea)             dimensions of LaTeX on input line 198.
 <bilder/tu-dortmund-logo.pdf, id=30, 254.18713pt x 44.6192pt>
 File: bilder/tu-dortmund-logo.pdf Graphic file (type pdf)
 <use bilder/tu-dortmund-logo.pdf>
-Package pdftex.def Info: bilder/tu-dortmund-logo.pdf  used on input line 197.
+Package pdftex.def Info: bilder/tu-dortmund-logo.pdf  used on input line 198.
 (pdftex.def)             Requested size: 163.88788pt x 28.76996pt.
 LaTeX Font Info:    Font shape `T1/FiraSans-LF/l/n' in size <17.28> not availab
 le
 (Font)              Font shape `T1/FiraSans-LF/light/n' tried instead on input 
-line 197.
+line 198.
 LaTeX Font Info:    Font shape `T1/FiraSans-LF/light/n' will be
-(Font)              scaled to size 15.55188pt on input line 197.
+(Font)              scaled to size 15.55188pt on input line 198.
 LaTeX Font Info:    Font shape `T1/FiraSans-LF/b/n' in size <12> not available
 (Font)              Font shape `T1/FiraSans-LF/bold/n' tried instead on input l
-ine 197.
+ine 198.
 LaTeX Font Info:    Font shape `T1/FiraSans-LF/bold/n' will be
-(Font)              scaled to size 10.79993pt on input line 197.
+(Font)              scaled to size 10.79993pt on input line 198.
 LaTeX Font Info:    Font shape `T1/FiraSans-LF/b/n' in size <17.28> not availab
 le
 (Font)              Font shape `T1/FiraSans-LF/bold/n' tried instead on input l
-ine 197.
+ine 198.
 LaTeX Font Info:    Font shape `T1/FiraSans-LF/bold/n' will be
-(Font)              scaled to size 15.55188pt on input line 197.
+(Font)              scaled to size 15.55188pt on input line 198.
 [1
 
 \openout5 = `einleitung.ist'.
@@ -1897,15 +1910,15 @@ Package typearea Info: These are the values describing the layout:
 (typearea)              \topskip        = 12.0pt
 (typearea)              \footskip       = 50.75pt
 (typearea)              \baselineskip   = 14.5pt
-(typearea)              on input line 197.
+(typearea)              on input line 198.
 Package typearea Info: Using dirty hack to recalculate internal output
-(typearea)             dimensions of LaTeX on input line 197.
+(typearea)             dimensions of LaTeX on input line 198.
  [2
 
 
 ]
 LaTeX Font Info:    Trying to load font information for T1+LinuxBiolinumT-TLF o
-n input line 198.
+n input line 199.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/libertine\t1linuxbiolin
 umt-tlf.fd
@@ -1913,14 +1926,14 @@ File: T1LinuxBiolinumT-TLF.fd 2017/03/20 (autoinst) Font definitions for T1/Lin
 uxBiolinumT-TLF.
 )
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
-(Font)              scaled to size 12.0pt on input line 198.
+(Font)              scaled to size 12.0pt on input line 199.
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
-(Font)              scaled to size 12.0pt on input line 198.
+(Font)              scaled to size 12.0pt on input line 199.
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
-(Font)              scaled to size 17.28pt on input line 198.
- (einleitung.toc
+(Font)              scaled to size 17.28pt on input line 199.
+ (C:/Code\DMF\auxil\einleitung.toc
 LaTeX Font Info:    Trying to load font information for OT1+LinuxLibertineT-TLF
- on input line 4.
+ on input line 6.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/libertine\ot1linuxliber
 tinet-tlf.fd
@@ -1928,175 +1941,139 @@ File: OT1LinuxLibertineT-TLF.fd 2017/03/20 (autoinst) Font definitions for OT1/
 LinuxLibertineT-TLF.
 )
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 12.0pt on input line 4.
+(Font)              scaled to size 12.0pt on input line 6.
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 8.8pt on input line 4.
+(Font)              scaled to size 8.8pt on input line 6.
 LaTeX Font Info:    Font shape `OT1/LinuxLibertineT-TLF/m/n' will be
-(Font)              scaled to size 6.6pt on input line 4.
+(Font)              scaled to size 6.6pt on input line 6.
 LaTeX Font Info:    Font shape `OML/nxlmi/m/it' will be
-(Font)              scaled to size 12.0pt on input line 4.
+(Font)              scaled to size 12.0pt on input line 6.
 LaTeX Font Info:    Font shape `OML/nxlmi/m/it' will be
-(Font)              scaled to size 8.8pt on input line 4.
+(Font)              scaled to size 8.8pt on input line 6.
 LaTeX Font Info:    Font shape `OML/nxlmi/m/it' will be
-(Font)              scaled to size 6.6pt on input line 4.
+(Font)              scaled to size 6.6pt on input line 6.
 LaTeX Font Info:    Font shape `LMS/ntxsy/m/n' will be
-(Font)              scaled to size 12.0pt on input line 4.
+(Font)              scaled to size 12.0pt on input line 6.
 LaTeX Font Info:    Font shape `LMS/ntxsy/m/n' will be
-(Font)              scaled to size 8.8pt on input line 4.
+(Font)              scaled to size 8.8pt on input line 6.
 LaTeX Font Info:    Font shape `LMS/ntxsy/m/n' will be
-(Font)              scaled to size 6.6pt on input line 4.
+(Font)              scaled to size 6.6pt on input line 6.
 LaTeX Font Info:    Font shape `LMX/ntxexx/m/n' will be
-(Font)              scaled to size 12.0pt on input line 4.
+(Font)              scaled to size 12.0pt on input line 6.
 LaTeX Font Info:    Font shape `LMX/ntxexx/m/n' will be
-(Font)              scaled to size 8.8pt on input line 4.
+(Font)              scaled to size 8.8pt on input line 6.
 LaTeX Font Info:    Font shape `LMX/ntxexx/m/n' will be
-(Font)              scaled to size 6.6pt on input line 4.
+(Font)              scaled to size 6.6pt on input line 6.
 LaTeX Font Info:    Trying to load font information for U+ntxmia on input line 
-4.
+6.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/newtx\untxmia.fd
 File: untxmia.fd 2024/04/09 Fontinst v1.933 font definitions for U/ntxmia.
 )
 LaTeX Font Info:    Font shape `U/ntxmia/m/it' will be
-(Font)              scaled to size 12.0pt on input line 4.
+(Font)              scaled to size 12.0pt on input line 6.
 LaTeX Font Info:    Font shape `U/ntxmia/m/it' will be
-(Font)              scaled to size 8.8pt on input line 4.
+(Font)              scaled to size 8.8pt on input line 6.
 LaTeX Font Info:    Font shape `U/ntxmia/m/it' will be
-(Font)              scaled to size 6.6pt on input line 4.
+(Font)              scaled to size 6.6pt on input line 6.
 LaTeX Font Info:    Trying to load font information for U+ntxsym on input line 
-4.
+6.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/newtx\untxsym.fd
 File: untxsym.fd 2023/08/16 Fontinst v1.933 font definitions for U/ntxsym.
 )
 LaTeX Font Info:    Font shape `U/ntxsym/m/n' will be
-(Font)              scaled to size 12.0pt on input line 4.
+(Font)              scaled to size 12.0pt on input line 6.
 LaTeX Font Info:    Font shape `U/ntxsym/m/n' will be
-(Font)              scaled to size 8.8pt on input line 4.
+(Font)              scaled to size 8.8pt on input line 6.
 LaTeX Font Info:    Font shape `U/ntxsym/m/n' will be
-(Font)              scaled to size 6.6pt on input line 4.
+(Font)              scaled to size 6.6pt on input line 6.
 LaTeX Font Info:    Trying to load font information for U+ntxsyc on input line 
-4.
+6.
 
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/newtx\untxsyc.fd
 File: untxsyc.fd 2012/04/12 Fontinst v1.933 font definitions for U/ntxsyc.
 )
 LaTeX Font Info:    Font shape `U/ntxsyc/m/n' will be
-(Font)              scaled to size 12.0pt on input line 4.
+(Font)              scaled to size 12.0pt on input line 6.
 LaTeX Font Info:    Font shape `U/ntxsyc/m/n' will be
-(Font)              scaled to size 8.8pt on input line 4.
+(Font)              scaled to size 8.8pt on input line 6.
 LaTeX Font Info:    Font shape `U/ntxsyc/m/n' will be
-(Font)              scaled to size 6.6pt on input line 4.
+(Font)              scaled to size 6.6pt on input line 6.
 LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
-(Font)              scaled to size 12.0pt on input line 4.
+(Font)              scaled to size 12.0pt on input line 6.
 LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
-(Font)              scaled to size 8.8pt on input line 4.
+(Font)              scaled to size 8.8pt on input line 6.
 LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
-(Font)              scaled to size 6.6pt on input line 4.
-)
-\tf@toc=\write9
-\openout9 = `einleitung.toc'.
-
+(Font)              scaled to size 6.6pt on input line 6.
 
 [3{C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertine/lbtn_
 25tcsq.enc}{C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libert
-ine/lbtn_76gpa5.enc}] [4
+ine/lbtn_76gpa5.enc}])
+\tf@toc=\write9
+\openout9 = `einleitung.toc'.
 
-
-]
-chapter without number
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/sl' in size <12> not a
+vailable
+(Font)              Font shape `T1/LinuxLibertineT-TLF/m/it' tried instead on i
+nput line 200.
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
-(Font)              scaled to size 12.0pt on input line 199.
+(Font)              scaled to size 12.0pt on input line 200.
+ [4{C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertine/lbtn
+_7grukw.enc}]
+chapter without number
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/sc' will be
-(Font)              scaled to size 12.0pt on input line 199.
-LaTeX Font Info:    Trying to load font information for T1+zi4 on input line 19
-9.
+(Font)              scaled to size 12.0pt on input line 200.
+LaTeX Font Info:    Trying to load font information for T1+zi4 on input line 20
+0.
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/inconsolata\t1zi4.fd
 File: t1zi4.fd 2018/01/14 T1/zi4 (Inconsolata)
 )
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
-(Font)              scaled to size 12.0pt on input line 199.
+(Font)              scaled to size 12.0pt on input line 200.
 
-(C:/Code\DMF\auxil\einleitung.acr [5{C:/Users/alexa/AppData/Local/Programs/MiKT
-eX/fonts/enc/dvips/libertine/lbtn_7grukw.enc}{C:/Users/alexa/AppData/Local/Prog
-rams/MiKTeX/fonts/enc/dvips/libertine/lbtn_ncsllp.enc}{C:/Users/alexa/AppData/L
-ocal/Programs/MiKTeX/fonts/enc/dvips/inconsolata/i4-t1-0.enc}] [6
+[5
 
 
-]) [7
+{C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertine/lbtn_nc
+sllp.enc}{C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/inconsol
+ata/i4-t1-0.enc}] (C:/Code\DMF\auxil\einleitung.acr [6]) [7
 
 
-]
-[8
+
+
+] [8
 
 
 ]
 chapter 1.
 (motivation.tex
-LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
-(Font)              scaled to size 14.4pt on input line 3.
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\acrfull' on input line 7.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\acrfull' on input line 8.
-
-
-Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\acrshort' on input line 16.
-
-[9]
-
-LaTeX Warning: Citation 'ibmZeroDay' on page 10 undefined on input line 36.
+(hyperref)                removing `\acrshort' on input line 15.
 
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
-(Font)              scaled to size 12.0pt on input line 36.
+(Font)              scaled to size 12.0pt on input line 24.
+[9{C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertine/lbtn_
+nh77jq.enc}]
 
-LaTeX Warning: Citation 'wang2013k' on page 10 undefined on input line 38.
-
-
-motivation.tex:39: LaTeX Error: Something's wrong--perhaps a missing \item.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.39 \end{center}
-                 
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: Citation 'bergeon2009swiss' on page 10 undefined on input line 4
-3.
-
-
-motivation.tex:44: LaTeX Error: Something's wrong--perhaps a missing \item.
+motivation.tex:38: LaTeX Error: Something's wrong--perhaps a missing \item.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.44 \end{center}
+l.38 \end{center}
                  
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-) (tools.tex
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/sl' in size <12> not a
-vailable
-(Font)              Font shape `T1/LinuxLibertineT-TLF/m/it' tried instead on i
-nput line 9.
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/it' will be
-(Font)              scaled to size 12.0pt on input line 9.
- [10{C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/libertine/lbt
-n_nh77jq.enc}]
-Underfull \hbox (badness 10000) in paragraph at lines 34--37
 
- []
-
-[11]
-
-tools.tex:43: LaTeX Error: Something's wrong--perhaps a missing \item.
+motivation.tex:43: LaTeX Error: Something's wrong--perhaps a missing \item.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
@@ -2106,6 +2083,27 @@ l.43 \end{center}
                  
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
+
+LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
+(Font)              scaled to size 14.4pt on input line 48.
+) [10]
+chapter 2.
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\acrshort' on input line 207.
+
+(tools.tex [11
+
+
+]
+Underfull \hbox (badness 10000) in paragraph at lines 34--37
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 38--49
+
+ []
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 50--52
@@ -2120,29 +2118,34 @@ Underfull \hbox (badness 10000) in paragraph at lines 57--61
 [12]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\acrshort' on input line 75.
+(hyperref)                removing `\acrshort' on input line 85.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\acrshort' on input line 81.
+(hyperref)                removing `\acrshort' on input line 91.
 
 
-Overfull \hbox (4.85376pt too wide) in paragraph at lines 82--85
+Overfull \hbox (4.85376pt too wide) in paragraph at lines 92--95
 \T1/LinuxLibertineT-TLF/m/n/12 gra-ted De-ve-lop-ment En-vi-ron-ment (IDE)[][] 
 ge-nutzt wer-den kön-nen. Vie-le IDE's stel-len Schnitt-
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 86--97
+[13]
+Underfull \hbox (badness 10000) in paragraph at lines 96--107
 
  []
 
-[13] [14]) (abstraktion.tex [15]
+[14]
+Underfull \hbox (badness 10000) in paragraph at lines 130--137
+
+ []
+
+[15]) (abstraktion.tex
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\acrshort' on input line 4.
 
-
+[16]
 Underfull \hbox (badness 10000) in paragraph at lines 26--26
 []|\T1/LinuxLibertineT-TLF/m/n/12 primitive
  []
@@ -2155,21 +2158,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 26--26
 
 Underfull \hbox (badness 10000) in paragraph at lines 26--26
 []|\T1/LinuxLibertineT-TLF/m/n/12 primitive
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 28--28
-[]|\T1/LinuxLibertineT-TLF/m/n/12 Objekte,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 28--28
-\T1/LinuxLibertineT-TLF/m/n/12 Ar-rays,
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 28--28
-\T1/LinuxLibertineT-TLF/m/n/12 Funk-tio-nen,
  []
 
 
@@ -2202,12 +2190,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 40--41
 []|\T1/LinuxLibertineT-TLF/m/n/12 number, bi-gint,
  []
 
-[16]
+
 Overfull \hbox (30.8131pt too wide) in paragraph at lines 53--62
  [] 
  []
 
-
+[17]
 Overfull \hbox (22.38922pt too wide) in paragraph at lines 69--70
 \T1/LinuxLibertineT-TLF/m/n/12 Um 1:n- oder n:m-Beziehungen im Da-ten-mo-dell m
 o-del-lie-ren zu kön-nen wur-den drei Collection-
@@ -2238,12 +2226,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 95--98
 
  []
 
-[17]
+[18]
 Underfull \hbox (badness 10000) in paragraph at lines 107--124
 
  []
 
-[18]
+[19]
 Overfull \hbox (23.9298pt too wide) in paragraph at lines 158--169
 \T1/LinuxLibertineT-TLF/m/n/12 nicht zur De-fi-ni-ti-on ei-nes kom-ple-xen Da-t
 en-typs, son-dern stam-men aus der Objekt-Orientierten-
@@ -2254,14 +2242,23 @@ Underfull \hbox (badness 10000) in paragraph at lines 171--178
 
  []
 
-[19]
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
 nput line 188.
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
 (Font)              scaled to size 10.95pt on input line 188.
 LaTeX Font Info:    Font shape `T1/zi4/m/n' will be
 (Font)              scaled to size 10.95pt on input line 188.
- [20] [21]) (sprache.tex
+[20] [21]) [22]
+chapter 3.
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\acrshort' on input line 210.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\acrshort' on input line 210.
+
+(sprache.tex
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\acrshort' on input line 4.
@@ -2285,7 +2282,10 @@ Overfull \hbox (61.20403pt too wide) in paragraph at lines 22--23
 [][] [] [] [] \T1/LinuxLibertineT-TLF/m/n/12 [ []]
  []
 
-[22] [23]
+[23
+
+
+] [24]
 Underfull \hbox (badness 10000) in paragraph at lines 88--93
 
  []
@@ -2306,7 +2306,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 124--126
 
  []
 
-[24]
+[25]
 Overfull \hbox (57.20903pt too wide) in paragraph at lines 157--159
 [][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
@@ -2322,17 +2322,16 @@ Overfull \hbox (58.64801pt too wide) in paragraph at lines 165--166
 []\T1/LinuxLibertineT-TLF/m/n/12 'struct' [] [[]] [[]] '{' []*
  []
 
-[25]
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
 (Font)              scaled to size 10.95pt on input line 179.
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/b/n' will be
 (Font)              scaled to size 10.95pt on input line 179.
-
+[26]
 Overfull \hbox (34.84587pt too wide) in paragraph at lines 212--216
 []\T1/LinuxLibertineT-TLF/m/n/12 'ref' [] '[]' [] [',' []] '[]' []
  []
 
-[26]
+
 Overfull \hbox (40.46191pt too wide) in paragraph at lines 229--232
 []\T1/LinuxLibertineT-TLF/m/n/12 'func' [] [] '(' [[] ( ',' [])*]
  []
@@ -2347,7 +2346,7 @@ Overfull \hbox (24.92793pt too wide) in paragraph at lines 229--232
 []\T1/LinuxLibertineT-TLF/m/n/12 'func' 'vo-id' [] '(' [[] ( ',' [])*]
  []
 
-
+[27]
 Overfull \hbox (90.0593pt too wide) in paragraph at lines 241--242
 [][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
@@ -2362,7 +2361,7 @@ Overfull \hbox (1.21368pt too wide) in paragraph at lines 266--267
 []\T1/LinuxLibertineT-TLF/m/n/12 'interface' [] [[]] '{' []*
  []
 
-[27] [28]) (semantik.tex
+[28]) (semantik.tex
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\acrfull' on input line 5.
@@ -2372,7 +2371,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 6--9
 
  []
 
-(lstlang0.sty
+[29] (lstlang0.sty
 File: lstlang0.sty 2017/07/16 1.2 listings language file for GoLang
 )
 Overfull \hbox (405.42184pt too wide) in paragraph at lines 26--27
@@ -2382,7 +2381,7 @@ Overfull \hbox (405.42184pt too wide) in paragraph at lines 26--27
 ][][][][][][][][][][][][] 
  []
 
-[29]
+
 Overfull \hbox (214.8903pt too wide) in paragraph at lines 32--33
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
@@ -2400,6 +2399,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 39--51
 
  []
 
+[30]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\acrshort' on input line 53.
@@ -2410,17 +2410,23 @@ Overfull \hbox (21.15674pt too wide) in paragraph at lines 54--67
 il-fe ei-ner Call-backstruk-tur au-ÿer-halb der Semantik-
  []
 
-[30]
+[31]
 Overfull \hbox (63.77908pt too wide) in paragraph at lines 91--92
 [][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-[31]
+[32]
 Underfull \hbox (badness 10000) in paragraph at lines 132--135
 
  []
 
-[32]) (lsp.tex
+[33]) [34]
+chapter 4.
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\acrshort' on input line 214.
+
+(lsp.tex
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\acrshort' on input line 8.
@@ -2430,16 +2436,11 @@ Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\acrfull' on input line 17.
 
 
-LaTeX Warning: Reference `subsec:server-implementierung' on page 33 undefined o
-n input line 23.
-
-
 Overfull \hbox (0.97421pt too wide) in paragraph at lines 26--28
 \T1/LinuxLibertineT-TLF/m/n/12 Im [][][]LSP[][] ba-sie-ren al-le Nach-rich-ten 
 auf dem Message-Interface. Des-halb bein-hal-tet je-de Nach-
  []
 
-[33]
 LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/m/n' will be
 (Font)              scaled to size 10.0pt on input line 34.
 LaTeX Font Info:    Font shape `T1/LinuxBiolinumT-TLF/m/n' will be
@@ -2451,23 +2452,18 @@ Underfull \hbox (badness 10000) in paragraph at lines 34--35
 
  []
 
+[35
+
+
+]
 LaTeX Font Info:    Trying to load font information for TS1+zi4 on input line 4
 9.
+
 (C:\Users\alexa\AppData\Local\Programs\MiKTeX\tex/latex/inconsolata\ts1zi4.fd
 File: ts1zi4.fd 2018/01/14 TS1/zi4 (Inconsolata)
 )
 LaTeX Font Info:    Font shape `TS1/zi4/m/n' will be
 (Font)              scaled to size 10.95pt on input line 49.
-
-lsp.tex:59: Undefined control sequence.
-l.59     \paragraph{Antwort}\textlf
-                                   {\footnotesize Response-Message}\\
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 
 Underfull \hbox (badness 10000) in paragraph at lines 59--60
 
@@ -2483,28 +2479,12 @@ Overfull \hbox (83.48924pt too wide) in paragraph at lines 69--70
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-[34{C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/inconsolata/i4
+[36{C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/inconsolata/i4
 -ts1.enc}]
-
-LaTeX Warning: Citation 'response' on page 35 undefined on input line 105.
-
-LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
-(Font)              scaled to size 10.0pt on input line 105.
-lsp.tex:111: Undefined control sequence.
-l.111     \paragraph{Benachrichtigungen}\textlf
-                                               {\footnotesize Notification-M...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 111--112
 
  []
 
-[35]
 \pgf@layerbox@umlsd@background=\box82
 \pgf@layerboxsaved@umlsd@background=\box83
 \pgf@layerbox@umlsd@threadlayer=\box84
@@ -2557,35 +2537,22 @@ LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
 (Font)              scaled to size 7.3pt on input line 136.
 LaTeX Font Info:    Font shape `U/ntxexa/m/n' will be
 (Font)              scaled to size 5.5pt on input line 136.
-
-
-LaTeX Warning: Reference `subsubsec:dokumenten-synchronisation' on page 36 unde
-fined on input line 165.
-
-
+[37]
 Underfull \hbox (badness 10000) in paragraph at lines 157--171
 
  []
 
-[36]
-Underfull \hbox (badness 10000) in paragraph at lines 173--183
-
- []
-
 
 Underfull \hbox (badness 10000) in paragraph at lines 173--183
 
  []
 
 
-LaTeX Warning: Citation 'cancelation' on page 37 undefined on input line 184.
+Underfull \hbox (badness 10000) in paragraph at lines 173--183
 
+ []
 
-LaTeX Warning: Citation 'cancelation' on page 37 undefined on input line 186.
-
-
-LaTeX Warning: Citation 'cancelation' on page 37 undefined on input line 186.
-
+[38]
 lsp.tex:197: Undefined control sequence.
 l.197     Diese Funktion wird im \namref
                                         {subsubsec:cancel-service} implement...
@@ -2601,9 +2568,6 @@ Underfull \hbox (badness 10000) in paragraph at lines 194--198
  []
 
 
-LaTeX Warning: Citation 'dokumente' on page 37 undefined on input line 199.
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 200--206
 
  []
@@ -2613,13 +2577,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 200--206
 
  []
 
-
-LaTeX Warning: Citation 'dokumente' on page 37 undefined on input line 206.
-
-
-LaTeX Warning: Citation 'dokumente' on page 37 undefined on input line 206.
-
-[37]
+[39]
 Overfull \hbox (50.63898pt too wide) in paragraph at lines 225--226
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
@@ -2630,50 +2588,21 @@ Underfull \hbox (badness 10000) in paragraph at lines 236--242
  []
 
 
-LaTeX Warning: Citation 'dokumente' on page 38 undefined on input line 242.
-
-
-LaTeX Warning: Citation 'dokumente' on page 38 undefined on input line 242.
-
-[38]
-
-LaTeX Warning: Reference `subsubsec:file-service' on page 39 undefined on input
- line 259.
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 256--260
 
  []
 
-
-LaTeX Warning: Citation 'declaration' on page 39 undefined on input line 261.
-
-
-LaTeX Warning: Citation 'references' on page 39 undefined on input line 261.
-
-
-LaTeX Warning: Citation 'declaration' on page 39 undefined on input line 265.
-
-
-LaTeX Warning: Citation 'declaration' on page 39 undefined on input line 265.
-
-
+[40]
 Overfull \hbox (44.06892pt too wide) in paragraph at lines 266--267
 [][][][][][][][][][][][][][][][][][] 
  []
-
-
-LaTeX Warning: Citation 'declaration' on page 39 undefined on input line 282.
-
-
-LaTeX Warning: Citation 'declaration' on page 39 undefined on input line 282.
 
 
 Overfull \hbox (96.62935pt too wide) in paragraph at lines 288--289
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-[39]
+
 Overfull \hbox (109.76945pt too wide) in paragraph at lines 299--300
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
@@ -2727,30 +2656,15 @@ Package textcomp Info: Symbol \textasciigrave not provided by
 (textcomp)             font family zi4 in TS1 encoding.
 (textcomp)             Default family used instead on input line 309.
 
-
-LaTeX Warning: Citation 'references' on page 40 undefined on input line 321.
-
-
-LaTeX Warning: Citation 'references' on page 40 undefined on input line 321.
+[41]
+LaTeX Font Info:    Font shape `T1/LinuxLibertineT-TLF/b/n' will be
+(Font)              scaled to size 10.0pt on input line 338.
 
 
-LaTeX Warning: Citation 'references' on page 40 undefined on input line 331.
-
-
-LaTeX Warning: Citation 'references' on page 40 undefined on input line 331.
-
-
-LaTeX Warning: Reference `subsubsec:reference-service' on page 40 undefined on 
+LaTeX Warning: Reference `subsubsec:reference-service' on page 42 undefined on 
 input line 338.
 
 
-LaTeX Warning: Citation 'hover' on page 40 undefined on input line 340.
-
-
-LaTeX Warning: Reference `lst:declarationParams' on page 40 undefined on input 
-line 346.
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 341--349
 
  []
@@ -2760,30 +2674,16 @@ Underfull \hbox (badness 10000) in paragraph at lines 341--349
 
  []
 
-[40]
-
-LaTeX Warning: Citation 'hover' on page 41 undefined on input line 349.
-
-
-LaTeX Warning: Citation 'hover' on page 41 undefined on input line 349.
-
-
+[42]
 Overfull \hbox (109.76945pt too wide) in paragraph at lines 361--362
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-LaTeX Warning: Reference `subsubsec:hover-service' on page 41 undefined on inpu
+LaTeX Warning: Reference `subsubsec:hover-service' on page 43 undefined on inpu
 t line 378.
 
 
-LaTeX Warning: Citation 'folding' on page 41 undefined on input line 380.
-
-
-LaTeX Warning: Reference `subsubsec:folding' on page 41 undefined on input line
- 394.
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 381--395
 
  []
@@ -2797,17 +2697,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 381--395
 Underfull \hbox (badness 10000) in paragraph at lines 381--395
 
  []
-
-[41]
-
-LaTeX Warning: Citation 'selection' on page 42 undefined on input line 396.
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 397--402
 
  []
 
-
+[43]
 Overfull \hbox (83.48924pt too wide) in paragraph at lines 404--405
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][][][][][][][][][][][][][][][][][][][][][][][] 
@@ -2873,7 +2769,7 @@ Overfull \hbox (76.91919pt too wide) in paragraph at lines 427--428
 ][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-[42]
+
 Overfull \hbox (116.33951pt too wide) in paragraph at lines 428--429
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][]
@@ -2881,25 +2777,11 @@ Overfull \hbox (116.33951pt too wide) in paragraph at lines 428--429
  []
 
 
-LaTeX Warning: Reference `subsubsec:selection-service' on page 43 undefined on 
-input line 431.
-
-
-LaTeX Warning: Citation 'semantic' on page 43 undefined on input line 433.
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 434--441
 
  []
 
-
-LaTeX Warning: Reference `subsubsec:semantic-service' on page 43 undefined on i
-nput line 464.
-
-
-LaTeX Warning: Citation 'diagnostics' on page 43 undefined on input line 466.
-
-
+[44]
 Underfull \hbox (badness 10000) in paragraph at lines 467--483
 
  []
@@ -2909,7 +2791,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 467--483
 
  []
 
-[43]
+[45]
 Overfull \hbox (70.34914pt too wide) in paragraph at lines 484--485
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][
 ][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
@@ -3012,74 +2894,70 @@ Package textcomp Info: Symbol \textasciigrave not provided by
 Package textcomp Info: Symbol \textasciigrave not provided by
 (textcomp)             font family zi4 in TS1 encoding.
 (textcomp)             Default family used instead on input line 505.
-
-LaTeX Warning: Reference `subsubsec:diagnostics-service' on page 44 undefined o
-n input line 509.
-
-[44]
+[46]
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
 (hyperref)                removing `\acrshort' on input line 537.
 
-[45]
-Underfull \hbox (badness 10000) in paragraph at lines 584--588
+[47]
+Underfull \hbox (badness 10000) in paragraph at lines 585--589
 
  []
 
 
-Overfull \hbox (30.92882pt too wide) in paragraph at lines 598--599
+Overfull \hbox (30.92882pt too wide) in paragraph at lines 599--600
 [][][][][][][][][][][][][][][][][][][][] 
  []
 
-[46]
 
-LaTeX Warning: Reference `subsubsec:semantic' on page 47 undefined on input lin
-e 614.
-
-
-LaTeX Warning: Reference `par:semantic-code' on page 47 undefined on input line
- 620.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 614--622
+Underfull \hbox (badness 10000) in paragraph at lines 616--624
 
  []
 
-[47]
-Underfull \hbox (badness 10000) in paragraph at lines 686--693
+[48] [49]
+Underfull \hbox (badness 10000) in paragraph at lines 688--695
 
  []
 
-[48]
-Overfull \hbox (24.35876pt too wide) in paragraph at lines 705--706
+[50]
+Overfull \hbox (24.35876pt too wide) in paragraph at lines 707--708
 [][][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-[49]
-Overfull \hbox (11.21866pt too wide) in paragraph at lines 765--766
+[51]
+Overfull \hbox (11.21866pt too wide) in paragraph at lines 767--768
 [][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (37.49887pt too wide) in paragraph at lines 767--768
+Overfull \hbox (37.49887pt too wide) in paragraph at lines 769--770
 [][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (57.20903pt too wide) in paragraph at lines 769--770
+Overfull \hbox (57.20903pt too wide) in paragraph at lines 771--772
 [][][][][][][][][][][][][][][][][][][][] 
  []
 
-[50]
-Underfull \hbox (badness 10000) in paragraph at lines 783--788
+[52]
+Underfull \hbox (badness 10000) in paragraph at lines 785--790
 
  []
 
-) (javaGenerator.tex) [51] [52
+) (javaGenerator.tex) [53] [54
 
 
 ]
-chapter 2.
+chapter 5.
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\acrshort' on input line 217.
+
+[55] [56
+
+
+]
+chapter 6.
 (grammatik.tex
 Overfull \hbox (2.41402pt too wide) in paragraph at lines 10--11
 [][] [] [] []
@@ -3115,7 +2993,7 @@ Overfull \hbox (9.76527pt too wide) in paragraph at lines 37--38
 []\T1/LinuxLibertineT-TLF/m/n/12 'java' '{' ([] | [] | []
  []
 
-[53]
+[57]
 Overfull \hbox (1.11441pt too wide) in paragraph at lines 57--58
 []\T1/LinuxLibertineT-TLF/m/n/12 'struct' [] [[]] [[]] '{'
  []
@@ -3140,7 +3018,7 @@ Overfull \hbox (51.45662pt too wide) in paragraph at lines 78--81
 []\T1/LinuxLibertineT-TLF/m/n/12 'func' 'vo-id' [] '(' [[] ( ',' [])*]
  []
 
-[54]
+[58]
 Overfull \hbox (1.4744pt too wide) in paragraph at lines 94--95
 []\T1/LinuxLibertineT-TLF/m/n/12 'entity' [] [[]] [[]] '{'
  []
@@ -3150,7 +3028,7 @@ Overfull \hbox (27.74237pt too wide) in paragraph at lines 98--99
 []\T1/LinuxLibertineT-TLF/m/n/12 'interface' [] [[]] '{' []*
  []
 
-) [55] (einleitung.aux)
+) [59] (C:/Code\DMF\auxil\einleitung.aux)
  ***********
 LaTeX2e <2023-06-01> patch level 1
 L3 programming layer <2023-08-29>
@@ -3161,20 +3039,15 @@ LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `einleitung.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
-
-Package biblatex Warning: Please (re)run Biber on the file:
-(biblatex)                einleitung
-(biblatex)                and rerun LaTeX afterwards.
-
 Package logreq Info: Writing requests to 'einleitung.run.xml'.
 \openout1 = `einleitung.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 51530 strings out of 475248
- 975156 string characters out of 5757813
- 1972785 words of memory out of 5000000
- 71405 multiletter control sequences out of 15000+600000
+ 51720 strings out of 475248
+ 980111 string characters out of 5757813
+ 1987785 words of memory out of 5000000
+ 71567 multiletter control sequences out of 15000+600000
  723927 words of font info for 124 fonts, out of 8000000 for 9000
  1145 hyphenation exceptions out of 8191
  122i,30n,128p,10927b,2503s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -3189,9 +3062,9 @@ C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/public/libertine/LinLi
 bertineTB.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/fonts/type1/public/
 libertine/LinLibertineTI.pfb><C:/Users/alexa/AppData/Local/Programs/MiKTeX/font
 s/type1/public/newtx/txsys.pfb>
-Output written on C:/Code\DMF\out\einleitung.pdf (55 pages, 739793 bytes).
+Output written on C:/Code\DMF\out\einleitung.pdf (59 pages, 779757 bytes).
 PDF statistics:
- 1686 PDF objects out of 1728 (max. 8388607)
- 822 named destinations out of 1000 (max. 500000)
- 386 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1881 PDF objects out of 2073 (max. 8388607)
+ 846 named destinations out of 1000 (max. 500000)
+ 426 words of extra memory for PDF output out of 10000 (max. 10000000)
 

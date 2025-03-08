@@ -121,7 +121,7 @@
 %sorting=ynt
 %]{biblatex}
 %\usepackage{biblatex}
-\usepackage[backend=biber, % moderneres backend als bibtex
+\usepackage[backend=bibtex, % moderneres backend als bibtex
     style=alphabetic, % Alphabetischer Stil besser bei viel Literatur
     doi=true, isbn=true, url=true,  % DOI, ISBN und URLs anzeigen
     maxnames=3, minnames=1,         % Ab 4 Autoren bei Quellenangaben et al. verwenden
@@ -157,6 +157,7 @@ Lehrstuhl 5 \\
   \tikzstyle{threadcolor\thethreadnum}=[fill=#1]
   \tikzstyle{instcolor#2}=[fill=#1]
 }
+\newcommand{\secsubtitle}[1]{\\\textnormal{\footnotesize{Protokoll in Abschnitt #1}}}
 
 
 
@@ -198,16 +199,22 @@ Die Erklärung der technischen Spezifikation befindet sich im Abschnitt zum \hyp
 \tableofcontents
 \printbibliography[title={Literatur}]
 \hypertarget{lsp-quelle}{}
-
 \printglossary[type=\acronymtype,title=Abkürzungsverzeichnis,toctitle=Abkürzungsverzeichnis]
-\chapter{Einleitung}\label{ch:einleitung}
+
+\chapter{Motivation}\label{ch:einleitung}
 \subfile{motivation.tex}
+
+\chapter{Planung des \acrshort{dmf}}\label{ch:planung-dmf}
 \subfile{tools.tex}
 \subfile{abstraktion.tex}
+\chapter{Die Implementierung der \acrshort{dmf}-\acrshort{dsl}}\label{ch:sprache}
 \subfile{sprache.tex}
 \subfile{semantik.tex}
+
+\chapter{Programme des \acrshort{dmf}}\label{ch:programme}
 \subfile{lsp.tex}
 \subfile{javaGenerator.tex}
+\chapter{Benutzung des \acrshort{dmf}}\label{ch:nutzung}
 \chapter{Anhang}
 \subfile{grammatik.tex}
 

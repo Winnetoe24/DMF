@@ -1,10 +1,9 @@
 \documentclass[./einleitung.tex]{subfiles}
 \begin{document}
-\section{Motivation}\label{sec:motivation}
 Die zentrale Modellierung von Domainmodellen ist sehr verbreitet in der Entwicklung von großen Software-Projekten und zentraler Bestandteil von Product Line Engineering.
 Dabei stellt die Modellierung des Domainmodells einen Kompromiss zwischen der kompletten Modellierung einer Software und der klassischen Entwicklung ohne Modelle dar. \\
 Ziel dieses Kompromisses ist die Effizienz und Sicherheit der Codegenerierung für das Datenmodell einzusetzen, um die Entwicklung der restlichen Software zu vereinfachen.
-
+%TODO Größer Schreiben
 \subsection{\acrfull{ple}}\label{subsec:ple}
 \acrshort{ple} befasst sich mit der Entwicklung von mehreren verwandten Softwareprodukten.
 Dabei handelt es sich häufig um Software für Teilaufgaben und angepasste Kundenversionen der Standardsoftware. \\
@@ -22,16 +21,16 @@ Es wird bei Neuentwicklungen nicht mehr die gefragt, was wären die besten Techn
 \subsection{Effekte eines unflexiblen Frameworks}\label{subsec:effekte-eines-unflexiblen-frameworks}
 Dieser fehlerhafte Ansatz schädigt das Projekt auf mehreren Ebenen:
 \begin{enumerate}
-\item Konzentrierung von Wissen und Erfahrung  \\
+\item \textbf{Konzentrierung von Wissen und Erfahrung} \\
 Da nur eine Architektur in Betracht gezogen wird, hat jedes Mitglied des Teams nur Erfahrung mit der aktuellen Architektur und jegliche Erfahrung mit anderen Technologien verfällt mit der Zeit. Dies schränkt die die Perspektiven auf Probleme sehr stark ein und macht einen Wechsel sehr aufwendig.
-\item sinkende Bewerberzahl \\
+\item \textbf{sinkende Bewerberzahl} \\
 Da nur Bewerber für die gewählten Technologien in Betracht gezogen werden, verringert sich die Anzahl stark.
 Der Effekt wird verstärkt, wenn die Technologien als veraltet gelten.
 Eine kleinere Bewerberanzahl zwingt Unternehmen auch Bewerber, die andernfalls nicht beachtet worden wären, in Betracht zu ziehen.
 Dies führt zu weiteren negativen Effekten, da einige schlechte Angestellte die Produktivität vieler guter Angestellter stark senken können.
-\item Anfälligkeit gegenüber Sicherheitslücken \\
+\item \textbf{Anfälligkeit gegenüber Sicherheitslücken} \\
 Eine starke Festlegung auf Technologien führt dazu, dass Sicherheitslücken gleich jedes Projekt betreffen.
-So könnten bei einem Zero-Day-Exploit direkt mehrere Schichten im ``Schweizer Käse Modell'' (TODO Source suchen) wegfallen.
+So könnten bei einem Zero-Day-Exploit direkt mehrere Schichten im ``Schweizer Käse Modell'' wegfallen.
 \begin{center}
     \paragraph{Ein Zero-Day-Exploit} beschreibt einen Angriffsweg, bei dem den Betreibern eines Systems keine Reaktionszeit bleibt. \cite{ibmZeroDay}
     Diese Angriffswege nehmen verschiedene Formen an.
