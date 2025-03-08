@@ -181,7 +181,7 @@ interface NotificationMessage extends Message {
     \\\\
     In den folgenden Abschnitten werden die Funktionen die der \acrshort{dmf}-\acrshort{lsp}-Server unterstützt vorgestellt.
 
-    \subsubsection[Anfragen stornieren]{Anfragen stornieren\\ {\textnormal{\footnotesize Cancelation Support (\$/cancelRequest) \cite{cancelation}}}}
+    \subsubsection[Anfragen stornieren]{Anfragen stornieren\\ {\textnormal{\footnotesize Cancelation Support (\$/cancelRequest) \cite{cancelation}}}} \label{subsubsec:cancel}
     Der Client kann jederzeit entscheiden, dass das Ergebnis einer Anfrage nicht mehr benötigt wird.
     \begin{lstlisting}[language=Typescript,title=Definition der Parameter \cite{cancelation},label={lst:cancelParams}]
 interface CancelParams {
@@ -613,7 +613,7 @@ type FileChangeListener interface {
     Schließlich werden die Daten mithilfe einer Request-Nachricht für die Methode ``textDocument/publishDiagnostics'' an den Client übermittelt.
 
     \subsubsection{SemanticTokensService \secsubtitle{\nameref{subsubsec:semantic}}}\label{subsubsec:semantic-service}
-    Der SematicTokensService implementiert die Methode für die semantischen Tokens (für Definition siehe Abschnitt \nameref{subsubsec:semantic}).
+    Der SematicTokensService implementiert die Methode für die semantischen Tokens.
     Diese Tokens werden für die Einfärbung des Textes einer Datei nach der Syntax und Semantik genutzt.
     Mit dieser Einfärbung des Sourcecodes können Entwickler*innen schnell ein Verständnis der Datei entwickeln.
     \\\\
@@ -790,6 +790,103 @@ func (s *SelectionRangeService) computeSelectionRangeForPosition(
 
     Ein Request kann mehrere Positionen enthalten.
     Deshalb wird der Algorithmus für jede Position ausgeführt.
+
+    \subsubsection[FoldingService]{FoldingService \secsubtitle{\nameref{subsubsec:folding}}}\label{subsubsec:folding-service}
+    Der FoldingService stellt die Methode `textDocument/foldingRange', für die Übermittlung der faltbaren Bereiche, bereit.
+    Es werden drei verschiende Bereicharten berechnet: PackageElemente, Kommentare und der Import-Block.
+    \subparagraph{Für die PackageElemente} werden die \acrshort{ast}-Nodes des Elements durchlaufen.
+    Es wird immer der Bereich, welcher von den geschweiften Klammern umschlossen wird, gefaltet.
+    Deshalb werden die auch diese Nodes beim Durchlaufen gesucht.
+    \begin{lstlisting}[language=Go, caption=Suche nach Start- und Ende-Node des Faltbereichs eines PackageElements, label=lst:foldPackageElement]
+cursor.GotoFirstChild()
+for {
+    if cursor.Node().GrammarName() == "{" {
+        startNode = cursor.Node()
+    }
+    if cursor.Node().GrammarName() == "}" {
+        endNode = cursor.Node()
+    }
+    if !cursor.GotoNextSibling() {
+        break
+    }
+}
+    \end{lstlisting}
+    Mithilfe diese Nodes kann auf die Zeilen und Spalten beider Positonen zugegriffen werden.
+    Damit die Klammern auch noch in der \acrshort{ide} angezeigt werden, wird der Startzeichenindex (Start-Spalte) um 1 erhöht und der Endzeichenindex (End-Spalte) um 1 gesenkt.
+
+    \subparagraph{Für die Kommentare} wird die Query-Funktion von Treesitter genutzt.
+    \begin{lstlisting}[capture=Die Query für alle Kommentare, label=lst:commentQuery]
+(comment_block) @cb
+    \end{lstlisting}
+    Die Ergebnisse einer Query werden in der Treesitter-\acrshort{api} QueryMatches genannt.
+    Für diese Query enthalten sie alle `comment_block' Nodes im \acrshort{ast}.
+    Durch die Ergebnisse wird iteriert und für jeden QueryMatch ein Faltbereich erstellt.
+    Dabei wird zwischen einzeiligen und mehrzeiligen Kommentaren unterschieden, die Position unterschiedlich interpretiert werden müssen.
+    Einzeilige Kommentare werden nicht in jeder \acrshort{ide} gut verarbeitet, deshalb können sie über die Argumente ausgeschaltet werden.
+    \begin{lstlisting}[language=Go, caption=Auszug aus der Bestimmung der Faltbereiche für die Kommentare, label=lst:foldingCommentsFor]
+queryCursor := tree_sitter.NewQueryCursor()
+captures := queryCursor.Captures(f.kommentarQuery, root.RootNode(), nil)
+for match, index := captures.Next(); match != nil; match, index = captures.Next() {
+    node := match.Captures[index].Node
+    startPos := node.StartPosition()
+    endPos := node.EndPosition()
+
+    if startPos.Row != endPos.Row {
+        // Mehrzeilige Kommentare
+    }else if !args.DisableSingleLineCommentsFolding{
+        // Einzeilige Kommentare
+    }
+}
+    \end{lstlisting}
+    \textbf{Bei allen Kommentaren} liegt das Ende im Ergebnis der Query in der nächsten Zeile.
+    Der Faltbereich soll jeden am Ende der Kommentarzeile enden.
+    Deshalb wird die Endposition verschoben.\\
+    \textbf{Bei mehrzeiligen Kommentaren} müssen Startzeichenindex und Endzeichenindex anhand von unterschiedlichen Zeilen bestimmt werden.
+    Dafür muss der Inhalt des Kommentars in Zeilen aufgeteilt werden.
+    Die erste und letzte Zeile werden für die Indexe genutzt.
+    Für die Zusammenfassung wird die \\
+    \textbf{Bei einzieligen Kommentaren} könen die Indexe anhand der einen Zeile bestimmt werden.
+
+    \subparagraph{Für den Import-Block} wird die Node des Import-Blocks aus dem \acrshort{ast} genutzt.
+    Diese enthält jedoch alle Zeilen, ab dem ersten Import-Statement bis zum ersten PackageElement.
+    Deshalb werden die Leerzeilen am Ende des Import-Blocks herrausgefiltert.
+    \begin{lstlisting}[language=Go, caption=Filterung der leeren Zeilen, label=lst:filterImportFolding]
+var endPos tree_sitter.Point
+for {
+    if cursor.Node().GrammarName() == "import_block" {
+        importBlock = cursor.Node()
+        cursor.GotoLastChild()
+        endPos = cursor.Node().EndPosition()
+        text := cursor.Node().Utf8Text([]byte(content))
+        split := strings.Split(text, "\n")
+        length := len(split)
+        for i := range split {
+            s := split[length-i-1]
+            if strings.ContainsFunc(s, func(r rune) bool {
+                switch r {
+                case ' ', '\n':
+                    return false
+                default:
+                    return true
+                }
+            }) {
+                endPos.Column = uint(len(split[length-i-1]))
+            } else {
+                endPos.Row--
+            }
+        }
+        break
+    }
+    if !cursor.GotoNextSibling() {
+        break
+    }
+}
+    \end{lstlisting}
+
+    \subsubsection[ReferenceService]{ReferenceService \secsubtitle{\nameref{subsubsec:referenzen}}}\label{subsubsec:reference-service}
+    \subsubsection[HoverService]{HoverService \secsubtitle{\nameref{subsubsec:hover}}}\label{subsubsec:hover-service}
+    \subsubsection[CancelService]{CancelService \secsubtitle{\nameref{subsubsec:cancel}}}\label{subsubsec:cancel-service}
+
 
 
 \end{document}

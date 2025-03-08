@@ -3,6 +3,7 @@ package foldingService
 import (
 	"encoding/json"
 	tree_sitter_dmf "github.com/Winnetoe24/DMF/grammar/dmf_language"
+	"github.com/Winnetoe24/DMF/lsp/args"
 	"github.com/Winnetoe24/DMF/lsp/protokoll"
 	"github.com/Winnetoe24/DMF/lsp/protokoll/folding"
 	"github.com/Winnetoe24/DMF/lsp/protokoll/initialize"
@@ -11,7 +12,6 @@ import (
 	"github.com/Winnetoe24/DMF/lsp/service"
 	"github.com/Winnetoe24/DMF/lsp/service/fileService"
 	"github.com/Winnetoe24/DMF/lsp/service/logService"
-	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 	"strings"
@@ -42,7 +42,6 @@ func NewFoldingService(connection connect.Connection, fs *fileService.FileServic
 
 var _ service.MethodHandler = &FoldingService{}
 
-// asd
 func (f *FoldingService) Initialize(params *initialize.InitializeParams, result *initialize.InitializeResult) {
 	result.Capabilities.FoldingRangeProvider = true
 
@@ -53,6 +52,7 @@ func (f *FoldingService) Initialize(params *initialize.InitializeParams, result 
 		f.lineFoldOnly = clientFoldingCaps.LineFoldingOnly
 		f.rangeLimit = clientFoldingCaps.RangeLimit
 	}
+
 }
 
 func (f *FoldingService) GetMethods() []string {
@@ -104,8 +104,8 @@ func (f *FoldingService) getFoldingRanges(content fileService.FileContent) []fol
 	// Add comment folding ranges
 	ranges = append(ranges, f.getCommentFoldingRanges(content.Ast, content.Content)...)
 
-	// TODO Add import folding ranges
-	//ranges = append(ranges, f.getImportFoldingRanges(content.Model.ImportStatements)...)
+	// Add import folding ranges
+	ranges = append(ranges, f.getImportFoldingRanges(content.Ast, content.Content)...)
 
 	return ranges
 }
@@ -131,7 +131,9 @@ func (f *FoldingService) createFoldingRange(element packages.PackageElement) fol
 	startPos := startNode.StartPosition()
 	endPos := endNode.EndPosition()
 
+	kind := folding.Region
 	fRange := folding.FoldingRange{
+		Kind:      &kind,
 		StartLine: uint32(startPos.Row),
 		EndLine:   uint32(endPos.Row),
 	}
@@ -148,7 +150,7 @@ func (f *FoldingService) createFoldingRange(element packages.PackageElement) fol
 
 func (f *FoldingService) getCommentFoldingRanges(root *tree_sitter.Tree, content string) []folding.FoldingRange {
 	var ranges []folding.FoldingRange
-	logger := logService.GetLogger()
+	//logger := logService.GetLogger()
 	queryCursor := tree_sitter.NewQueryCursor()
 	captures := queryCursor.Captures(f.kommentarQuery, root.RootNode(), nil)
 	bytes := []byte(content)
@@ -156,16 +158,9 @@ func (f *FoldingService) getCommentFoldingRanges(root *tree_sitter.Tree, content
 		node := match.Captures[index].Node
 		startPos := node.StartPosition()
 		endPos := node.EndPosition()
+		endPos.Row--
 
 		if startPos.Row != endPos.Row {
-			text := node.Utf8Text(bytes)
-			split := strings.Split(text, "\n")
-			if len(split) > 0 {
-				endPos.Row--
-				endPos.Column = uint(len(split[len(split)-2]))
-				startPos.Column = uint(strings.Index(split[1], "//") + 2)
-			}
-
 			kind := folding.Comment
 			fRange := folding.FoldingRange{
 				StartLine: uint32(startPos.Row),
@@ -174,6 +169,15 @@ func (f *FoldingService) getCommentFoldingRanges(root *tree_sitter.Tree, content
 			}
 
 			if !f.lineFoldOnly {
+				text := node.Utf8Text(bytes)
+				split := strings.Split(text, "\n")
+				if len(split) > 0 {
+					endPos.Column = uint(len(split[len(split)-2]))
+					startIndex := strings.Index(split[0], "//") + 2
+					startPos.Column = uint(startIndex)
+					collapsed := split[0][startIndex:]
+					fRange.CollapsedText = &collapsed
+				}
 				startChar := uint32(startPos.Column)
 				endChar := uint32(endPos.Column)
 				fRange.StartCharacter = &startChar
@@ -181,9 +185,8 @@ func (f *FoldingService) getCommentFoldingRanges(root *tree_sitter.Tree, content
 			}
 
 			ranges = append(ranges, fRange)
-		} else {
+		} else if !args.DisableSingleLineCommentsFolding {
 			text := node.Utf8Text(bytes)
-			endPos.Row--
 			endPos.Column = uint(len(text))
 			startPos.Column = uint(strings.Index(text, "//") + 2)
 			kind := folding.Comment
@@ -203,35 +206,59 @@ func (f *FoldingService) getCommentFoldingRanges(root *tree_sitter.Tree, content
 			ranges = append(ranges, fRange)
 		}
 	}
-	//for {
-	//	node := cursor.Node()
-	//	if node.GrammarName() == "comment_block" {
-	//
-	//	}
-	//
-	//	if !cursor.GotoNextSibling() {
-	//		if !cursor.GotoParent() {
-	//			break
-	//		}
-	//	}
-	//}
-	logger.Printf("%sFound %v Comment Ranges\n", logService.TRACE, len(ranges))
+
+	//logger.Printf("%sFound %v Comment Ranges\n", logService.TRACE, len(ranges))
 	return ranges
 }
 
-func (f *FoldingService) getImportFoldingRanges(imports []smodel.ImportStatement) []folding.FoldingRange {
-	if len(imports) <= 1 || imports[0].Node == nil || imports[len(imports)-1].Node == nil {
-		return nil
-	}
+func (f *FoldingService) getImportFoldingRanges(ast *tree_sitter.Tree, content string) []folding.FoldingRange {
 
-	startPos := imports[0].Node.StartPosition()
-	endPos := imports[len(imports)-1].Node.EndPosition()
+	cursor := ast.Walk()
+	cursor.GotoFirstChild()
+	var importBlock *tree_sitter.Node = nil
+	var endPos tree_sitter.Point
+	for {
+		if cursor.Node().GrammarName() == "import_block" {
+			importBlock = cursor.Node()
+			cursor.GotoLastChild()
+			endPos = cursor.Node().EndPosition()
+			text := cursor.Node().Utf8Text([]byte(content))
+			split := strings.Split(text, "\n")
+			length := len(split)
+			for i := range split {
+				s := split[length-i-1]
+				if strings.ContainsFunc(s, func(r rune) bool {
+					switch r {
+					case ' ', '\n':
+						return false
+					default:
+						return true
+					}
+				}) {
+					endPos.Column = uint(len(split[length-i-1]))
+				} else {
+					endPos.Row--
+				}
+			}
+			break
+		}
+		if !cursor.GotoNextSibling() {
+			break
+		}
+	}
 	kind := folding.Imports
 
+	if importBlock == nil || importBlock.GrammarName() != "import_block" {
+		return []folding.FoldingRange{}
+	}
+	startPos := importBlock.StartPosition()
+
+	collapsed := "Imports\n"
 	fRange := folding.FoldingRange{
-		StartLine: uint32(startPos.Row),
-		EndLine:   uint32(endPos.Row),
-		Kind:      &kind,
+		StartLine:     uint32(startPos.Row),
+		EndLine:       uint32(endPos.Row),
+		Kind:          &kind,
+		CollapsedText: &collapsed,
 	}
 
 	if !f.lineFoldOnly {

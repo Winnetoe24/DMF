@@ -296,7 +296,7 @@ func (s *SemanticTokensService) WalkNode(cursor *tree_sitter.TreeCursor, addToke
 		fallthrough
 	case "extends", "implements", "expand":
 		fallthrough
-	case "model", "dmf", "version":
+	case "model", "dmf", "version", "import", "from":
 		fallthrough
 	case "int", "long", "double", "byte", "string", "date", "datetime", "boolean", "void", "package":
 		addToken(node, indexKeyword)

@@ -1,6 +1,12 @@
 dmf 1.0.0
 model "dp_success" version 0.0.0
 
+import de from ""
+import de.ad from ""
+import de.ad from ""
+
+import de.ad from ""
+import de.a from ""
 package de.alex.brand {
     // Comment over other
     package other {
@@ -47,7 +53,7 @@ package de.alex.brand {
             arg string me;
             // Kommentar von One
             ref One o;
-           identifier(i, mSe, o);
+           identifier(i, o);
         }
         entity TwoE extends .OneE {
            identifier(i, me);
