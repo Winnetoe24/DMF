@@ -45,7 +45,7 @@ func (r *ReferenceService) findDeclarationsFromPath(sourceNode *tree_sitter.Node
 
 	referenzen := r.findRefOfType(content, path)
 	for _, referenz := range referenzen {
-		links = append(links, declaration.NodeToDeclarationLink(sourceNode, referenz.Node, file))
+		links = append(links, declaration.NodeToDeclarationLink(sourceNode, referenz, file))
 	}
 
 	return links

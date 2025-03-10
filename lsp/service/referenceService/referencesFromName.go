@@ -26,6 +26,7 @@ func (r *ReferenceService) findReferencesFromName(name string, element packages.
 	for _, subelement := range subelements {
 		nodes := r.findRefsOfVarInElement(subelement, name)
 		for _, node := range nodes {
+			//TOOD Prevent double References through Abstraction
 			locations = append(locations, protokoll.NodeToLocation(node, file))
 		}
 	}

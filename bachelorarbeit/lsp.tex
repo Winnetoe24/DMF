@@ -825,8 +825,10 @@ for {
     Einzeilige Kommentare werden nicht in jeder \acrshort{ide} gut verarbeitet, deshalb können sie über die Argumente ausgeschaltet werden.
     \begin{lstlisting}[language=Go, caption=Auszug aus der Bestimmung der Faltbereiche für die Kommentare, label=lst:foldingCommentsFor]
 queryCursor := tree_sitter.NewQueryCursor()
-captures := queryCursor.Captures(f.kommentarQuery, root.RootNode(), nil)
-for match, index := captures.Next(); match != nil; match, index = captures.Next() {
+captures := queryCursor.Captures(f.kommentarQuery,
+                            root.RootNode(), nil)
+for match, index := captures.Next(); match != nil;
+        match, index = captures.Next() {
     node := match.Captures[index].Node
     startPos := node.StartPosition()
     endPos := node.EndPosition()
@@ -884,7 +886,134 @@ for {
     \end{lstlisting}
 
     \subsubsection[ReferenceService]{ReferenceService \secsubtitle{\nameref{subsubsec:referenzen}}}\label{subsubsec:reference-service}
+    Um zwischen den Referenzen und den Deklarationen in der \acrshort{ide} in der Datei springen zu können, implementiert der ReferenzService die Methoden `textDocument/references' und `textDocument/declaration'. \\
+    Die Parameter für beide Methoden enthalten das Textdokument und die Position im Dokument.
+    Um die Referenz zu finden, wird der \acrshort{ast} vom Blatt an der Position zur Wurzel durchlaufen.
+    Dabei werden für folgende Node-Typen die erste Node gespeichert.
+    \begin{center}
+        \begin{tabular}{|c|c|}
+            \hline
+            \acrshort{ast}-Node Namen & Verwendung \\
+            \hline
+            reftype & Referenzen, Multireferenzen oder Parameter \\
+            \hline
+            identifier & Namen von Variablen oder Funktionen\\
+            \hline
+            \makecell{package_block, struct_block, enum_block,\\entity_block, interface_block}& PackageElemente\\
+            \hline
+        \end{tabular}
+    \end{center}
+    Mithilfe dieser Nodes kann der Name für den LookUp der PackageElemente und der Name des NamedElements innerhalb des PackageElements bestimmt werden.
+
+    \paragraph{Referenzen}\mbox{}\\
+    Nachdem das PackageElement und der Name bestimmt wurden, wird unterschieden ob es sich um einen Typ oder um eine Variable handelt.
+    \\
+    Für die \textbf{Variablen} wird das aktuelle Element und alle SubElemente (Elemente durch Abstraktion) durchsucht.
+    In den Elementen wird nach der Variable über den NamendElemente-LookUp und in dem EntityIdentifier gesucht.
+    \\
+    Für die Suche nach \textbf{Typ}-Referenzen müssen alle PackageElemente durchsucht werden.
+    In den PackageElementen werden Referenzen, Multireferenzen, Parameter und die Abstraktion durchsucht.
+
+    \paragraph{Deklarationen}\mbox{}\\
+    Auch bei den Deklarationen wird zwischen Typen und Variablen unterschieden. \\
+    Für die \textbf{Variablen} wird das Element und die SubElemente durchsucht.
+%    TODO erklären
+        Für die \textbf{Typen} wird ???
+
     \subsubsection[HoverService]{HoverService \secsubtitle{\nameref{subsubsec:hover}}}\label{subsubsec:hover-service}
+    Der HoverService lässt die Entwickler*innen Zusammenfassungen für jedes Element aufrufen.
+    Um zu bestimmen, welche Zusammenfasssung zu welchen Element übermittelt werden muss, wird zu Beginn jeder Hover-Anfrage die kleinsten Nodes verschiedener Typen bestimmt.
+    \begin{center}
+        \begin{tabular}{|c|c|}
+            \hline
+            Zusammenfassung & \acrshort{ast}-Node-Typen \\
+            \hline
+            Variable & arg_block, ref_block, multi_block \\
+            \hline
+            EntityIdentifier & identifier_statement\\
+            \hline
+            Konstante & enum_constant \\
+            \hline
+            Kommentar & comment_block \\
+            \hline
+            PackageElement & \makecell{package_block, struct_block, enum_block,\\entity_block, interface_block} \\
+            \hline
+            Import & import_statement\\
+            \hline
+            Model Deklaration & model_declaration \\
+            \hline
+            DMF Deklaration & dmf_declaration \\
+            \hline
+        \end{tabular}
+    \end{center}
+
+    
+    \paragraph{Das Generieren der Zusammenfassungen} folgt für jede Zusammenfassung dem gleichen Ablauf.
+    Zuerst werden anhand der \acrshort{ast}-Nodes die Elemente aus dem semantischen Modell bestimmt.
+    Aus diesen Elementen wird eine spezifische Datenstruktur erstellt.
+    Mithilfe dieser Datenstruktur kann das jeweilige Template ausgeführt werden.
+    \paragraph{Nutzung von Golang-Templates}\mbox{}\\
+    Die Standard Bibliothek von Golang bietet eine Template-Engine das Generieren von Texten genutzt wird.
+    Die \acrshort{api} besteht dabei aus 3 Komponenten: Templates, Funktionen und Datenstrukturen.
+    \begin{lstlisting}[language=Go, caption=Ablauf der Template-\acrshort{api}, label=lst:template]
+// Inkludierung der Templates
+//go:embed template/*
+var tmplFiles embed.FS
+
+// Vorbereiten der Templates
+templates = template.Must(template.New("").
+            Funcs(funcMap).
+            ParseFS(tmplFiles, "template/*"))
+
+// Generieren mit Templates
+buffer := bytes.NewBuffer(make([]byte, 0))
+err := templates.ExecuteTemplate(buffer, "variable", data)
+return buffer.String()
+    \end{lstlisting}
+    \textbf{Die Templates} werden in eigenen Dateien abgelegt.
+    Mithilfe der Golang-Embeded-\acrshort{api} werden diese Dateien in die ausführbare Datei kopiert und können während der Ausführung ausgelesen werden.\\
+    Ein Template wird immer mit einer Datenstruktur aufgerufen.
+    Innerhalb eines Templates werden Kontrollstrukturen und Zugriffe auf die Datenstruktur innerhalb von Statements mit `\{\{' und `\}\}' gekennzeichnet.
+    Statements in Templates folgen einer simplifierzierten Golang Syntax.
+    Das Ergebnis nach ihrer Evaluirung wird in das Ergebnis eingefügt.
+    Die größte Simplifizierung sind die Blöcke der Kontrollstrukturen.
+    Die Beginnen immer mit einem Statement in der Syntax des jeweiligen Keywords und enden mit dem `\{\{end\}\}'-Statement.\\
+    Ein Template wird definiert mit dem Define-Statement (`\{\{define "name"\}\}').
+    Der Name im Statement wird später zum Aufrufen des Templates genutzt. \\
+    Die Übergebene Datenstruktur wird immer mit `.' adressiert.
+    So kann eine Variable der Datenstruktur mithilfe von `\{\{.Variablenname\}\}' eingefügt werden.
+    Es ist auch möglich lokale Variablen zu definieren, z.B. `\{\{\$importSlice := getImports .\}\}'.
+    Ein Name einer lokalen Variable beginnt immer mit dem Zeichen \$.\\
+    Funktionen werden ohne Klammern aufgerufen, jedoch können Klammern zur Abgrenzung der Parameter verschiedener Funktionen genutzt werden.
+    Das Statement `ne (len \$importSlice) 0' wird zu einem Wahrheitswert evaluieren.
+    Der Aufruf der Funktion `len' befindet sich in Klammern sodass das Ergebnis als ein Parameter der Funktion `ne' verwendet wird.\\
+    Mithilfe von `if' und `range' Statements kann der Ablauf eines Templates gesteuert werden.
+    Ein `if'-Statement funktioniert als Kontrollstruktur die einen Teil des Templates abhängig von einer Bedingung ausführt.
+    Es kann mit einem `else'-Statement erweitert werden.
+    Ein `range'-Statement übernimmt die Funktion der Schleifen.
+    Es wird immer durch eine Slice iteriert, z.B. `\{\{range \$index, \$use := .Uses\}\}'.\\
+    Es können andere Templates aufgerufen werden.
+    Dabei kann nur ein Parameter(=eine Datenstruktur) übergeben werden, weshalb häufig Methoden mehrere Parameter in eine Datenstruktur kombinieren.
+    Ein Aufruf Statement enthält neben dem Parameter auch den Namen des Templates: `\{\{template "parameter" \$element\}\}'.
+    \\
+    \textbf{Die Funktionen} werden in Go geschrieben.
+    Eine Map dient zum Aufruf der Funktionen während der Generationen.
+    Zwischen Funktionen, Templates und Datenstrukturen wird während der Kompilierung und der Vorbereitung der Templates keine Typ-Überprüfung durchgeführt.
+    Besitzen die Parameter während der Generation die falschen Typen, wird die Generation mit einem Fehler abgebrochen.\\
+    Funktionen besitzen keine Referenzen zum Kontext indem die Generation gestartet wurde.
+    Deshalb bleiben nur noch die globalen Elemente und die Parameter.
+    Globale Elemente können jedoch diesen Kontext auch nicht speichern, wenn die Generation parallel ausgeführt wird.
+    Somit wird jeder erfordlicher Kontext in den Parametern übergeben.
+    \\
+    \textbf{Die Datenstrukturen} werden normal im Go-Code definiert.
+    Sie enthalten neben den Daten aus dem semantischen Modell auch den evtuellen Kontext für den Aufruf für eine Funktion oder bündeln Parameter für den Aufruf eines Templates.
+    \\
+    \textbf{Bei der Generation} wird ein Writer, der Name des Templates und die Datenstruktur übergeben.
+    Das Writer-Interface bietet eine Abstraktion, um Ziel und Implementierungs unabhängig Schreibvorgänge abbilden zu können.
+    Um die Zusammenfassung später als String übergeben zu können, wird ein Buffer genutzt.
+    \\\\
+    Die verschiedenen Zusammenfassungen werden im Abschnitt \nameref{subsubsec:hover-use} beschrieben.
+
     \subsubsection[CancelService]{CancelService \secsubtitle{\nameref{subsubsec:cancel}}}\label{subsubsec:cancel-service}
 
 

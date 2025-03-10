@@ -51,28 +51,35 @@ func (r *ReferenceService) findReferencesFromPath(path base.ModelPath, element p
 
 	referenzen := r.findRefOfType(content, path)
 	for _, referenz := range referenzen {
-		locations = append(locations, protokoll.NodeToLocation(referenz.Node, file))
+		locations = append(locations, protokoll.NodeToLocation(referenz, file))
 	}
 
 	return locations
 
 }
 
-func (r *ReferenceService) findRefOfType(content fileService.FileContent, path base.ModelPath) []*packages.Referenz {
-	var refs []*packages.Referenz
+func (r *ReferenceService) findRefOfType(content fileService.FileContent, path base.ModelPath) []*tree_sitter.Node {
+	var refs []*tree_sitter.Node
 	for _, element := range content.LookUp {
 		for _, namedElement := range element.GetBase().NamedElements {
 			switch ref := namedElement.(type) {
 			case *packages.Referenz:
 				if ref.Typ.ToString() == path.ToString() {
-					refs = append(refs, ref)
+					refs = append(refs, ref.Node)
+				}
+			case *packages.MultiReferenz:
+				if ref.Generics[0].ModelPath != nil && ref.Generics[0].ModelPath.ToString() == path.ToString() {
+					refs = append(refs, ref.Node)
+				}
+				if ref.Generics[1].ModelPath != nil && ref.Generics[1].ModelPath.ToString() == path.ToString() {
+					refs = append(refs, ref.Node)
 				}
 			case *packages.Funktion:
 				for _, parameter := range ref.Parameter {
 					switch lParam := parameter.(type) {
 					case *packages.Referenz:
 						if lParam.Typ.ToString() == path.ToString() {
-							refs = append(refs, lParam)
+							refs = append(refs, lParam.Node)
 						}
 					}
 				}
