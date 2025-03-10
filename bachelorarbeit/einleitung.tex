@@ -60,20 +60,20 @@
     tabsize=4,
     showstringspaces=false,
     numbers=left,
-    upquote=true,
+%    upquote=true,
     commentstyle=\color{commentgreen},
     keywordstyle=[1]{\color{eminence}},
     keywordstyle=[2]{\color{weborange}},
     keywordstyle=[3]{\color{blue}},
     stringstyle=\color{stringgreen},
-    basicstyle=\small\ttfamily, % basic font setting
+    basicstyle=\tiny, % basic font setting
 %    emph={},
     emphstyle={\color{blue}},
     keywordstyle=[3]{\color{blue}},
 %    escapechar=\&,
     % keyword highlighting
-    classoffset=1, % starting new class
-    classoffset=0,
+%    classoffset=1, % starting new class
+%    classoffset=0,
 }
 
 
@@ -84,13 +84,13 @@
 
 \lstdefinestyle{mystyle}{
     language=DMF
-    backgroundcolor=\color{backcolour},
-    commentstyle=\color{codegreen},
-    keywordstyle=\color{magenta},
-    numberstyle=\tiny\color{codegray},
-    stringstyle=\color{codepurple},
+%    backgroundcolor=\color{backcolour},
+%    commentstyle=\tiny\color{codegreen},
+%    keywordstyle=\tiny\color{magenta},
+%    numberstyle=\tiny\color{codegray},
+%    stringstyle=\tiny\color{codepurple},
 %    basicstyle=\ttfamily\footnotesize,
-    basicstyle=\tiny,
+    basicstyle=\huge,
     breakatwhitespace=true,
     breaklines=true,
     captionpos=b,
@@ -100,11 +100,13 @@
     showspaces=false,
     showstringspaces=false,
     showtabs=false,
+%    fontsize=\tiny,
     tabsize=2
-    literate={ }{ \allowbreak}1  % ADDED
+%    literate={ }{ \allowbreak}1  % ADDED
 }
 \lstset{style=dmfstyle}
-\lstset{numbers=left,xleftmargin=2em,frame=lines,framexleftmargin=1.75em}
+
+\lstset{numbers=left,xleftmargin=2.25em,frame=lines,framexleftmargin=2.25em}
 \usepackage{./lstlang0}
 
 \usepackage{syntax}
@@ -193,8 +195,6 @@ Die Erklärung der technischen Spezifikation befindet sich im Abschnitt zum \hyp
 \newacronym{uri}{URI}{Uniform Resource Identifier}
 \newacronym{tcp}{TCP}{Transmission Control Protocol}
 \newacronym{}{}{}
-
-
 
 \begin{document}
 \maketitle
