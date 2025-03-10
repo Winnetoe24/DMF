@@ -1,0 +1,48 @@
+dmf 1.0.0
+model "beispiel" version 0.0.1
+
+// Das ist das oberste Package
+package de.beispiel {
+
+
+    // Das ist ein Package im Package de.beispiel
+    // Diese Kommentare können mehrere Zeilen beinhalten
+    package hotel {
+
+        entity Hotel {
+            // Kommentar über Referenz
+            // ref Zimmer zimmer;
+            ref ..other.Beispiel bsp;
+            arg string name;
+
+            identifier(name);
+
+        }
+        //Kommentar über Entität Person
+                entity Person {
+                    //ref ..Ort o;
+                    arg int i;
+                    ref Map<int,int> m;
+                    arg date beispieldate;
+                    arg int me;
+
+                    identifier(i, me);
+                }
+
+
+
+    }
+
+     package other {
+
+        interface o {}
+
+        struct Beispiel {
+            ref o object;
+
+        }
+
+
+    }
+
+}

@@ -134,8 +134,8 @@ module.exports = grammar({
       ),
       optional($.override_block)
     ),
-    arg_block: $ => seq('arg', $.primitive_type, $.identifier, $._semicolon),
-    ref_block: $ => seq('ref', $.reftype, $.identifier, $._semicolon),
+    arg_block: $ => seq('arg', $.primitive_type, $.identifier, token.immediate(';')),
+    ref_block: $ => seq('ref', $.reftype, $.identifier, token.immediate(';')),
     multi_block: $ => seq('ref', $.multi_name, '<', choice($.primitive_type, $.reftype), optional(seq($._comma, choice($.primitive_type, $.reftype))), '>', $.identifier, $._semicolon),
     multi_name: $ => choice('Map', 'Set', 'List'),
     func_block: $ => seq('func', choice($.reftype, $.primitive_type, $.void), $.identifier,

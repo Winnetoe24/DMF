@@ -559,8 +559,11 @@
           "name": "identifier"
         },
         {
-          "type": "SYMBOL",
-          "name": "_semicolon"
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": ";"
+          }
         }
       ]
     },
@@ -580,8 +583,11 @@
           "name": "identifier"
         },
         {
-          "type": "SYMBOL",
-          "name": "_semicolon"
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": ";"
+          }
         }
       ]
     },

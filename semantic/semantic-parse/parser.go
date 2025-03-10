@@ -159,7 +159,7 @@ func (S *SemanticContext) parseModelDeclaration() {
 func (S *SemanticContext) parseImportStatements() {
 	node := S.Cursor.Node()
 	if node.GrammarName() != "import_block" {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New(node.GrammarName()+node.Parent().GrammarName())))
+		//S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New(node.GrammarName()+node.Parent().GrammarName())))
 		return
 	}
 	errorElement := assertNodeState(node, "Import Block Node")
@@ -464,7 +464,7 @@ func (S *SemanticContext) parseStructBlock(current base.ModelPath, comment *base
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("kein Struct EntityIdentifier vorhanden")))
 		return structElement, nil
 	}
-	structElement.Identifier = S.parseIdentifier()
+	structElement.Identifier = S.parseIdentifier(false)
 	structElement.Path = append(current, structElement.Identifier.Name)
 
 	// extends
@@ -506,10 +506,13 @@ func (S *SemanticContext) parseStructBlock(current base.ModelPath, comment *base
 
 	var identifier *packages.EntityIdentifier
 	for cursor.GotoNextSibling() {
-		if cursor.Node().Kind() == "}" {
+		kind := cursor.Node().Kind()
+		n := cursor.Node()
+		child := n.Child(0)
+		if kind == "}" {
 			break
 		}
-		if cursor.Node().Kind() == dmf_lang.STRUCT_CONTENT {
+		if kind == dmf_lang.STRUCT_CONTENT || child.Kind() == "ref" || child.Kind() == "arg" || child.Kind() == "func" {
 			S.parseStructContent(current, &structElement)
 		} else {
 			if entity {
@@ -526,18 +529,21 @@ func (S *SemanticContext) parseStructBlock(current base.ModelPath, comment *base
 func (S *SemanticContext) parseStructContent(current base.ModelPath, element *packages.StructElement) {
 	cursor := S.Cursor
 	node := cursor.Node()
-	errorElement := assertNodeState(node, "Struct Content Node")
-	if errorElement != nil {
-		S.ErrorElements = append(S.ErrorElements, *errorElement)
-		return
-	}
+	var errorElement *errElement.ErrorElement
+	//errorElement := assertNodeState(node, "Struct Content Node")
+	//if errorElement != nil {
+	//	S.ErrorElements = append(S.ErrorElements, *errorElement)
+	//	return
+	//}
+	if !node.IsError() {
+		// comment?
+		hasFirstChild := cursor.GotoFirstChild()
+		if !hasFirstChild {
+			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt Struct Content")))
+		}
+		defer cursor.GotoParent()
 
-	// comment?
-	hasFirstChild := cursor.GotoFirstChild()
-	if !hasFirstChild {
-		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt Struct Content")))
 	}
-	defer cursor.GotoParent()
 
 	var comment base.Comment
 	if cursor.Node().Kind() == dmf_lang.COMMENT_BLOCK {
@@ -553,8 +559,30 @@ func (S *SemanticContext) parseStructContent(current base.ModelPath, element *pa
 		}
 	}
 
-	//var modelElement *base.ModelElement
-	switch cursor.Node().Kind() {
+	//Error Kompensation
+	contentNode := cursor.Node()
+	kind := contentNode.Kind()
+	if kind == "ERROR" && contentNode.ChildCount() > 0 {
+		child := contentNode.Child(0)
+		switch child.Kind() {
+		case dmf_lang.ARG:
+			kind = dmf_lang.ARG_BLOCK
+		case dmf_lang.FUNC:
+			kind = dmf_lang.FUNC
+		case dmf_lang.REF:
+			if contentNode.ChildCount() < 2 {
+				kind = dmf_lang.REF_BLOCK
+			} else {
+				typeNode := contentNode.Child(1)
+				if typeNode.Kind() == dmf_lang.MULTI_NAME {
+					kind = dmf_lang.MULTI_BLOCK
+				} else {
+					kind = dmf_lang.REF_BLOCK
+				}
+			}
+		}
+	}
+	switch kind {
 	case dmf_lang.ARG_BLOCK:
 		argBlock := S.parseArgBlock(comment)
 		if cursor.GotoNextSibling() {
@@ -564,11 +592,15 @@ func (S *SemanticContext) parseStructContent(current base.ModelPath, element *pa
 		element.Argumente = append(element.Argumente, argBlock)
 	case dmf_lang.REF_BLOCK:
 		refBlock := S.parseRefBlock(current, comment)
-		if cursor.GotoNextSibling() {
-			override := S.parseOverride()
-			refBlock.Override = override
+		if refBlock != nil {
+			refBlock := *refBlock
+			if cursor.GotoNextSibling() {
+				override := S.parseOverride()
+				refBlock.Override = override
+			}
+			element.Referenzen = append(element.Referenzen, refBlock)
 		}
-		element.Referenzen = append(element.Referenzen, refBlock)
+
 	case dmf_lang.MULTI_BLOCK:
 		multiBlock := S.parseMultiBlock(current, comment)
 		if cursor.GotoNextSibling() {
@@ -578,11 +610,17 @@ func (S *SemanticContext) parseStructContent(current base.ModelPath, element *pa
 		element.MultiReferenzen = append(element.MultiReferenzen, multiBlock)
 	case dmf_lang.FUNC_BLOCK:
 		funcBlock := S.parseFuncBlock(current, comment)
-		if cursor.GotoNextSibling() {
-			override := S.parseOverride()
-			funcBlock.Override = override
+		if funcBlock != nil {
+			funcBlock := *funcBlock
+			if cursor.GotoNextSibling() {
+				override := S.parseOverride()
+				funcBlock.Override = override
+			}
+			element.Funktionen = append(element.Funktionen, funcBlock)
 		}
-		element.Funktionen = append(element.Funktionen, funcBlock)
+	default:
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("Unbekannter Struct Content: "+kind)))
+
 	}
 
 	//// Override
@@ -640,7 +678,7 @@ func (S *SemanticContext) parseInterfaceBlock(current base.ModelPath, comment *b
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("kein Interface EntityIdentifier vorhanden")))
 		return interfaceElement
 	}
-	interfaceElement.Identifier = S.parseIdentifier()
+	interfaceElement.Identifier = S.parseIdentifier(false)
 	interfaceElement.Path = append(current, interfaceElement.Identifier.Name)
 
 	// implements
@@ -708,11 +746,15 @@ func (S *SemanticContext) parseInterfaceContent(current base.ModelPath, element 
 	}
 
 	funcBlock := S.parseFuncBlock(current, comment)
-	if cursor.GotoNextSibling() {
-		override := S.parseOverride()
-		funcBlock.Override = override
+	if funcBlock != nil {
+		funcBlock := *funcBlock
+		if cursor.GotoNextSibling() {
+			override := S.parseOverride()
+			funcBlock.Override = override
+		}
+		element.Funktionen = append(element.Funktionen, funcBlock)
 	}
-	element.Funktionen = append(element.Funktionen, funcBlock)
+
 	//
 	//hasNextSibling := cursor.GotoNextSibling()
 	//if !hasNextSibling {
@@ -753,7 +795,7 @@ func (S *SemanticContext) parseEnumBlock(current base.ModelPath, comment *base.C
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("kein Interface EntityIdentifier vorhanden")))
 		return enumElement
 	}
-	enumElement.Identifier = S.parseIdentifier()
+	enumElement.Identifier = S.parseIdentifier(false)
 	enumElement.Path = append(current, enumElement.Identifier.Name)
 
 	// '{'

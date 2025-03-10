@@ -35,7 +35,7 @@ package de.beispiel {
             // Kommentar über Referenz
             ref Zimmer zimmer;
             arg string name;
-            ref ..other.Beispiel bsp;
+            ref ..other.Beispiel[] bsp;
 
             identifier(name);
 
@@ -103,7 +103,6 @@ package de.beispiel {
                     annotations "@Setter"
                     javaDoc "Hallo"
                 }
-                java {}
             }
 
 

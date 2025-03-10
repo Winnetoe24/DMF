@@ -157,6 +157,9 @@ func (s *SemanticTokensService) computeSemanticTokens(content fileService.FileCo
 	}
 	byteContent := []byte(content.Content)
 	addTokenWrapper := func(cNode *tree_sitter.Node, tokenType int, tokenModifiers ...int) {
+		if cNode == nil {
+			return
+		}
 		startPosition := cNode.StartPosition()
 		text := cNode.Utf8Text(byteContent)
 		modifier := uint32(0)

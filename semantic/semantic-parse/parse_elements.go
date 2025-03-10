@@ -5,17 +5,28 @@ import (
 	"github.com/Winnetoe24/DMF/grammar/dmf_language"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
+	"strings"
 
 	errElement "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
 )
 
-func (S *SemanticContext) parseIdentifier() base.ElementIdentifier {
+func (S *SemanticContext) parseIdentifier(errorMode bool) base.ElementIdentifier {
 	identifierNode := S.Cursor.Node()
-	errorElement := assertNodeState(identifierNode, "EntityIdentifier Node")
-	if errorElement != nil {
-		S.ErrorElements = append(S.ErrorElements, *errorElement)
-	}
 	identifierName := identifierNode.Utf8Text(S.Text)
+
+	if errorMode {
+		index := strings.Index(identifierName, " ")
+		if index >= 0 {
+			identifierName = identifierName[:index]
+			identifierName = strings.Trim(identifierName, " ")
+		}
+	} else {
+		errorElement := assertNodeState(identifierNode, "Identifier Node")
+		if errorElement != nil {
+			S.ErrorElements = append(S.ErrorElements, *errorElement)
+		}
+	}
+
 	return base.ElementIdentifier{
 		ModelElement: base.ModelElement{
 			Node: identifierNode,
@@ -148,7 +159,7 @@ func (S *SemanticContext) parseArgBlock(comment base.Comment) packages.Argument 
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("es fehlt ein EntityIdentifier")))
 		return arg
 	}
-	arg.Name = S.parseIdentifier()
+	arg.Name = S.parseIdentifier(false)
 	identifierNode := S.Cursor.Node()
 
 	// Semikolon
@@ -167,7 +178,7 @@ func (S *SemanticContext) parseArgBlock(comment base.Comment) packages.Argument 
 	return arg
 }
 
-func (S *SemanticContext) parseRefBlock(current base.ModelPath, comment base.Comment) packages.Referenz {
+func (S *SemanticContext) parseRefBlock(current base.ModelPath, comment base.Comment) *packages.Referenz {
 	node := S.Cursor.Node()
 	referenz := packages.Referenz{
 		ModelElement: base.ModelElement{
@@ -178,29 +189,40 @@ func (S *SemanticContext) parseRefBlock(current base.ModelPath, comment base.Com
 		Name: base.ElementIdentifier{},
 	}
 
-	errorElement := assertNodeState(node, "Ref Block Node")
-	if errorElement != nil {
-		S.ErrorElements = append(S.ErrorElements, *errorElement)
-		return referenz
-	}
+	var errorElement *errElement.ErrorElement
+	//errorElement := assertNodeState(node, "Ref Block Node")
+	//if errorElement != nil {
+	//	S.ErrorElements = append(S.ErrorElements, *errorElement)
+	//	return nil
+	//}
 
 	// 'ref'
 	hasFirstChild := S.Cursor.GotoFirstChild()
 	if !hasFirstChild {
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("ref Keyword fehlt")))
-		return referenz
+		return nil
 	}
 	defer S.Cursor.GotoParent()
+	if S.Cursor.Node().Kind() != dmf_language.REF {
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("ref Keyword fehlt")))
+		return nil
+	}
+	errorElement = assertNodeState(S.Cursor.Node(), "Ref Keyword Node")
+	if errorElement != nil {
+		S.ErrorElements = append(S.ErrorElements, *errorElement)
+		return nil
+	}
 
 	// type
 	hasNextSibling := S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("es fehlt ein Referenz Typ")))
-		return referenz
+		return nil
 	}
 	refType, element := S.ParseRefType(current)
 	if element != nil {
 		S.ErrorElements = append(S.ErrorElements, *element)
+		return nil
 	} else {
 		referenz.Typ = refType
 	}
@@ -209,21 +231,31 @@ func (S *SemanticContext) parseRefBlock(current base.ModelPath, comment base.Com
 	hasNextSibling = S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("es fehlt ein EntityIdentifier")))
-		return referenz
+		return nil
 	}
-	referenz.Name = S.parseIdentifier()
+	if strings.HasPrefix(S.Cursor.Node().Utf8Text(S.Text), " ") {
+		errorElement = assertNodeState(S.Cursor.Node(), "Referenz Identifier Node")
+	} else {
+		errorElement = assertNodeState(S.Cursor.Node(), "Referenz Type Node")
+	}
+	if errorElement != nil {
+		S.ErrorElements = append(S.ErrorElements, *errorElement)
+		referenz.Name = S.parseIdentifier(true)
+		return &referenz
+	} else {
+		referenz.Name = S.parseIdentifier(false)
+	}
 
 	// Semikolon
 	hasNextSibling = S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt ein Semikolon")))
-		return referenz
 	}
 	errorElement = assertNodeState(S.Cursor.Node(), "Semikolon")
 	if errorElement != nil {
 		S.ErrorElements = append(S.ErrorElements, *errorElement)
 	}
-	return referenz
+	return &referenz
 }
 
 func (S *SemanticContext) parseMultiBlock(current base.ModelPath, comment base.Comment) packages.MultiReferenz {
@@ -331,7 +363,7 @@ func (S *SemanticContext) parseMultiBlock(current base.ModelPath, comment base.C
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("es fehlt ein EntityIdentifier")))
 		return referenz
 	}
-	referenz.Name = S.parseIdentifier()
+	referenz.Name = S.parseIdentifier(false)
 
 	// Semikolon
 	hasNextSibling = S.Cursor.GotoNextSibling()
@@ -389,7 +421,7 @@ func (S *SemanticContext) parseMultiReferenzTyp() (packages.MultiReferenzType, *
 	}
 }
 
-func (S *SemanticContext) parseFuncBlock(current base.ModelPath, comment base.Comment) packages.Funktion {
+func (S *SemanticContext) parseFuncBlock(current base.ModelPath, comment base.Comment) *packages.Funktion {
 	cursor := S.Cursor
 	node := cursor.Node()
 	funktion := packages.Funktion{
@@ -405,14 +437,14 @@ func (S *SemanticContext) parseFuncBlock(current base.ModelPath, comment base.Co
 	errorElement := assertNodeState(node, "Funktion Block Node")
 	if errorElement != nil {
 		S.ErrorElements = append(S.ErrorElements, *errorElement)
-		return funktion
+		return nil
 	}
 
 	// 'func'
 	hasFirstChild := cursor.GotoFirstChild()
 	if !hasFirstChild {
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(cursor.Node(), errors.New("func Keyword fehlt")))
-		return funktion
+		return nil
 	}
 	defer cursor.GotoParent()
 
@@ -420,7 +452,7 @@ func (S *SemanticContext) parseFuncBlock(current base.ModelPath, comment base.Co
 	hasNextSibling := cursor.GotoNextSibling()
 	if !hasNextSibling {
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(cursor.Node(), errors.New("return-Type fehlt")))
-		return funktion
+		return nil
 	}
 	switch cursor.Node().Kind() {
 	case dmf_language.VOID:
@@ -434,24 +466,28 @@ func (S *SemanticContext) parseFuncBlock(current base.ModelPath, comment base.Co
 		funktion.ReturnType = S.parseArgument()
 	case dmf_language.REFTYPE:
 		referenz := S.parseReferenz(current)
+		if referenz == nil {
+			return nil
+		}
 		funktion.ReturnType = referenz
 	default:
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElementCxt(cursor.Node(), errors.New("return-Type ungültig"), node))
+		return nil
 	}
 
 	// Funktion GetName
 	hasNextSibling = cursor.GotoNextSibling()
 	if !hasNextSibling {
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("GetName fehlt")))
-		return funktion
+		return nil
 	}
-	funktion.Name = S.parseIdentifier()
+	funktion.Name = S.parseIdentifier(false)
 
 	// '('
 	hasNextSibling = cursor.GotoNextSibling()
 	if !hasNextSibling {
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("'(' fehlt")))
-		return funktion
+		return nil
 	}
 
 	commaMode := false
@@ -487,20 +523,21 @@ ParameterSchleife:
 	hasNextSibling = S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("es fehlt ein Semikolon")))
-		return funktion
+		return nil
 	}
 	errorElement = assertNodeState(S.Cursor.Node(), "Semikolon")
 	if errorElement != nil {
 		S.ErrorElements = append(S.ErrorElements, *errorElement)
 	}
 
-	return funktion
+	return &funktion
 }
 
 func (S *SemanticContext) parseReferenz(current base.ModelPath) *packages.Referenz {
 	refType, element := S.ParseRefType(current)
 	if element != nil {
 		S.ErrorElements = append(S.ErrorElements, *element)
+		return nil
 	}
 	referenz := packages.Referenz{
 		ModelElement: base.ModelElement{
@@ -558,7 +595,7 @@ func (S *SemanticContext) parseParameterDefinition(current base.ModelPath) (pack
 		return nil, sErrors
 	}
 
-	identifier := S.parseIdentifier()
+	identifier := S.parseIdentifier(false)
 	cVar.SetName(identifier)
 	return cVar, sErrors
 }
@@ -597,7 +634,7 @@ IdentifierLoop:
 		cNode := cursor.Node()
 		switch cNode.Kind() {
 		case dmf_language.IDENTIFIER:
-			identifier := S.parseIdentifier()
+			identifier := S.parseIdentifier(false)
 			iden.Variablen = append(iden.Variablen, identifier)
 			commaMode = false
 		case ",":
@@ -645,7 +682,7 @@ func (S *SemanticContext) parseEnumConstant(comment base.Comment) packages.Konst
 	}
 	defer cursor.GotoParent()
 
-	konstante.Name = S.parseIdentifier()
+	konstante.Name = S.parseIdentifier(false)
 
 	// '('
 	hasNextSibling := cursor.GotoNextSibling()

@@ -1015,7 +1015,12 @@ return buffer.String()
     Die verschiedenen Zusammenfassungen werden im Abschnitt \nameref{subsubsec:hover-use} beschrieben.
 
     \subsubsection[CancelService]{CancelService \secsubtitle{\nameref{subsubsec:cancel}}}\label{subsubsec:cancel-service}
-
+    Der CancelService wird zum Abbruch von nicht mehr benötigten anfragen genutzt.
+    Um eine Abstraktion über alle Services zu ermöglichen, wird der Abbruch direkt in der Abstraktion der Verbindung implementiert.
+    Innerhalb der Verbindung wird gepsichert, ob eine Antwort für eine Anfrage versendet werden soll.
+    Wurde die Antwort vom CancelService blockiert, so wird die Antwort ignoriert.
+    Um zu identifizieren, welche Antworten blockiert wurden, wird die ID der Anfrage genutzt.
+    Diese wird auch in den Parametern der Abbruch-Anfrage übergeben.
 
 
 \end{document}

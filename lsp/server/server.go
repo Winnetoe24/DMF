@@ -112,7 +112,7 @@ func (s *Server) nextMethod(logger *log.Logger) bool {
 			connectUtils.WriteErrorToCon(s.con, message.ID, errors.New("method not found"), protokoll.MethodNotFound)
 		} else {
 			logger.Printf("%sHandle Method: %s \n", logService.INFO, message.Method)
-			handler.HandleMethod(message)
+			go handler.HandleMethod(message)
 		}
 	}
 	return false

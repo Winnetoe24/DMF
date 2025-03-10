@@ -75,6 +75,10 @@ func (S *SemanticContext) parsePackageString(current base.ModelPath, dotForCurre
 	neuerPath := append(make([]string, 0), current...)
 	for {
 		cNode := cursor.Node()
+		errorElement := assertNodeState(cNode, "Package String Node")
+		if errorElement != nil {
+			return nil, base.ElementIdentifier{}, errorElement
+		}
 		if cNode.Kind() == dmf_language.DOT {
 			if dotForCurrent {
 				if len(neuerPath) > 0 {
@@ -86,7 +90,7 @@ func (S *SemanticContext) parsePackageString(current base.ModelPath, dotForCurre
 				dotForCurrent = true
 			}
 		} else if cNode.Kind() == dmf_language.IDENTIFIER {
-			elementIdentifier = S.parseIdentifier()
+			elementIdentifier = S.parseIdentifier(false)
 			neuerPath = append(neuerPath, elementIdentifier.Name)
 			dotForCurrent = false
 		} else {
@@ -175,10 +179,19 @@ func (S *SemanticContext) ParseRefType(current base.ModelPath) (base.ModelPath, 
 		return nil, errElement.CreateErrorElementRef(node, errors.New("keine Elemente im Ref Type"))
 	}
 	defer cursor.GotoParent()
+	errorElement = assertNodeState(cursor.Node(), "Ref Type Node")
+	if errorElement != nil {
+		return nil, errorElement
+	}
 
 	dotForCurrent := false
 	neuerPath := append(make([]string, 0, len(current)), current...)
 	cNode := cursor.Node()
+	errorElement = assertNodeState(cursor.Node(), "Ref Type Node")
+	if errorElement != nil {
+		return nil, errorElement
+	}
+
 	for cNode.Kind() == dmf_language.DOT {
 		if !dotForCurrent {
 			dotForCurrent = true
@@ -196,6 +209,11 @@ func (S *SemanticContext) ParseRefType(current base.ModelPath) (base.ModelPath, 
 			return current, nil
 		}
 		cNode = cursor.Node()
+		errorElement = assertNodeState(cursor.Node(), "Ref Type Node")
+		if errorElement != nil {
+			return nil, errorElement
+		}
+
 	}
 
 	packageString, _, element := S.parsePackageString(neuerPath, dotForCurrent)

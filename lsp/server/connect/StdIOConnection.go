@@ -12,15 +12,29 @@ type StdIOConnection struct {
 	in       *bufio.Reader
 	out      *os.File
 	blockMap map[string]bool
+	// Zur synchronisation paralleler Schreibvorgänge
+	actionChannel chan func()
 }
 
 func NewStdIOConnection() *StdIOConnection {
 	return &StdIOConnection{
-		in:       bufio.NewReader(os.Stdin),
-		out:      os.Stdout,
-		blockMap: make(map[string]bool),
+		in:            bufio.NewReader(os.Stdin),
+		out:           os.Stdout,
+		blockMap:      make(map[string]bool),
+		actionChannel: createAktionsChannel(),
 	}
 
+}
+
+func createAktionsChannel() chan func() {
+	channel := make(chan func(), 2)
+	// AktionsSynchronisations Routine
+	go func() {
+		for f := range channel {
+			f()
+		}
+	}()
+	return channel
 }
 
 func (s *StdIOConnection) WriteMessage(message protokoll.Message) {
@@ -30,15 +44,18 @@ func (s *StdIOConnection) WriteMessage(message protokoll.Message) {
 	marshalJSON, err := message.ID.MarshalJSON()
 	if err != nil {
 		logger.Printf("%sError Decoding ID while Writing Message: %v\n", logService.ERROR, message)
-	} else {
-		if s.blockMap[string(marshalJSON)] {
-			logger.Printf("%sBlocked Message: %v\n", logService.TRACE, message)
-			return
-		}
 	}
-	err = writeMessage(s.out, message, logger)
-	if err != nil {
-		logger.Printf("%sError Writing Message: %v\n", logService.ERROR, message)
+	s.actionChannel <- func() {
+		if err == nil {
+			if s.blockMap[string(marshalJSON)] {
+				logger.Printf("%sBlocked Message: %v\n", logService.TRACE, message)
+				return
+			}
+		}
+		err = writeMessage(s.out, message, logger)
+		if err != nil {
+			logger.Printf("%sError Writing Message: %v\n", logService.ERROR, message)
+		}
 	}
 }
 
@@ -60,10 +77,15 @@ func (s *StdIOConnection) BlockResponse(id json.RawMessage) {
 		logger := logService.GetLogger()
 		logger.Printf("%sError While Decoding ID for BlockResponse: %v\n", logService.ERROR, err)
 	} else {
-		s.blockMap[string(marshalJSON)] = true
+		s.actionChannel <- func() {
+			s.blockMap[string(marshalJSON)] = true
+		}
 	}
 }
 
 func (s *StdIOConnection) Close() error {
-	return s.out.Close()
+	var result = make(chan error)
+	defer close(result)
+	s.actionChannel <- func() { result <- s.out.Close() }
+	return <-result
 }
