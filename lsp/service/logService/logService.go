@@ -106,3 +106,8 @@ func Close() {
 		}
 	}
 }
+
+func SwitchToStdIO() {
+	baseLogger = log.New(os.Stdout, "", log.Ldate|log.Ltime|log.Lshortfile)
+	Close()
+}

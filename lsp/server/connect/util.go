@@ -12,6 +12,19 @@ import (
 	"strings"
 )
 
+func handleWaitForMessage(reader *bufio.Reader) (protokoll.Message, error) {
+	data, err := readMessage(reader)
+	if err != nil {
+		return protokoll.Message{}, err
+	}
+	message := protokoll.Message{}
+	err = json.Unmarshal(data, &message)
+	if err != nil {
+		return protokoll.Message{}, err
+	}
+	return message, nil
+}
+
 func readMessage(reader *bufio.Reader) ([]byte, error) {
 	var contentLength int64
 

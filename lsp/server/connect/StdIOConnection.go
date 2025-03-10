@@ -27,7 +27,7 @@ func NewStdIOConnection() *StdIOConnection {
 }
 
 func createAktionsChannel() chan func() {
-	channel := make(chan func(), 2)
+	channel := make(chan func(), 10)
 	// AktionsSynchronisations Routine
 	go func() {
 		for f := range channel {
@@ -60,17 +60,9 @@ func (s *StdIOConnection) WriteMessage(message protokoll.Message) {
 }
 
 func (s *StdIOConnection) WaitForMessage() (protokoll.Message, error) {
-	data, err := readMessage(s.in)
-	if err != nil {
-		return protokoll.Message{}, err
-	}
-	message := protokoll.Message{}
-	err = json.Unmarshal(data, &message)
-	if err != nil {
-		return protokoll.Message{}, err
-	}
-	return message, nil
+	return handleWaitForMessage(s.in)
 }
+ 
 func (s *StdIOConnection) BlockResponse(id json.RawMessage) {
 	marshalJSON, err := id.MarshalJSON()
 	if err != nil {

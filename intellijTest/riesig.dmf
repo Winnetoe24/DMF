@@ -2361,7 +2361,7 @@ package de.smart.city {
             arg string purpose;
             func boolean validate();
         }
-        
+
         struct RiskProfile implements RiskAssessable {
             arg int creditScore;
             arg double defaultProbability;

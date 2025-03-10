@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/DMF.iml" filepath="$PROJECT_DIR$/.idea/DMF.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lsp/lsp.iml" filepath="$PROJECT_DIR$/lsp/lsp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/relay/relay.iml" filepath="$PROJECT_DIR$/relay/relay.iml" />
     </modules>
   </component>
 </project>

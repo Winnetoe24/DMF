@@ -8,7 +8,7 @@ import de.ad from ""
 import de.ad from ""
 import de.a from ""
 package de.alex.brand {
-    // Comment over other
+    // Comment over other 
     package other {
 
         struct Test{

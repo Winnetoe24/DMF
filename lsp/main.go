@@ -6,6 +6,7 @@ import (
 	"github.com/Winnetoe24/DMF/lsp/server/connect"
 	"github.com/Winnetoe24/DMF/lsp/service/logService"
 	"github.com/Winnetoe24/DMF/lsp/util"
+	"net"
 )
 
 func main() {
@@ -27,7 +28,34 @@ func main() {
 		newServer := server.NewServer(connect.NewStdIOConnection())
 		newServer.MessageLoop()
 	} else {
-		// TODO Handle Internet Connections
+		logService.SwitchToStdIO()
+		logger := logService.GetLogger()
+		listener, err := net.Listen("tcp", args.Port)
+		if err != nil {
+			logger.Println("Error listening:", err)
+			return
+		}
+		defer func(listener net.Listener) {
+			err := listener.Close()
+			if err != nil {
+				logger.Println("Error closing listener:", err)
+			}
+		}(listener)
+
+		logger.Println("Server gestartet auf Port" + args.Port)
+		for {
+			conn, err := listener.Accept()
+			if err != nil {
+				logger.Println("Error accepting connection:", err)
+				continue
+			}
+
+			// Server starten
+			go func(conn net.Conn) {
+				newServer := server.NewServer(connect.NewSocketConnection(conn))
+				newServer.MessageLoop()
+			}(conn)
+		}
 	}
 	logService.GetLogger().Println("Server Shutdown")
 }
