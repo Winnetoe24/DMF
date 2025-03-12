@@ -1,13 +1,21 @@
 package typescript
 
 import (
+	"fmt"
 	"github.com/Winnetoe24/DMF/generator/gbase"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
+	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages/values"
+	"strconv"
+	"time"
 )
 
 func toTsFields(argumente []packages.Argument, referenzen []packages.Referenz, multiReferenzen []packages.MultiReferenz, kontext gbase.ImportKontext) []gbase.FieldData {
 	return gbase.ToFields(argumente, referenzen, multiReferenzen, kontext, tsPrimitiveTypeMapping, buildGenericTsType)
+}
+
+func toArgs(argumente []packages.Argument) []gbase.FieldData {
+	return toTsFields(argumente, []packages.Referenz{}, []packages.MultiReferenz{}, gbase.ImportKontext{})
 }
 
 func buildGenericTsType(element *packages.MultiReferenz, kontext gbase.ImportKontext) (typ string, value string) {
@@ -83,4 +91,28 @@ func variableType(variable packages.Variable, kontext gbase.ImportKontext) strin
 	default:
 		return ""
 	}
+}
+
+func valueInit(value values.Value) string {
+	switch value := value.(type) {
+	case values.IntValue:
+		return strconv.FormatInt(int64(value.Value), 10)
+	case values.LongValue:
+		return fmt.Sprintf("BigInt(%s)", value.Value.String())
+	case values.BooleanValue:
+		if value.Value {
+			return "true"
+		} else {
+			return "false"
+		}
+	case values.DoubleValue:
+		return fmt.Sprintf("%g", value.Value)
+	case base.StringValue:
+		return "\"" + value.Value + "\""
+	case values.DateValue:
+		return fmt.Sprintf("new Date('%s')", value.Value.Format(time.RFC3339))
+	case values.DateTimeValue:
+		return fmt.Sprintf("new Date('%s')", value.Value.Format(time.RFC3339))
+	}
+	return ""
 }

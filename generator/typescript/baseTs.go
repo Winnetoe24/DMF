@@ -26,15 +26,20 @@ func NewTemplate() TsTemplate {
 		"sub": func(a, b int) int {
 			return a - b
 		},
+		"add": func(a, b int) int {
+			return a + b
+		},
 		"nameFromPath": func(path base.ModelPath) string {
 			return path[len(path)-1]
 		},
 		"pathType":                 gbase.PathType,
+		"toUpperCase":              gbase.ToUpperCase,
 		"createImportKontext":      createTsImportKontext,
 		"getImports":               getImports,
 		"findImplementedFunctions": gbase.FindImplementedFunctions,
 		"toPackageElement":         toPackageElement,
 		"toFields":                 toTsFields,
+		"toArgs":                   toArgs,
 		"computeImplementNames":    computeImplementNames,
 		"createTsKlasse":           createTsKlasse,
 		"createTsInterface":        createTsInterface,
@@ -42,6 +47,7 @@ func NewTemplate() TsTemplate {
 		"createFunktionKontext":    gbase.CreateFunktionKontext,
 		"variableName":             gbase.VariableName,
 		"variableType":             variableType,
+		"valueInit":                valueInit,
 		"isNotVoid":                gbase.IsNotVoid,
 	}
 	must := template.Must(template.New("").Funcs(funcMap).ParseFS(tmplFiles, "template/*"))
@@ -60,7 +66,7 @@ func (receiver TsTemplate) GenerateEntity(writer io.Writer, element *packages.En
 
 func (receiver TsTemplate) GenerateEnum(writer io.Writer, element *packages.EnumElement) error {
 	println("Generate Enum: " + element.Path.ToString())
-	return receiver.template.ExecuteTemplate(writer, "enum", element)
+	return receiver.template.ExecuteTemplate(writer, "enumFile", element)
 }
 
 func (receiver TsTemplate) GenerateInterface(writer io.Writer, element *packages.InterfaceElement) error {

@@ -1,0 +1,38 @@
+{{define "enum" -}}
+{{- if ne (len .Kommentar) 0}}{{template "comment" .Kommentar}}{{end -}}
+{{$konstantenLength := sub (len .Konstanten) 1 -}}
+export enum {{nameFromPath .Path}} {
+{{range $index, $constant := .Konstanten}}    {{toUpperCase $constant.Name.Name}} = {{valueInit (index $constant.Values 0)}}{{if ne $index $konstantenLength}},
+{{end}}{{end}}
+}
+{{end}}
+
+{{define "enumDetails" -}}
+{{$fields := toArgs .Argumente -}}
+{{$fieldsLength := sub (len $fields) 1 -}}
+export interface {{nameFromPath .Path}}Details {
+{{range $index, $field := $fields -}}
+{{template "variable" $field}}{{if ne $index $fieldsLength}}
+{{end}}{{end}}
+}
+{{end}}
+
+{{define "enumInfo" -}}
+{{$fields := toArgs .Argumente -}}
+{{$fieldsLength := sub (len $fields) 1 -}}
+{{$konstantenLength := sub (len .Konstanten) 1 -}}
+{{$name := nameFromPath .Path}}
+export const {{$name}}Info : Record<{{$name}}, {{$name}}Details> = {
+{{range $index, $konstante := .Konstanten}}    [{{$name}}.{{toUpperCase $konstante.Name.Name}}]: { {{range $indexArgs, $arg := $fields}}{{$arg.Name}}: {{valueInit (index $konstante.Values (add $indexArgs 1))}}{{if ne $indexArgs $fieldsLength}}, {{end}}{{end}} },
+{{end}}
+}
+{{end}}
+
+{{define "enumFile"}}
+{{$importKontext := createImportKontext . false -}}
+{{template "imports" $importKontext -}}
+{{$enum := .}}
+{{template "enum" $enum}}
+{{template "enumDetails" $enum}}
+{{template "enumInfo" $enum}}
+{{end}}

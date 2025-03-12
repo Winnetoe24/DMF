@@ -46,6 +46,8 @@ func (c *checkEnumConstants) handleEnumeration(element *packages.EnumElement) {
 					intValue := value.(values.IntValue)
 					if intValue.Ignored {
 						lastIndex++
+						intValue.Value = lastIndex
+						konst.Values[i] = intValue
 					} else {
 						lastIndex = intValue.Value
 					}

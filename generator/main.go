@@ -116,8 +116,8 @@ func GenerateTs(basePath string, lookup smodel.TypeLookUp) {
 		operations.Add(1)
 
 		switch element := pElement.(type) {
-		//case *packages.EnumElement:
-		//	go generateFile(createFile(basePath, element.Path, buildTsPath), apply(template.GenerateEnum, element))
+		case *packages.EnumElement:
+			go generateFile(createFile(basePath, element.Path, buildTsPath), apply(template.GenerateEnum, element))
 		case *packages.EntityElement:
 			go generateFile(createFile(basePath, element.Path, buildTsPath), apply(template.GenerateEntity, element))
 		case *packages.StructElement:
