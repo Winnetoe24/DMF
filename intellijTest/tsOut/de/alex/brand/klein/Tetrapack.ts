@@ -12,7 +12,7 @@ export class Tetrapack {
 
     
     tata(i: number, t: Tetrapack, sad: bigint) {
-        delegate.tataDel(this, i, t, sad);
+        delegate.tata(this, i, t, sad);
     }
     
 }

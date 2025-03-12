@@ -52,7 +52,7 @@ func (receiver TsTemplate) GenerateStruct(writer io.Writer, element *packages.St
 
 func (receiver TsTemplate) GenerateEntity(writer io.Writer, element *packages.EntityElement) error {
 	println("Generate Entity: " + element.Path.ToString())
-	return receiver.template.ExecuteTemplate(writer, "entity", element)
+	return receiver.template.ExecuteTemplate(writer, "classFile", element)
 }
 
 func (receiver TsTemplate) GenerateEnum(writer io.Writer, element *packages.EnumElement) error {

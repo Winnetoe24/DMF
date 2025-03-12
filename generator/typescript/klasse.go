@@ -6,16 +6,21 @@ import (
 )
 
 type TsKlasse struct {
-	packages.StructElement
+	packages.EntityElement
 	ImportKontext  gbase.ImportKontext
 	PackageElement packages.PackageElement
 }
 
 func createTsKlasse(element packages.PackageElement, kontext gbase.ImportKontext) TsKlasse {
 	klasse := TsKlasse{
-		StructElement:  *element.(*packages.StructElement),
 		ImportKontext:  kontext,
 		PackageElement: element,
+	}
+	switch element.(type) {
+	case *packages.EntityElement:
+		klasse.EntityElement = *element.(*packages.EntityElement)
+	case *packages.StructElement:
+		klasse.StructElement = *element.(*packages.StructElement)
 	}
 	return klasse
 }
