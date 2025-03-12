@@ -72,21 +72,21 @@ func TestSuperTypes(t *testing.T) {
 
 	landElement := model.Packages[0].Elements[1]
 	for _, packageElement := range landElement.(*packages.Package).Elements {
-		if packageElement.GetBase().Path.ToString() == "base.land.ElectricCar" {
+		if packageElement.GetBase().Path.ToString() == "gbase.land.ElectricCar" {
 			electricCar := packageElement.(*packages.StructElement)
 			assert.NotNil(t, electricCar)
 			assert.NotNil(t, electricCar.Extends)
 
 			car := electricCar.Extends.(*packages.StructElement)
-			assert.Equal(t, car.Path.ToString(), "base.land.Car")
+			assert.Equal(t, car.Path.ToString(), "gbase.land.Car")
 			assert.NotNil(t, car.Extends)
 
 			landVehicle := car.Extends.(*packages.StructElement)
-			assert.Equal(t, landVehicle.Path.ToString(), "base.land.LandVehicle")
+			assert.Equal(t, landVehicle.Path.ToString(), "gbase.land.LandVehicle")
 			assert.NotNil(t, landVehicle.Extends)
 
 			baseVehicle := landVehicle.Extends.(*packages.StructElement)
-			assert.Equal(t, baseVehicle.Path.ToString(), "base.transport.BaseVehicle")
+			assert.Equal(t, baseVehicle.Path.ToString(), "gbase.transport.BaseVehicle")
 			assert.Nil(t, baseVehicle.Extends)
 
 		}

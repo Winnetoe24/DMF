@@ -1,0 +1,11 @@
+{{define "klasse" -}}
+{{$fields := toFields .Argumente .Referenzen .MultiReferenzen .ImportKontext -}}
+class {{.Name}} {{if .ExtendsPath }}{{template "extends" computeExtendsName(.ExtendsPath .ImportKontext)}} {{end}}{{if .ImplementPaths}}{{template "implements" computeImplementNames(.ImplementPaths .ImportKontext)}} {{end}}{
+    {{range $index, $field := $fields -}}
+    {{template "field" $field}}
+    {{end}}
+    {{range $index, $funktion := .Funktionen -}}
+    {{template "funktion" computeFunktion($funktion .ImportKontext)}}
+    {{end}}
+}
+{{end}}

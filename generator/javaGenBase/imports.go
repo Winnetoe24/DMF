@@ -1,13 +1,14 @@
 package javaGenBase
 
 import (
+	"github.com/Winnetoe24/DMF/generator/gbase"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 )
 
-func createImportKontext(pElement packages.PackageElement) ImportKontext {
+func createImportKontext(pElement packages.PackageElement) gbase.ImportKontext {
 	var path base.ModelPath
-	up := make(ImportLookUp)
+	up := make(gbase.ImportLookUp)
 	var basePath base.ModelPath
 	switch element := pElement.(type) {
 	case *packages.EntityElement:
@@ -74,26 +75,26 @@ func createImportKontext(pElement packages.PackageElement) ImportKontext {
 		handleImport(&up, basePath, element.Caller)
 	}
 
-	return ImportKontext{
+	return gbase.ImportKontext{
 		ImportLookUp: up,
 		Path:         path,
 	}
 }
 
-func handleArgumente(up *ImportLookUp, argumente []packages.Argument) {
+func handleArgumente(up *gbase.ImportLookUp, argumente []packages.Argument) {
 	for _, argument := range argumente {
 		handleArgument(up, argument)
 	}
 }
-func handleArgument(up *ImportLookUp, argument packages.Argument) {
+func handleArgument(up *gbase.ImportLookUp, argument packages.Argument) {
 	if argument.Typ == base.DATE {
-		(*up)["LocalDate"] = Import{OriginalName: []string{"java", "time", "LocalDate"}}
+		(*up)["LocalDate"] = gbase.Import{OriginalName: []string{"java", "time", "LocalDate"}}
 	} else if argument.Typ == base.DATETIME {
-		(*up)["LocalDateTime"] = Import{OriginalName: []string{"java", "time", "LocalDateTime"}}
+		(*up)["LocalDateTime"] = gbase.Import{OriginalName: []string{"java", "time", "LocalDateTime"}}
 	}
 }
 
-func handleMultiReferenz(up *ImportLookUp, basePath base.ModelPath, referenz packages.MultiReferenz) {
+func handleMultiReferenz(up *gbase.ImportLookUp, basePath base.ModelPath, referenz packages.MultiReferenz) {
 	if referenz.Generics[0].ModelPath != nil {
 		handleImport(up, basePath, *referenz.Generics[0].ModelPath)
 	}
@@ -113,13 +114,13 @@ func handleMultiReferenz(up *ImportLookUp, basePath base.ModelPath, referenz pac
 
 	}
 }
-func handleFunktionen(up *ImportLookUp, basePath base.ModelPath, path base.ModelPath, funktionen []packages.Funktion) {
+func handleFunktionen(up *gbase.ImportLookUp, basePath base.ModelPath, path base.ModelPath, funktionen []packages.Funktion) {
 	for _, funktion := range funktionen {
 		handleFunktion(up, basePath, funktion)
 	}
 }
 
-func handleFunktion(up *ImportLookUp, basePath base.ModelPath, funktion packages.Funktion) {
+func handleFunktion(up *gbase.ImportLookUp, basePath base.ModelPath, funktion packages.Funktion) {
 	returnModelPath, _, _ := funktion.ReturnType.GetVariableType()
 	if returnModelPath != nil {
 		handleImport(up, basePath, *returnModelPath)
@@ -132,17 +133,17 @@ func handleFunktion(up *ImportLookUp, basePath base.ModelPath, funktion packages
 		}
 	}
 }
-func handleImport(up *ImportLookUp, basePath base.ModelPath, path base.ModelPath) {
+func handleImport(up *gbase.ImportLookUp, basePath base.ModelPath, path base.ModelPath) {
 	name := path[len(path)-1]
 	_, found := (*up)[name]
 	if !found || basePath.ToString() == path[:len(path)-1].ToString() {
-		(*up)[name] = Import{
+		(*up)[name] = gbase.Import{
 			OriginalName: path,
 		}
 	}
 }
 
-func getImports(kontext ImportKontext) []string {
+func getImports(kontext gbase.ImportKontext) []string {
 
 	basePath := kontext.Path[:len(kontext.Path)-1]
 	imports := make([]string, 0)
@@ -156,7 +157,7 @@ func getImports(kontext ImportKontext) []string {
 	return imports
 }
 
-func getImportedName(up ImportLookUp, path base.ModelPath) string {
+func getImportedName(up gbase.ImportLookUp, path base.ModelPath) string {
 	name := path[len(path)-1]
 	lImport, found := up[name]
 	if !found {
@@ -168,13 +169,13 @@ func getImportedName(up ImportLookUp, path base.ModelPath) string {
 	return path.ToString()
 }
 
-func createFunktionKontextDelegate(funktion packages.Funktion, kontext ImportKontext) FunktionKontext {
+func createFunktionKontextDelegate(funktion packages.Funktion, kontext gbase.ImportKontext) gbase.FunktionKontext {
 	funktionKontext := createFunktionKontext(funktion, kontext)
 	funktionKontext.UseDelegate = false
 	return funktionKontext
 }
-func createFunktionKontext(funktion packages.Funktion, kontext ImportKontext) FunktionKontext {
-	return FunktionKontext{
+func createFunktionKontext(funktion packages.Funktion, kontext gbase.ImportKontext) gbase.FunktionKontext {
+	return gbase.FunktionKontext{
 		Funktion:      funktion,
 		ImportKontext: kontext,
 		UseDelegate:   true,
@@ -192,29 +193,29 @@ func prependThis(variablen []packages.Variable) []packages.Variable {
 	}}, variablen...)
 }
 
-func createParameterKontext(variablen []packages.Variable, kontext ImportKontext) ParameterKontext {
-	variableKontexts := make([]VariableKontext, len(variablen))
+func createParameterKontext(variablen []packages.Variable, kontext gbase.ImportKontext) gbase.ParameterKontext {
+	variableKontexts := make([]gbase.VariableKontext, len(variablen))
 	for i, variable := range variablen {
-		variableKontexts[i] = VariableKontext{
+		variableKontexts[i] = gbase.VariableKontext{
 			Variable:      variable,
 			ImportKontext: kontext,
 		}
 	}
-	return ParameterKontext{
+	return gbase.ParameterKontext{
 		Parameter:     variableKontexts,
 		ImportKontext: kontext,
 	}
 }
 
-func createVererbungKontext(extendsPath *base.ModelPath, implPaths []base.ModelPath, kontext ImportKontext) VererbungKontext {
-	return VererbungKontext{
+func createVererbungKontext(extendsPath *base.ModelPath, implPaths []base.ModelPath, kontext gbase.ImportKontext) gbase.VererbungKontext {
+	return gbase.VererbungKontext{
 		ImportKontext:   kontext,
 		ExtendsPath:     extendsPath,
 		ImplementsPaths: implPaths,
 	}
 }
-func createVererbungKontextInterface(extendsPath *base.ModelPath, implPaths []base.ModelPath, kontext ImportKontext) VererbungKontext {
-	return VererbungKontext{
+func createVererbungKontextInterface(extendsPath *base.ModelPath, implPaths []base.ModelPath, kontext gbase.ImportKontext) gbase.VererbungKontext {
+	return gbase.VererbungKontext{
 		ImportKontext:   kontext,
 		ExtendsPath:     extendsPath,
 		ImplementsPaths: implPaths,

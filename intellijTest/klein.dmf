@@ -14,7 +14,7 @@ package de.alex.brand.klein {
             arg int id;
             arg date da;
             NEIN(_, "sad",2, D2020-12-23);
-            JA(_, "asdad", 1, D2020-12-23, true);
+            JA(_, "asdad", 1, D2020-12-23);
         }
         struct Tetrapack {
             arg long l;

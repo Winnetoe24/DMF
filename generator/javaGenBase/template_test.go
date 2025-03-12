@@ -20,15 +20,15 @@ func TestClass(t *testing.T) {
 	//		},
 	//	},
 	//}
-	//comment := base.Comment([]string{"TestKommentar"})
+	//comment := gbase.Comment([]string{"TestKommentar"})
 	//data := packages.StructElement{
-	//	PackageElement: base.PackageElement{
-	//		ModelElement: base.ModelElement{
+	//	PackageElement: gbase.PackageElement{
+	//		ModelElement: gbase.ModelElement{
 	//			Kommentar: &comment,
 	//			Node:      nil,
 	//		},
-	//		Path:          base.ModelPath([]string{"de", "test", "TestKlasse"}),
-	//		EntityIdentifier:    base.ElementIdentifier{},
+	//		Path:          gbase.ModelPath([]string{"de", "test", "TestKlasse"}),
+	//		EntityIdentifier:    gbase.ElementIdentifier{},
 	//		NamedElements: nil,
 	//		Expand:        false,
 	//	},
@@ -37,10 +37,10 @@ func TestClass(t *testing.T) {
 	//	ImplementsPaths: nil,
 	//	Implements:      nil,
 	//	Argumente: []packages.Argument{{
-	//		ModelElement: base.ModelElement{},
-	//		Typ:          base.INT,
-	//		Name: base.ElementIdentifier{
-	//			ModelElement: base.ModelElement{},
+	//		ModelElement: gbase.ModelElement{},
+	//		Typ:          gbase.INT,
+	//		Name: gbase.ElementIdentifier{
+	//			ModelElement: gbase.ModelElement{},
 	//			Name:         "i",
 	//		},
 	//	}},

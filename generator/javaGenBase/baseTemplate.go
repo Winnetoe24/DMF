@@ -2,6 +2,7 @@ package javaGenBase
 
 import (
 	"embed"
+	"github.com/Winnetoe24/DMF/generator/gbase"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 	"io"
@@ -15,49 +16,6 @@ type JavaTemplate struct {
 	template *template.Template
 }
 
-type FieldData struct {
-	Typ       string
-	Name      string
-	Value     *string
-	Kommentar *base.Comment
-}
-type VariableKontext struct {
-	Variable      packages.Variable
-	ImportKontext ImportKontext
-}
-type KonstruktorData struct {
-	Name          string
-	Parameter     []VariableKontext
-	ImportKontext ImportKontext
-}
-
-type ImportLookUp map[string]Import
-type ImportKontext struct {
-	ImportLookUp ImportLookUp
-	Path         base.ModelPath
-}
-type Import struct {
-	OriginalName base.ModelPath
-}
-
-type VererbungKontext struct {
-	ImportKontext   ImportKontext
-	ExtendsPath     *base.ModelPath
-	ImplementsPaths []base.ModelPath
-	Interface       bool
-}
-
-// ParameterKontext kann genauso wie KonstruktorData für die Parameter genutzt werden
-type ParameterKontext struct {
-	Parameter     []VariableKontext
-	ImportKontext ImportKontext
-}
-type FunktionKontext struct {
-	Funktion      packages.Funktion
-	ImportKontext ImportKontext
-	UseDelegate   bool
-}
-
 func NewTemplate() JavaTemplate {
 	funcMap := template.FuncMap{
 		"subtract": func(a, b int) int {
@@ -67,7 +25,7 @@ func NewTemplate() JavaTemplate {
 			return path[len(path)-1]
 		},
 		"packagePath":                     packagePath,
-		"toFields":                        toFields,
+		"toFields":                        toJavaFields,
 		"toArgs":                          toArgs,
 		"variableName":                    variableName,
 		"variableType":                    variableType,
@@ -84,7 +42,7 @@ func NewTemplate() JavaTemplate {
 		"createFunktionKontextDelegate":   createFunktionKontextDelegate,
 		"prependThis":                     prependThis,
 		"createParameterKontext":          createParameterKontext,
-		"pathType":                        pathType,
+		"pathType":                        gbase.PathType,
 		"createVererbungKontext":          createVererbungKontext,
 		"createVererbungKontextInterface": createVererbungKontextInterface,
 		"findImplementedFunctions":        findImplementedFunctions,
@@ -106,10 +64,12 @@ func (receiver JavaTemplate) GenerateEntity(writer io.Writer, element *packages.
 }
 
 func (receiver JavaTemplate) GenerateEnum(writer io.Writer, element *packages.EnumElement) error {
+	println("Generate Enum: " + element.Path.ToString())
 	return receiver.template.ExecuteTemplate(writer, "enum", element)
 }
 
 func (receiver JavaTemplate) GenerateInterface(writer io.Writer, element *packages.InterfaceElement) error {
+	println("Generate Interface: " + element.Path.ToString())
 	return receiver.template.ExecuteTemplate(writer, "interface", element)
 }
 

@@ -2,10 +2,10 @@ package javaGenBase
 
 import (
 	"fmt"
+	"github.com/Winnetoe24/DMF/generator/gbase"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages/values"
-	"slices"
 	"strconv"
 	"strings"
 )
@@ -34,17 +34,12 @@ func variableName(variable packages.Variable) string {
 func removeNewLine(input string) string {
 	return strings.TrimSuffix(input, "\n")
 }
-func variableType(variable packages.Variable, kontext ImportKontext) string {
+func variableType(variable packages.Variable, kontext gbase.ImportKontext) string {
 	switch element := variable.(type) {
 	case *packages.Argument:
 		return javaPrimitiveTypeMapping(element.Typ, kontext, false)
 	case *packages.Referenz:
-		name := element.Typ[len(element.Typ)-1]
-		path, found := kontext.ImportLookUp[name]
-		if found && path.OriginalName.ToString() == element.Typ.ToString() {
-			return name
-		}
-		return element.Typ.ToString()
+		return gbase.PathType(element.Typ, kontext)
 	case packages.VoidElement:
 		return "void"
 	default:
@@ -81,123 +76,56 @@ func variableDefaultValue(variable packages.Variable) string {
 	}
 }
 
-func pathType(pPath base.ModelPath, kontext ImportKontext) string {
-	name := pPath[len(pPath)-1]
-	path, found := kontext.ImportLookUp[name]
-	if found && path.OriginalName.ToString() == pPath.ToString() {
-		return name
-	}
-	return pPath.ToString()
+func toArgs(argumente []packages.Argument, kontext gbase.ImportKontext) []gbase.FieldData {
+	return toJavaFields(argumente, make([]packages.Referenz, 0), make([]packages.MultiReferenz, 0), kontext)
 }
-func toArgs(argumente []packages.Argument, kontext ImportKontext) []FieldData {
-	return toFields(argumente, make([]packages.Referenz, 0), make([]packages.MultiReferenz, 0), kontext)
-}
-func toFields(argumente []packages.Argument, referenzen []packages.Referenz, multiReferenzen []packages.MultiReferenz, kontext ImportKontext) []FieldData {
-	data := make([]FieldData, 0)
-	lookup := make(map[uint]packages.Variable)
-	keys := make([]uint, 0, len(argumente)+len(referenzen))
-	for _, argument := range argumente {
-		startByte := argument.Node.StartByte()
-		_, found := lookup[startByte]
-		if found {
-			position := argument.Node.StartPosition()
-			panic("Duplicate Elements at Pos: " + strconv.FormatUint(uint64(position.Row), 10) + ":" + strconv.FormatUint(uint64(position.Column), 10))
-		}
-		keys = append(keys, startByte)
-		lookup[startByte] = &argument
-	}
-	for _, referenz := range referenzen {
-		startByte := referenz.Node.StartByte()
-		_, found := lookup[startByte]
-		if found {
-			position := referenz.Node.StartPosition()
-			panic("Duplicate Elements at Pos: " + strconv.FormatUint(uint64(position.Row), 10) + ":" + strconv.FormatUint(uint64(position.Column), 10))
-		}
-		keys = append(keys, startByte)
-		lookup[startByte] = &referenz
-	}
-	for _, referenz := range multiReferenzen {
-		startByte := referenz.Node.StartByte()
-		_, found := lookup[startByte]
-		if found {
-			position := referenz.Node.StartPosition()
-			panic("Duplicate Elements at Pos: " + strconv.FormatUint(uint64(position.Row), 10) + ":" + strconv.FormatUint(uint64(position.Column), 10))
-		}
-		keys = append(keys, startByte)
-		lookup[startByte] = &referenz
-	}
-	slices.Sort(keys)
-	for _, key := range keys {
-		variable := lookup[key]
-		switch element := variable.(type) {
-		case *packages.Argument:
-			typ := javaPrimitiveTypeMapping(element.Typ, kontext, false)
-			data = append(data, FieldData{
-				Typ:       typ,
-				Name:      element.Name.Name,
-				Kommentar: element.Kommentar,
-			})
-		case *packages.Referenz:
-			data = append(data, FieldData{
-				Typ:       importedName(element.Typ[len(element.Typ)-1], element.Typ.ToString(), kontext.ImportLookUp),
-				Name:      element.Name.Name,
-				Kommentar: element.Kommentar,
-			})
-		case *packages.MultiReferenz:
-			var typ string
-			var value string
-			switch element.Typ {
-			case packages.MAP:
-				typ = importedName("Map", "java.util.Map", kontext.ImportLookUp)
-				value = "new " + importedName("HashMap", "java.util.HashMap", kontext.ImportLookUp) + "<>()"
-			case packages.SET:
-				typ = importedName("Set", "java.util.Set", kontext.ImportLookUp)
-				value = "new " + importedName("HashSet", "java.util.HashSet", kontext.ImportLookUp) + "<>()"
-			case packages.LIST:
-				typ = importedName("List", "java.util.List", kontext.ImportLookUp)
-				value = "new " + importedName("ArrayList", "java.util.ArrayList", kontext.ImportLookUp) + "<>()"
-			}
-			typ += "<"
-			typ += genericType(element.Generics[0], kontext)
-
-			generic1 := genericType(element.Generics[1], kontext)
-			if generic1 != "" {
-				typ += ", "
-				typ += generic1
-			}
-			typ += ">"
-			data = append(data, FieldData{
-				Typ:       typ,
-				Name:      element.Name.Name,
-				Kommentar: element.Kommentar,
-				Value:     &value,
-			})
-
-		}
-	}
-	return data
-}
-func genericType(multiType packages.MultiType, kontext ImportKontext) string {
-	if multiType.PrimitivType != nil {
-		return javaPrimitiveTypeMapping(*multiType.PrimitivType, kontext, true)
-	}
-	if multiType.ModelPath != nil {
-		path := *multiType.ModelPath
-		return importedName(path[len(path)-1], path.ToString(), kontext.ImportLookUp)
-	}
-	return ""
+func toJavaFields(argumente []packages.Argument, referenzen []packages.Referenz, multiReferenzen []packages.MultiReferenz, kontext gbase.ImportKontext) []gbase.FieldData {
+	return gbase.ToFields(argumente, referenzen, multiReferenzen, kontext, javaPrimitiveTypeMapping, buildGenericJavaType)
 }
 
-func importedName(name string, fullQualifiedName string, up ImportLookUp) string {
-	lImport, found := up[name]
-	if found && lImport.OriginalName.ToString() == fullQualifiedName {
-		return name
-	} else {
-		return fullQualifiedName
+var javaMapPath = base.ModelPath([]string{"java", "util", "Map"})
+var javaHashMapPath = base.ModelPath([]string{"java", "util", "HashMap"})
+var javaSetPath = base.ModelPath([]string{"java", "util", "Set"})
+var javaHashSetPath = base.ModelPath([]string{"java", "util", "HashSet"})
+var javaListPath = base.ModelPath([]string{"java", "util", "List"})
+var javaArrayListPath = base.ModelPath([]string{"java", "util", "ArrayList"})
+
+func buildGenericJavaType(element *packages.MultiReferenz, kontext gbase.ImportKontext) (typ string, value string) {
+	genericType := func(multiType packages.MultiType, kontext gbase.ImportKontext) string {
+		if multiType.PrimitivType != nil {
+			return javaPrimitiveTypeMapping(*multiType.PrimitivType, kontext, true)
+		}
+		if multiType.ModelPath != nil {
+			path := *multiType.ModelPath
+			return gbase.PathType(path, kontext)
+		}
+		return ""
 	}
+
+	switch element.Typ {
+	case packages.MAP:
+		typ = gbase.PathType(javaMapPath, kontext)
+		value = "new " + gbase.PathType(javaHashMapPath, kontext) + "<>()"
+	case packages.SET:
+		typ = gbase.PathType(javaSetPath, kontext)
+		value = "new " + gbase.PathType(javaHashSetPath, kontext) + "<>()"
+	case packages.LIST:
+		typ = gbase.PathType(javaListPath, kontext)
+		value = "new " + gbase.PathType(javaArrayListPath, kontext) + "<>()"
+	}
+	typ += "<"
+	typ += genericType(element.Generics[0], kontext)
+
+	generic1 := genericType(element.Generics[1], kontext)
+	if generic1 != "" {
+		typ += ", "
+		typ += generic1
+	}
+	typ += ">"
+	return typ, value
 }
 
-func javaPrimitiveTypeMapping(primitivType base.PrimitivType, kontext ImportKontext, useObject bool) string {
+func javaPrimitiveTypeMapping(primitivType base.PrimitivType, kontext gbase.ImportKontext, useObject bool) string {
 	typ := string(primitivType)
 	switch typ {
 	case string(base.STRING):
@@ -234,8 +162,8 @@ func javaPrimitiveTypeMapping(primitivType base.PrimitivType, kontext ImportKont
 	return typ
 }
 
-func toConstructor(packageElement packages.PackageElement, kontext ImportKontext) KonstruktorData {
-	data := KonstruktorData{
+func toConstructor(packageElement packages.PackageElement, kontext gbase.ImportKontext) gbase.KonstruktorData {
+	data := gbase.KonstruktorData{
 		Name:          packageElement.GetBase().Path[len(packageElement.GetBase().Path)-1],
 		Parameter:     nil,
 		ImportKontext: kontext,
@@ -297,9 +225,9 @@ func toConstructor(packageElement packages.PackageElement, kontext ImportKontext
 			lookup[startByte] = &argument
 		}
 	}
-	data.Parameter = make([]VariableKontext, len(keys))
+	data.Parameter = make([]gbase.VariableKontext, len(keys))
 	for i, key := range keys {
-		data.Parameter[i] = VariableKontext{
+		data.Parameter[i] = gbase.VariableKontext{
 			Variable:      lookup[key],
 			ImportKontext: kontext,
 		}
@@ -383,25 +311,25 @@ func valueInit(value values.Value) string {
 	}
 }
 
-func generateIdentifier(pElement packages.PackageElement) []FieldData {
+func generateIdentifier(pElement packages.PackageElement) []gbase.FieldData {
 	switch element := pElement.(type) {
 	case *packages.EntityElement:
-		data := make([]FieldData, len(element.EntityIdentifier.Variablen))
+		data := make([]gbase.FieldData, len(element.EntityIdentifier.Variablen))
 		for i, identifier := range element.EntityIdentifier.Variablen {
-			data[i] = FieldData{
+			data[i] = gbase.FieldData{
 				Name: identifier.Name,
 			}
 		}
 		return data
 	case *packages.StructElement:
-		data := make([]FieldData, 0)
+		data := make([]gbase.FieldData, 0)
 		for name, namedElement := range element.NamedElements {
 			switch namedElement.(type) {
 			case *packages.Argument:
-				data = append(data, FieldData{Name: name})
+				data = append(data, gbase.FieldData{Name: name})
 			case *packages.Referenz:
 
-				data = append(data, FieldData{Name: name})
+				data = append(data, gbase.FieldData{Name: name})
 			}
 		}
 		return data
