@@ -1,12 +1,11 @@
 {{define "klasse" -}}
 {{$fields := toFields .Argumente .Referenzen .MultiReferenzen .ImportKontext -}}
+{{$fieldsLength := sub (len $fields) 1 -}}
 {{$importKontext := .ImportKontext -}}
 export class {{nameFromPath .Path}} {{if .ExtendsPath }}{{template "extends" pathType .ExtendsPath .ImportKontext}} {{end}}{{if .ImplementsPaths}}{{template "implements" computeImplementNames .ImplementsPaths .ImportKontext}} {{end}}{
 {{range $index, $field := $fields -}}
-{{template "variable" $field}}
-{{end}}
-    {{range $index, $funktion := .Funktionen -}}
+{{template "variable" $field}}{{if ne $index $fieldsLength}}
+{{end}}{{end}}{{- range $index, $funktion := .Funktionen }}
     {{template "funktion" createFunktionKontext $funktion $importKontext}}
-    {{end}}
-}
-{{end}}
+{{- end}}
+}{{end}}

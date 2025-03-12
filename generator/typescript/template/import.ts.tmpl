@@ -5,6 +5,6 @@
 import { {{range $index, $element := $elements -}}{{$element}}
 {{- if ne $index $last}}, {{end}}
 {{- end}} } from "{{$path}}";
-{{end}}
-import * as delegate from "{{$imports.DelegatePath}}";
+{{end}}import * as delegate from "{{$imports.DelegatePath}}";
+
 {{end}}

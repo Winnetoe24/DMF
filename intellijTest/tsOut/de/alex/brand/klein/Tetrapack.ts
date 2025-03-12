@@ -1,6 +1,6 @@
 import { Apfelsaft } from "./Apfelsaft";
-
 import * as delegate from "../../../../delegates/de/alex/brand/klein/TetrapackDelegate";
+
 export class Tetrapack {
     l: bigint;
     sa: Date;
@@ -9,11 +9,12 @@ export class Tetrapack {
       * Das ist eine Map
      **/
     i: Map<Apfelsaft, number> = new Map<Apfelsaft, number>();
-
     
     tata(i: number, t: Tetrapack, sad: bigint) {
         delegate.tata(this, i, t, sad);
     }
     
+    tataZwei(i: number, t: Tetrapack, sad: bigint) {
+        delegate.tataZwei(this, i, t, sad);
+    }
 }
-
