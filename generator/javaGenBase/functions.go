@@ -125,6 +125,32 @@ func buildGenericJavaType(element *packages.MultiReferenz, kontext gbase.ImportK
 	return typ, value
 }
 
+func createJavaImportKontext(pElement packages.PackageElement) gbase.ImportKontext {
+	return gbase.CreateImportKontext(pElement, handleJavaGenericTypeImport, handleJavaArgumentImport)
+}
+
+func handleJavaArgumentImport(up *gbase.ImportLookUp, argument packages.Argument) {
+	if argument.Typ == base.DATE {
+		(*up)["LocalDate"] = gbase.Import{OriginalName: []string{"java", "time", "LocalDate"}}
+	} else if argument.Typ == base.DATETIME {
+		(*up)["LocalDateTime"] = gbase.Import{OriginalName: []string{"java", "time", "LocalDateTime"}}
+	}
+}
+func handleJavaGenericTypeImport(handleImport func(path base.ModelPath), typ packages.MultiReferenzType) {
+	switch typ {
+	case packages.MAP:
+		handleImport(base.ModelPath{"java", "util", "Map"})
+		handleImport(base.ModelPath{"java", "util", "HashMap"})
+	case packages.SET:
+		handleImport(base.ModelPath{"java", "util", "Set"})
+		handleImport(base.ModelPath{"java", "util", "HashSet"})
+	case packages.LIST:
+		handleImport(base.ModelPath{"java", "util", "List"})
+		handleImport(base.ModelPath{"java", "util", "ArrayList"})
+
+	}
+}
+
 func javaPrimitiveTypeMapping(primitivType base.PrimitivType, kontext gbase.ImportKontext, useObject bool) string {
 	typ := string(primitivType)
 	switch typ {
@@ -268,17 +294,17 @@ func findImplementedFunctions(pElement packages.PackageElement) []packages.Funkt
 				}
 			}
 		}
-	case *DelegateElement:
+	case *gbase.DelegateElement:
 		for s, namedElement := range element.NamedElements {
 			switch namedFunktion := namedElement.(type) {
 			case *packages.Funktion:
 				if element.ExtendsNamedElements != nil {
 					_, found := (*element.ExtendsNamedElements)[s]
 					if !found {
-						funktionen = append(funktionen, element.createDelegateFunktion(*namedFunktion))
+						funktionen = append(funktionen, element.CreateDelegateFunktion(*namedFunktion))
 					}
 				} else {
-					funktionen = append(funktionen, element.createDelegateFunktion(*namedFunktion))
+					funktionen = append(funktionen, element.CreateDelegateFunktion(*namedFunktion))
 				}
 			}
 		}

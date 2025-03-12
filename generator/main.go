@@ -83,13 +83,13 @@ func GenerateJava(basePath string, lookup smodel.TypeLookUp) {
 
 		switch element := pElement.(type) {
 		case *packages.EnumElement:
-			go generateFile(createFile(basePath, element.Path), apply(template.GenerateEnum, element))
+			go generateFile(createFile(basePath, element.Path, buildJavaPath), apply(template.GenerateEnum, element))
 		case *packages.EntityElement:
-			go generateFile(createFile(basePath, element.Path), apply(template.GenerateEntity, element))
+			go generateFile(createFile(basePath, element.Path, buildJavaPath), apply(template.GenerateEntity, element))
 		case *packages.StructElement:
-			go generateFile(createFile(basePath, element.Path), apply(template.GenerateStruct, element))
+			go generateFile(createFile(basePath, element.Path, buildJavaPath), apply(template.GenerateStruct, element))
 		case *packages.InterfaceElement:
-			go generateFile(createFile(basePath, element.Path), apply(template.GenerateInterface, element))
+			go generateFile(createFile(basePath, element.Path, buildJavaPath), apply(template.GenerateInterface, element))
 		default:
 			operations.Done()
 		}
@@ -102,9 +102,9 @@ func GenerateJavaDelegates(basePath string, lookup smodel.TypeLookUp) {
 
 		switch element := pElement.(type) {
 		case *packages.EntityElement:
-			go generateFile(createFileIfNotExists(basePath, javaGenBase.CreateDelegatePath(slices.Clone(element.Path))), apply(template.GenerateDelegate, pElement))
+			go generateFile(createFileIfNotExists(basePath, gbase.CreateDelegatePath(slices.Clone(element.Path))), apply(template.GenerateDelegate, pElement))
 		case *packages.StructElement:
-			go generateFile(createFileIfNotExists(basePath, javaGenBase.CreateDelegatePath(slices.Clone(element.Path))), apply(template.GenerateDelegate, pElement))
+			go generateFile(createFileIfNotExists(basePath, gbase.CreateDelegatePath(slices.Clone(element.Path))), apply(template.GenerateDelegate, pElement))
 		default:
 			operations.Done()
 		}
@@ -121,7 +121,7 @@ func GenerateTs(basePath string, lookup smodel.TypeLookUp) {
 		//case *packages.EntityElement:
 		//	go generateFile(createFile(basePath, element.Path), apply(template.GenerateEntity, element))
 		case *packages.StructElement:
-			go generateFile(createFile(basePath, element.Path), apply(template.GenerateStruct, element))
+			go generateFile(createFile(basePath, element.Path, buildTsPath), apply(template.GenerateStruct, element))
 		//case *packages.InterfaceElement:
 		//	go generateFile(createFile(basePath, element.Path), apply(template.GenerateInterface, element))
 		default:
@@ -131,7 +131,7 @@ func GenerateTs(basePath string, lookup smodel.TypeLookUp) {
 }
 
 func createFileIfNotExists(basePath string, path base.ModelPath) *os.File {
-	finalPath := buildPath(basePath, path)
+	finalPath := buildJavaPath(basePath, path)
 	if _, err := os.Stat(finalPath); err == nil {
 		return nil
 	} else {
@@ -144,7 +144,7 @@ func createFileIfNotExists(basePath string, path base.ModelPath) *os.File {
 	}
 }
 
-func createFile(basePath string, path base.ModelPath) *os.File {
+func createFile(basePath string, path base.ModelPath, buildPath func(string, base.ModelPath) string) *os.File {
 	finalPath := buildPath(basePath, path)
 	create, err := os.Create(finalPath)
 	if err != nil {
@@ -154,12 +154,27 @@ func createFile(basePath string, path base.ModelPath) *os.File {
 	return create
 }
 
-func buildPath(basePath string, path base.ModelPath) string {
+func buildJavaPath(basePath string, path base.ModelPath) string {
 	finalPath := basePath
 	for i, s := range path {
 		finalPath = finalPath + string(os.PathSeparator) + s
 		if i == len(path)-1 {
 			finalPath += ".java"
+			break
+		}
+		err := os.MkdirAll(finalPath, 0750)
+		if err != nil {
+			panic(err)
+		}
+	}
+	return finalPath
+}
+func buildTsPath(basePath string, path base.ModelPath) string {
+	finalPath := basePath
+	for i, s := range path {
+		finalPath = finalPath + string(os.PathSeparator) + s
+		if i == len(path)-1 {
+			finalPath += ".ts"
 			break
 		}
 		err := os.MkdirAll(finalPath, 0750)

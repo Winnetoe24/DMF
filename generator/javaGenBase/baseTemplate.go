@@ -35,7 +35,7 @@ func NewTemplate() JavaTemplate {
 		"toConstructor":                   toConstructor,
 		"toUpperCase":                     toUpperCase,
 		"valueInit":                       valueInit,
-		"createImportKontext":             createImportKontext,
+		"createImportKontext":             createJavaImportKontext,
 		"getImports":                      getImports,
 		"getImportedName":                 getImportedName,
 		"createFunktionKontext":           createFunktionKontext,
@@ -75,14 +75,14 @@ func (receiver JavaTemplate) GenerateInterface(writer io.Writer, element *packag
 
 func (receiver JavaTemplate) GenerateDelegate(writer io.Writer, element packages.PackageElement) error {
 	var e packages.PackageElement
-	delegate := CreateDelegate(element)
+	delegate := gbase.CreateDelegate(element)
 	e = delegate
 	println("Generate Delegate: " + delegate.Path.ToString())
 	return receiver.template.ExecuteTemplate(writer, "delegate", e)
 }
 func (receiver JavaTemplate) GenerateDelegateInterface(writer io.Writer, element packages.PackageElement) error {
 	var e packages.PackageElement
-	delegate := CreateDelegate(element)
+	delegate := gbase.CreateDelegate(element)
 	if delegate == nil {
 		println("No Delegate found")
 		return nil

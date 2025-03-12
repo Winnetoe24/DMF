@@ -92,3 +92,128 @@ func PathType(pPath base.ModelPath, kontext ImportKontext) string {
 	}
 	return pPath.ToString()
 }
+
+func CreateImportKontext(pElement packages.PackageElement,
+	handleGenericImports func(handleImport func(path base.ModelPath), typ packages.MultiReferenzType),
+	handleArgument func(*ImportLookUp, packages.Argument)) ImportKontext {
+	var path base.ModelPath
+	up := make(ImportLookUp)
+	var basePath base.ModelPath
+	switch element := pElement.(type) {
+	case *packages.EntityElement:
+		path = element.Path
+		basePath = path[:len(path)-1]
+
+		handleArgumente(&up, element.Argumente, handleArgument)
+		for _, referenz := range element.Referenzen {
+			handleImport(&up, basePath, referenz.Typ)
+		}
+		for _, referenz := range element.MultiReferenzen {
+			handleMultiReferenz(&up, basePath, referenz, handleGenericImports)
+		}
+		handleFunktionen(&up, basePath, path, element.Funktionen)
+		if element.ExtendsPath != nil {
+			handleImport(&up, basePath, *element.ExtendsPath)
+		}
+		for _, implementsPath := range element.ImplementsPaths {
+			handleImport(&up, basePath, implementsPath)
+		}
+	case *packages.StructElement:
+		path = element.Path
+		basePath = path[:len(path)-1]
+
+		handleArgumente(&up, element.Argumente, handleArgument)
+		for _, referenz := range element.Referenzen {
+			handleImport(&up, basePath, referenz.Typ)
+		}
+		for _, referenz := range element.MultiReferenzen {
+			handleMultiReferenz(&up, basePath, referenz, handleGenericImports)
+		}
+		handleFunktionen(&up, basePath, path, element.Funktionen)
+		if element.ExtendsPath != nil {
+			handleImport(&up, basePath, *element.ExtendsPath)
+		}
+		for _, implementsPath := range element.ImplementsPaths {
+			handleImport(&up, basePath, implementsPath)
+		}
+	case *packages.EnumElement:
+		path = element.Path
+		basePath = path[:len(path)-1]
+
+		handleArgumente(&up, element.Argumente, handleArgument)
+	case *packages.InterfaceElement:
+		path = element.Path
+		basePath = path[:len(path)-1]
+		handleFunktionen(&up, basePath, path, element.Funktionen)
+		for _, implementsPath := range element.ImplementsPaths {
+			handleImport(&up, basePath, implementsPath)
+		}
+	case *DelegateElement:
+		path = element.Path
+		basePath = path[:len(path)-1]
+		for _, namedElement := range element.NamedElements {
+			switch nElement := namedElement.(type) {
+			case *packages.Funktion:
+				handleFunktion(&up, basePath, *nElement)
+			case *packages.Referenz:
+				handleImport(&up, basePath, nElement.Typ)
+			case *packages.Argument:
+				handleArgument(&up, *nElement)
+			}
+		}
+		handleImport(&up, basePath, element.Caller)
+	}
+
+	return ImportKontext{
+		ImportLookUp: up,
+		Path:         path,
+	}
+}
+func handleArgumente(up *ImportLookUp, argumente []packages.Argument, handleArgument func(*ImportLookUp, packages.Argument)) {
+	for _, argument := range argumente {
+		handleArgument(up, argument)
+	}
+}
+
+func handleMultiReferenz(up *ImportLookUp, basePath base.ModelPath, referenz packages.MultiReferenz, handleGenericImports func(handleImport func(path base.ModelPath), typ packages.MultiReferenzType)) {
+	if referenz.Generics[0].ModelPath != nil {
+		handleImport(up, basePath, *referenz.Generics[0].ModelPath)
+	}
+	if referenz.Generics[1].ModelPath != nil {
+		handleImport(up, basePath, *referenz.Generics[1].ModelPath)
+	}
+	handleGenericImports(
+		func(path base.ModelPath) {
+			handleImport(up, basePath, path)
+		},
+		referenz.Typ,
+	)
+}
+func handleFunktionen(up *ImportLookUp, basePath base.ModelPath, path base.ModelPath, funktionen []packages.Funktion) {
+	for _, funktion := range funktionen {
+		handleFunktion(up, basePath, funktion)
+	}
+}
+
+func handleFunktion(up *ImportLookUp, basePath base.ModelPath, funktion packages.Funktion) {
+	returnModelPath, _, _ := funktion.ReturnType.GetVariableType()
+	if returnModelPath != nil {
+		handleImport(up, basePath, *returnModelPath)
+	}
+
+	for _, variable := range funktion.Parameter {
+		variablePath, _, _ := variable.GetVariableType()
+		if variablePath != nil {
+			handleImport(up, basePath, *variablePath)
+		}
+	}
+}
+func handleImport(up *ImportLookUp, basePath base.ModelPath, path base.ModelPath) {
+	name := path[len(path)-1]
+	_, found := (*up)[name]
+	if !found || basePath.ToString() == path[:len(path)-1].ToString() {
+		(*up)[name] = Import{
+			OriginalName: path,
+		}
+	}
+}

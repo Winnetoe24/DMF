@@ -23,10 +23,19 @@ func NewTemplate() TsTemplate {
 		"subtract": func(a, b int) int {
 			return a - b
 		},
+		"sub": func(a, b int) int {
+			return a - b
+		},
 		"nameFromPath": func(path base.ModelPath) string {
 			return path[len(path)-1]
 		},
-		"pathType": gbase.PathType,
+		"pathType":              gbase.PathType,
+		"createImportKontext":   createTsImportKontext,
+		"getImports":            getImports,
+		"toFields":              getImports,
+		"computeExtendsName":    getImports,
+		"computeImplementNames": getImports,
+		"computeFunktion":       getImports,
 	}
 	must := template.Must(template.New("").Funcs(funcMap).ParseFS(tmplFiles, "template/*"))
 	return TsTemplate{template: must}
