@@ -48,6 +48,7 @@ func NewTemplate() TsTemplate {
 		"variableName":             gbase.VariableName,
 		"variableType":             variableType,
 		"valueInit":                valueInit,
+		"variableDefaultValue":     variableDefaultValue,
 		"isNotVoid":                gbase.IsNotVoid,
 	}
 	must := template.Must(template.New("").Funcs(funcMap).ParseFS(tmplFiles, "template/*"))
@@ -75,8 +76,8 @@ func (receiver TsTemplate) GenerateInterface(writer io.Writer, element *packages
 }
 
 func (receiver TsTemplate) GenerateDelegate(writer io.Writer, element packages.PackageElement) error {
-	//TODO implement me
-	panic("implement me")
+	println("Generate Delegate: " + element.GetBase().Path.ToString())
+	return receiver.template.ExecuteTemplate(writer, "delegateFile", element)
 }
 
 func (receiver TsTemplate) GenerateDelegateInterface(writer io.Writer, element packages.PackageElement) error {

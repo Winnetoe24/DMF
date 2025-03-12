@@ -4,4 +4,9 @@ class Test {
         {{if isNotVoid .Funktion.ReturnType}}return {{end}}delegate.{{.Funktion.Name.Name}}(this{{range $index, $param := .Funktion.Parameter}}, {{variableName $param}}{{end}});
     }{{else}};{{end}}
 {{- end}}
+{{define "funktionDelegate"}}{{$last := sub (len .Funktion.Parameter) 1}}{{template "comment_tab" .Funktion.Kommentar}}
+export function {{.Funktion.Name.Name}}({{range $index, $param := .Funktion.Parameter}}{{variableName $param}}: {{variableType $param  $.ImportKontext}}{{if ne $last $index}}, {{end}}{{end}}){{if isNotVoid .Funktion.ReturnType}}: {{variableType .Funktion.ReturnType .ImportKontext}}{{else}}: void{{end}}{{if .ImportKontext.HasDelegate}} {
+    {{if isNotVoid .Funktion.ReturnType}}return {{variableDefaultValue .Funktion.ReturnType}};{{end}}
+}{{else}};{{end}}
+{{- end}}
 }

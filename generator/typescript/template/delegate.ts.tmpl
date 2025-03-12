@@ -1,0 +1,7 @@
+{{define "delegateFile" -}}
+{{$importKontext := createImportKontext . false -}}
+{{template "imports" $importKontext -}}
+{{- range $index, $funktion := findImplementedFunctions .}}
+{{template "funktionDelegate" createFunktionKontext $funktion $importKontext}}
+{{- end}}
+{{end}}

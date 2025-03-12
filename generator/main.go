@@ -73,6 +73,9 @@ func main() {
 	case Typescript:
 		template = typescript.NewTemplate()
 		GenerateTs(*basePath, up)
+	case TypescriptDelegates:
+		template = typescript.NewTemplate()
+		GenerateTsDelegates(*basePath, up)
 	}
 	operations.Wait()
 }
@@ -124,6 +127,21 @@ func GenerateTs(basePath string, lookup smodel.TypeLookUp) {
 			go generateFile(createFile(basePath, element.Path, buildTsPath), apply(template.GenerateStruct, element))
 		case *packages.InterfaceElement:
 			go generateFile(createFile(basePath, element.Path, buildTsPath), apply(template.GenerateInterface, element))
+		default:
+			operations.Done()
+		}
+	}
+}
+
+func GenerateTsDelegates(basePath string, lookup smodel.TypeLookUp) {
+	for _, pElement := range lookup {
+		operations.Add(1)
+
+		switch element := pElement.(type) {
+		case *packages.EntityElement:
+			go generateFile(createFile(basePath, gbase.CreateDelegatePath(slices.Clone(element.Path)), buildTsPath), apply(template.GenerateDelegate, pElement))
+		case *packages.StructElement:
+			go generateFile(createFile(basePath, gbase.CreateDelegatePath(slices.Clone(element.Path)), buildTsPath), apply(template.GenerateDelegate, pElement))
 		default:
 			operations.Done()
 		}

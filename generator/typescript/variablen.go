@@ -116,3 +116,33 @@ func valueInit(value values.Value) string {
 	}
 	return ""
 }
+
+func variableDefaultValue(variable packages.Variable) string {
+	switch element := variable.(type) {
+	case *packages.Argument:
+		switch element.Typ {
+		case base.STRING:
+			return "\"\""
+		case base.DATE:
+			fallthrough
+		case base.DATETIME:
+			return "Date()"
+		case base.BOOLEAN:
+			return "false"
+		case base.BYTE:
+			return "0"
+		case base.DOUBLE:
+			return "0"
+		case base.INT:
+			return "0"
+		case base.LONG:
+			return "BigInt(0)"
+		default:
+			return ""
+		}
+	case *packages.Referenz:
+		return "null"
+	default:
+		return ""
+	}
+}
