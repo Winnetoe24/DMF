@@ -7,33 +7,8 @@ import (
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages/values"
 	"strconv"
-	"strings"
 )
 
-func packagePath(path base.ModelPath) string {
-	return strings.Join(path[:len(path)-1], ".")
-}
-
-func toUpperCase(name string) string {
-	return strings.ToUpper(name)
-}
-
-func capitalize(name string) string {
-	return strings.ToUpper(name[:1]) + name[1:]
-}
-func variableName(variable packages.Variable) string {
-	switch element := variable.(type) {
-	case *packages.Argument:
-		return element.Name.Name
-	case *packages.Referenz:
-		return element.Name.Name
-	default:
-		return ""
-	}
-}
-func removeNewLine(input string) string {
-	return strings.TrimSuffix(input, "\n")
-}
 func variableType(variable packages.Variable, kontext gbase.ImportKontext) string {
 	switch element := variable.(type) {
 	case *packages.Argument:
@@ -361,12 +336,4 @@ func generateIdentifier(pElement packages.PackageElement) []gbase.FieldData {
 		return data
 	}
 	return nil
-}
-
-func isNotVoid(variable packages.Variable) bool {
-	switch variable.(type) {
-	case packages.VoidElement:
-		return false
-	}
-	return true
 }

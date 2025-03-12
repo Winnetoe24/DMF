@@ -34,16 +34,9 @@ func getImportedName(up gbase.ImportLookUp, path base.ModelPath) string {
 }
 
 func createFunktionKontextDelegate(funktion packages.Funktion, kontext gbase.ImportKontext) gbase.FunktionKontext {
-	funktionKontext := createFunktionKontext(funktion, kontext)
+	funktionKontext := gbase.CreateFunktionKontext(funktion, kontext)
 	funktionKontext.UseDelegate = false
 	return funktionKontext
-}
-func createFunktionKontext(funktion packages.Funktion, kontext gbase.ImportKontext) gbase.FunktionKontext {
-	return gbase.FunktionKontext{
-		Funktion:      funktion,
-		ImportKontext: kontext,
-		UseDelegate:   true,
-	}
 }
 
 func prependThis(variablen []packages.Variable) []packages.Variable {

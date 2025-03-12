@@ -32,10 +32,14 @@ func NewTemplate() TsTemplate {
 		"pathType":              gbase.PathType,
 		"createImportKontext":   createTsImportKontext,
 		"getImports":            getImports,
-		"toFields":              getImports,
-		"computeExtendsName":    getImports,
-		"computeImplementNames": getImports,
-		"computeFunktion":       getImports,
+		"toFields":              toTsFields,
+		"computeImplementNames": computeImplementNames,
+		"createTsKlasse":        createTsKlasse,
+		"removeNewLine":         gbase.RemoveNewLine,
+		"createFunktionKontext": gbase.CreateFunktionKontext,
+		"variableName":          gbase.VariableName,
+		"variableType":          variableType2,
+		"isNotVoid":             gbase.IsNotVoid,
 	}
 	must := template.Must(template.New("").Funcs(funcMap).ParseFS(tmplFiles, "template/*"))
 	return TsTemplate{template: must}

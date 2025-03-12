@@ -24,21 +24,21 @@ func NewTemplate() JavaTemplate {
 		"nameFromPath": func(path base.ModelPath) string {
 			return path[len(path)-1]
 		},
-		"packagePath":                     packagePath,
+		"packagePath":                     gbase.PackagePath,
 		"toFields":                        toJavaFields,
 		"toArgs":                          toArgs,
-		"variableName":                    variableName,
+		"variableName":                    gbase.VariableName,
 		"variableType":                    variableType,
-		"removeNewLine":                   removeNewLine,
-		"capitalize":                      capitalize,
+		"removeNewLine":                   gbase.RemoveNewLine,
+		"capitalize":                      gbase.Capitalize,
 		"variableDefaultValue":            variableDefaultValue,
 		"toConstructor":                   toConstructor,
-		"toUpperCase":                     toUpperCase,
+		"toUpperCase":                     gbase.ToUpperCase,
 		"valueInit":                       valueInit,
 		"createImportKontext":             createJavaImportKontext,
 		"getImports":                      getImports,
 		"getImportedName":                 getImportedName,
-		"createFunktionKontext":           createFunktionKontext,
+		"createFunktionKontext":           gbase.CreateFunktionKontext,
 		"createFunktionKontextDelegate":   createFunktionKontextDelegate,
 		"prependThis":                     prependThis,
 		"createParameterKontext":          createParameterKontext,
@@ -47,7 +47,7 @@ func NewTemplate() JavaTemplate {
 		"createVererbungKontextInterface": createVererbungKontextInterface,
 		"findImplementedFunctions":        findImplementedFunctions,
 		"generateIdentifier":              generateIdentifier,
-		"isNotVoid":                       isNotVoid,
+		"isNotVoid":                       gbase.IsNotVoid,
 	}
 	must := template.Must(template.New("").Funcs(funcMap).ParseFS(tmplFiles, "template/*"))
 	return JavaTemplate{template: must}

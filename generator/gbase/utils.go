@@ -5,6 +5,7 @@ import (
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 	"slices"
 	"strconv"
+	"strings"
 )
 
 func ToFields(argumente []packages.Argument, referenzen []packages.Referenz, multiReferenzen []packages.MultiReferenz, kontext ImportKontext,
@@ -215,5 +216,45 @@ func handleImport(up *ImportLookUp, basePath base.ModelPath, path base.ModelPath
 		(*up)[name] = Import{
 			OriginalName: path,
 		}
+	}
+}
+
+func PackagePath(path base.ModelPath) string {
+	return strings.Join(path[:len(path)-1], ".")
+}
+
+func ToUpperCase(name string) string {
+	return strings.ToUpper(name)
+}
+
+func Capitalize(name string) string {
+	return strings.ToUpper(name[:1]) + name[1:]
+}
+func VariableName(variable packages.Variable) string {
+	switch element := variable.(type) {
+	case *packages.Argument:
+		return element.Name.Name
+	case *packages.Referenz:
+		return element.Name.Name
+	default:
+		return ""
+	}
+}
+func RemoveNewLine(input string) string {
+	return strings.TrimSuffix(input, "\n")
+}
+
+func IsNotVoid(variable packages.Variable) bool {
+	switch variable.(type) {
+	case packages.VoidElement:
+		return false
+	}
+	return true
+}
+func CreateFunktionKontext(funktion packages.Funktion, kontext ImportKontext) FunktionKontext {
+	return FunktionKontext{
+		Funktion:      funktion,
+		ImportKontext: kontext,
+		UseDelegate:   true,
 	}
 }

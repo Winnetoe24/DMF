@@ -18,11 +18,15 @@ func handleTsGenericTypeImport(handleImport func(path base.ModelPath), typ packa
 
 }
 
-// TsImport is a Map from relative file Path to the imported Elements
-type TsImport map[string][]string
+type TsImport struct {
+	// Map from relative file Path to the imported Elements
+	Map map[string][]string
+	// Path to the File containing all Delegate Methods
+	DelegatePath string
+}
 
 func getImports(kontext gbase.ImportKontext) TsImport {
-	imports := make(TsImport)
+	imports := make(map[string][]string)
 	for _, lImport := range kontext.ImportLookUp {
 		if lImport.OriginalName.ToString() == kontext.Path.ToString() {
 			continue
@@ -38,7 +42,21 @@ func getImports(kontext gbase.ImportKontext) TsImport {
 			}
 		}
 	}
-	return imports
+	return TsImport{
+		Map:          imports,
+		DelegatePath: createDelegatePath(kontext.Path),
+	}
+}
+
+func createDelegatePath(path base.ModelPath) string {
+	pfad := "delegates"
+	for i := 0; i < len(path)-1; i++ {
+		pfad = "../" + pfad + "/" + path[i]
+	}
+
+	pfad = pfad + "/"
+	pfad += path[len(path)-1] + "Delegate"
+	return pfad
 }
 
 func pathToRelativeFilePath(path base.ModelPath, kontextPath base.ModelPath) string {
@@ -64,8 +82,6 @@ func pathToRelativeFilePath(path base.ModelPath, kontextPath base.ModelPath) str
 		pfad += path[i]
 		if i != len(path)-1 {
 			pfad += "/"
-		} else {
-			pfad += ".ts"
 		}
 	}
 

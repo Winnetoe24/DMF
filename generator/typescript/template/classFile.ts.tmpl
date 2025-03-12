@@ -1,5 +1,5 @@
 {{define "classFile" -}}
 {{$importKontext := createImportKontext . -}}
 {{template "imports" $importKontext -}}
-{{template "klasse" createKlasseKontext .}}
+{{template "klasse" createTsKlasse . $importKontext}}
 {{end}}

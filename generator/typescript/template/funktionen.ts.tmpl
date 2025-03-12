@@ -1,0 +1,7 @@
+class Test {
+{{define "funktion"}}{{$last := sub (len .Funktion.Parameter) 1}}{{template "comment_tab" .Funktion.Kommentar}}
+    {{.Funktion.Name.Name}}({{range $index, $param := .Funktion.Parameter}}{{variableName $param}}: {{variableType $param  $.ImportKontext}}{{if ne $last $index}}, {{end}}{{end}}){{if isNotVoid .Funktion.ReturnType}}: {{variableType .Funktion.ReturnType .ImportKontext}}{{end}} {
+        delegate.{{.Funktion.Name.Name}}(this{{range $index, $param := .Funktion.Parameter}}, {{variableName $param}}{{end}});
+    }
+{{- end}}
+}

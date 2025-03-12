@@ -1,0 +1,4 @@
+{{define "extends"}}extends {{.}}{{end}}
+{{define "implements" -}}
+{{$last := sub (len .) 1 -}}
+implements {{range $index, $name := .}}{{$name}}{{if ne $last $index}}, {{end}}{{end}}{{end}}

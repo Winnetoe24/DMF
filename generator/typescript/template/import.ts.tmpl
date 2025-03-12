@@ -1,9 +1,10 @@
 {{define "imports" -}}
 {{$imports := getImports . -}}
-{{range $path, $elements := $imports -}}
+{{range $path, $elements := $imports.Map -}}
 {{$last := sub (len $elements) 1 -}}
 import { {{range $index, $element := $elements -}}{{$element}}
 {{- if ne $index $last}}, {{end}}
 {{- end}} } from "{{$path}}";
 {{end}}
+import * as delegate from "{{$imports.DelegatePath}}";
 {{end}}
