@@ -1,0 +1,5 @@
+{{define "interfaceFile" -}}
+{{$importKontext := createImportKontext . false -}}
+{{- template "imports" $importKontext -}}
+{{template "interface" createTsInterface . $importKontext}}
+{{- end}}

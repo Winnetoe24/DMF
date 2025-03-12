@@ -1,6 +1,6 @@
 {{define "comment"}}{{if .}}/**
- {{range $index, $element := .}} * {{removeNewLine $element}}{{end}} **/
+{{range $index, $element := .}} * {{removeNewLine $element}}{{end}}**/
 {{end}}{{end}}
 {{define "comment_tab"}}{{if .}}{{if ne (len .) 0}}    /**
- {{range $index, $element := .}}     * {{removeNewLine $element}}{{end}}     **/
+{{range $index, $element := .}}     * {{removeNewLine $element}}{{end}}     **/
 {{end}}{{end}}{{end}}

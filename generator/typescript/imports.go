@@ -7,8 +7,10 @@ import (
 	"slices"
 )
 
-func createTsImportKontext(pElement packages.PackageElement) gbase.ImportKontext {
-	return gbase.CreateImportKontext(pElement, handleTsGenericTypeImport, handleTsArgumentImport)
+func createTsImportKontext(pElement packages.PackageElement, hasDelegate bool) gbase.ImportKontext {
+	kontext := gbase.CreateImportKontext(pElement, handleTsGenericTypeImport, handleTsArgumentImport)
+	kontext.HasDelegate = hasDelegate
+	return kontext
 }
 
 func handleTsArgumentImport(up *gbase.ImportLookUp, argument packages.Argument) {
@@ -22,7 +24,7 @@ type TsImport struct {
 	// Map from relative file Path to the imported Elements
 	Map map[string][]string
 	// Path to the File containing all Delegate Methods
-	DelegatePath string
+	DelegatePath *string
 }
 
 func getImports(kontext gbase.ImportKontext) TsImport {
@@ -42,9 +44,15 @@ func getImports(kontext gbase.ImportKontext) TsImport {
 			}
 		}
 	}
+	var delegatePath *string = nil
+	if kontext.HasDelegate {
+		path := createDelegatePath(kontext.Path)
+		delegatePath = &path
+	}
+
 	return TsImport{
 		Map:          imports,
-		DelegatePath: createDelegatePath(kontext.Path),
+		DelegatePath: delegatePath,
 	}
 }
 

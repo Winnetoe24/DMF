@@ -29,17 +29,20 @@ func NewTemplate() TsTemplate {
 		"nameFromPath": func(path base.ModelPath) string {
 			return path[len(path)-1]
 		},
-		"pathType":              gbase.PathType,
-		"createImportKontext":   createTsImportKontext,
-		"getImports":            getImports,
-		"toFields":              toTsFields,
-		"computeImplementNames": computeImplementNames,
-		"createTsKlasse":        createTsKlasse,
-		"removeNewLine":         gbase.RemoveNewLine,
-		"createFunktionKontext": gbase.CreateFunktionKontext,
-		"variableName":          gbase.VariableName,
-		"variableType":          variableType2,
-		"isNotVoid":             gbase.IsNotVoid,
+		"pathType":                 gbase.PathType,
+		"createImportKontext":      createTsImportKontext,
+		"getImports":               getImports,
+		"findImplementedFunctions": gbase.FindImplementedFunctions,
+		"toPackageElement":         toPackageElement,
+		"toFields":                 toTsFields,
+		"computeImplementNames":    computeImplementNames,
+		"createTsKlasse":           createTsKlasse,
+		"createTsInterface":        createTsInterface,
+		"removeNewLine":            gbase.RemoveNewLine,
+		"createFunktionKontext":    gbase.CreateFunktionKontext,
+		"variableName":             gbase.VariableName,
+		"variableType":             variableType,
+		"isNotVoid":                gbase.IsNotVoid,
 	}
 	must := template.Must(template.New("").Funcs(funcMap).ParseFS(tmplFiles, "template/*"))
 	return TsTemplate{template: must}
@@ -62,7 +65,7 @@ func (receiver TsTemplate) GenerateEnum(writer io.Writer, element *packages.Enum
 
 func (receiver TsTemplate) GenerateInterface(writer io.Writer, element *packages.InterfaceElement) error {
 	println("Generate Interface: " + element.Path.ToString())
-	return receiver.template.ExecuteTemplate(writer, "interface", element)
+	return receiver.template.ExecuteTemplate(writer, "interfaceFile", element)
 }
 
 func (receiver TsTemplate) GenerateDelegate(writer io.Writer, element packages.PackageElement) error {

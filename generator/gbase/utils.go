@@ -258,3 +258,54 @@ func CreateFunktionKontext(funktion packages.Funktion, kontext ImportKontext) Fu
 		UseDelegate:   true,
 	}
 }
+
+// Findet alle implementierten Funktionen
+// Für Delegates wird der Caller als erster Parameter hinzugefügt
+func FindImplementedFunctions(pElement packages.PackageElement) []packages.Funktion {
+	funktionen := make([]packages.Funktion, 0)
+	switch element := pElement.(type) {
+	case *packages.EntityElement:
+		for s, namedElement := range element.NamedElements {
+			switch namedFunktion := namedElement.(type) {
+			case *packages.Funktion:
+				if element.Extends != nil {
+					_, found := element.Extends.GetBase().NamedElements[s]
+					if !found {
+						funktionen = append(funktionen, *namedFunktion)
+					}
+				} else {
+					funktionen = append(funktionen, *namedFunktion)
+				}
+			}
+		}
+	case *packages.StructElement:
+		for s, namedElement := range element.NamedElements {
+			switch namedFunktion := namedElement.(type) {
+			case *packages.Funktion:
+				if element.Extends != nil {
+					_, found := element.Extends.GetBase().NamedElements[s]
+					if !found {
+						funktionen = append(funktionen, *namedFunktion)
+					}
+				} else {
+					funktionen = append(funktionen, *namedFunktion)
+				}
+			}
+		}
+	case *DelegateElement:
+		for s, namedElement := range element.NamedElements {
+			switch namedFunktion := namedElement.(type) {
+			case *packages.Funktion:
+				if element.ExtendsNamedElements != nil {
+					_, found := (*element.ExtendsNamedElements)[s]
+					if !found {
+						funktionen = append(funktionen, element.CreateDelegateFunktion(*namedFunktion))
+					}
+				} else {
+					funktionen = append(funktionen, element.CreateDelegateFunktion(*namedFunktion))
+				}
+			}
+		}
+	}
+	return funktionen
+}

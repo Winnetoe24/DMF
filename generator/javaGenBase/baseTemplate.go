@@ -45,7 +45,7 @@ func NewTemplate() JavaTemplate {
 		"pathType":                        gbase.PathType,
 		"createVererbungKontext":          createVererbungKontext,
 		"createVererbungKontextInterface": createVererbungKontextInterface,
-		"findImplementedFunctions":        findImplementedFunctions,
+		"findImplementedFunctions":        gbase.FindImplementedFunctions,
 		"generateIdentifier":              generateIdentifier,
 		"isNotVoid":                       gbase.IsNotVoid,
 	}

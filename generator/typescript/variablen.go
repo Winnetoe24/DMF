@@ -72,7 +72,7 @@ func tsPrimitiveTypeMapping(primitivType base.PrimitivType, kontext gbase.Import
 	return string(primitivType)
 }
 
-func variableType2(variable packages.Variable, kontext gbase.ImportKontext) string {
+func variableType(variable packages.Variable, kontext gbase.ImportKontext) string {
 	switch element := variable.(type) {
 	case *packages.Argument:
 		return tsPrimitiveTypeMapping(element.Typ, kontext, false)

@@ -2,10 +2,11 @@
 {{$fields := toFields .Argumente .Referenzen .MultiReferenzen .ImportKontext -}}
 {{$fieldsLength := sub (len $fields) 1 -}}
 {{$importKontext := .ImportKontext -}}
+{{if .Kommentar}}{{template "comment" .Kommentar}}{{end -}}
 export class {{nameFromPath .Path}} {{if .ExtendsPath }}{{template "extends" pathType .ExtendsPath .ImportKontext}} {{end}}{{if .ImplementsPaths}}{{template "implements" computeImplementNames .ImplementsPaths .ImportKontext}} {{end}}{
 {{range $index, $field := $fields -}}
 {{template "variable" $field}}{{if ne $index $fieldsLength}}
-{{end}}{{end}}{{- range $index, $funktion := .Funktionen }}
+{{end}}{{end}}{{- range $index, $funktion := findImplementedFunctions (toPackageElement .EntityElement) }}
     {{template "funktion" createFunktionKontext $funktion $importKontext}}
 {{- end}}
 }{{end}}

@@ -24,3 +24,6 @@ func createTsKlasse(element packages.PackageElement, kontext gbase.ImportKontext
 	}
 	return klasse
 }
+func toPackageElement(element packages.EntityElement) packages.PackageElement {
+	return &element
+}
