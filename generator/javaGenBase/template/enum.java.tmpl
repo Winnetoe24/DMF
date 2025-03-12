@@ -1,0 +1,8 @@
+{{define "enum"}}package {{packagePath .Path}};
+{{$importKontext := createImportKontext .}}{{template "imports" $importKontext}}
+{{template "comment" .Kommentar}}public enum {{nameFromPath .Path}} {
+{{range $index, $konstante := .Konstanten}}{{template "constant" $konstante}}{{if ne $index (subtract (len $.Konstanten) 1)}},{{else}};{{end}}
+{{end}}
+{{range $index, $field := toArgs .Argumente $importKontext}}{{template "field" $field}}{{end}}
+    {{template "constructor" toConstructor . $importKontext}}
+}{{end}}

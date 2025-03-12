@@ -1,0 +1,18 @@
+dmf 1.0.0
+model "modelname" version 0.0.1
+
+
+package de.test {
+
+    // TestKommentar
+    struct TestKlasse {
+        arg int i;
+        ref .ReferenzierteKlasse klasse;
+    }
+
+    struct ReferenzierteKlasse  {
+        arg string name;
+    }
+
+}
+

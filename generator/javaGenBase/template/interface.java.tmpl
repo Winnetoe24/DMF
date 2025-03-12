@@ -1,0 +1,7 @@
+{{define "interface_method"}}{{template "method_header" .}};
+{{end}}
+{{define "interface"}}package {{packagePath .Path}};
+{{$importKontext := createImportKontext .}}{{template "imports" $importKontext}}
+public interface {{nameFromPath .Path}} {{template "extends" createVererbungKontextInterface nil .ImplementsPaths $importKontext}}{
+{{range $index, $method := .Funktionen}}{{template "interface_method" createFunktionKontext $method $importKontext}}{{end}}
+}{{end}}
