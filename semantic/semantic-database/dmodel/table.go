@@ -5,7 +5,8 @@ import "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 type Table struct {
 	Name string
 	//For TableReason
-	Columns []Column
+	Columns           []*Column
+	TablesForElements []TableReference
 }
 
 type Column struct {
@@ -18,5 +19,10 @@ type Column struct {
 
 type ColumnReference struct {
 	TableName string
-	Column    Column
+	Column    *Column
+}
+
+type TableReference struct {
+	Referenzname string
+	*Table
 }
