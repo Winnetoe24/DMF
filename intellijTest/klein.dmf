@@ -24,7 +24,7 @@ package de.alex.brand.klein {
             ref Map<.Apfelsaft, int> i;
 
             func void tata(int i,Tetrapack t, long sad);
-            func void tataZwei(int i,Tetrapack t, long sad);
+            func int tataZwei(int i,Tetrapack t, long sad);
         }
 
         entity Apfelsaft extends Tetrapack implements I{
@@ -37,7 +37,7 @@ package de.alex.brand.klein {
         }
 
         interface I {
-            func void Hi();
+            func void Hi(.Apfelsaft eins);
             func void Zwei();
         }
         override {

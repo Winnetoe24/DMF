@@ -76,8 +76,14 @@ func (receiver TsTemplate) GenerateInterface(writer io.Writer, element *packages
 }
 
 func (receiver TsTemplate) GenerateDelegate(writer io.Writer, element packages.PackageElement) error {
-	println("Generate Delegate: " + element.GetBase().Path.ToString())
-	return receiver.template.ExecuteTemplate(writer, "delegateFile", element)
+
+	var e packages.PackageElement
+	delegate := gbase.CreateDelegate(element)
+	//prepareDelegateFunktionen(delegate)
+	e = delegate
+	e.GetBase().Path = append([]string{"delegates"}, e.GetBase().Path...)
+	println("Generate Delegate: " + e.GetBase().Path.ToString())
+	return receiver.template.ExecuteTemplate(writer, "delegateFile", e)
 }
 
 func (receiver TsTemplate) GenerateDelegateInterface(writer io.Writer, element packages.PackageElement) error {

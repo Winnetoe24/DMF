@@ -5,8 +5,8 @@ class Test {
     }{{else}};{{end}}
 {{- end}}
 {{define "funktionDelegate"}}{{$last := sub (len .Funktion.Parameter) 1}}{{template "comment_tab" .Funktion.Kommentar}}
-export function {{.Funktion.Name.Name}}({{range $index, $param := .Funktion.Parameter}}{{variableName $param}}: {{variableType $param  $.ImportKontext}}{{if ne $last $index}}, {{end}}{{end}}){{if isNotVoid .Funktion.ReturnType}}: {{variableType .Funktion.ReturnType .ImportKontext}}{{else}}: void{{end}}{{if .ImportKontext.HasDelegate}} {
+export function {{.Funktion.Name.Name}}({{range $index, $param := .Funktion.Parameter}}{{variableName $param}}: {{variableType $param  $.ImportKontext}}{{if ne $last $index}}, {{end}}{{end}}){{if isNotVoid .Funktion.ReturnType}}: {{variableType .Funktion.ReturnType .ImportKontext}}{{else}}: void{{end}} {
     {{if isNotVoid .Funktion.ReturnType}}return {{variableDefaultValue .Funktion.ReturnType}};{{end}}
-}{{else}};{{end}}
+}
 {{- end}}
 }

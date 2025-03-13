@@ -139,9 +139,9 @@ func GenerateTsDelegates(basePath string, lookup smodel.TypeLookUp) {
 
 		switch element := pElement.(type) {
 		case *packages.EntityElement:
-			go generateFile(createFile(basePath, gbase.CreateDelegatePath(slices.Clone(element.Path)), buildTsPath), apply(template.GenerateDelegate, pElement))
+			go generateFile(createFile(basePath, gbase.CreateDelegatePath(append([]string{"delegates"}, slices.Clone(element.Path)...)), buildTsPath), apply(template.GenerateDelegate, pElement))
 		case *packages.StructElement:
-			go generateFile(createFile(basePath, gbase.CreateDelegatePath(slices.Clone(element.Path)), buildTsPath), apply(template.GenerateDelegate, pElement))
+			go generateFile(createFile(basePath, gbase.CreateDelegatePath(append([]string{"delegates"}, slices.Clone(element.Path)...)), buildTsPath), apply(template.GenerateDelegate, pElement))
 		default:
 			operations.Done()
 		}
