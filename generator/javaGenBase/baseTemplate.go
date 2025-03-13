@@ -3,6 +3,7 @@ package javaGenBase
 import (
 	"embed"
 	"github.com/Winnetoe24/DMF/generator/gbase"
+	"github.com/Winnetoe24/DMF/semantic/semantic-database/dmodel"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 	"io"
@@ -15,6 +16,8 @@ var tmplFiles embed.FS
 type JavaTemplate struct {
 	template *template.Template
 }
+
+var _ gbase.DMFTemplate = JavaTemplate{}
 
 func NewTemplate() JavaTemplate {
 	funcMap := template.FuncMap{
@@ -80,6 +83,7 @@ func (receiver JavaTemplate) GenerateDelegate(writer io.Writer, element packages
 	println("Generate Delegate: " + delegate.Path.ToString())
 	return receiver.template.ExecuteTemplate(writer, "delegate", e)
 }
+
 func (receiver JavaTemplate) GenerateDelegateInterface(writer io.Writer, element packages.PackageElement) error {
 	var e packages.PackageElement
 	delegate := gbase.CreateDelegate(element)
@@ -90,4 +94,8 @@ func (receiver JavaTemplate) GenerateDelegateInterface(writer io.Writer, element
 	e = delegate
 	println("Generate Delegate Interface: " + delegate.Path.ToString())
 	return receiver.template.ExecuteTemplate(writer, "delegateInterface", e)
+}
+
+func (receiver JavaTemplate) GenerateTable(writer io.Writer, table dmodel.Table) error {
+	panic("Java kann keine Tabellen generieren")
 }

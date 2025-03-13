@@ -29,7 +29,7 @@ package de.alex.brand.klein {
 
         entity Apfelsaft extends Tetrapack implements I{
 
-            identifier(i);
+            identifier(l);
         }
 
         struct Ast {

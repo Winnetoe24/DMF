@@ -8,6 +8,7 @@ import (
 	errElement "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 	"slices"
+	"strings"
 )
 
 func GenerateSchema(lookup smodel.TypeLookUp) (dmodel.Schema, []errElement.ErrorElement) {
@@ -65,7 +66,7 @@ func GenerateSchema(lookup smodel.TypeLookUp) (dmodel.Schema, []errElement.Error
 					}
 					for _, schluesselColumn := range primaerschluessel {
 						column := dmodel.Column{
-							Name:       schluesselColumn.Name,
+							Name:       name + "_" + schluesselColumn.Name,
 							Type:       schluesselColumn.Type,
 							PrimaryKey: false,
 							ForeignKey: &dmodel.ColumnReference{
@@ -73,7 +74,7 @@ func GenerateSchema(lookup smodel.TypeLookUp) (dmodel.Schema, []errElement.Error
 								Column:    schluesselColumn,
 							},
 						}
-						if columnLookUp[schluesselColumn.Name] != nil {
+						if columnLookUp[column.Name] != nil {
 							errorElemente = append(errorElemente, errElement.CreateErrorElement(namedElement.Element().Node, errors.New("doppelter Spaltenname")))
 							continue
 						}
@@ -84,7 +85,7 @@ func GenerateSchema(lookup smodel.TypeLookUp) (dmodel.Schema, []errElement.Error
 					}
 				case *packages.MultiReferenz:
 					referenzTable := dmodel.Table{
-						Name:              table.Name + nElement.Name.Name,
+						Name:              table.Name + "_" + nElement.Name.Name,
 						Columns:           make([]*dmodel.Column, 0),
 						TablesForElements: make([]dmodel.TableReference, 0),
 					}
@@ -108,7 +109,7 @@ func GenerateSchema(lookup smodel.TypeLookUp) (dmodel.Schema, []errElement.Error
 						fallthrough
 					case packages.SET:
 						// Value
-						genericColumns, errorElement := addGenericColumns(nElement, nElement.Generics[0], schluessel, nElement.Typ == packages.SET)
+						genericColumns, errorElement := addGenericColumns(nElement, nElement.Generics[0], schluessel, "", nElement.Typ == packages.SET)
 						if errorElement != nil {
 							errorElemente = append(errorElemente, *errorElement)
 							continue
@@ -116,7 +117,7 @@ func GenerateSchema(lookup smodel.TypeLookUp) (dmodel.Schema, []errElement.Error
 						referenzTable.Columns = append(referenzTable.Columns, genericColumns...)
 					case packages.MAP:
 						// Key
-						genericColumns, errorElement := addGenericColumns(nElement, nElement.Generics[0], schluessel, true)
+						genericColumns, errorElement := addGenericColumns(nElement, nElement.Generics[0], schluessel, "key_", true)
 						if errorElement != nil {
 							errorElemente = append(errorElemente, *errorElement)
 							continue
@@ -124,7 +125,7 @@ func GenerateSchema(lookup smodel.TypeLookUp) (dmodel.Schema, []errElement.Error
 						referenzTable.Columns = append(referenzTable.Columns, genericColumns...)
 
 						// Value
-						genericColumns, errorElement = addGenericColumns(nElement, nElement.Generics[1], schluessel, false)
+						genericColumns, errorElement = addGenericColumns(nElement, nElement.Generics[1], schluessel, "value_", false)
 						if errorElement != nil {
 							errorElemente = append(errorElemente, *errorElement)
 							continue
@@ -146,11 +147,11 @@ func GenerateSchema(lookup smodel.TypeLookUp) (dmodel.Schema, []errElement.Error
 	return schema, errorElemente
 }
 
-func addGenericColumns(nElement *packages.MultiReferenz, multiType packages.MultiType, schluessel map[string][]*dmodel.Column, shouldBePrimaryKey bool) ([]*dmodel.Column, *errElement.ErrorElement) {
+func addGenericColumns(nElement *packages.MultiReferenz, multiType packages.MultiType, schluessel map[string][]*dmodel.Column, prefix string, shouldBePrimaryKey bool) ([]*dmodel.Column, *errElement.ErrorElement) {
 	var genericColumns []*dmodel.Column
 	if multiType.PrimitivType != nil {
 		genericColumns = append(genericColumns, &dmodel.Column{
-			Name:       nElement.Name.Name,
+			Name:       prefix + nElement.Name.Name,
 			Type:       *multiType.PrimitivType,
 			PrimaryKey: shouldBePrimaryKey,
 			ForeignKey: nil,
@@ -160,11 +161,11 @@ func addGenericColumns(nElement *packages.MultiReferenz, multiType packages.Mult
 		referenzierterTable := (*multiType.ModelPath)[len(*multiType.ModelPath)-1]
 		primaerschluessel, found := schluessel[referenzierterTable]
 		if !found {
-			return nil, errElement.CreateErrorElementRef(nElement.Node, errors.New("keine Primärschlüssel für Referenz gefunden"))
+			return nil, errElement.CreateErrorElementRef(nElement.Node, errors.New("keine Primärschlüssel für Referenz gefunden: "+referenzierterTable))
 		}
 		for _, schluesselColumn := range primaerschluessel {
 			column := dmodel.Column{
-				Name:       schluesselColumn.Name,
+				Name:       prefix + schluesselColumn.Name,
 				Type:       schluesselColumn.Type,
 				PrimaryKey: shouldBePrimaryKey,
 				ForeignKey: &dmodel.ColumnReference{
@@ -185,7 +186,15 @@ func computeComment(comment *base.Comment) string {
 
 	out := ""
 	for _, s := range *comment {
+		if out != "" {
+			out += "\n"
+		}
+		if s == "" || s == "\n" {
+			continue
+		}
 		out += s
+		out = strings.TrimSuffix(out, "\n")
+		out = strings.TrimSuffix(out, "\n")
 	}
 	return out
 }
@@ -215,6 +224,7 @@ func determineSchluessel(element packages.PackageElement, lookup smodel.TypeLook
 			Kommentar:  "ID des Enums",
 		}}
 	case *packages.EntityElement:
+		println("determine Schlüssel (entity): " + element.Path.ToString())
 		columns := make([]*dmodel.Column, 0)
 		for _, identifier := range element.EntityIdentifier.Variablen {
 			namedElement := element.NamedElements[identifier.Name]
@@ -257,6 +267,7 @@ func determineSchluessel(element packages.PackageElement, lookup smodel.TypeLook
 		}
 		(*schluesselLookup)[tableName] = columns
 	case *packages.StructElement:
+		println("determine Schlüssel: " + element.Path.ToString())
 		columns := make([]*dmodel.Column, 0)
 		for _, namedElement := range element.NamedElements {
 			switch namedElement := namedElement.(type) {

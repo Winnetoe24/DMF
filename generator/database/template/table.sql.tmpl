@@ -1,0 +1,15 @@
+{{define "table"}}
+{{- /*gotype: github.com/Winnetoe24/DMF/semantic/semantic-database/dmodel.Table*/ -}}
+create table {{.Name}} (
+    {{range $index, $column := .Columns -}}
+    {{$column.Name}} {{mapType $column.Type}},
+    {{end}}
+    {{- $primaryKeys := findPrimaryKeys . -}}
+    {{- $primaryKeySize := sub (len $primaryKeys) 1 -}}
+    {{if ne (len $primaryKeys) 0}}PRIMARY KEY({{range $index, $pKey := $primaryKeys}}{{$pKey}}{{if ne $index $primaryKeySize}}, {{end}}{{end}}){{end}}
+);
+
+{{range $index, $column := .Columns -}}
+{{if isNotEmpty $column.Kommentar}}comment on column {{$.Name}}.{{$column.Name}} is '{{$column.Kommentar}}';
+{{end}}{{end}}
+{{end}}

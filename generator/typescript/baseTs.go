@@ -3,6 +3,7 @@ package typescript
 import (
 	"embed"
 	"github.com/Winnetoe24/DMF/generator/gbase"
+	"github.com/Winnetoe24/DMF/semantic/semantic-database/dmodel"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 	"io"
@@ -87,6 +88,9 @@ func (receiver TsTemplate) GenerateDelegate(writer io.Writer, element packages.P
 }
 
 func (receiver TsTemplate) GenerateDelegateInterface(writer io.Writer, element packages.PackageElement) error {
-	//TODO implement me
-	panic("implement me")
+	panic("Typescript enthält keine Interfaces")
+}
+
+func (receiver TsTemplate) GenerateTable(writer io.Writer, table dmodel.Table) error {
+	panic("Typescript kann keine Tabellen generieren")
 }

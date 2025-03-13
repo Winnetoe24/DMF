@@ -5,10 +5,13 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"github.com/Winnetoe24/DMF/generator/database"
 	"github.com/Winnetoe24/DMF/generator/gbase"
 	"github.com/Winnetoe24/DMF/generator/javaGenBase"
 	"github.com/Winnetoe24/DMF/generator/typescript"
 	"github.com/Winnetoe24/DMF/semantic"
+	semantic_database "github.com/Winnetoe24/DMF/semantic/semantic-database"
+	"github.com/Winnetoe24/DMF/semantic/semantic-database/dmodel"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	err_element "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
@@ -31,17 +34,19 @@ const (
 	JavaDelegates       GenerationMode = "javaDelegates"
 	Typescript          GenerationMode = "ts"
 	TypescriptDelegates GenerationMode = "tsDelegates"
+	Database            GenerationMode = "database"
 )
 
 func main() {
 	var basePath = flag.String("basePath", ".", "the path where files are generated")
 	var modelFile = flag.String("modelFile", "./test.dmf", "the model which is generated")
-	var mode = flag.String("mode", string(NotSet), "the generation mode, choose from: java, javaDelegates, ts, tsDelegates")
+	var mode = flag.String("mode", string(NotSet), "the generation mode, choose from: java, javaDelegates, ts, tsDelegates, database")
 	flag.Parse()
 	if mode == nil || *mode == string(NotSet) {
 		fmt.Println("A generation mode is required.")
 		os.Exit(1)
 	}
+	generationMode := GenerationMode(*mode)
 	file, err := os.ReadFile(*modelFile)
 	if err != nil {
 		panic(err)
@@ -58,12 +63,19 @@ func main() {
 	for _, errElement := range errorElements {
 		println(errElement.ToErrorMsg(&context))
 	}
+	var schema dmodel.Schema
+	if generationMode == Database {
+		schema, errorElements = semantic_database.GenerateSchema(up)
+		for _, errElement := range errorElements {
+			println(errElement.ToErrorMsg(&context))
+		}
+	}
 	if errorElements != nil && len(errorElements) > 0 {
 		return
 	}
 
 	fmt.Printf("Generiere %v Elemente\n", len(up.GetTypeLookUp()))
-	switch GenerationMode(*mode) {
+	switch generationMode {
 	case Java:
 		template = javaGenBase.NewTemplate()
 		GenerateJava(*basePath, up)
@@ -76,6 +88,9 @@ func main() {
 	case TypescriptDelegates:
 		template = typescript.NewTemplate()
 		GenerateTsDelegates(*basePath, up)
+	case Database:
+		template = database.NewTemplate()
+		GenerateDatabase(*basePath, schema)
 	}
 	operations.Wait()
 }
@@ -148,6 +163,15 @@ func GenerateTsDelegates(basePath string, lookup smodel.TypeLookUp) {
 	}
 }
 
+func GenerateDatabase(basePath string, schema dmodel.Schema) {
+	file := createFile(basePath, base.ModelPath{}, buildDbPath)
+
+	for _, tabelle := range schema.TableLookUp {
+		operations.Add(1)
+		generateFile(file, apply(template.GenerateTable, *tabelle))
+	}
+}
+
 func createFileIfNotExists(basePath string, path base.ModelPath) *os.File {
 	finalPath := buildJavaPath(basePath, path)
 	if _, err := os.Stat(finalPath); err == nil {
@@ -201,6 +225,9 @@ func buildTsPath(basePath string, path base.ModelPath) string {
 		}
 	}
 	return finalPath
+}
+func buildDbPath(basePath string, path base.ModelPath) string {
+	return basePath + string(os.PathSeparator) + "schema.ddl"
 }
 
 func apply[E any](f func(writer io.Writer, e E) error, data E) func(writer io.Writer) error {

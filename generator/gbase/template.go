@@ -1,6 +1,7 @@
 package gbase
 
 import (
+	"github.com/Winnetoe24/DMF/semantic/semantic-database/dmodel"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 	"io"
 )
@@ -12,4 +13,5 @@ type DMFTemplate interface {
 	GenerateInterface(writer io.Writer, element *packages.InterfaceElement) error
 	GenerateDelegate(writer io.Writer, element packages.PackageElement) error
 	GenerateDelegateInterface(writer io.Writer, element packages.PackageElement) error
+	GenerateTable(writer io.Writer, table dmodel.Table) error
 }

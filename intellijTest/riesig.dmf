@@ -2391,6 +2391,7 @@ package de.smart.city {
 
         // Core financial entities
         entity FinancialInstitution extends ..infrastructure.Asset implements Auditable, Secureable {
+            // Id of the Institution
             arg string institutionId;
             ref List<string> licenses;
             ref .SecurityLevel securityLevel;
