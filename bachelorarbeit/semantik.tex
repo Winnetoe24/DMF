@@ -65,7 +65,7 @@ type FehlerStelle struct {
     Am Ende des Parsen ist Modell vollständig mit allen gültigen Elementen.
     Elemente die durch den Parser im \acrshort{ast} als Fehlerhaft gekennzeichnet wurden, werden ignoriert.
 
-    \subsubsection{Der Lookup}
+    \subsubsection{Der Lookup}\label{subsubsec:lookup}
     Um anhand des vollständigen Namens (Package Pfad + Name) ein Element schnell zu finden, wird nach dem semantischen Parsen ein Lookup erstellt.
     Dieser Lookup nutzt eine Map für den schnellen Zugriff.
     Zum Befüllen des Lookups wird das semantische Modell durchlaufen.

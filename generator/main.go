@@ -63,6 +63,9 @@ func main() {
 	for _, errElement := range errorElements {
 		println(errElement.ToErrorMsg(&context))
 	}
+	if errorElements != nil && len(errorElements) > 0 {
+		return
+	}
 	var schema dmodel.Schema
 	if generationMode == Database {
 		schema, errorElements = semantic_database.GenerateSchema(up)

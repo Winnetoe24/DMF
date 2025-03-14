@@ -212,6 +212,8 @@ enum IpAddr {
     \subsection{Zuweisungen der Abstraktionen}
 
     Damit diese Abstraktion genutzt werden kann, müssen für jeden abstrakten Typen im \acrshort{dmf} eine Zuweisung in jeder Sprache festgelegt werden.
+    Zusätzlich zu der Representation der Daten müssen die Funktionen separat implementiert werden können, damit die Implementierung nicht bei jeder Neugeneration des Datenmodells überschrieben werden.
+    Dieses zusätzlich generierten Strukturen werden Delegates genannt.
 
     \subsubsection{Java}
     \begin{center}
@@ -229,11 +231,14 @@ enum IpAddr {
             \hline
             enum      & Java Enum      \\
             \hline
+            Delegate  & Java Klasse    \\
+            \hline
         \end{tabular}
     \end{center}
     Die \acrshort{dmf} Elemente können sehr gut in Java übersetzt werden.
     Für die Entity kann sogar die Identität mithilfe der Implementation von der Methoden `hashCode' und `equals' übernommen werden.
     Die Enums unterstützen auch die zusätzlichen Argumente.
+    Um die Delegates aufgerufen zu können, wird eine statische Instanz der Delegate Klasse genutzt.
 
     \begin{center}
         \begin{tabular}{| c || c |}
@@ -256,10 +261,18 @@ enum IpAddr {
             \hline
             datetime & java.time.LocalDateTime \\
             \hline
+            Map & java.util.Map(java.util.HashMap)\\
+            \hline
+            List & java.util.List(java.util.ArrayList)\\
+            \hline
+            Set & java.util.Set(java.util.HashSet)\\
+            \hline
         \end{tabular}
     \end{center}
     Das \acrshort{dmf} kann bei den Zahlen und Wahrheitswerten genau auf Java übersetzt werden.
-    Für Text- und Zeitwerte werden Klassen der Standardbibliothek verwendet.
+    Für Text- und Zeitwerte werden Klassen der Standardbibliothek verwendet.\\
+    Die Multireferenztypen nutzen Interfaces und Implementierungen aus der Standardbibliothek.
+    Die Verwendung von allgemeinen Interfaces für diese Datentypen wird in Java erwartet.
 
     \subsubsection{Typescript}
     \begin{center}
@@ -275,12 +288,18 @@ enum IpAddr {
             \hline
             interface & Typescript Interface \\
             \hline
-            enum      & Typescript Enum      \\
+            enum      & Typescript Enum, Details Typescript Interface und Typescript Record   \\
+            \hline
+            Delegate  & Typescript Funktion    \\
             \hline
         \end{tabular}
     \end{center}
-    TODO Nach Entwicklung des Typescript Generators
-
+    Die Übersetzung der \acrshort{dmf} Elemente in Typescript stellt als ein wenig komplexer als die Übersetzung in Java dar.
+    Structs, Entities und Interfaces können direkt in die nativen Elemente übersetzt werden.\\
+    Da Typescript Enums nur einen Wert pro Eintrag erlauben, müssen eine zusätzliche Struktur für zusätzlichen Daten und eine Struktur für Zuweisung zwischen Enum-Eintrag und Daten generiert werden.
+    Das ``Details''-Interface enthält die Definitionen der weiteren Argumente.
+    Der ``Info''-Record enthält die Zuweisung zwischen dem Enum-Eintrag und einer Instanz des Details-Interfaces. (Für Beispiel siehe \ref{TODO})\\ % TOOD Ref fertig machen
+    Die Delegates können als Funktionen generiert werden, welche von der modellierten Klasse importiert werden können.
     \begin{center}
         \begin{tabular}{| c || c |}
             \hline
@@ -302,8 +321,32 @@ enum IpAddr {
             \hline
             datetime & Date       \\
             \hline
+            Map & Map\\
+            \hline
+            List & Array\\
+            \hline
+            Set & Set\\
+            \hline
         \end{tabular}
     \end{center}
-    TODO Nach Entwicklung des Typescript Generators
+    Bei der Übersetzung in Typescript werden die Typen stark vereinfacht.
+    Bis auf `long' kann der Typ `number' alle Zahlentypen darstellen.
+    Auch die Zeittypen werden mit dem `Date'-Typ zusammengefasst.\\
+    Die Multireferenztypen können auf Typen der Standardbiblitohek zurückgreifen.
+    Auch wenn in Typescript ein Array verwendet wird, enthält er alle Funktionen wie die Java-Liste.
+    Der Unterschied liegt hier somit nur im Namen und der Syntax.
+
+    \subsubsection{Datenbank}\label{subsubsec:db-schema}
+    In der Datenbank müssen die Entitäten abgebildet werden.\\
+    Dafür wird für jede Entität eine Tabelle angelegt.
+    Diese enthält alle Argumente der Entität.
+    Der primäte Schlüssel wird durch die Spalten der Variablen, welche im Identifier-Statement spezifiziert werden, gebildet.
+    Bei der Übersetzung der Referenzen wird zwischen Structs, Entitäten und Enums unterschieden:\\
+    Die Spalten eines Structs werden zur Tabelle der Entität hinzugefügt.\\
+    Bei einer Entität muss eine Referenz zu einer anderen Tabelle eingefügt werden.
+    Dafür werden die Spalten des Primärschlüssels als Foreign Key zur Tabelle hinzugefügt.\\
+    Die Werte der Enum-Einträge müssen nicht in der Datenbank gespeichert werden.
+    Deshalb reicht es den Index eines Enum-Eintrags zu speichern.
+
 
 \end{document}

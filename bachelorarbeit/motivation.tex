@@ -1,9 +1,19 @@
 \documentclass[./einleitung.tex]{subfiles}
 \begin{document}
 Die zentrale Modellierung von Domainmodellen ist sehr verbreitet in der Entwicklung von großen Software-Projekten und zentraler Bestandteil von Product Line Engineering.
+Sie fällt damit in den Bereich der \acrfull{mdsd}.
 Dabei stellt die Modellierung des Domainmodells einen Kompromiss zwischen der kompletten Modellierung einer Software und der klassischen Entwicklung ohne Modelle dar. \\
 Ziel dieses Kompromisses ist die Effizienz und Sicherheit der Codegenerierung für das Datenmodell einzusetzen, um die Entwicklung der restlichen Software zu vereinfachen.
-%TODO Größer Schreiben
+
+\subsection{\acrfull{mdsd}}\label{subsec:mdsd}
+\begin{center}
+    Modellgetriebene Softwareentwicklung (Model Driven Software Development, MDSD) ist ein Oberbegriff für Techniken, die aus formalen Modellen automatisiert lauffähige Software erzeugen. \cite[p. 11]{modellbuch}
+\end{center}
+Zu diesem großen Begriff gehören verschiedenste Ausprägungen.
+Komplett modellierte Projekte nutzen grafische Modellierung für Daten, Prozesse und Schnittstellen.\\
+Modelle für einzelne Komponenten stellen das Gegenteil dar.
+Sie basieren häufig auf einer Datei für jedes Modell.
+Diese Dateien können auch direkt im Texteditor bearbeitet werden.
 \subsection{\acrfull{ple}}\label{subsec:ple}
 \acrshort{ple} befasst sich mit der Entwicklung von mehreren verwandten Softwareprodukten.
 Dabei handelt es sich häufig um Software für Teilaufgaben und angepasste Kundenversionen der Standardsoftware. \\
@@ -11,6 +21,7 @@ Hierbei besteht für eine Organisation die Gefahr, viele Komponenten mehrfach zu
 Durch gemeinsam genutzte Komponenten (Assets) wird die Entwicklung vereinfacht und die Software verhält sich beim Kunden einheitlich.
 Datenmodelle stellen im \acrshort{ple} wichtige Assets dar.
 Einheitliche Modelle verhindern das Übersetzen zwischen verschiedenen Produkte.
+
 
 \subsection{\acrshort{emf}}\label{subsec:emf}
 \acrfull{emf} ist ein häufig eingesetztes Framework zur Modellierung von Modellen in Java.

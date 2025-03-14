@@ -95,7 +95,7 @@ func PathType(pPath base.ModelPath, kontext ImportKontext) string {
 }
 
 func CreateImportKontext(pElement packages.PackageElement,
-	handleGenericImports func(handleImport func(path base.ModelPath), typ packages.MultiReferenzType),
+	handleMultiReferenzImport func(handleImport func(path base.ModelPath), typ packages.MultiReferenzType),
 	handleArgument func(*ImportLookUp, packages.Argument)) ImportKontext {
 	var path base.ModelPath
 	up := make(ImportLookUp)
@@ -110,7 +110,7 @@ func CreateImportKontext(pElement packages.PackageElement,
 			handleImport(&up, basePath, referenz.Typ)
 		}
 		for _, referenz := range element.MultiReferenzen {
-			handleMultiReferenz(&up, basePath, referenz, handleGenericImports)
+			handleMultiReferenz(&up, basePath, referenz, handleMultiReferenzImport)
 		}
 		handleFunktionen(&up, basePath, path, element.Funktionen)
 		if element.ExtendsPath != nil {
@@ -128,7 +128,7 @@ func CreateImportKontext(pElement packages.PackageElement,
 			handleImport(&up, basePath, referenz.Typ)
 		}
 		for _, referenz := range element.MultiReferenzen {
-			handleMultiReferenz(&up, basePath, referenz, handleGenericImports)
+			handleMultiReferenz(&up, basePath, referenz, handleMultiReferenzImport)
 		}
 		handleFunktionen(&up, basePath, path, element.Funktionen)
 		if element.ExtendsPath != nil {
@@ -176,14 +176,14 @@ func handleArgumente(up *ImportLookUp, argumente []packages.Argument, handleArgu
 	}
 }
 
-func handleMultiReferenz(up *ImportLookUp, basePath base.ModelPath, referenz packages.MultiReferenz, handleGenericImports func(handleImport func(path base.ModelPath), typ packages.MultiReferenzType)) {
+func handleMultiReferenz(up *ImportLookUp, basePath base.ModelPath, referenz packages.MultiReferenz, handleMultiReferenzImport func(handleImport func(path base.ModelPath), typ packages.MultiReferenzType)) {
 	if referenz.Generics[0].ModelPath != nil {
 		handleImport(up, basePath, *referenz.Generics[0].ModelPath)
 	}
 	if referenz.Generics[1].ModelPath != nil {
 		handleImport(up, basePath, *referenz.Generics[1].ModelPath)
 	}
-	handleGenericImports(
+	handleMultiReferenzImport(
 		func(path base.ModelPath) {
 			handleImport(up, basePath, path)
 		},
