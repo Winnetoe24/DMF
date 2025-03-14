@@ -83,10 +83,10 @@
                                 <outputDirectory>${basedir}/target/classes</outputDirectory>
                                 <resources>
                                     <resource>
-                                        <directory>../javaGenerator</directory>
+                                        <directory>../generator</directory>
                                         <includes>
-                                            <include>javaGenerator.exe</include>
-                                            <include>javaGenerator</include>
+                                            <include>generator.exe</include>
+                                            <include>generator</include>
                                         </includes>
                                     </resource>
                                 </resources>
@@ -96,5 +96,15 @@
                 </plugin>
             </plugins>
         </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>

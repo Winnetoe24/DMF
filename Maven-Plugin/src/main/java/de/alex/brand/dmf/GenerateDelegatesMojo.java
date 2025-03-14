@@ -17,7 +17,7 @@ public class GenerateDelegatesMojo extends AbstractGeneratorMojo {
     protected void generate(Log log, File generatorFile) throws MojoExecutionException, MojoFailureException {
         log.info("Generating Delegates into " + sources);
         ProcessBuilder processBuilder = new ProcessBuilder(generatorFile.getAbsolutePath(),
-                "--basePath", sources, "--delegates");
+                "--basePath", sources,"--mode", getMode());
 
         if (modelPath != null) {
             processBuilder.command().add("--modelFile");
@@ -39,5 +39,17 @@ public class GenerateDelegatesMojo extends AbstractGeneratorMojo {
         } catch (IOException | InterruptedException e) {
             throw new MojoFailureException(e);
         }
+    }
+
+    protected String getMode() {
+        switch (getZielsprache()) {
+            case JAVA:
+                return "javaDelegates";
+            case TYPESCRIPT:
+                return "tsDelegates";
+            case SQL:
+                throw new RuntimeException("SQL generation for Delegates not supported");
+        }
+        return "javaDelegates";
     }
 }

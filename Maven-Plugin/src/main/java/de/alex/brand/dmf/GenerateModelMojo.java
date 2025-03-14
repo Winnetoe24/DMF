@@ -16,7 +16,7 @@ public class GenerateModelMojo extends AbstractGeneratorMojo {
     protected void generate(Log log, File generatorFile) throws MojoExecutionException, MojoFailureException {
         log.info("Generating Model into " + tempSources);
         ProcessBuilder processBuilder = new ProcessBuilder(generatorFile.getAbsolutePath(),
-                "--basePath", tempSources);
+                "--basePath", tempSources, "--mode", getMode());
 
         if (modelPath != null) {
             processBuilder.command().add("--modelFile");
@@ -36,11 +36,23 @@ public class GenerateModelMojo extends AbstractGeneratorMojo {
                 throw new MojoFailureException("Generation failed, because of wrong exit code: " + exitCode);
             }
         } catch (IOException | InterruptedException e) {
-            throw new MojoFailureException(e);
+            throw new MojoExecutionException(e);
         }
 
 
     }
 
+
+    protected String getMode() {
+        switch (getZielsprache()) {
+            case JAVA:
+                return "java";
+            case TYPESCRIPT:
+                return "ts";
+            case SQL:
+                return "database";
+        }
+        return "java";
+    }
 
 }

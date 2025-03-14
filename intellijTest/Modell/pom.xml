@@ -14,11 +14,23 @@
                     <version>0.0.1-SNAPSHOT</version>
                     <executions>
                         <execution>
+                            <id>java-gen</id>
                             <goals>
                                 <goal>generate-model</goal>
                                 <goal>generate-delegates</goal>
                             </goals>
                         </execution>
+                        <execution>
+                            <id>schema-gen</id>
+                            <goals>
+                                <goal>generate-model</goal>
+                            </goals>
+                            <configuration>
+                                <zielsprache>sql</zielsprache>
+                                <tempSources>./src/main/resources</tempSources>
+                            </configuration>
+                        </execution>
+
                     </executions>
                     <configuration>
                         <modelPath>../riesig.dmf</modelPath>

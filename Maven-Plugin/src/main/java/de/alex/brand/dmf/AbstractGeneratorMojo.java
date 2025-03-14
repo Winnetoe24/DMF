@@ -1,5 +1,6 @@
 package de.alex.brand.dmf;
 
+import org.apache.maven.model.Resource;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -29,13 +30,24 @@ public abstract class AbstractGeneratorMojo extends AbstractMojo {
     @Parameter
     public String modelPath;
 
+    @Parameter(defaultValue = "java")
+    public String zielsprache;
+
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
         Log log = getLog();
         log.info("Preparing Generator");
         File generatorFile = prepareGenerator();
-
-        project.addCompileSourceRoot(tempSources);
+        if (Zielsprache.JAVA == getZielsprache()) {
+            project.addCompileSourceRoot(tempSources);
+        }else {
+            Resource resource = new Resource();
+            if (this instanceof GenerateModelMojo) {
+                resource.setDirectory(sources);
+            }else {
+                resource.setDirectory(tempSources);
+            }
+        }
         generate(log, generatorFile);
 
     }
@@ -67,10 +79,10 @@ public abstract class AbstractGeneratorMojo extends AbstractMojo {
 
     protected String getGeneratorName() {
         if (OperatingSystem.isUnix()) {
-            return "javaGenerator";
+            return "generator";
         }
         if (OperatingSystem.isWindows()) {
-            return "javaGenerator.exe";
+            return "generator.exe";
         }
         throw new RuntimeException("Unsupported Operating System");
     }
@@ -86,6 +98,7 @@ public abstract class AbstractGeneratorMojo extends AbstractMojo {
         MojoExecutionException mojoExecutionException = null;
         try (Scanner scanner = new Scanner(process.getInputStream())) {
             GenerateModelMojo.LogMode mode = GenerateModelMojo.LogMode.INFO;
+            StringBuilder errorLine = new StringBuilder("\n");
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 if (line.startsWith("panic:")) {
@@ -93,16 +106,29 @@ public abstract class AbstractGeneratorMojo extends AbstractMojo {
                     mojoExecutionException = new MojoExecutionException("Es kam zu einem Fehler bei der Generation:" + line.substring("panic:".length()));
                 } else if (line.startsWith("Generate")) {
                     mode = GenerateModelMojo.LogMode.INFO;
+                }else if (line.startsWith("FehlerStelle")) {
+                    mode = GenerateModelMojo.LogMode.ERROR;
                 }
                 if (mode == LogMode.INFO) {
                     log.info(line);
                 } else {
                     log.error(line);
+                    if (mojoExecutionException == null) {
+                        errorLine.append(line).append("\n");
+                    }
                 }
 
             }
+            if (errorLine.length() > 1) {
+                mojoExecutionException = new MojoExecutionException(errorLine.toString());
+            }
         }
         return mojoExecutionException;
+    }
+
+
+    protected Zielsprache getZielsprache() {
+        return Zielsprache.valueOf(this.zielsprache.toUpperCase());
     }
 
 }
