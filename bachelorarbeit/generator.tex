@@ -133,6 +133,37 @@ type DelegateElement struct {
 
 
     \subsection{Maven Plugin}
-    Um die Ausführung des Generators in das Maven Build-Tool zu integrieren, muss ein Maven Plugin implementiert werden.
+    Um die Ausführung des Generators in das Maven Build-Tool zu integrieren, muss ein Maven Plugin implementiert werden.\\
+    Ein Maven Plugin besteht aus Mojos.
+    Jedes Mojo ist eine Funktion, die während des Builds ausgeführt werden kann.
+    Für die Generierung enthält das \acrshort{dmf}-Plugin zwei Mojos: GenerateModelMojo und GenerateDelegatesMojo.
+    Beide Erben vom AbstractGeneratorMojo.
+    Dieses enthält die Konfigurationsparameter und die Ablauflogik.
+    Nur die Ausführung des Generators wird in den Unterklassen bestimmt.
+    \\\\
+    Zu Beginn der Generation wird zunächst der Generator vorbereitet.
+    Da der Generator eine ausführbare Datei ist, muss diese im Dateisystem vorhanden sein.
+    Um globale Installationen zu Vermeiden, werden die verschiedenen Varianten, für die verschiedenen Kompilationsziele, in der \acrshort{jar} des Plugins gespeichert.
+    Bei der Ausführung wird die für das Betriebssystem passende Variante aus der \acrshort{jar} entpackt und in das temporäre Verzeichnis `target/dmf/install' kopiert.
+    \\\\
+    Damit Maven auch alle generierten Klassen kompiliert, wird das Ziel-Verzeichnis zu den Source-Verzeichnissen von Maven hinzugefügt.
+    \\\\
+    Nun kann die Generation gestartet werden.
+    Beide Mojos nutzen die gleiche Methode, um den Output des Generators zu verarbeiten.
+    Die Ausgabe wird über den Logger von Maven ausgegeben.
+    Sollte ein Fehler vom Generator ausgegeben wird dieser über den Fehlerkanal des Loggers ausgegeben und in einer Exception zurückgegeben.
+    Das Auftreten dieser Exception hält die Ausführung von Maven an und der Text der Exception wird in der Konsole als letztes ausgegeben, sodass Entwickler*innen ihn direkt sehen.
+    \begin{figure}
+        \centering
+        \includegraphics[width=\linewidth]{bilder/screenshot-error-generator}
+        \caption{Ausgabe eines Fehlers}
+        \label{fig:screenshot-error-generator}
+    \end{figure}
+
+
+
+
+
+
 
 \end{document}
