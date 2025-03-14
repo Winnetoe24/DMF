@@ -12,12 +12,10 @@ Im DMF müssen folgende Aufgaben gelöst werden:
 \item Generieren von Codedateien in verschieden Sprachen
 \item Integration mit verschiedenen Build Tools
 \end{enumerate}
-\subsection{Parser}
-Der Parser für das \acrshort{dmf} muss große Dateien wiederholt mit kleinen Änderungen parsen.
-Diese Anforderung stammt aus der Notwendigkeit des \acrshort{ast}'s um Syntaktische und Semantische Fehler, sowie die verschiedenen Tokens(siehe Abschnitt \acrshort{lsp}) nach jeder Eingabe an die \acrshort{ide} zu übermitteln.
-Hierbei ist Latenz die höchste Priorität, denn die Reaktionsfähigkeit der \acrshort{ide} beeinflusst die Geschwindigkeit mit der entwickelt werden kann. \\
-Zusätzlich muss der Parser auch von jeder anderen Komponente des \acrshort{dmf}'s verwendet werden.
-Deshalb ist hier die Einschränkung der Technologien anderer Komponenten unerwünscht.
+
+\subsection{\acrshort{dsl}-Frameworks}\label{subsec:dsl-frameworks}
+Die Entwicklung eigener \acrshort{dsl}s kann durch Frameworks vereinfacht werden.
+Es müssen keine einzelnen Lösungen für die verschiedenen Probleme gefunden werden, da ein Framework schon eine komplette Lösung bereitstellt.
 \subsubsection{XText}
 XText ist ein Framework der Eclipse Foundation.\\
 Es bietet die Möglichkeit eine \acrfull{dsl} mit verschiedenen Modellen zu modellieren und Regeln automatisch zu überprüfen.
@@ -30,6 +28,20 @@ Dies setzt immer die Verwendung von JVM basierten Sprachen voraus.
 Jede JVM-Implementierung benötigt beachtliche Zeit zum Starten weshalb Code Generation immer auf den Start Warten muss. \\
 Abschließend waren an XText die nicht funktionierenden Beispiel-Projekte und die zwingende Entwicklung in Eclipse sehr abweisend.
 Ein Framework welche eine einfache und flexible Entwicklung ermöglichen soll, sollte nicht schwer und nur in einer \acrshort{ide} zu entwickeln sein.
+
+\subsubsection{Jetbrains MPS}
+Mit der MPS-\acrshort{ide} bietet Jetbrains die Möglichkeit eigene \acrshort{dsl}s zu entwickeln.\\
+Leider setzen die in MPS entwickelten Sprachen eine Entwicklung/Nutzung der Sprachen in MPS voraus.
+Die angestrebte Flexibilität des \acrshort{dmf}s ist damit nicht gegeben.
+\\\\\\
+Da kein Framework den Anforderungen des \acrshort{dmf} genügt, müssen Technologien für einzelne Probleme ausgewählt werden.
+\subsection{Parser}
+Der Parser für das \acrshort{dmf} muss große Dateien wiederholt mit kleinen Änderungen parsen.
+Diese Anforderung stammt aus der Notwendigkeit des \acrshort{ast}'s um Syntaktische und Semantische Fehler, sowie die verschiedenen Tokens(siehe Abschnitt \acrshort{lsp}) nach jeder Eingabe an die \acrshort{ide} zu übermitteln.
+Hierbei ist Latenz die höchste Priorität, denn die Reaktionsfähigkeit der \acrshort{ide} beeinflusst die Geschwindigkeit mit der entwickelt werden kann. \\
+Zusätzlich muss der Parser auch von jeder anderen Komponente des \acrshort{dmf}'s verwendet werden.
+Deshalb ist hier die Einschränkung der Technologien anderer Komponenten unerwünscht.
+
 \subsubsection{Treesitter}
 Treesitter ist ein Open Source Framework zur Generierung von Parsern.\\
 Dabei wird die Grammatik mithilfe einer Javascript \acrlong{api} definiert.
