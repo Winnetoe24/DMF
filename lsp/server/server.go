@@ -13,6 +13,7 @@ import (
 	"github.com/Winnetoe24/DMF/lsp/service/fileService"
 	"github.com/Winnetoe24/DMF/lsp/service/foldingService"
 	"github.com/Winnetoe24/DMF/lsp/service/hoverService"
+	"github.com/Winnetoe24/DMF/lsp/service/ignore"
 	"github.com/Winnetoe24/DMF/lsp/service/logService"
 	"github.com/Winnetoe24/DMF/lsp/service/referenceService"
 	"github.com/Winnetoe24/DMF/lsp/service/selectionRangeService"
@@ -55,6 +56,7 @@ func NewServer(con connect.Connection) *Server {
 	newSelectionRangeService := selectionRangeService.NewSelectionRangeService(con, fileServiceHandler)
 	s.addHandler(newSelectionRangeService)
 
+	s.addHandler(ignore.CreateIgnoreService([]string{ignore.SetTrace}))
 	return s
 }
 

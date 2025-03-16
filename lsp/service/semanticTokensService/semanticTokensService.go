@@ -107,7 +107,9 @@ func (s *SemanticTokensService) Initialize(params *initialize.InitializeParams, 
 			TokenTypes:     tokenTypes,
 			TokenModifiers: tokenModifiers,
 		},
-		Full: true,
+		Full: struct {
+			Delta bool
+		}{Delta: false},
 	}
 }
 
