@@ -23,14 +23,11 @@ package err_element
 type ErrorElement struct {
 	Fehler FehlerStelle
 	Error  error
-	// Falls es einen Grund gibt, weshalb ein Fehler aufgetreten ist und dieser Grund an einer anderen Stelle des Codes liegt
 	Cause    *FehlerStelle
 	rendered *string
 }
 
 type FehlerStelle struct {
-	// Die Node von der, der ModelCode stammt, und die ein Parent von der eigentlichen Node ist.
-	// Ist nil, wenn der ModelCode von der eigentlichen Node kommt
 	ContextNode *tree_sitter.Node
 	ModelCode   string
 	Node        *tree_sitter.Node
@@ -77,7 +74,6 @@ type FehlerStelle struct {
     Dieser Typ verallgemeinert das Iterieren über den Lookup und nutzt eine Instanz der `iWalkRule' um die Elemente zu verarbeiten.
     \begin{lstlisting}[language=go]
 package semantic_rules
-// Supertyp alle Regeln, welche alle Typen durchlaufen.
 type walkRule struct {
 	lookup    *smodel.TypeLookUp
 	elements  []errElement.ErrorElement

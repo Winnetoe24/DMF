@@ -34,20 +34,8 @@ interface Message {
     \paragraph{Anfragen}\footnotesize{Request-Message\\}
     \begin{lstlisting}[language=Typescript]
 interface RequestMessage extends Message {
-
-	/**
-	 * The request id.
-	 */
 	id: integer | string;
-
-	/**
-	 * The method to be invoked.
-	 */
 	method: string;
-
-	/**
-	 * The method's params.
-	 */
 	params?: array | object;
 }
     \end{lstlisting}
@@ -59,20 +47,8 @@ interface RequestMessage extends Message {
     \paragraph{Antwort}{\footnotesize Response-Message}\\
     \begin{lstlisting}[language=Typescript]
 interface ResponseMessage extends Message {
-	/**
-	 * The request id.
-	 */
 	id: integer | string | null;
-
-	/**
-	 * The result of a request. This member is REQUIRED on success.
-	 * This member MUST NOT exist if there was an error invoking the method.
-	 */
 	result?: LSPAny;
-
-	/**
-	 * The error object in case a request fails.
-	 */
 	error?: ResponseError;
 }
     \end{lstlisting}
@@ -84,20 +60,8 @@ interface ResponseMessage extends Message {
     Bei einem Fehler während der Ausführung der Methode muss der Fehler(`error') in der Antwort befüllt werden.
     \begin{lstlisting}[language=Typescript]
 interface ResponseError {
-	/**
-	 * A number indicating the error type that occurred.
-	 */
 	code: integer;
-
-	/**
-	 * A string providing a short description of the error.
-	 */
 	message: string;
-
-	/**
-	 * A primitive or structured value that contains additional
-	 * information about the error. Can be omitted.
-	 */
 	data?: LSPAny;
 }
     \end{lstlisting}
@@ -111,14 +75,7 @@ interface ResponseError {
     \paragraph{Benachrichtigungen}{\footnotesize Notification-Message}\\
 \begin{lstlisting}[language=Typescript]
 interface NotificationMessage extends Message {
-	/**
-	 * The method to be invoked.
-	 */
 	method: string;
-
-	/**
-	 * The notification's params.
-	 */
 	params?: array | object;
 }
 \end{lstlisting}
@@ -185,9 +142,6 @@ interface NotificationMessage extends Message {
     Der Client kann jederzeit entscheiden, dass das Ergebnis einer Anfrage nicht mehr benötigt wird.
     \begin{lstlisting}[language=Typescript,title=Definition der Parameter \cite{cancelation},label={lst:cancelParams}]
 interface CancelParams {
-	/**
-	 * The request id to cancel.
-	 */
 	id: integer | string;
 }
     \end{lstlisting}
@@ -205,31 +159,12 @@ interface CancelParams {
     Die Synchronisation beginnt, mit der Methode `textDocument/didOpen', welche beim Öffnen einer Datei ausgeführt wird.
     \begin{lstlisting}[language=Typescript,title=Definition der Parameter \cite{dokumente}, label=lst:dokumenteParams]
 interface DidOpenTextDocumentParams {
-	/**
-	 * The document that was opened.
-	 */
 	textDocument: TextDocumentItem;
 }
 interface TextDocumentItem {
-	/**
-	 * The text document's URI.
-	 */
 	uri: DocumentUri;
-
-	/**
-	 * The text document's language identifier.
-	 */
 	languageId: string;
-
-	/**
-	 * The version number of this document (it will increase after each
-	 * change, including undo/redo).
-	 */
 	version: integer;
-
-	/**
-	 * The content of the opened text document.
-	 */
 	text: string;
 }
     \end{lstlisting}
@@ -241,14 +176,7 @@ interface TextDocumentItem {
     Die Parameter enthalten neben der \acrshort{uri} die Änderungen, welche die direkt in die Bearbeitungen der Treesitter-API übersetzt werden können.
     \begin{lstlisting}[language=Typescript, title=Definition der Bearbeitungen (ohne irrelevante Elemente)\cite{dokumente}, label=lst:dokumenteBearbeitung]
 export type TextDocumentContentChangeEvent = {
-	/**
-	 * The range of the document that changed.
-	 */
 	range: Range;
-
-	/**
-	 * The new text for the provided range.
-	 */
 	text: string;
 }
     \end{lstlisting}
@@ -267,47 +195,16 @@ export interface DeclarationParams extends TextDocumentPositionParams,
 	WorkDoneProgressParams, PartialResultParams {
 }
 interface TextDocumentPositionParams {
-	/**
-	 * The text document.
-	 */
 	textDocument: TextDocumentIdentifier;
-
-	/**
-	 * The position inside the text document.
-	 */
 	position: Position;
 }
     \end{lstlisting}
     Die Deklaration wird als LocationLink als Ergebnis bereitgestellt.
     \begin{lstlisting}[language=Typescript, title=Definition des LocationLink \cite{declaration}, label=lst:locationLink]
 interface LocationLink {
-
-	/**
-	 * Span of the origin of this link.
-	 *
-	 * Used as the underlined span for mouse interaction. Defaults to the word
-	 * range at the mouse position.
-	 */
 	originSelectionRange?: Range;
-
-	/**
-	 * The target resource identifier of this link.
-	 */
 	targetUri: DocumentUri;
-
-	/**
-	 * The full target range of this link. If the target for example is a symbol
-	 * then target range is the range enclosing this symbol not including
-	 * leading/trailing whitespace but everything else like comments. This
-	 * information is typically used to highlight the range in the editor.
-	 */
 	targetRange: Range;
-
-	/**
-	 * The range that should be selected and revealed when this link is being
-	 * followed, e.g the name of a function. Must be contained by the
-	 * `targetRange`. See also `DocumentSymbol#range`
-	 */
 	targetSelectionRange: Range;
 }
     \end{lstlisting}
@@ -320,9 +217,6 @@ interface LocationLink {
     Dieser beinhaltet die Information, ob die Deklaration in der Antwort enthalten sein soll.
     \begin{lstlisting}[language=Typescript, title=Definition des ReferenceContext \cite{references}, label=lst:referenceContext]
 export interface ReferenceContext {
-	/**
-	 * Include the declaration of the current symbol.
-	 */
 	includeDeclaration: boolean;
 }
     \end{lstlisting}
@@ -347,30 +241,12 @@ interface Location {
     Sie enthalten die \acrshort{uri} der Datei und die Position.\\
     Die Dokumentation wird zusammen mit einem optionalen Bereich übermittelt.
     \begin{lstlisting}[language=Typescript, caption=Definition des Hover Ergebnis \cite{hover}, label=lst:hover]
-/**
- * The result of a hover request.
- */
 export interface Hover {
-	/**
-	 * The hover's content
-	 */
 	contents: MarkedString | MarkedString[] | MarkupContent;
-
-	/**
-	 * An optional range is a range inside a text document
-	 * that is used to visualize a hover, e.g. by changing the background color.
-	 */
 	range?: Range;
 }
 export interface MarkupContent {
-	/**
-	 * The type of the Markup
-	 */
 	kind: MarkupKind;
-
-	/**
-	 * The content itself
-	 */
 	value: string;
 }
 export type MarkupKind = 'plaintext' | 'markdown';
@@ -401,11 +277,7 @@ export type MarkupKind = 'plaintext' | 'markdown';
     Der Vorteil von mehreren Positionen ist die Bündlung der Anfragen für Editoren mit mehreren Eingabemarken(Cursor).
     \begin{lstlisting}[language=Go, title=Auszug aus den Parametern, label=lst:selectionParams]
 type SelectionRangeParams struct {
-	// TextDocument identifies the document to compute selection ranges for.
 	TextDocument protokoll.TextDocumentIdentifier `json:"textDocument"`
-
-	// Positions is an array of positions in the text document for which to compute
-	// selection ranges.
 	Positions []protokoll.Position `json:"positions"`
 }
     \end{lstlisting}
@@ -414,18 +286,10 @@ type SelectionRangeParams struct {
     Deshalb beinhaltet die Antwort im \acrshort{lsp} auch die Möglichkeit pro Position eine Kette an Auswahlbereichen zu liefern.
     Diese Kette wird durch das Parent-Attribut gebildet.
     \begin{lstlisting}[language=Go, title=Antwort des Servers, label=lst:selectionResult]
-// SelectionRange represents a selection range with its parent selection ranges.
 type SelectionRange struct {
-	// Range is the actual range of this selection range.
 	Range protokoll.Range `json:"range"`
-
-	// Parent is the parent selection range containing this range. Therefore,
-	// multiple selection ranges can be encoded into a tree structure.
 	Parent *SelectionRange `json:"parent,omitempty"`
 }
-
-// SelectionRangeResult represents the result of a selection range request.
-// It's an array of SelectionRange objects, one for each position in the request.
 type SelectionRangeResult []SelectionRange
     \end{lstlisting}
     Die Implementierung der Auswahlbereiche wird im Abschnitt \nameref{subsubsec:selection-service} beschrieben.
@@ -481,27 +345,16 @@ type SelectionRangeResult []SelectionRange
     Es können auch zusätzliche Informationen in einer Diagnose enthalten sein.
     Diese könne andere Stellen im Code erwähnen, die für die Diagnose bedeutend sind.
     \begin{lstlisting}[language=Go, caption=Definition des Inhalts der Benachrichtigung, label=lst:diagnostics-result]
-// Diagnostic represents a diagnostic, such as a compiler error or warning
 type Diagnostic struct {
-	// Range is the range at which the message applies
 	Range Range `json:"range"`
-	// Severity is the diagnostic's severity. Can be omitted. If omitted it is up to the
-	// client to interpret diagnostics as error, warning, info or hint
 	Severity *DiagnosticSeverity `json:"severity,omitempty"`
-    // Source is a human-readable string describing the source of this diagnostic
-	Source string `json:"source,omitempty"`
-	// Message is the diagnostic's message. It usually appears in the user interface
+  	Source string `json:"source,omitempty"`
 	Message string `json:"message"`
-	// Tags provides additional metadata about the diagnostic
 	Tags []DiagnosticTag `json:"tags,omitempty"`
-	// RelatedInformation provides related diagnostic information
 	RelatedInformation []DiagnosticRelatedInformation `json:"relatedInformation,omitempty"`
 }
-// DiagnosticRelatedInformation represents related diagnostic information, such as related diagnostics
 type DiagnosticRelatedInformation struct {
-	// Location of this related diagnostic information
 	Location Location `json:"location"`
-	// Message is a message about this related diagnostic information
 	Message string `json:"message"`
 }
     \end{lstlisting}
@@ -517,15 +370,8 @@ type DiagnosticRelatedInformation struct {
     \begin{lstlisting}[language=Go]
 package connect
 type Connection interface {
-	// WriteMessage Writes Message.
-    // May queue the Message the syncronise the Writing
 	WriteMessage(message protokoll.Message)
-
-	// WaitForMessage Waits for the next Message
-    // and returns the Message or the error.
-	// Call to this method blocks execution.
 	WaitForMessage() (protokoll.Message, error)
-
 	BlockResponse(id json.RawMessage)
 	Close() error
 }
@@ -758,10 +604,6 @@ type fileHandle struct {
     \begin{lstlisting}[language=Go]
 package fileService
 type FileChangeListener interface {
-	// HandleFileChange gets called when the FileService
-    // finishes parsing the File.
-    // It may be called in its own routine.
-    // Changes to the Parameters are ignored.
 	HandleFileChange(file protokoll.DocumentURI, fileContent string,
                     ast *tree_sitter.Tree, model *smodel.Model,
                     lookup smodel.TypeLookUp,
@@ -891,12 +733,10 @@ for i, element := range semanticElements {
     tokenType := element.tokenType
     tokenModifiers := element.tokenModifiers
     if line < lastLine {
-        // Tokens must be sorted by line and character
         continue
     }
 
     if line == lastLine && start < lastStart {
-        // Tokens must be sorted by line and character
         continue
     }
 
