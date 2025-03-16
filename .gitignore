@@ -8,3 +8,6 @@ intellijTest/gen
 /intellijTest/out/
 /intellijTest/riesig-delegates/
 /auxil/
+/intellijPlugin/.gradle/
+/intellijPlugin/build/
+/intellijPlugin/gradle/
