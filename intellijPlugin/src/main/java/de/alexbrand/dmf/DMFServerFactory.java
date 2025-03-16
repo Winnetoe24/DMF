@@ -7,11 +7,17 @@ import com.redhat.devtools.lsp4ij.server.StreamConnectionProvider;
 import org.eclipse.lsp4j.services.LanguageServer;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+
 public class DMFServerFactory implements LanguageServerFactory {
 
     @Override
     public @NotNull StreamConnectionProvider createConnectionProvider(@NotNull Project project) {
-        return new DMFLanguageServer();
+        try {
+            return new DMFLanguageServer();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override // If you need to provide client specific features
