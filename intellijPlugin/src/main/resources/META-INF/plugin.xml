@@ -27,6 +27,13 @@
        Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
   <extensions defaultExtensionNs="com.intellij">
     <fileType name="DMF Model" language="dmf" extensions="dmf" fieldName="INSTANCE" implementationClass="de.alexbrand.dmf.DMFFileType"/>
+    <applicationService
+            serviceImplementation="de.alexbrand.dmf.DMFSettings"/>
+    <applicationConfigurable
+            parentId="tools"
+            instance="de.alexbrand.dmf.DMFSettingsConfigurable"
+            id="de.alexbrand.dmf.DMFSettingsConfigurable"
+            displayName="DMF: Domain Modelling Framework"/>
   </extensions>
   <extensions defaultExtensionNs="com.redhat.devtools.lsp4ij">
     <server id="dmf-server"

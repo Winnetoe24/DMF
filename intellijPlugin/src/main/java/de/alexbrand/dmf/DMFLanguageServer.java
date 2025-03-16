@@ -7,12 +7,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.util.Objects;
 
 public class DMFLanguageServer extends OSProcessStreamConnectionProvider {
     public DMFLanguageServer() throws IOException {
         String dmfLspLocation = System.getenv("DMF_LSP");
         if (dmfLspLocation == null) {
-            dmfLspLocation = "./.dmf/lsp/";
+            dmfLspLocation = Objects.requireNonNull(DMFSettings.getInstance().getState()).lspDirPath;
         }
         File dmfLspDir = new File(dmfLspLocation);
         if (!dmfLspDir.exists()) {
