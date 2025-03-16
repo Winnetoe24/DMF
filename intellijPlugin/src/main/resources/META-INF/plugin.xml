@@ -21,10 +21,31 @@
   <!-- Product and plugin compatibility requirements.
        Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
   <depends>com.intellij.modules.platform</depends>
+  <depends>com.redhat.devtools.lsp4ij</depends>
 
   <!-- Extension points defined by the plugin.
        Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
   <extensions defaultExtensionNs="com.intellij">
-
+    <fileType name="DMF Model" language="dmf" extensions="dmf" fieldName="INSTANCE" implementationClass="de.alexbrand.dmf.DMFFileType"/>
   </extensions>
+  <extensions defaultExtensionNs="com.redhat.devtools.lsp4ij">
+    <server id="dmf-server"
+            name="DMF Language Server"
+            factoryClass="de.alexbrand.dmf.DMFServerFactory">
+      <description><![CDATA[
+        Some description written in HTML to display it in the LSP consoles view and Language Servers settings.
+        ]]>
+      </description>
+    </server>
+<!--    <languageMapping language="dmf"-->
+<!--                     serverId="dmf-server"-->
+<!--                      languageId="dmf"/>-->
+<!--    <fileTypeMapping fileType="dmf"-->
+<!--                     serverId="dmf-server"-->
+<!--                     languageId="dmf"/>-->
+    <fileNamePatternMapping patterns="*.dmf"
+                            serverId="dmf-server"
+                            languageId="dmf"/>
+  </extensions>
+
 </idea-plugin>

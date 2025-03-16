@@ -27,6 +27,15 @@
             </LanguageServerDefinitionSettings>
           </value>
         </entry>
+        <entry key="dmf-server">
+          <value>
+            <LanguageServerDefinitionSettings>
+              <option name="debugPort" value="" />
+              <option name="errorReportingKind" value="as_notification" />
+              <option name="serverTrace" value="messages" />
+            </LanguageServerDefinitionSettings>
+          </value>
+        </entry>
       </map>
     </state>
   </component>
