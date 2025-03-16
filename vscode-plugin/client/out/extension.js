@@ -6,7 +6,10 @@ const vscode_1 = require("vscode");
 const node_1 = require("vscode-languageclient/node");
 const net = require("net");
 const child_process_1 = require("child_process");
+const term = require("terminate");
 let client;
+let server;
+let exited = false;
 function activate(context) {
     const getLspFileName = function () {
         switch (process.platform) {
@@ -22,7 +25,7 @@ function activate(context) {
     const serverModule = context.asAbsolutePath(path.join("client", "lsp", getLspFileName()));
     // console.log(serverModule)
     // console.log("exists:", fs.existsSync(serverModule))
-    const child = (0, child_process_1.execFile)(serverModule + " --port 5007 --disabledLog", {
+    server = (0, child_process_1.execFile)(serverModule + " --port 5007 --disabledLog", {
         shell: true
     }, (error, stdout, stderr) => {
         if (error) {
@@ -30,6 +33,10 @@ function activate(context) {
         }
         console.log(stdout);
         console.log(stderr);
+    });
+    server.on('exit', (exit) => {
+        console.log("Server exited");
+        exited = true;
     });
     // The server is a started as a separate app and listens on port 5007
     let connectionInfo = {
@@ -68,11 +75,25 @@ function activate(context) {
     client.start();
 }
 exports.activate = activate;
-function deactivate() {
+async function deactivate() {
+    const cleanupPromises = [];
     if (!client) {
         return undefined;
     }
-    return client.stop();
+    let promise = client.stop();
+    cleanupPromises.push(promise);
+    console.log("Stopping Server");
+    cleanupPromises.push(new Promise((resolve, reject) => {
+        term.default(server.pid, err => {
+            if (err == null) {
+                resolve(null);
+            }
+            else {
+                reject(err);
+            }
+        });
+    }));
+    await Promise.all(cleanupPromises);
 }
 exports.deactivate = deactivate;
 //# sourceMappingURL=extension.js.map
