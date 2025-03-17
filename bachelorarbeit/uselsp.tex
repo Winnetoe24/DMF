@@ -137,14 +137,25 @@
     \section{Nutzung des \acrshort{dmf}}\label{sec:nutzung-des-dmf}
     Zum Darstellen der Benutzung des \acrshort{dmf} wird das Anlegen eines Projektes mit einem Java und einen Typescript Programm beschrieben.
 
-
-    \dirtree{%
-    .1 spam.
-    .2 ham.
-    .2 eggs.
-    .3 more spam.
-    .3 dead parrots.
-    }
+    \begin{figure}[H]
+        \caption{Dateiaufbau für ein Beispielprojekt}
+        \dirtree{%
+            .0 .
+            .1 Modell.
+            .2 domain.dmf.
+            .1 TSProjekt.
+            .2 src.
+            .3 domain.
+            .3 delegates.
+            .3 projekt.
+            .1 JDomain.
+            .2 src/gen/java (Modell).
+            .2 src/main/java (Delegates).
+            .1 JProjekt.
+            .2 src/main/java (Projekt).
+        }
+        \label{fig:dirtree}
+    \end{figure}
 
 
 \end{document}

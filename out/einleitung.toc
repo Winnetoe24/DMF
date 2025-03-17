@@ -1,0 +1,160 @@
+\hypersetup {linkcolor=black}
+\babel@toc {ngerman}{}\relax 
+\contentsline {chapter}{\numberline {1}Motivation}{5}{chapter.1}%
+\contentsline {subsection}{\numberline {1.0.1}\acrfull {mdsd}}{5}{subsection.1.0.1}%
+\contentsline {subsection}{\numberline {1.0.2}\acrfull {ple}}{5}{subsection.1.0.2}%
+\contentsline {subsection}{\numberline {1.0.3}\acrshort {emf}}{5}{subsection.1.0.3}%
+\contentsline {subsection}{\numberline {1.0.4}Effekte eines unflexiblen Frameworks}{6}{subsection.1.0.4}%
+\contentsline {paragraph}{\nonumberline Ein Zero-Day-Exploit}{6}{paragraph*.3}%
+\contentsline {paragraph}{\nonumberline Das Schweizer Käse Modell}{6}{paragraph*.5}%
+\contentsline {section}{\numberline {1.1}Aufgabenstellung}{6}{section.1.1}%
+\contentsline {chapter}{\numberline {2}Planung des \acrshort {dmf}}{9}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Auswahl der verwendeten Technologien}{9}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}\acrshort {dsl}-Frameworks}{9}{subsection.2.1.1}%
+\contentsline {subsubsection}{\nonumberline XText}{9}{subsubsection*.7}%
+\contentsline {subsubsection}{\nonumberline Jetbrains MPS}{10}{subsubsection*.9}%
+\contentsline {subsection}{\numberline {2.1.2}Parser}{10}{subsection.2.1.2}%
+\contentsline {subsubsection}{\nonumberline Treesitter}{10}{subsubsection*.11}%
+\contentsline {paragraph}{\nonumberline LR-Parsern}{10}{paragraph*.13}%
+\contentsline {paragraph}{\nonumberline Iteratives Parsen}{11}{paragraph*.15}%
+\contentsline {subsubsection}{\nonumberline \acrfull {ant}}{11}{subsubsection*.17}%
+\contentsline {paragraph}{\nonumberline LL-Parser}{11}{paragraph*.19}%
+\contentsline {subsubsection}{\nonumberline Auswahl Parser}{12}{subsubsection*.21}%
+\contentsline {subsection}{\numberline {2.1.3}\acrshort {ast} Verarbeiten}{12}{subsection.2.1.3}%
+\contentsline {subsection}{\numberline {2.1.4}Kommunikation mit verschiedenen \acrshort {ide}'s}{12}{subsection.2.1.4}%
+\contentsline {paragraph}{\nonumberline \acrfull {lsp}}{12}{paragraph*.23}%
+\contentsline {subsubsection}{\nonumberline Typescript}{12}{subsubsection*.25}%
+\contentsline {subsubsection}{\nonumberline Golang}{13}{subsubsection*.27}%
+\contentsline {subsubsection}{\nonumberline Java}{13}{subsubsection*.29}%
+\contentsline {subsection}{\numberline {2.1.5}Generation von Codedateien in verschiedenen Sprachen}{13}{subsection.2.1.5}%
+\contentsline {subsubsection}{\nonumberline Golang Templates}{13}{subsubsection*.31}%
+\contentsline {subsubsection}{\nonumberline Java}{14}{subsubsection*.33}%
+\contentsline {subsubsection}{\nonumberline Typescript}{14}{subsubsection*.35}%
+\contentsline {subsubsection}{\nonumberline Auswahl}{14}{subsubsection*.37}%
+\contentsline {subsection}{\numberline {2.1.6}Integration mit verschiedenen Build Tools}{14}{subsection.2.1.6}%
+\contentsline {subsubsection}{\nonumberline Maven}{14}{subsubsection*.39}%
+\contentsline {subsubsection}{\nonumberline NPM}{15}{subsubsection*.41}%
+\contentsline {section}{\numberline {2.2}Abstraktion des \acrshort {dmf}}{15}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Analyse}{15}{subsection.2.2.1}%
+\contentsline {subsubsection}{\nonumberline Analyse der Typen}{15}{subsubsection*.43}%
+\contentsline {subsubsection}{\nonumberline Analyse von Nullwerten}{16}{subsubsection*.45}%
+\contentsline {subsubsection}{\nonumberline Collectiontypen}{16}{subsubsection*.47}%
+\contentsline {subsection}{\numberline {2.2.2}Elemente eines Modells}{17}{subsection.2.2.2}%
+\contentsline {subsubsection}{\nonumberline Primitive Typen}{17}{subsubsection*.49}%
+\contentsline {subsubsection}{\nonumberline Funktionen}{18}{subsubsection*.51}%
+\contentsline {subsubsection}{\nonumberline Komplexe Datentypen}{18}{subsubsection*.53}%
+\contentsline {subsubsection}{\nonumberline Identität einer Instanz in der Datenbank}{18}{subsubsection*.55}%
+\contentsline {subsubsection}{\nonumberline Aufzählungen}{19}{subsubsection*.57}%
+\contentsline {subsubsection}{\nonumberline Interfaces}{19}{subsubsection*.59}%
+\contentsline {subsubsection}{\nonumberline Organisation der Elemente}{19}{subsubsection*.61}%
+\contentsline {subsection}{\numberline {2.2.3}Zuweisungen der Abstraktionen}{19}{subsection.2.2.3}%
+\contentsline {subsubsection}{\nonumberline Java}{20}{subsubsection*.63}%
+\contentsline {subsubsection}{\nonumberline Typescript}{20}{subsubsection*.65}%
+\contentsline {subsubsection}{\nonumberline Datenbank}{21}{subsubsection*.67}%
+\contentsline {chapter}{\numberline {3}Die Implementierung der \acrshort {dmf}-\acrshort {dsl}}{23}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Aufbau der \acrshort {dmf}-\acrshort {dsl}}{23}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Die DSL und die EBNF}{23}{subsection.3.1.1}%
+\contentsline {subparagraph}{\nonumberline Namenskonvention in der \acrshort {dmf} Grammatik}{23}{subparagraph*.69}%
+\contentsline {subsubsection}{\nonumberline Header}{24}{subsubsection*.71}%
+\contentsline {subsubsection}{\nonumberline Importblock}{24}{subsubsection*.73}%
+\contentsline {subparagraph}{\nonumberline Modellelemente erweitern}{24}{subparagraph*.75}%
+\contentsline {subsubsection}{\nonumberline Modellinhalt}{25}{subsubsection*.77}%
+\contentsline {subparagraph}{\nonumberline Override}{25}{subparagraph*.79}%
+\contentsline {paragraph}{\nonumberline Packages}{25}{paragraph*.81}%
+\contentsline {paragraph}{\nonumberline Structs}{26}{paragraph*.83}%
+\contentsline {paragraph}{\nonumberline Inhalt-Elemente}{26}{paragraph*.85}%
+\contentsline {subparagraph}{\nonumberline Argument}{26}{lstlisting.3.-4}%
+\contentsline {subparagraph}{\nonumberline Referenz}{27}{lstlisting.3.-5}%
+\contentsline {subparagraph}{\nonumberline Multi-Referenz}{27}{lstlisting.3.-6}%
+\contentsline {subparagraph}{\nonumberline Funktionen}{27}{lstlisting.3.-7}%
+\contentsline {paragraph}{\nonumberline Entity}{28}{paragraph*.95}%
+\contentsline {paragraph}{\nonumberline Interface}{28}{paragraph*.97}%
+\contentsline {paragraph}{\nonumberline Enum}{28}{paragraph*.99}%
+\contentsline {subsection}{\numberline {3.1.2}Beispieldatei}{29}{subsection.3.1.2}%
+\contentsline {section}{\numberline {3.2}Semantische Verarbeitung des \acrfull {ast}}{29}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Das semantische Modell}{29}{subsection.3.2.1}%
+\contentsline {subsubsection}{\nonumberline ErrorElemente}{29}{subsubsection*.101}%
+\contentsline {subsection}{\numberline {3.2.2}Übersetzen des \acrshort {ast}s}{30}{subsection.3.2.2}%
+\contentsline {subsubsection}{\nonumberline Der Lookup}{30}{subsubsection*.103}%
+\contentsline {subsection}{\numberline {3.2.3}Die semantischen Regeln}{31}{subsection.3.2.3}%
+\contentsline {subsubsection}{\nonumberline Compute Supertypes Regel}{31}{subsubsection*.105}%
+\contentsline {subsubsection}{\nonumberline Compute Elements Regel}{32}{subsubsection*.107}%
+\contentsline {subsubsection}{\nonumberline Check Entity Identifier Regel}{32}{subsubsection*.109}%
+\contentsline {subsubsection}{\nonumberline Check Enum Constants Regel}{32}{subsubsection*.111}%
+\contentsline {subsubsection}{\nonumberline Check Referenzen Regel}{33}{subsubsection*.113}%
+\contentsline {chapter}{\numberline {4}Programme des \acrshort {dmf}}{35}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Der \acrshort {lsp}-Server}{35}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Das \acrfull {lsp}}{35}{subsection.4.1.1}%
+\contentsline {subsubsection}{\nonumberline Grundlegende Nachrichten}{35}{subsubsection*.115}%
+\contentsline {paragraph}{\nonumberline Anfragen}{35}{paragraph*.117}%
+\contentsline {paragraph}{\nonumberline Antwort}{36}{paragraph*.119}%
+\contentsline {paragraph}{\nonumberline Benachrichtigungen}{36}{paragraph*.121}%
+\contentsline {subsubsection}{\nonumberline Der \acrshort {lsp}-Kommunikation-Lebenszyklus}{36}{subsubsection*.123}%
+\contentsline {paragraph}{\nonumberline Initialisierung}{37}{paragraph*.125}%
+\contentsline {paragraph}{\nonumberline Beenden des Servers}{37}{paragraph*.127}%
+\contentsline {subsubsection}{\nonumberline Anfragen stornieren}{38}{subsubsection*.129}%
+\contentsline {subsubsection}{\nonumberline Dokumenten Synchronisation}{38}{subsubsection*.131}%
+\contentsline {subsubsection}{\nonumberline Referenzen bestimmen}{39}{subsubsection*.133}%
+\contentsline {paragraph}{\nonumberline Die Deklaration eines Typs}{39}{paragraph*.135}%
+\contentsline {paragraph}{\nonumberline Alle Referenzen zu einem Typ}{39}{paragraph*.137}%
+\contentsline {subsubsection}{\nonumberline Hover-Effekt}{40}{subsubsection*.139}%
+\contentsline {subsubsection}{\nonumberline Faltbereich}{40}{subsubsection*.141}%
+\contentsline {subsubsection}{\nonumberline Auswahlbereich}{40}{subsubsection*.143}%
+\contentsline {subsubsection}{\nonumberline Semantische Tokens}{41}{subsubsection*.145}%
+\contentsline {paragraph}{\nonumberline Die Codierung des semantischen Token}{41}{paragraph*.147}%
+\contentsline {subsubsection}{\nonumberline Diagnosen}{42}{subsubsection*.149}%
+\contentsline {subsection}{\numberline {4.1.2}Server Implementierung}{42}{subsection.4.1.2}%
+\contentsline {subsubsection}{\nonumberline Abstraktion der Server-Client-Verbindung}{42}{subsubsection*.151}%
+\contentsline {paragraph}{\nonumberline JSON}{43}{paragraph*.153}%
+\contentsline {paragraph}{\nonumberline Basis Protokoll}{43}{paragraph*.155}%
+\contentsline {paragraph}{\nonumberline Medium}{44}{paragraph*.157}%
+\contentsline {subsubsection}{\nonumberline Abstraktion des JSON-RPC-Protokolls}{44}{subsubsection*.159}%
+\contentsline {subsection}{\numberline {4.1.3}Die \acrshort {lsp}-Services}{45}{subsection.4.1.3}%
+\contentsline {subsubsection}{\nonumberline FileService}{46}{subsubsection*.161}%
+\contentsline {paragraph}{\nonumberline FileChangeListener}{46}{paragraph*.163}%
+\contentsline {subparagraph}{\nonumberline DiagnosticsService}{46}{subparagraph*.165}%
+\contentsline {subsubsection}{\nonumberline SemanticTokensService \\\textnormal {\footnotesize \add@extra@listi {ftns}{Protokoll in Abschnitt \nameref {subsubsec:semantic}}}}{46}{subsubsection*.167}%
+\contentsline {paragraph}{\nonumberline Die Tokentypen und ihre Verwendung zusammen mit den Tokenmodifikatoren}{47}{paragraph*.169}%
+\contentsline {paragraph}{\nonumberline Generierung der Semantik Tokens}{47}{paragraph*.171}%
+\contentsline {subparagraph}{\nonumberline Mithilfe des \acrshort {ast}s}{47}{subparagraph*.173}%
+\contentsline {subparagraph}{\nonumberline Mithilfe des semantischen Modells}{47}{subparagraph*.175}%
+\contentsline {subparagraph}{\nonumberline Die Codierung der semantischen Tokens}{48}{subparagraph*.177}%
+\contentsline {subsubsection}{\nonumberline SelectionRangeService}{48}{subsubsection*.179}%
+\contentsline {subsubsection}{\nonumberline FoldingService}{49}{subsubsection*.181}%
+\contentsline {subparagraph}{\nonumberline Für die PackageElemente}{49}{subparagraph*.183}%
+\contentsline {subparagraph}{\nonumberline Für die Kommentare}{49}{subparagraph*.185}%
+\contentsline {subparagraph}{\nonumberline Für den Import-Block}{50}{subparagraph*.187}%
+\contentsline {subsubsection}{\nonumberline ReferenceService}{51}{subsubsection*.189}%
+\contentsline {paragraph}{\nonumberline Referenzen}{51}{paragraph*.191}%
+\contentsline {paragraph}{\nonumberline Deklarationen}{51}{paragraph*.193}%
+\contentsline {subsubsection}{\nonumberline HoverService}{51}{subsubsection*.195}%
+\contentsline {paragraph}{\nonumberline Das Generieren der Zusammenfassungen}{52}{paragraph*.197}%
+\contentsline {paragraph}{\nonumberline Nutzung von Golang-Templates}{52}{paragraph*.199}%
+\contentsline {subsubsection}{\nonumberline CancelService}{53}{subsubsection*.201}%
+\contentsline {section}{\numberline {4.2}Der Generator}{53}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Der Aufbau}{53}{subsection.4.2.1}%
+\contentsline {subsubsection}{\nonumberline Generator \acrshort {cli}}{53}{subsubsection*.203}%
+\contentsline {subsubsection}{\nonumberline Das Generator-Modell}{54}{subsubsection*.205}%
+\contentsline {paragraph}{\nonumberline ImportKontext}{55}{paragraph*.207}%
+\contentsline {paragraph}{\nonumberline Variablen}{55}{paragraph*.209}%
+\contentsline {paragraph}{\nonumberline Delegate}{55}{paragraph*.211}%
+\contentsline {subsection}{\numberline {4.2.2}Die Generationsziele}{56}{subsection.4.2.2}%
+\contentsline {subsubsection}{\nonumberline Java}{56}{subsubsection*.213}%
+\contentsline {subsection}{\numberline {4.2.3}Maven Plugin}{56}{subsection.4.2.3}%
+\contentsline {chapter}{\numberline {5}Benutzung des \acrshort {dmf}}{59}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Die Nutzung des \acrshort {lsp}}{59}{section.5.1}%
+\contentsline {subsection}{\numberline {5.1.1}Installationsmöglichkeiten}{59}{subsection.5.1.1}%
+\contentsline {subsubsection}{\nonumberline Intellij}{59}{subsubsection*.217}%
+\contentsline {subsubsection}{\nonumberline Visual Studio Code}{60}{subsubsection*.220}%
+\contentsline {subsection}{\numberline {5.1.2}Funktionen im Editor}{60}{subsection.5.1.2}%
+\contentsline {subsubsection}{\nonumberline Einfärbung des Textes}{60}{subsubsection*.222}%
+\contentsline {subsubsection}{\nonumberline Diagnosen}{60}{subsubsection*.225}%
+\contentsline {subsubsection}{\nonumberline Hover-Beschreibungen}{62}{subsubsection*.228}%
+\contentsline {subsubsection}{\nonumberline Referenzen}{62}{subsubsection*.234}%
+\contentsline {subsubsection}{\nonumberline Faltbereiche}{62}{subsubsection*.237}%
+\contentsline {subsubsection}{\nonumberline Auswahlbereiche}{62}{subsubsection*.240}%
+\contentsline {section}{\numberline {5.2}Nutzung des \acrshort {dmf}}{62}{section.5.2}%
+\contentsline {chapter}{\numberline {6}Anhang}{65}{chapter.6}%
+\contentsline {section}{\numberline {6.1}EBNF Grammatik für DMF}{65}{section.6.1}%
+\contentsline {section}{\numberline {6.2}Beispiel}{67}{section.6.2}%
+\providecommand \tocbasic@end@toc@file {}\tocbasic@end@toc@file 
