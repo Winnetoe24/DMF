@@ -1,13 +1,10 @@
 \documentclass[./einleitung.tex]{subfiles}
-\usepackage{glossaries}
-\normalsize
-
-\begin{doccomment}
+\begin{document}
     \section{Die Nutzung des \acrshort{lsp}}
     \subsection{Installationsmöglichkeiten}
     Der \acrshort{lsp}-Server benötigt keine zusätzlichen Strukturen und kann direkt als Datei ausgeführt werden.
-    Deshalb ist die normale Vorgehensweise das Abelgen des \acrshort{lsp}-Servers in einem Zentralen Server und das Hinzufügen des Pfades zu dem Umgebungsvariablen.
-    Im Beispiel wurde die Datei zu `dmflsp' umbennant, damit der Name genauert das Programm beschreibt und nicht mit anderen \acrshort{lsp}-Server kollidieren kann.
+    Deshalb ist die normale Vorgehensweise das Ablegen des \acrshort{lsp}-Servers in einem Zentralen Server und das Hinzufügen des Pfades zu dem Umgebungsvariablen.
+    Im Beispiel wurde die Datei zu `dmflsp' umbenannt, damit der Name genauer das Programm beschreibt und nicht mit anderen \acrshort{lsp}-Server kollidieren kann.
     \begin{figure}
         \centering
         \includegraphics[width=\linewidth]{bilder/screenshot-lsp-help}
@@ -16,7 +13,7 @@
     \end{figure}
     Es gibt Editoren die eine native Anbindung eines \acrshort{lsp}-Servers ermöglichen.
         {\footnotesize TODO Zed Besspiel }
-    \subsubsec{Intellij}
+    \subsubsection{Intellij}
     Intellij unterstützt nur wenige \acrshort{lsp}-Funktionen ohne zusätzliche Plugins.
     Mit von `lsp4ij' können \acrshort{lsp}-Server direkt in der Oberfläche konfiguriert werden.
     \begin{figure}
@@ -27,4 +24,4 @@
     \end{figure}
     Um diese Konfiguration automatisch anzulegen und den Dateien ein passendes Icon zu geben, kann das Intellij-Plugin für das \acrshort{dmf} verwendet werden.
     Es enthält die verschiedenen Versionen des Servers und kann sie automatisch an die Konfigurierte
-\end{doccomment}
+\end{document}

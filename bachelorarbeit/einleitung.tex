@@ -124,7 +124,7 @@
 %sorting=ynt
 %]{biblatex}
 %\usepackage{biblatex}
-\usepackage[backend=bibtex, % moderneres backend als bibtex
+\usepackage[backend=biber, % moderneres backend als bibtex
     style=alphabetic, % Alphabetischer Stil besser bei viel Literatur
     doi=true, isbn=true, url=true,  % DOI, ISBN und URLs anzeigen
     maxnames=3, minnames=1,         % Ab 4 Autoren bei Quellenangaben et al. verwenden
@@ -195,6 +195,7 @@ Die Erklärung der technischen Spezifikation befindet sich im Abschnitt zum \hyp
 \newacronym{uri}{URI}{Uniform Resource Identifier}
 \newacronym{tcp}{TCP}{Transmission Control Protocol}
 \newacronym{jar}{JAR}{Java Archive}
+\newacronym{mdsd}{MDSD}{Model Driven Software Development}
 \newacronym{}{}{}
 
 \begin{document}
@@ -218,6 +219,7 @@ Die Erklärung der technischen Spezifikation befindet sich im Abschnitt zum \hyp
 \subfile{lsp.tex}
 \subfile{generator.tex}
 \chapter{Benutzung des \acrshort{dmf}}\label{ch:nutzung}
+\subfile{uselsp.tex}
 \chapter{Anhang}
 \subfile{grammatik.tex}
 
