@@ -1,6 +1,8 @@
 \documentclass[./einleitung.tex]{subfiles}
 \usepackage{float}
 \usepackage{float}
+\usepackage{float}
+\usepackage{float}
 \begin{document}
     \section{Die Nutzung des \acrshort{lsp}}
     \subsection{Installationsmöglichkeiten}
@@ -38,6 +40,17 @@
     \subsection{Funktionen im Editor}
     Während des Bearbeitens der Modelle können die Funktionen des \acrshort{lsp}-Servers genutzt werden.
     In diesem Abschnitt werden die Funktionen präsentiert.
+    
+    \subsubsection{Einfärbung des Textes}
+    Mithilfe der semantischen Token kann der Editor den Text der Modelldatei einfärben.
+    Da der Server nicht die Farbe, sondern nur die Funktion, vorgibt, wird der Text anhand der Einstellungen der Entwickler*innen eingefärbt.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\linewidth / 2 - 1em]{bilder/semanticIntellij}
+        \includegraphics[width=\linewidth / 2 - 1em]{bilder/semanticVscode}
+        \caption{Eingefärbte Modelldateien in Intellij und Visual Studio Code}
+        \label{fig:semanticintellij}
+    \end{figure}
 
     \subsubsection{Diagnosen}
     Wenn der Fehler in der Datei existieren werden diese automatisch im Editor markiert.
@@ -86,4 +99,52 @@
         \label{fig:hover-entity-identifier}
     \end{figure}
     Bei einem Entity Identifier werden die referenzierten Variablen ihren Kommentaren angezeigt.
+
+    \subsubsection{Referenzen}
+    In den \acrshort{ide}s können die Referenzen aufgerufen werden.
+    Der \acrshort{dmf}-\acrshort{lsp}-Server findet Referenzen, Deklarationen und Verwendungen in Parametern und EntityIdentifier.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height=2.5em]{bilder/callReferencen}
+        \includegraphics[height=6em]{bilder/referencen}
+        \caption{Aufruf der Referenzen}
+        \label{fig:callreferencen}
+    \end{figure}
+
+    \subsubsection{Faltbereiche}
+    Damit Entwickler*innen in großen Dateien die Übersicht behalten können unterstützt der \acrshort{lsp}-Server die Übermittlung von Faltbereichen.
+    Die Steuerung der Faltbereiche ist \acrshort{ide} spezifisch.
+    \begin{figure}[H]
+        \centering
+        \includegraphics[height=15em]{bilder/faltbereich}
+        \caption{Nutzung der Faltbereiche}
+        \label{fig:faltbereich}
+    \end{figure}
+
+    \subsubsection{Auswahlbereiche}
+    Damit die Entwickler*innen auch verschiedene Elemente gut Auswählen können, werden die Auswahlbereiche von \acrshort{lsp}-Server berechnet.
+    \begin{figure}[H]
+        \centering
+        $\vimage{bilder/selection1.png}\vpointer
+        \vimage{bilder/selection2.png}\vpointer
+        \vimage{bilder/selection3.png}\vpointer
+        \vimage{bilder/selection4.png}\vpointer
+        \vimage{bilder/selection5.png}$
+        \caption{Nutzung der Faltbereiche}
+        \label{fig:selection}
+    \end{figure}
+
+    \section{Nutzung des \acrshort{dmf}}\label{sec:nutzung-des-dmf}
+    Zum Darstellen der Benutzung des \acrshort{dmf} wird das Anlegen eines Projektes mit einem Java und einen Typescript Programm beschrieben.
+
+
+    \dirtree{%
+    .1 spam.
+    .2 ham.
+    .2 eggs.
+    .3 more spam.
+    .3 dead parrots.
+    }
+
+
 \end{document}

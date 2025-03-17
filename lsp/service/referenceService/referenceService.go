@@ -147,6 +147,7 @@ func (r *ReferenceService) findReferences(nodes []*tree_sitter.Node, content fil
 	_, targetPath, namePtr := r.findModelPath(nodes, content)
 
 	if targetPath == nil {
+		logService.GetLogger().Printf("%s No Target Path Name: %v\n", logService.TRACE, namePtr)
 		return references
 	}
 
@@ -157,8 +158,10 @@ func (r *ReferenceService) findReferences(nodes []*tree_sitter.Node, content fil
 	}
 
 	if namePtr == nil {
+		logService.GetLogger().Printf("%sFind References for Path: %s\n", logService.TRACE, *targetPath)
 		return r.findReferencesFromPath(*targetPath, element, content, file)
 	} else {
+		logService.GetLogger().Printf("%sFind References for Name: %s\n", logService.TRACE, *namePtr)
 		return r.findReferencesFromName(*namePtr, element, content, file)
 	}
 }

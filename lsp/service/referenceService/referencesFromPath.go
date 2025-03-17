@@ -61,6 +61,9 @@ func (r *ReferenceService) findReferencesFromPath(path base.ModelPath, element p
 func (r *ReferenceService) findRefOfType(content fileService.FileContent, path base.ModelPath) []*tree_sitter.Node {
 	var refs []*tree_sitter.Node
 	for _, element := range content.LookUp {
+		if element.GetBase().Path.ToString() == path.ToString() {
+			refs = append(refs, element.GetBase().Identifier.Node)
+		}
 		for _, namedElement := range element.GetBase().NamedElements {
 			switch ref := namedElement.(type) {
 			case *packages.Referenz:

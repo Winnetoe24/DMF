@@ -1,5 +1,5 @@
 dmf 1.0.0
-model "" version 1.0.0
+model "test" version 1.0.0
 package de {
     // Core infrastructure management
     package infrastructure {

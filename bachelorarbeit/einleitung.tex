@@ -1,5 +1,6 @@
 \documentclass[german]{abarbeit}
 \usepackage{import}
+\usepackage{wasysym}
 \usepackage{subfiles}
 \usepackage{array}
 \usepackage{makecell}
@@ -162,9 +163,11 @@ Lehrstuhl 5 \\
 }
 \newcommand{\secsubtitle}[1]{\\\textnormal{\footnotesize{Protokoll in Abschnitt #1}}}
 
+\newcommand*{\vimage}[1]{\vcenter{\hbox{\includegraphics[height=3.1em]{#1}}}}
+\newcommand*{\vpointer}{\vcenter{\hbox{\scalebox{2}{\Huge\pointer}}}}
 
 
-
+\usepackage{dirtree}
 \usepackage{hhline}
 \usepackage{hyperref}
 \usepackage[acronym,toc]{glossaries}
