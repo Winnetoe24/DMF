@@ -6,12 +6,14 @@ import com.intellij.util.ui.FormBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
+import java.util.Objects;
 
 public class DMFSettingsComponent {
     private final JPanel myMainPanel;
     private final JBTextField lspDirPathField = new JBTextField();
 
     public DMFSettingsComponent() {
+        lspDirPathField.setText(Objects.requireNonNull(DMFSettings.getInstance().getState()).lspDirPath);
         myMainPanel = FormBuilder.createFormBuilder()
                 .addLabeledComponent(new JBLabel("Directory for DMF-LSP Installations:"), lspDirPathField, 1, false)
                 .addComponentFillVertically(new JPanel(), 0)

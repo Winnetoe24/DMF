@@ -1,7 +1,173 @@
 dmf 1.0.0
-model "" version 0.0.1
-
-
+model "" version 1.0.0
 package de {
+    // Core infrastructure management
+    package infrastructure {
 
+        struct GeoLocation {
+            arg double latitude;
+            arg double longitude;
+            arg double altitude;
+            arg string addressString;
+            func double calculateDistance(GeoLocation other);
+        }
+
+        enum AssetStatus {
+            OPERATIONAL(_);
+            MAINTENANCE_REQUIRED(_);
+            UNDER_REPAIR(_);
+            DECOMMISSIONED(_);
+            CRITICAL(_);
+        }
+
+        enum MaintenancePriority {
+            arg int level;
+            arg string description;
+            EMERGENCY(_, 1, "Immediate action required");
+            HIGH(_, 2, "Address within 24 hours");
+            MEDIUM(_, 3, "Address within 1 week");
+            LOW(_, 4, "Schedule during routine maintenance");
+        }
+
+        entity Asset {
+            arg string assetId;
+            arg string name;
+            ref .GeoLocation location;
+            ref .AssetStatus status; 
+            // the priority of the asset
+            // description contains the timeframe
+            ref .MaintenancePriority priority;
+            arg date installationDate;
+            arg date lastMaintenanceDate;
+            arg double acquisitionCost;
+            arg int expectedLifespanYears;
+
+            identifier(assetId);
+        }
+    }
+
+    // Transportation system management
+    package transportation {
+
+        enum VehicleType {
+            BUS(_);
+            TRAM(_);
+            SUBWAY(_);
+            MUNICIPAL_VEHICLE(_);
+            EMERGENCY_VEHICLE(_);
+        }
+
+        enum RouteStatus {
+            ACTIVE(_);
+            SUSPENDED(_);
+            PLANNED(_);
+            CANCELED(_);
+        }
+
+        struct RouteSegment {
+            ref ..infrastructure.GeoLocation startPoint;
+            ref ..infrastructure.GeoLocation endPoint;
+            arg double distance;
+            arg int estimatedTimeMinutes;
+            func double calculateCongestion();
+        }
+
+        entity TransportRoute {
+            arg string routeId;
+            arg string routeName;
+            ref .RouteStatus status;
+            ref Set<.RouteSegment> segments;
+            arg datetime firstDepartureTime;
+            arg datetime lastDepartureTime;
+            arg int frequencyMinutes;
+
+            identifier(routeId);
+        }
+
+        entity Vehicle extends ..infrastructure.Asset {
+            ref .VehicleType type;
+            arg string registrationNumber;
+            arg int capacity;
+            arg double currentFuelLevel;
+            arg int currentPassengerCount;
+            ref .TransportRoute currentRoute;
+
+            identifier(registrationNumber);
+        }
+    }
+
+    // Energy grid management
+    package energy {
+
+        enum EnergySource {
+            SOLAR(_);
+            WIND(_);
+            HYDRO(_);
+            BIOMASS(_);
+            GRID(_);
+        }
+
+        enum ConsumptionPattern {
+            arg string pattern;
+            arg double baselineKwh;
+            RESIDENTIAL(1, "Home usage", 10.0);
+            COMMERCIAL(2, "Business usage", 50.0);
+            INDUSTRIAL(3, "Factory usage", 200.0);
+            PUBLIC(4, "Municipal usage", 30.0);
+        }
+
+        entity PowerPlant extends ..infrastructure.Asset {
+            ref .EnergySource source;
+            arg double capacity;
+            arg double currentOutput;
+            arg double efficiency;
+            arg boolean isBackupSource;
+
+            identifier(assetId);
+        }
+
+        entity SmartMeter {
+            arg string meterId;
+            ref .ConsumptionPattern pattern;
+            arg double currentReading;
+            arg double peakDemand;
+            arg datetime lastReadingTime;
+            arg boolean isOnline;
+
+            identifier(meterId);
+        }
+    }
+
+    // Water management system
+    package water {
+
+        enum WaterQuality {
+            arg int level;
+            arg string description;
+            EXCELLENT(_, 1, "Exceeds standards");
+            GOOD(_, 2, "Meets standards");
+            FAIR(_, 3, "Requires monitoring");
+            POOR(_, 4, "Requires action");
+            CRITICAL(_, 5, "Immediate action needed");
+        }
+
+        entity WaterSource extends ..infrastructure.Asset {
+            arg double capacity;
+            arg double currentLevel;
+            ref .WaterQuality quality;
+            arg double flowRate;
+            arg boolean isActive;
+
+            identifier(assetId);
+        }
+
+        entity WaterTreatmentPlant extends ..infrastructure.Asset {
+            arg double processingCapacity;
+            arg double currentThroughput;
+            arg int treatmentStages;
+            arg boolean isOperating;
+
+            identifier(assetId);
+        }
+    }
 }

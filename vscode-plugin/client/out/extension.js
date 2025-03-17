@@ -23,8 +23,6 @@ function activate(context) {
     };
     // The server is implemented in node
     const serverModule = context.asAbsolutePath(path.join("client", "lsp", getLspFileName()));
-    // console.log(serverModule)
-    // console.log("exists:", fs.existsSync(serverModule))
     server = (0, child_process_1.execFile)(serverModule + " --port 5007 --disabledLog", {
         shell: true
     }, (error, stdout, stderr) => {
@@ -42,15 +40,6 @@ function activate(context) {
     let connectionInfo = {
         port: 5007
     };
-    //  const runExe = { module: serverModule, transport: TransportKind.stdio };
-    //  const runExe: Executable = { command: serverModule, transport: TransportKind.stdio, options: {shell: false, detached: false } };
-    const runExe = { command: serverModule, transport: node_1.TransportKind.stdio, options: { shell: false, detached: false } };
-    // If the extension is launched in debug mode then the debug server options are used
-    // Otherwise the run options are used
-    // const serverOptions: ServerOptions = {
-    //   run: runExe,
-    //   debug: runExe,
-    // };
     let serverOptions = () => {
         // Connect to language server via socket
         let socket = net.connect(connectionInfo);

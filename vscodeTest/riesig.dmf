@@ -38,6 +38,8 @@ package de.smart.city {
             arg string name;
             ref .GeoLocation location;
             ref .AssetStatus status;
+            // the priority of the asset
+            ref .MaintenancePriority priority;
             arg date installationDate;
             arg date lastMaintenanceDate;
             arg double acquisitionCost;

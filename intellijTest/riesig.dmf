@@ -24,9 +24,11 @@ package de.smart.city {
             CRITICAL(_);
         }
 
+        // Beschreibt die Priorität verschiedener Assets
         enum MaintenancePriority {
             arg int level;
             arg string description;
+            // this
             EMERGENCY(_, 1, "Immediate action required");
             HIGH(_, 2, "Address within 24 hours");
             MEDIUM(_, 3, "Address within 1 week");
@@ -34,10 +36,14 @@ package de.smart.city {
         }
 
         entity Asset {
+            // Die universelle Id des Assets
             arg string assetId;
             arg string name;
             ref .GeoLocation location;
             ref .AssetStatus status;
+            // the priority of the asset
+            // the priority of the asset
+            ref .MaintenancePriority priority;
             arg date installationDate;
             arg date lastMaintenanceDate;
             arg double acquisitionCost;

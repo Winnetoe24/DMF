@@ -1,1 +1,7 @@
 dmf 1.0.0
+model "test" version 1.0.0
+package de {
+    entity Test {
+        identifier(i);
+    }
+}
