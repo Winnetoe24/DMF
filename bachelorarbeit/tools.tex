@@ -26,7 +26,7 @@ So ist es nicht vorgesehen die \acrshort{lsp}-Server (\nameref{sec:der-lsp-serve
 Dateigeneration und die Verarbeitung des AST's müssen auch mit den Java-Interfaces von XText vorgenommen werden.
 Dies setzt immer die Verwendung von JVM basierten Sprachen voraus.
 Jede JVM-Implementierung benötigt beachtliche Zeit zum Starten weshalb Code Generation immer auf den Start Warten muss. \\
-Abschließend waren an XText die nicht funktionierenden Beispiel-Projekte und die zwingende Entwicklung in Eclipse sehr abweisend.
+Abschließend waren an XText die nicht funktionierenden Beispiel-Projekte und die zwingende Entwicklung in Eclipse sehr einschränkend.
 Ein Framework welche eine einfache und flexible Entwicklung ermöglichen soll, sollte nicht schwer und nur in einer \acrshort{ide} zu entwickeln sein.
 
 \subsubsection{Jetbrains MPS}
@@ -37,38 +37,38 @@ Die angestrebte Flexibilität des \acrshort{dmf}s ist damit nicht gegeben.
 Da kein Framework den Anforderungen des \acrshort{dmf} genügt, müssen Technologien für einzelne Probleme ausgewählt werden.
 \subsection{Parser}
 Der Parser für das \acrshort{dmf} muss große Dateien wiederholt mit kleinen Änderungen parsen.
-Diese Anforderung stammt aus der Notwendigkeit des \acrshort{ast}'s um Syntaktische und Semantische Fehler, sowie die verschiedenen Tokens(siehe Abschnitt \acrshort{lsp}) nach jeder Eingabe an die \acrshort{ide} zu übermitteln.
+Diese Anforderung stammt aus der Notwendigkeit des \acrshort{ast}'s um syntaktische und semantische Fehler zu erkennen, sowie die verschiedenen Tokens(siehe Abschnitt \acrshort{lsp}) nach jeder Eingabe an die \acrshort{ide} zu übermitteln.
 Hierbei ist Latenz die höchste Priorität, denn die Reaktionsfähigkeit der \acrshort{ide} beeinflusst die Geschwindigkeit mit der entwickelt werden kann. \\
 Zusätzlich muss der Parser auch von jeder anderen Komponente des \acrshort{dmf}'s verwendet werden.
 Deshalb ist hier die Einschränkung der Technologien anderer Komponenten unerwünscht.
 
 \subsubsection{Treesitter}
 Treesitter ist ein Open Source Framework zur Generierung von Parsern.\\
-Dabei wird die Grammatik mithilfe einer Javascript \acrlong{api} definiert.
+Dabei wird die Grammatik mithilfe eines Javascript \acrlong{api} definiert.
 Mithilfe der Treesitter \acrlong{cli} wird aus der Javascript Datei der Parser generiert. \\
 
 \paragraph[LR-Parsern]{Bei LR-Parsern}\label{par:lr-parser} handelt es um sogenannte ``Bottom-Up-Parser''.
 Diese Parser bauen den \acrshort{ast} von den Blättern auf.
-Sie zeichnen durch ihr deterministisches Parsen und die große Klasse an nutzbaren Grammatiken aus.\newline
+Sie zeichnen sich durch ihr deterministisches Parsen und die große Klasse an nutzbaren Grammatiken aus.\newline
 Für die Generierung von Parsern eignen sich LR-Parser, da die Aktions-Tabellen, auf denen das Parsen aufbaut, automatisch generiert werden kann und während des Parsens keine Rückverfolgung durchgeführt werden muss. \cite{aho1974lr}
 Aus diesen Gründen generiert Treesitter LR(1)-Parser.
 \\\\
-Der generierte Parser nutzt C.
+Der generierte Parser nutzt C als Implementierungssprache.
 C eignet sich hier sehr gut, da es die höchste Performance und die Möglichkeit es in jeder anderen Sprache zu nutzen bietet.
 Das Nutzen von C ist für jede Sprache eine Voraussetzung, um mit dem Betriebssystem zu kommunizieren.
-C's größter Nachteil, die manuelle Speicher Verwaltung, wird durch die Generation des Parsers gelöst.
-Die bereitgestellten Schnittstellen übergeben Strukturen welche vom Aufrufer verwaltet werden.
-\paragraph{Iteratives Parsen}
-Ein großes Unterscheidungsmerkmal von Treesitter ist die Möglichkeit iterativ zu parsen.
+C's größter Nachteil, die manuelle Speicherverwaltung, wird durch die Generation des Parsers gelöst.
+Die bereitgestellten Schnittstellen übergeben Strukturen, welche vom Aufrufer verwaltet werden.
+\paragraph{Inkrementelles Parsen}
+Ein großes Unterscheidungsmerkmal von Treesitter ist die Möglichkeit inkrementell zu parsen.
 \newline
  \begin{center}
  \textit{With intelligent [node] reuse, changes match the user’s in
 tuition; the size of the development record is decreased; and the performance
  of further analyses (such as semantics) improves.\cite{twagner}}
  \end{center}
-Beim iterativen Parsen ist das Ziel den \acrshort{ast} nicht bei jedem Parse-Durchlauf neu zu erstellen, sondern möglichst viel des \acrshort{ast}'s wiederzuverwenden.
-Für das Iterative Parsen muss der \acrshort{ast} sowie die bearbeiteten Textstellen an Treesitter übergeben werden.
-Die Durchlaufzeit des iterativen Parse-Durchlaufs hängt nicht mehr der Länge der kompletten Modelldatei ab, sondern nur von den neuen Terminalsymbolen und Modifikationen im \acrshort{ast}:
+Beim inkrementellen Parsen ist das Ziel den \acrshort{ast} nicht bei jedem Parse-Durchlauf neu zu erstellen, sondern möglichst viel des \acrshort{ast}'s wiederzuverwenden.
+Für das inkrementelle Parsen muss der \acrshort{ast} sowie die bearbeiteten Textstellen an Treesitter übergeben werden.
+Die Durchlaufzeit des inkrementellen Parse-Durchlaufs hängt nicht mehr der Länge der kompletten Modelldatei ab, sondern nur von den neuen Terminalsymbolen und Modifikationen im \acrshort{ast}:
  \newline
  \begin{center}
  \textit{Our incremental parsing algorithm runs in O(t + slgN) time for t new terminal symbols and s modification sites in a tree containing N nodes \cite{twagner}}
@@ -79,15 +79,15 @@ Doch es zeigen sich tiefere Unterschiede in den Strategien der Frameworks.
 \acrshort{ant} benutzt wie auch Treesitter ein eigenes \acrfull{api} zum Schreiben der Grammatiken.
 Diese \acrshort{api} nutzt jedoch keine weitverbreitete Sprache wie Javascript, sondern \acrshort{ant} setzt auf eine eigne \acrfull{dsl}.
 Dies erhöht die Ausdruckskraft der \acrshort{api}, jedoch auch den Einarbeitungsaufwand.\\
-Das \acrshort{ant} Framework verzichtet auf die Möglichkeit iterativ zu Parsen und bietet stattdessen die Generation von LL(*)-Parsern.
+Das \acrshort{ant} Framework verzichtet auf die Möglichkeit inkrementell zu Parsen und bietet stattdessen die Generation von LL(*)-Parsern.
 
-\paragraph{LL-Parser} sind im Gegensatz zu \nameref{par:lr-parser} handelt es sich bei LL-Parsern um `top-down-parser'.
+\paragraph{LL-Parser} Im Gegensatz zu \nameref{par:lr-parser} handelt es sich bei LL-Parsern um `top-down-parser'.
 Sie bauen damit den AST von der Wurzel aus auf.
-Dafür benötigen die Parser einen Look-Ahead.
+Dafür benötigen die Parser einen Look-Ahead, welcher mehr als ein Zeichen enthält.
 Bei den Look-Ahead handelt es sich um Eingabe Tokens welche für die Entscheidung zwischen verschiedenen Regeln der Grammatik benötigt werden.
 \acrshort{ant} generiert LL(*)-Parser, welche die Größe des Look-Ahead dynamisch anpassen können.
 So können die Parser deutlich mehr Grammatiken verarbeiten und produzieren bessere ASTs als LL(k)-Parser. \cite{parr2011ll}
-Der Look-Ahead verhindert jedoch das iterative Parsen, da der Zustand des Look-Aheads sich bei jedem Schritt verändert und nicht aus dem AST wiederherstellbar ist.
+Der Look-Ahead verhindert jedoch das inkrementelle Parsen, da der Zustand des Look-Aheads sich bei jedem Schritt verändert und nicht aus dem AST wiederherstellbar ist.
 
 \subsubsection{Auswahl Parser}
 Für das \acrshort{dmf} Framework wurde Treesitter verwendet.
@@ -102,15 +102,16 @@ Die Auswahl der Technologie für diesen Schritt basiert auf der Auswahl für die
 
 \subsection{Kommunikation mit verschiedenen \acrshort{ide}'s}
 Damit ein Framework die Entwicklung nicht einschränkt muss es in verschiedenen \acrfull{ide} genutzt werden können.
-Viele IDE's stellen Schnittstellen für Plugins bereit. Dazu zählen Intellij, Eclipse, NeoVim und VSCode.
-Jede Schnittstellen ist jedoch unterschiedlich, wodurch die Entwicklung von vielen Verschiedenen Plugins nötig wäre.
+Viele IDE's stellen Schnittstellen für Plugins bereit.
+Dazu zählen Intellij, Eclipse, NeoVim und VSCode.
+Jede Schnittstelle ist jedoch unterschiedlich, wodurch die Entwicklung von vielen verschiedenen Plugins nötig wäre.
 \paragraph{\acrfull{lsp}}\hypertarget{lsp-ziel}
 Eine einfachere Möglichkeit bietet das \acrfull{lsp}.
 Dieses Protokoll bietet die Möglichkeit, dass viele verschiedene \acrshort{ide}'s eine Serverimplementierung nutzen.
 Im Fall von Zed und Eclipse lassen sich \acrlong{lsp}-Server sogar ohne jegliche Plugins einbinden.
 Wobei hier auf die schlechte Unterstützung des \acrlong{lsp}-Protokolls in Eclipse hingewiesen werden muss.
 Intellij und NeoVim nutzen Plugins, um \acrlong{lsp}-Server anzubinden.
-VSCode bietet eine \acrlong{api} und einen einfachen \acrlong{lsp}-Client in ein kleines Plugin zu implementieren.
+VSCode bietet ein \acrlong{api} und einen einfachen \acrlong{lsp}-Client in ein kleines Plugin zu implementieren.
 Im \acrlong{lsp}-Server können gebündelt Logik und Protokoll implementiert werden.
 \newline\newline
 \acrlong{lsp} wird hauptsächlich über die Standard-Eingabe und -Ausgabe oder über einen Server Socket transportiert.
@@ -127,7 +128,7 @@ Probleme entstehen bei Typescript bei den Themen Performance, Anbindung an den P
 Golang ist eine Sprache, welche für die Entwicklung von Backends ausgelegt wurde. \\
 Es werden die Anforderungen für JSON-Parsing, Std-IO und Server Sockets erfüllt, durch die große Standard Bibliothek erfüllt.
 Es gibt keine Bibliothek welche das komplette Protokoll beinhaltet.
-Dieses kann jedoch durch die Unterstützung von \acrshort{llm}'s schnelle generiert werden.\\
+Dieses kann jedoch durch die Unterstützung von \acrshort{llm}'s schnell generiert werden.\\
 Golang bietet zusätzlich eine simple Anbindung an den Parser und die Möglichkeit sehr einfach Parallelität einzubauen.
 Besonders erwähnenswert ist die Geschwindigkeit eines Golang Programmes und die Startgeschwindigkeit ohne auf Speichersicherheit zu verzichten.
 

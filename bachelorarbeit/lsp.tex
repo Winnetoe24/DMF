@@ -596,7 +596,7 @@ type fileHandle struct {
     \end{lstlisting}
     Um einen FileHandle zu erzeugen, wird der Inhalt der Datei mithilfe Semantik-Schicht geparst.\\
     Wird der Dateiinhalt geändert, so werden die Änderungen an die Semantik-Schicht übergeben.
-    Dort werden die Änderungen zum iterativen Parsen des neuen Dateiinhalts genutzt.
+    Dort werden die Änderungen zum inkrementellen Parsen des neuen Dateiinhalts genutzt.
     Abschließend werden der Lookup erzeugt und die semantischen Regeln durchlaufen. \\
     \paragraph{FileChangeListener}
     Es gibt Funktionen im \acrshort{lsp} die nicht durch eingehende Nachrichten ausgelöst werden, sondern nach Dateiänderungen automatisch an den Client übermittelt werden.

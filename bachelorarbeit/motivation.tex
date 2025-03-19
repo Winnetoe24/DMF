@@ -4,13 +4,15 @@ Die zentrale Modellierung von Domainmodellen ist sehr verbreitet in der Entwickl
 Sie fällt damit in den Bereich der \acrfull{mdsd}.
 Dabei stellt die Modellierung des Domainmodells einen Kompromiss zwischen der kompletten Modellierung einer Software und der klassischen Entwicklung ohne Modelle dar. \\
 Ziel dieses Kompromisses ist die Effizienz und Sicherheit der Codegenerierung für das Datenmodell einzusetzen, um die Entwicklung der restlichen Software zu vereinfachen.
-
-\subsection{\acrfull{mdsd}}\label{subsec:mdsd}
+Bevor wir in Kapitel~\ref{sec:aufgabenstellung} die Anforderungen an ein flexibles Framework zur Generierung von Datenmodellen beschreiben, werden wir zunächst grundlegende Themen behandeln.
+\section{\acrfull{mdsd}}\label{subsec:mdsd}
 \begin{center}
-    Modellgetriebene Softwareentwicklung (Model Driven Software Development, MDSD) ist ein Oberbegriff für Techniken, die aus formalen Modellen automatisiert lauffähige Software erzeugen. \cite[p. 11]{modellbuch}
+    \textit{Modellgetriebene Softwareentwicklung (Model Driven Software Development, MDSD) ist ein Oberbegriff für Techniken, die aus formalen Modellen automatisiert lauffähige~Software erzeugen.} \cite[p. 11]{modellbuch}
 \end{center}
-Zu diesem großen Begriff gehören verschiedenste Ausprägungen.
-Komplett modellierte Projekte nutzen grafische Modellierung für Daten, Prozesse und Schnittstellen.\\
+Zu diesem Oberbegriff gehören Frameworks mit unterschiedlicher Granularität.
+Komplett modellierte Projekte nutzen grafische Modellierung für Daten, Prozesse und Schnittstellen.
+Hierfür werden häufig \acrshort{uml}-Diagramme genutzt.
+Die \acrshort{uml} Spezifikation enthält Diagramme für Datenmodelle, Abläufe und die Strukturierung von Komponenten.\\
 Modelle für einzelne Komponenten stellen das Gegenteil dar.
 Sie basieren häufig auf einer Datei für jedes Modell.
 Diese Dateien können auch direkt im Texteditor bearbeitet werden.
@@ -22,15 +24,14 @@ Durch gemeinsam genutzte Komponenten (Assets) wird die Entwicklung vereinfacht u
 Datenmodelle stellen im \acrshort{ple} wichtige Assets dar.
 Einheitliche Modelle verhindern das Übersetzen zwischen verschiedenen Produkte.
 
-
-\subsection{\acrshort{emf}}\label{subsec:emf}
+\section{\acrshort{emf}}\label{subsec:emf}
 \acrfull{emf} ist ein häufig eingesetztes Framework zur Modellierung von Modellen in Java.
 Es lassen sich große Modelle darstellen und mithilfe von Maven Workflows können diese durch das Build Tool übersetzt werden. \\
 EMF bietet dabei jedoch keine Wahl bei der \acrshort{ide} oder der Programmiersprache.
 Dies führt dazu, dass Projekte und ganze Firmen bei ihren bisherigen Technologien stehen bleiben.
 Es wird bei Neuentwicklungen nicht mehr die gefragt, was wären die besten Technologien um das Problem zu lösen, sondern es wird gefragt, wie lösen wir das mit unserer bisherigen Architektur.
 \subsection{Effekte eines unflexiblen Frameworks}\label{subsec:effekte-eines-unflexiblen-frameworks}
-Dieser fehlerhafte Ansatz schädigt das Projekt auf mehreren Ebenen:
+Ein wenig flexibles Framework wie \acrshort{emf} beeinträchtigt das Projekt auf mehreren Ebenen:
 \begin{enumerate}
 \item \textbf{Konzentrierung von Wissen und Erfahrung} \\
 Da nur eine Architektur in Betracht gezogen wird, hat jedes Mitglied des Teams nur Erfahrung mit der aktuellen Architektur und jegliche Erfahrung mit anderen Technologien verfällt mit der Zeit. Dies schränkt die die Perspektiven auf Probleme sehr stark ein und macht einen Wechsel sehr aufwendig.
@@ -56,7 +57,7 @@ Diese Anfälligkeit wird stark erhöht, sobald eine Technologie nicht mehr aktiv
 Dies führt häufig dazu, dass andere Updates auch nicht genutzt werden können.
 \end{enumerate}
 
-\section{Aufgabenstellung}
+\section{Anforderungen}\label{sec:aufgabenstellung}
 Das \acrfull{dmf} soll es ermöglichen Datenmodelle zentral zu modellieren, sodass diese von verschiedenen Software-Projekten genutzt werden können.
 Dabei soll die Flexibilität besonders beachtet werden, um die bisher bestehenden Nachteile zu vermeiden.
 Zur Flexibilität gehört die (möglichst) freie Wahl der Programmiersprache und die freie Wahl der Entwicklungsumgebung.
