@@ -3,6 +3,7 @@
 \usepackage{float}
 \usepackage{float}
 \usepackage{float}
+\usepackage{natbib}
 \begin{document}
     \section{Die Nutzung des \acrshort{lsp}}
     \subsection{Installationsmöglichkeiten}
@@ -130,7 +131,7 @@
         \vimage{bilder/selection3.png}\vpointer
         \vimage{bilder/selection4.png}\vpointer
         \vimage{bilder/selection5.png}$
-        \caption{Nutzung der Faltbereiche}
+        \caption{Nutzung der Auswahlbereiche}
         \label{fig:selection}
     \end{figure}
 
@@ -145,9 +146,9 @@
             .2 domain.dmf.
             .1 TSProjekt.
             .2 src.
-            .3 domain.
-            .3 delegates.
-            .3 projekt.
+            .3 domain (Modell).
+            .3 delegates (Delegates).
+            .3 projekt (Projekt).
             .1 JDomain.
             .2 src/gen/java (Modell).
             .2 src/main/java (Delegates).
@@ -157,5 +158,90 @@
         \label{fig:dirtree}
     \end{figure}
 
+    \paragraph{Im Modell} Ordner wird das Modell abgelegt.
+    Die Bereitstellung kann an die Organisation angepasst werden, da die restlichen Projekte per relativen Pfad auf die Datei zugreifen.
+    Entscheidend ist dabei die Organisation der Git Repositories.
+    Werden die verschiedenen Komponenten (Modell, Typescript Projekt, Java Projekt) in verschiedenen Repositories abgelegt, so handelt es sich um eine Poly-Repository Struktur. \cite{monorepo}
+    Die Verwaltung der verschiedenen Repositories kann manuell durch Entwickler*innen oder durch Build Scripte gesteuert werden.
+    Konträr zur Poly-Repository Struktur ist die Mono-Repository Struktur.
+    Bei dieser werden alle Projekte in einem Repository verwaltet. \cite{monorepo}
+    Hier entfällt die Synchronisation des Modells.
 
+    \paragraph{Das Typescript Projekt} enthält sowohl die generierten Dateien als auch den Source Code des eigentlichen Projekts.
+    Dies kann besonders in kleinen Projekten den Aufwand reduzieren.
+
+    \paragraph{Das Java Projekt} wird in mehrere Artefakte unterteilt.
+    Dies dient der Strukturierung von größeren Projekten und wurde exemplarisch genutzt, obwohl das Beispiel Projekt nur ein weiteres Artefakt besitzt.
+    Innerhalb des JDomain Artefakts werden Modell und Delegates in verschiedene Ordner generiert, damit nur die Delegates von der Versionsverwaltung beachtet werden können und \acrshort{ide}s die Dateien richtig verwalten können.
+
+    \subsection{Anlage des Typescript Projektes}\label{subsec:anlage-des-typescript-projektes}
+    Das Beispiel Typescript Projekt nutzt die Bibliothek `Express' um einen kleinen Webserver zu implementieren.
+    Ziel ist es die Verwendung des \acrshort{dmf} im Kontext einer simplen Restschnittstelle zu zeigen.\\
+    Das Projekt wurde mithilfe der einer Anleitung von \citeauthor{initExpress} angelegt.\\
+    Zuerst wird die `package.json'-Datei mithilfe der NPM-\acrshort{cli} angelegt.
+    In ihr wird das Projekt beschrieben.
+    Dazu gehören unter anderem der Name, Version, Abhängigkeiten und Ausführungskonfigurationen.\\
+    Zu den Abhängigkeiten werden Dotenv, Typescript und Express hinzugefügt.
+    Die Abhängigkeiten zu den Typen von Typescript und Express werden als `DevDependecies' hinzugefügt.
+    So werden sie nur während der Entwicklung genutzt.\\
+    Der nächste Schritt der Einrichtung ist die Konfiguration von Typescript.
+    Es werden die Ordner für Source Code und Output sowie die beabsichtigte Version des JavaScript-Standards angegeben.\\
+    Nun kann die Beispielimplementierung aus der Anleitung angelegt werden.
+    Diese kann mit folgendem Befehl ausgeführt werden.
+    \begin{lstlisting}{language=bash, caption=Start description Servers, label=lst:startExpress}
+npx ts-node src/index.ts
+    \end{lstlisting}
+    Kann der Server aufgerufen werden, war die bisherige Anlage erfolgreich.
+    Als nächstes kann das \acrshort{dmf} hinzugefügt werden.
+    Dafür werden die Ausführungskonfigurationen erweitert.
+    \begin{lstlisting}[language=json, caption=Ausführungskonfigurationen in package.json, label=lst:packageScripts]
+"scripts": {
+    "run": "npx ts-node src/index.ts",
+    "build": "npm run generateModell && npm run generateDelegates && npx tsc",
+    "start": "node dist/index.js",
+    "generateModell": "generator --basePath ./src --mode ts --modelFile ../Modell/domain.dmf",
+    "generateDelegates": "generator --basePath ./src --mode tsDelegates --modelFile ../Modell/domain.dmf",
+  },
+    \end{lstlisting}
+    Es werden zwei neue Konfigurationen hinzugefügt: generateModell und generateDelegates.
+    Sie rufen den Generator mit den Parametern für den Source Code Ordner, dem Pfad der Modelldatei und dem jeweiligen Generationsziel auf.
+    Da die Konfigurationen in der Build Konfiguration eingebaut wurden, werden sie bei jedem Build automatisch ausgeführt.
+    \paragraph{Die generierten Modelldateien} werden in den Ordnern nach ihrem Package Pfad abgelegt.
+    Im Beispiel wird die Entität User genutzt.
+    \begin{lstlisting}[language=Typescript,caption=User.ts, label=lst:userTs]
+import * as delegate from "../delegates/domain/UserDelegate";
+
+export class User {
+    id: number;
+    name: string;
+
+    constructor(id: number, name: string) {
+        this.id = id;
+        this.name = name;
+    }
+
+    sayName(): string {
+        return delegate.sayName(this);
+    }
+}
+    \end{lstlisting}
+    In der Modellklasse sind alle Variablen und Funktionen enthalten.
+    Die Delegate Funktionen werden importiert und in den Funktionen der Modellklasse aufgerufen.
+    \begin{lstlisting}[language=Typescript, caption=UserDelegate.ts, label=lst:userDelegateTs]
+import { User } from "../../domain/User";
+
+export function sayName(caller: User): string {
+    return "My Name is "+caller.name;
+}
+    \end{lstlisting}
+    In der Delegatedatei werden die Funktionen mti dem zusätzlichen Caller generiert.
+    Die Inhalte der Funktionen müssen die Entwickler*innen selbstständig implementieren.
+    \\\\
+    Im Server kann nun ein neuer Endpunkt hinzugefügt werden welcher eine Instanz des Users erstellt und ausgibt.
+    \begin{lstlisting}[language=Typescript, caption=Neuer Endpunkt in index.ts, label=indexTs]
+app.get("/user", (req: Request, res: Response) => {
+    let user: User = new User(1, "Test")
+    res.send(user);
+});
+    \end{lstlisting}
 \end{document}
