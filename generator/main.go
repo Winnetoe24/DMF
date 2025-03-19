@@ -123,9 +123,9 @@ func GenerateJavaDelegates(basePath string, lookup smodel.TypeLookUp) {
 
 		switch element := pElement.(type) {
 		case *packages.EntityElement:
-			go generateFile(createFileIfNotExists(basePath, gbase.CreateDelegatePath(slices.Clone(element.Path))), apply(template.GenerateDelegate, pElement))
+			go generateFile(createFileIfNotExists(basePath, gbase.CreateDelegatePath(slices.Clone(element.Path)), buildJavaPath), apply(template.GenerateDelegate, pElement))
 		case *packages.StructElement:
-			go generateFile(createFileIfNotExists(basePath, gbase.CreateDelegatePath(slices.Clone(element.Path))), apply(template.GenerateDelegate, pElement))
+			go generateFile(createFileIfNotExists(basePath, gbase.CreateDelegatePath(slices.Clone(element.Path)), buildJavaPath), apply(template.GenerateDelegate, pElement))
 		default:
 			operations.Done()
 		}
@@ -157,9 +157,9 @@ func GenerateTsDelegates(basePath string, lookup smodel.TypeLookUp) {
 
 		switch element := pElement.(type) {
 		case *packages.EntityElement:
-			go generateFile(createFile(basePath, gbase.CreateDelegatePath(append([]string{"delegates"}, slices.Clone(element.Path)...)), buildTsPath), apply(template.GenerateDelegate, pElement))
+			go generateFile(createFileIfNotExists(basePath, gbase.CreateDelegatePath(append([]string{"delegates"}, slices.Clone(element.Path)...)), buildTsPath), apply(template.GenerateDelegate, pElement))
 		case *packages.StructElement:
-			go generateFile(createFile(basePath, gbase.CreateDelegatePath(append([]string{"delegates"}, slices.Clone(element.Path)...)), buildTsPath), apply(template.GenerateDelegate, pElement))
+			go generateFile(createFileIfNotExists(basePath, gbase.CreateDelegatePath(append([]string{"delegates"}, slices.Clone(element.Path)...)), buildTsPath), apply(template.GenerateDelegate, pElement))
 		default:
 			operations.Done()
 		}
@@ -175,8 +175,8 @@ func GenerateDatabase(basePath string, schema dmodel.Schema) {
 	}
 }
 
-func createFileIfNotExists(basePath string, path base.ModelPath) *os.File {
-	finalPath := buildJavaPath(basePath, path)
+func createFileIfNotExists(basePath string, path base.ModelPath, buildPath func(string, base.ModelPath) string) *os.File {
+	finalPath := buildPath(basePath, path)
 	if _, err := os.Stat(finalPath); err == nil {
 		return nil
 	} else {

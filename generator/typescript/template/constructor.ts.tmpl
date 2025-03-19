@@ -1,0 +1,11 @@
+class ConstructorTs {
+{{define "constructor" -}}
+{{- /*gotype: github.com/Winnetoe24/DMF/generator/gbase.KonstruktorData*/ -}}
+{{- $last := sub (len .Parameter) 1 -}}
+{{- /* */}}    constructor({{range $index, $field := .Parameter}}{{variableName $field.Variable}}: {{variableType $field.Variable $field.ImportKontext}}{{if ne $index $last}}, {{end}}{{end}}) {
+{{- /* */}}        {{range $index, $field := .Parameter}}
+        this.{{variableName $field.Variable}} = {{variableName $field.Variable}};
+        {{- end}}
+    }
+{{end}}
+}

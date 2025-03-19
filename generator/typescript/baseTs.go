@@ -48,6 +48,7 @@ func NewTemplate() TsTemplate {
 		"createFunktionKontext":    gbase.CreateFunktionKontext,
 		"variableName":             gbase.VariableName,
 		"variableType":             variableType,
+		"toConstructor":            gbase.ToConstructor,
 		"valueInit":                valueInit,
 		"variableDefaultValue":     variableDefaultValue,
 		"isNotVoid":                gbase.IsNotVoid,

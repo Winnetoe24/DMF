@@ -35,7 +35,7 @@ func NewTemplate() JavaTemplate {
 		"removeNewLine":                   gbase.RemoveNewLine,
 		"capitalize":                      gbase.Capitalize,
 		"variableDefaultValue":            variableDefaultValue,
-		"toConstructor":                   toConstructor,
+		"toConstructor":                   gbase.ToConstructor,
 		"toUpperCase":                     gbase.ToUpperCase,
 		"valueInit":                       valueInit,
 		"createImportKontext":             createJavaImportKontext,
