@@ -10,8 +10,10 @@ import (
 	"github.com/Winnetoe24/DMF/lsp/server/connect/connectUtils"
 	"github.com/Winnetoe24/DMF/lsp/service"
 	"github.com/Winnetoe24/DMF/lsp/service/logService"
+	"github.com/Winnetoe24/DMF/semantic"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
+	"os"
 )
 
 const didOpenMethod = "textDocument/didOpen"
@@ -104,7 +106,7 @@ func (receiver *FileService) OpenFile(params textEdit.DidOpenTextDocumentParams)
 
 		if !found {
 			logger.Printf("%sCreate FileHandle for %v\n", logService.TRACE, params.TextDocument.URI)
-			handle, err := openFileHandle(params, receiver.listeners)
+			handle, err := openFileHandle(params, receiver.listeners, receiver.readFileForImport)
 			if err != nil {
 				logger.Printf("%sError Creating FileHandle for %v: %e\n", logService.ERROR, params.TextDocument.URI, err)
 			} else {
@@ -123,7 +125,7 @@ func (receiver *FileService) EditFile(params textEdit.DidChangeTextDocumentParam
 
 		if found {
 			logger.Printf("%sEdit File for %v\n", logService.TRACE, params.TextDocument.URI)
-			err := handle.editFileHandle(params, receiver.listeners)
+			err := handle.editFileHandle(params, receiver.listeners, receiver.readFileForImport)
 			if err != nil {
 				logger.Printf("%sError Editing FileHandle for %v: %e\n", logService.ERROR, params.TextDocument.URI, err)
 			}
@@ -169,4 +171,24 @@ func (receiver *FileService) GetFileContent(uri protokoll.DocumentURI) (FileCont
 	}
 	ret := <-returnChannel
 	return ret.FileContent, ret.error
+}
+
+func (receiver *FileService) readFileForImport(absPath string, usedFiles []string) (smodel.TypeLookUp, error) {
+	handle, found := receiver.handleMap[string(protokoll.FromFilePath(absPath))]
+	if found {
+		return *handle.LookUp, nil
+	}
+	file, err := os.ReadFile(absPath)
+	if err != nil {
+		return nil, err
+	}
+	newUsedFiles := append(append([]string{}, usedFiles...), absPath)
+	errorElements, _, err, _, _, up := semantic.ParseNewFile(string(file), receiver.readFileForImport, newUsedFiles)
+	if err != nil {
+		return nil, err
+	}
+	if errorElements != nil && len(errorElements) > 0 {
+		return nil, errors.New("Es kam zu Fehlern in der eingelesenden Datei")
+	}
+	return up, nil
 }

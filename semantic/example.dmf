@@ -1,7 +1,7 @@
 dmf 1.0.0
 model "beispiel" version 0.0.1
 
-import de.domain from "./test.dmf"
+import domain from "./test.dmf"
 
 // Das ist das oberste Package
 package de.beispiel {

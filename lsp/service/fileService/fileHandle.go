@@ -23,12 +23,15 @@ type fileHandle struct {
 	Version     int32
 }
 
-func openFileHandle(params textEdit.DidOpenTextDocumentParams, listeners []FileChangeListener) (fileHandle, error) {
+func openFileHandle(params textEdit.DidOpenTextDocumentParams, listeners []FileChangeListener, loadFile func(absPath string, usedFiles []string) (smodel.TypeLookUp, error)) (fileHandle, error) {
 
-	errorElements, errPos, err, tree, model, up := semantic.ParseNewFile(params.TextDocument.Text)
+	path, err := params.TextDocument.URI.ToFilePath()
+	if err != nil {
+		return fileHandle{}, err
+	}
+	errorElements, errPos, err, tree, model, up := semantic.ParseNewFile(params.TextDocument.Text, loadFile, []string{path})
 
 	if errorElements != nil {
-		path, _ := params.TextDocument.URI.ToFilePath()
 		var ctx = &errElement.ErrorContext{
 			Dateiname:   path,
 			Dateiinhalt: []byte(params.TextDocument.Text),
@@ -67,13 +70,18 @@ type InputEditResult struct {
 	Error           error
 }
 
-func (doc *fileHandle) editFileHandle(params textEdit.DidChangeTextDocumentParams, listeners []FileChangeListener) error {
+func (doc *fileHandle) editFileHandle(params textEdit.DidChangeTextDocumentParams, listeners []FileChangeListener, loadFile func(absPath string, usedFiles []string) (smodel.TypeLookUp, error)) error {
 	changes := doc.applyChanges(&params)
 	if changes.Error != nil {
 		return changes.Error
 	}
 
-	ast, model, up, errorElements := semantic.ParseEdit(changes.NewContent, changes.TreeSitterEdits, doc.Ast, doc.Model, doc.LookUp)
+	path, err := params.TextDocument.URI.ToFilePath()
+	if err != nil {
+		return err
+	}
+
+	ast, model, up, errorElements := semantic.ParseEdit(changes.NewContent, changes.TreeSitterEdits, doc.Ast, doc.Model, doc.LookUp, loadFile, []string{path})
 	doc.Model.CleanTreeReferences()
 	doc.Ast.Close()
 	doc.Ast = ast
@@ -84,7 +92,6 @@ func (doc *fileHandle) editFileHandle(params textEdit.DidChangeTextDocumentParam
 		listener.HandleFileChange(params.TextDocument.URI, doc.FileContent, doc.Ast, doc.Model, up, errorElements, params.TextDocument.Version)
 	}
 	if errorElements != nil {
-		path, _ := params.TextDocument.URI.ToFilePath()
 		var ctx = &errElement.ErrorContext{
 			Dateiname:   path,
 			Dateiinhalt: []byte(changes.NewContent),

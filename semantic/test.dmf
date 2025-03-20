@@ -1,0 +1,7 @@
+dmf 1.0.0
+model "import" version 1.0.0
+
+package domain {
+    struct DomainElement {
+    }
+}

@@ -18,6 +18,7 @@ import (
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 	"io"
 	"os"
+	"path/filepath"
 	"slices"
 	"sync"
 )
@@ -51,7 +52,11 @@ func main() {
 		panic(err)
 	}
 
-	errorElements, _, _, _, _, up := semantic.ParseNewFile(string(file))
+	abs, err := filepath.Abs(*modelFile)
+	if err != nil {
+		panic(err)
+	}
+	errorElements, _, _, _, _, up := semantic.ParseNewFile(string(file), loadFile, []string{abs})
 	context := err_element.ErrorContext{
 		Dateiname:   *modelFile,
 		Dateiinhalt: file,
@@ -92,6 +97,29 @@ func main() {
 		GenerateDatabase(*basePath, schema)
 	}
 	operations.Wait()
+}
+
+func loadFile(absPath string, usedFiles []string) (smodel.TypeLookUp, error) {
+	file, err := os.ReadFile(absPath)
+	if err != nil {
+		return nil, err
+	}
+	newUsedFiles := append(append([]string{}, usedFiles...), absPath)
+	context := err_element.ErrorContext{
+		Dateiname:   absPath,
+		Dateiinhalt: file,
+	}
+	errorElements, _, err, _, _, up := semantic.ParseNewFile(string(file), loadFile, newUsedFiles)
+	if err != nil {
+		return nil, err
+	}
+	if errorElements != nil && len(errorElements) > 0 {
+		for _, element := range errorElements {
+			println(element.ToErrorMsg(&context))
+		}
+		os.Exit(1)
+	}
+	return up, nil
 }
 
 func GenerateJava(basePath string, lookup smodel.TypeLookUp) {

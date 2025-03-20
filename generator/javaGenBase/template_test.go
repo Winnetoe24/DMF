@@ -51,7 +51,7 @@ func TestClass(t *testing.T) {
 		t.Errorf("Error reading file: %e", err)
 	}
 
-	_, _, _, _, _, up := semantic.ParseNewFile(string(file))
+	_, _, _, _, _, up := semantic.ParseNewFile(string(file), nil, nil)
 	data := up["de.test.TestKlasse"]
 	template := NewTemplate()
 	bufferString := bytes.NewBufferString("")
