@@ -224,7 +224,7 @@ export class User {
         return delegate.sayName(this);
     }
 }
-    \end{lstlisting}
+    \end{lstlisting} % TODO Beispiele für mehr Elemente
     In der Modellklasse sind alle Variablen und Funktionen enthalten.
     Die Delegate Funktionen werden importiert und in den Funktionen der Modellklasse aufgerufen.
     \begin{lstlisting}[language=Typescript, caption=UserDelegate.ts, label=lst:userDelegateTs]
@@ -237,11 +237,14 @@ export function sayName(caller: User): string {
     In der Delegatedatei werden die Funktionen mti dem zusätzlichen Caller generiert.
     Die Inhalte der Funktionen müssen die Entwickler*innen selbstständig implementieren.
     \\\\
-    Im Server kann nun ein neuer Endpunkt hinzugefügt werden welcher eine Instanz des Users erstellt und ausgibt.
+    Im Server kann nun ein neuer Endpunkt hinzugefügt werden, welcher eine Instanz des Users erstellt und ausgibt.
+    In einem realen Projekt würden an dieser Stelle die Prozesse des Programms mit den modellierten Elementen aufgerufen werden.
     \begin{lstlisting}[language=Typescript, caption=Neuer Endpunkt in index.ts, label=indexTs]
 app.get("/user", (req: Request, res: Response) => {
     let user: User = new User(1, "Test")
     res.send(user);
 });
     \end{lstlisting}
+
+    \subsection{Anlage des Java Projektes}\label{subsec:anlage-des-java-projektes}
 \end{document}
