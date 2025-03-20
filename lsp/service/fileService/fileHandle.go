@@ -25,10 +25,7 @@ type fileHandle struct {
 
 func openFileHandle(params textEdit.DidOpenTextDocumentParams, listeners []FileChangeListener) (fileHandle, error) {
 
-	afterTree := make(chan *tree_sitter.Tree)
-	afterModel := make(chan *smodel.Model)
-
-	errorElements, errPos, err, up := semantic.ParseNewFile(params.TextDocument.Text, afterTree, afterModel)
+	errorElements, errPos, err, tree, model, up := semantic.ParseNewFile(params.TextDocument.Text)
 
 	if errorElements != nil {
 		path, _ := params.TextDocument.URI.ToFilePath()
@@ -49,8 +46,6 @@ func openFileHandle(params textEdit.DidOpenTextDocumentParams, listeners []FileC
 		}
 		return fileHandle{}, err
 	}
-	tree := <-afterTree
-	model := <-afterModel
 
 	for _, listener := range listeners {
 		listener.HandleFileChange(params.TextDocument.URI, params.TextDocument.Text, tree, model, up, errorElements, params.TextDocument.Version)
@@ -78,20 +73,7 @@ func (doc *fileHandle) editFileHandle(params textEdit.DidChangeTextDocumentParam
 		return changes.Error
 	}
 
-	//afterTree := make(chan *tree_sitter.Tree)
-	//afterModel := make(chan *smodel.Model)
-
-	//errorElements, _, _, up := semantic.ParseNewFile(changes.NewContent, afterTree, afterModel)
-	//tree := <-afterTree
-	//model := <-afterModel
-	//doc.Model.CleanTreeReferences()
-	//doc.Ast.Close()
-	//doc.Ast = tree
-	//doc.Model = model
-	//doc.LookUp = &up
-
-	//
-	ast, model, up, errorElements := semantic_rules.ParseEdit(changes.NewContent, changes.TreeSitterEdits, doc.Ast, doc.Model, doc.LookUp)
+	ast, model, up, errorElements := semantic.ParseEdit(changes.NewContent, changes.TreeSitterEdits, doc.Ast, doc.Model, doc.LookUp)
 	doc.Model.CleanTreeReferences()
 	doc.Ast.Close()
 	doc.Ast = ast

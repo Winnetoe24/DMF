@@ -53,7 +53,7 @@ func testSetup(t testing.TB, filename string) (model smodel.Model, ctx *err_elem
 	}
 	tree := parser.Parse(file, nil)
 
-	model, elements, err := sematic_model.Parse(file, tree)
+	model, elements, err := sematic_model.Parse(file, tree, nil, nil)
 	if err != nil {
 		t.Errorf("Error parsing file: %e", err)
 	}

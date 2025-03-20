@@ -11,4 +11,7 @@ type SemanticContext struct {
 	Model         smodel.Model
 	Text          []byte
 	Cursor        *tree_sitter.TreeCursor
+	ParseFile     func(statement smodel.ImportStatement) (smodel.TypeLookUp, *err_element.ErrorElement)
+	// Contains all Files in Import Order.
+	UsedFiles []string
 }

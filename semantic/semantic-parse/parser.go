@@ -21,7 +21,8 @@ func init() {
 	//errorQuery = query
 }
 
-func Parse(text []byte, tree *tree_sitter.Tree) (smodel.Model, []errElement.ErrorElement, error) {
+func Parse(text []byte, tree *tree_sitter.Tree,
+	parseFile func(statement smodel.ImportStatement) (smodel.TypeLookUp, *errElement.ErrorElement)) (smodel.Model, []errElement.ErrorElement, error) {
 
 	cursor := tree.Walk()
 	if cursor == nil {
@@ -33,6 +34,7 @@ func Parse(text []byte, tree *tree_sitter.Tree) (smodel.Model, []errElement.Erro
 		Model:         smodel.Model{},
 		Text:          text,
 		Cursor:        cursor,
+		ParseFile:     parseFile,
 	}
 	//dmf_lang.ForEachQuery(errorQuery, tree, func(_ uint, node *tree_sitter.Node) bool {
 	//	context.ErrorElements = append(context.ErrorElements, errElement.CreateErrorElement(node, errors.New("Syntax Error")))
@@ -72,9 +74,33 @@ func (S *SemanticContext) parseSourceFile() {
 	}
 	// TODO Import Statement
 	S.parseImportStatements()
-
+	for _, statement := range S.Model.ImportStatements {
+		importedPackage := S.handleImport(statement)
+		if importedPackage != nil {
+			S.Model.Packages = append(S.Model.Packages, *importedPackage)
+		}
+	}
 	S.parseModelContent()
 
+}
+
+func (S *SemanticContext) handleImport(statement smodel.ImportStatement) *packages.Package {
+	lookUp, elements := S.ParseFile(statement)
+	if elements != nil {
+		S.ErrorElements = append(S.ErrorElements, *elements)
+		statement.ImportFailed = true
+		return nil
+	}
+	packageElement, found := lookUp[statement.Package.ToString()]
+	if !found {
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(statement.Node, errors.New("Das importierte Package konnte in der referenzierten Datei nicht gefunden werden.")))
+		return nil
+	}
+	if packageElement.GetType() != base.PACKAGE {
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(statement.Node, errors.New("Das importierte Element ist kein Package.")))
+		return nil
+	}
+	return packageElement.(*packages.Package)
 }
 
 func (S *SemanticContext) parseDmfDeclaration() {
@@ -186,13 +212,7 @@ func (S *SemanticContext) parseImportStatements() {
 		if element != nil {
 			S.ErrorElements = append(S.ErrorElements, *element)
 		} else {
-			if statement.Node == nil && statement.ModelElement.Node == nil {
-				//S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("Node is nil")))
-				S.Model.ImportStatements = append(S.Model.ImportStatements, statement)
-			} else {
-				S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(statement.Node, errors.New("Node is not nil")))
-				S.Model.ImportStatements = append(S.Model.ImportStatements, statement)
-			}
+			S.Model.ImportStatements = append(S.Model.ImportStatements, statement)
 		}
 		if !S.Cursor.GotoNextSibling() {
 			break
@@ -222,9 +242,10 @@ func (S *SemanticContext) parseImportStatement() (smodel.ImportStatement, *errEl
 		FileName: base.StringValue{},
 	}
 
+	S.Cursor.GotoNextSibling()
 	packagePath, _, element := S.parsePackageString(make(base.ModelPath, 0), false)
 	if element != nil {
-		return smodel.ImportStatement{}, errorElement
+		return smodel.ImportStatement{}, element
 	}
 	data.Package = packagePath
 

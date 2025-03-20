@@ -28,7 +28,6 @@ func main() {
 		newServer := server.NewServer(connect.NewStdIOConnection())
 		newServer.MessageLoop()
 	} else {
-		logService.SwitchToStdIO()
 		logger := logService.GetLogger()
 		listener, err := net.Listen("tcp", args.Port)
 		if err != nil {

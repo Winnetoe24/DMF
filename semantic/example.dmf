@@ -1,6 +1,8 @@
 dmf 1.0.0
 model "beispiel" version 0.0.1
 
+import de.domain from "./test.dmf"
+
 // Das ist das oberste Package
 package de.beispiel {
 
@@ -35,10 +37,9 @@ package de.beispiel {
             // Kommentar über Referenz
             ref Zimmer zimmer;
             arg string name;
-            ref ..other.Beispiel[] bsp;
+            ref ..other.Beispiel bsp;
 
             identifier(name);
-
         }
         entity Zimmer implements Zeitraum {
             arg long zimmernummer;

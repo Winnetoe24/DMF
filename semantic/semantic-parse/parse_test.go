@@ -45,7 +45,7 @@ func TestParse(t *testing.T) {
 	}
 	//visit(0)
 
-	model, parseErrElements, err := Parse([]byte(text), parse)
+	model, parseErrElements, err := Parse([]byte(text), parse, nil, nil)
 	if err != nil {
 		t.Errorf("Error Parsing: %e", err)
 	}

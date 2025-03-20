@@ -40,7 +40,7 @@ func BenchmarkParse(b *testing.B) {
 
 	b.Run("Parse", func(b *testing.B) {
 		for i := 0; i < b.N; i++ {
-			Parse([]byte(text), parse)
+			Parse([]byte(text), parse, nil, nil)
 		}
 	})
 	//for i := 0; i < b.N; i++ {
@@ -73,7 +73,7 @@ func BenchmarkParseFull(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		b.StartTimer()
 		parse := parser.Parse(file, nil)
-		Parse([]byte(text), parse)
+		Parse([]byte(text), parse, nil, nil)
 		b.StopTimer()
 	}
 }

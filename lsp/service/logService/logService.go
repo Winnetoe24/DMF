@@ -28,6 +28,10 @@ func InitLogger() {
 		baseLogger = log.New(io.Discard, "", 0)
 		return
 	}
+	if !args.UseStd {
+		baseLogger = log.New(os.Stdout, "", log.Ldate|log.Ltime|log.Lshortfile)
+		return
+	}
 	var err error
 	logsDir := os.Getenv("DMF_LSP_LOG")
 	if logsDir == "" {
@@ -105,9 +109,4 @@ func Close() {
 			fmt.Printf("Error while Closing Log File: %e\n", err)
 		}
 	}
-}
-
-func SwitchToStdIO() {
-	baseLogger = log.New(os.Stdout, "", log.Ldate|log.Ltime|log.Lshortfile)
-	Close()
 }

@@ -16,7 +16,6 @@ import (
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	err_element "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
-	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 	"io"
 	"os"
 	"slices"
@@ -51,11 +50,8 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	afterTree := make(chan *tree_sitter.Tree, 1)
-	defer close(afterTree)
-	afterModel := make(chan *smodel.Model, 1)
-	defer close(afterModel)
-	errorElements, _, _, up := semantic.ParseNewFile(string(file), afterTree, afterModel)
+
+	errorElements, _, _, _, _, up := semantic.ParseNewFile(string(file))
 	context := err_element.ErrorContext{
 		Dateiname:   *modelFile,
 		Dateiinhalt: file,

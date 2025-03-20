@@ -2,11 +2,14 @@ package semantic_rules
 
 import (
 	"errors"
+	"fmt"
 	tree_sitter_dmf "github.com/Winnetoe24/DMF/grammar/dmf_language"
 	sematic_model "github.com/Winnetoe24/DMF/semantic/semantic-parse"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
 	err_element "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
+	"path/filepath"
+	"slices"
 )
 
 const (
@@ -14,23 +17,47 @@ const (
 	ERROR_AFTER_SEMANTIC_PARSE     = 2
 )
 
-func ParseNewFile(fileContent string, afterParse chan<- *tree_sitter.Tree, afterSematicModel chan<- *smodel.Model) ([]err_element.ErrorElement, int, error, smodel.TypeLookUp) {
+func parseImportedFile(statement smodel.ImportStatement, usedFiles []string, loadFile func(absPath string, usedFiles []string) (smodel.TypeLookUp, error)) (smodel.TypeLookUp, *err_element.ErrorElement) {
+	if statement.Node == nil {
+		fmt.Printf("ImportStatement in ImportFunction: %+v\n", statement)
+	}
+	if len(usedFiles) == 0 {
+		return nil, err_element.CreateErrorElementRef(statement.FileName.Node, errors.New("Pfad der aktuellen Datei nicht vorhanden."))
+	}
+
+	// Determine File Path
+	parentFilePath := usedFiles[len(usedFiles)-1]
+	dir, _ := filepath.Split(parentFilePath)
+	newRelativeFilePath := filepath.Join(dir, statement.FileName.Value)
+	abs, err := filepath.Abs(newRelativeFilePath)
+	if err != nil {
+		return nil, err_element.CreateErrorElementRef(statement.FileName.Node, err)
+	}
+
+	if slices.Contains(usedFiles, abs) {
+		return nil, err_element.CreateErrorElementRef(statement.FileName.Node, errors.New("Rekursiver Import"))
+	}
+
+	lookUp, err := loadFile(abs, usedFiles)
+	if err != nil {
+		return nil, err_element.CreateErrorElementRef(statement.FileName.Node, err)
+	}
+	return lookUp, nil
+}
+
+func ParseNewFile(fileContent string, loadFile func(absPath string, usedFiles []string) (smodel.TypeLookUp, error), usedFiles []string) ([]err_element.ErrorElement, int, error, *tree_sitter.Tree, *smodel.Model, smodel.TypeLookUp) {
 
 	tree, err := callTreeSitterParser(fileContent)
 	if err != nil {
-		return nil, ERROR_AFTER_TREE_SITTER_PARSER, err, nil
+		return nil, ERROR_AFTER_TREE_SITTER_PARSER, err, nil, nil, nil
 	}
-	go func() {
-		afterParse <- tree
-	}()
 
-	parsedModel, errorElementsModel, err := sematic_model.Parse([]byte(fileContent), tree)
+	parsedModel, errorElementsModel, err := sematic_model.Parse([]byte(fileContent), tree, func(statement smodel.ImportStatement) (smodel.TypeLookUp, *err_element.ErrorElement) {
+		return parseImportedFile(statement, usedFiles, loadFile)
+	})
 	if err != nil {
-		return nil, ERROR_AFTER_SEMANTIC_PARSE, err, nil
+		return nil, ERROR_AFTER_SEMANTIC_PARSE, err, nil, nil, nil
 	}
-	go func() {
-		afterSematicModel <- &parsedModel
-	}()
 
 	var errorElements []err_element.ErrorElement
 
@@ -38,7 +65,7 @@ func ParseNewFile(fileContent string, afterParse chan<- *tree_sitter.Tree, after
 	errorElements, lookup = runRulesSync(&parsedModel)
 
 	errorElements = append(errorElements, errorElementsModel...)
-	return errorElements, 0, nil, lookup
+	return errorElements, 0, nil, tree, &parsedModel, lookup
 }
 
 func callTreeSitterParser(fileContent string) (*tree_sitter.Tree, error) {
@@ -101,7 +128,7 @@ func runRulesSync(model *smodel.Model) ([]err_element.ErrorElement, smodel.TypeL
 	return err, lookUp
 }
 
-func ParseEdit(fileContent string, edits []*tree_sitter.InputEdit, tree *tree_sitter.Tree, model *smodel.Model, lookup *smodel.TypeLookUp) (*tree_sitter.Tree, smodel.Model, smodel.TypeLookUp, []err_element.ErrorElement) {
+func ParseEdit(fileContent string, edits []*tree_sitter.InputEdit, tree *tree_sitter.Tree, model *smodel.Model, lookup *smodel.TypeLookUp, loadFile func(absPath string, usedFiles []string) (smodel.TypeLookUp, error), usedFiles []string) (*tree_sitter.Tree, smodel.Model, smodel.TypeLookUp, []err_element.ErrorElement) {
 	errorElements := make([]err_element.ErrorElement, 0)
 	for _, edit := range edits {
 		tree.Edit(edit)
@@ -115,7 +142,9 @@ func ParseEdit(fileContent string, edits []*tree_sitter.InputEdit, tree *tree_si
 	}
 	tree_new := parser.Parse([]byte(fileContent), tree)
 
-	parsedModel, errorElementsModel, err := sematic_model.Parse([]byte(fileContent), tree_new)
+	parsedModel, errorElementsModel, err := sematic_model.Parse([]byte(fileContent), tree_new, func(statement smodel.ImportStatement) (smodel.TypeLookUp, *err_element.ErrorElement) {
+		return parseImportedFile(statement, usedFiles, loadFile)
+	})
 	if err != nil {
 		errorElements = append(errorElements, err_element.CreateErrorElement(nil, err))
 		return tree_new, parsedModel, nil, errorElementsModel

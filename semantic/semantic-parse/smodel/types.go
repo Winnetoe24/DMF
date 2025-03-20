@@ -17,8 +17,9 @@ type (
 
 	ImportStatement struct {
 		base.ModelElement
-		Package  base.ModelPath
-		FileName base.StringValue
+		Package      base.ModelPath
+		FileName     base.StringValue
+		ImportFailed bool
 	}
 )
 

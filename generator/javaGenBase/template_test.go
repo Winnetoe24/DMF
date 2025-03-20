@@ -3,9 +3,7 @@ package javaGenBase
 import (
 	"bytes"
 	"github.com/Winnetoe24/DMF/semantic"
-	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
-	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 	"os"
 	"testing"
 )
@@ -53,11 +51,7 @@ func TestClass(t *testing.T) {
 		t.Errorf("Error reading file: %e", err)
 	}
 
-	afterTree := make(chan *tree_sitter.Tree, 1)
-	defer close(afterTree)
-	afterModel := make(chan *smodel.Model, 1)
-	defer close(afterModel)
-	_, _, _, up := semantic.ParseNewFile(string(file), afterTree, afterModel)
+	_, _, _, _, _, up := semantic.ParseNewFile(string(file))
 	data := up["de.test.TestKlasse"]
 	template := NewTemplate()
 	bufferString := bytes.NewBufferString("")

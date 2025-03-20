@@ -18,7 +18,7 @@ func TestAPI(t *testing.T) {
 
 	//When
 	models := make(chan<- *sematic_model.Model)
-	errorElements, errPos, err, _ := ParseNewFile(string(file), make(chan<- *tree_sitter.Tree), models)
+	errorElements, errPos, err, _, _, _ := ParseNewFile(string(file), nil, []string{})
 	//model := <-models
 	//packages := model.Packages
 	//t.Logf("Size: %v", unsafe.Sizeof(packages))
@@ -50,7 +50,7 @@ func BenchmarkParseNewFile(b *testing.B) {
 		for i := 0; i < b.N; i++ {
 			treeChannel := make(chan *tree_sitter.Tree, 1)
 			modelChannel := make(chan *sematic_model.Model, 1)
-			ParseNewFile(string(file), treeChannel, modelChannel)
+			ParseNewFile(string(file), nil, []string{})
 			_ = <-treeChannel
 			_ = <-modelChannel
 			close(treeChannel)
@@ -77,7 +77,7 @@ func TestAPIEditNothing(t *testing.T) {
 	//When
 	models := make(chan *sematic_model.Model)
 	trees := make(chan *tree_sitter.Tree)
-	errorElements, errPos, err, lookup := ParseNewFile(string(file), trees, models)
+	errorElements, errPos, err, _, _, lookup := ParseNewFile(string(file), nil, []string{})
 	model := <-models
 	tree := <-trees
 	//packages := model.Packages
@@ -122,7 +122,7 @@ func TestAPIEdit(t *testing.T) {
 	//When
 	models := make(chan *sematic_model.Model)
 	trees := make(chan *tree_sitter.Tree)
-	errorElements, errPos, err, lookup := ParseNewFile(string(file), trees, models)
+	errorElements, errPos, err, _, _, lookup := ParseNewFile(string(file), nil, []string{})
 	model := <-models
 	tree := <-trees
 	//packages := model.Packages
