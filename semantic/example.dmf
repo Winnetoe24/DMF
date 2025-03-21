@@ -3,6 +3,12 @@ model "beispiel" version 0.0.1
 
 import domain from "./test.dmf"
 
+expand package domain {
+    expand struct DomainElement {
+        ref ..de.beispiel.hotel.Buchungszeitraum zeitraum;
+    }
+}
+
 // Das ist das oberste Package
 package de.beispiel {
 

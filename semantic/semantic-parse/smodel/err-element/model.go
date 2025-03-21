@@ -52,7 +52,17 @@ func (e ErrorElement) ToErrorMsg(ctx *ErrorContext) string {
 	}
 	e.Fehler.render(ctx)
 
-	underline := strings.Repeat(" ", offsetStart) + strings.Repeat("^", len(e.Fehler.ModelCode)-offsetStart-offsetEnd) + strings.Repeat(" ", offsetEnd)
+	count := len(e.Fehler.ModelCode) - offsetStart - offsetEnd
+	if count < 0 {
+		count = 0
+	}
+	if offsetEnd < 0 {
+		offsetEnd = 0
+	}
+	if offsetStart < 0 {
+		offsetStart = 0
+	}
+	underline := strings.Repeat(" ", offsetStart) + strings.Repeat("^", count) + strings.Repeat(" ", offsetEnd)
 	render := fmt.Sprintf("FehlerStelle in Position %v:%v:%v\n%s\n%s\n%v\n", ctx.Dateiname, e.Fehler.Node.StartPosition().Row+1, e.Fehler.Node.StartPosition().Column, e.Fehler.ModelCode, underline, e.Error)
 	if e.Cause != nil {
 		e.Cause.render(ctx)

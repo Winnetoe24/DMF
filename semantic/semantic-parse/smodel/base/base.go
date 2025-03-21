@@ -68,6 +68,28 @@ func (m ModelPath) ToString() string {
 	}
 	return s
 }
+func (m ModelPath) Equals(path ModelPath) bool {
+	if len(m) != len(path) {
+		return false
+	}
+	for i, s := range m {
+		if s != path[i] {
+			return false
+		}
+	}
+	return true
+}
+func (m ModelPath) IsSubPath(path ModelPath) bool {
+	if len(m) > len(path) {
+		return false
+	}
+	for i, s := range m {
+		if s != path[i] {
+			return false
+		}
+	}
+	return true
+}
 
 type ElementIdentifier struct {
 	ModelElement

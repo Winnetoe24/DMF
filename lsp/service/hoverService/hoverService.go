@@ -540,6 +540,9 @@ func (h *HoverService) renderPackageElementPlainText(node *tree_sitter.Node, con
 	for _, element := range content.LookUp {
 		base := element.GetBase()
 		//if base.Node.Utf8Text([]byte(content.Content)) == node.Utf8Text([]byte(content.Content)) {
+		if base == nil || base.Node == nil {
+			continue
+		}
 		if base.Node.Id() == node.Id() {
 			kommentar := ""
 			if base.Kommentar != nil {

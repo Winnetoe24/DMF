@@ -247,4 +247,51 @@ app.get("/user", (req: Request, res: Response) => {
     \end{lstlisting}
 
     \subsection{Anlage des Java Projektes}\label{subsec:anlage-des-java-projektes}
+    Für das Java Projekt wird Maven als Build Tool verwendet.
+    Deshalb beginnt die Anlage der beiden Maven Artefakte mit der Anlage der `pom.xml'-Dateien.
+    In ihnen werden die Namen, Versionen, die Plugins und Abhängigkeiten definiert.\\
+    Im JDomain Artefakt wird nun die Ausführung des \acrshort{dmf}-Plugins hinzugefügt.
+    \begin{lstlisting}[language=XML, caption=Konfiguration des \acrshort{dmf}-Plugins, label=lst:jdomainPlugins]
+<build>
+    <plugins>
+        <plugin>
+            <groupId>de.alex-brand.dmf</groupId>
+            <artifactId>dmf-generator-plugin</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <executions>
+                <execution>
+                    <id>java-gen</id>
+                    <goals>
+                        <goal>generate-model</goal>
+                    </goals>
+                </execution>
+                <execution>
+                    <id>java-delegates-gen</id>
+                    <goals>
+                        <goal>generate-delegates</goal>
+                    </goals>
+                    <configuration>
+                        <tempSources>./src/gen/java</tempSources>
+                    </configuration>
+                </execution>
+                <execution>
+                    <id>schema-gen</id>
+                    <goals>
+                        <goal>generate-model</goal>
+                    </goals>
+                    <configuration>
+                        <zielsprache>sql</zielsprache>
+                        <tempSources>./src/test/resources</tempSources>
+                    </configuration>
+                </execution>
+
+            </executions>
+            <configuration>
+                <modelPath>../Modell/domain.dmf</modelPath>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+    \end{lstlisting}
+
 \end{document}

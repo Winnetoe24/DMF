@@ -98,7 +98,10 @@ func (f *FoldingService) getFoldingRanges(content fileService.FileContent) []fol
 
 	// Add package folding ranges
 	for _, element := range content.LookUp {
-		ranges = append(ranges, f.createFoldingRange(element))
+		foldingRange := f.createFoldingRange(element)
+		if foldingRange != nil {
+			ranges = append(ranges, *foldingRange)
+		}
 	}
 
 	// Add comment folding ranges
@@ -110,9 +113,12 @@ func (f *FoldingService) getFoldingRanges(content fileService.FileContent) []fol
 	return ranges
 }
 
-func (f *FoldingService) createFoldingRange(element packages.PackageElement) folding.FoldingRange {
+func (f *FoldingService) createFoldingRange(element packages.PackageElement) *folding.FoldingRange {
 	baseElement := element.GetBase()
 
+	if baseElement.Node == nil {
+		return nil
+	}
 	cursor := baseElement.Node.Walk()
 	var startNode *tree_sitter.Node = nil
 	var endNode *tree_sitter.Node = nil
@@ -145,7 +151,7 @@ func (f *FoldingService) createFoldingRange(element packages.PackageElement) fol
 		fRange.EndCharacter = &endChar
 	}
 
-	return fRange
+	return &fRange
 }
 
 func (f *FoldingService) getCommentFoldingRanges(root *tree_sitter.Tree, content string) []folding.FoldingRange {

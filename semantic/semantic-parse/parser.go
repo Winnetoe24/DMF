@@ -34,6 +34,7 @@ func Parse(text []byte, tree *tree_sitter.Tree,
 		Model:         smodel.Model{},
 		Text:          text,
 		Cursor:        cursor,
+		ImportLookUp:  make(smodel.TypeLookUp),
 		ParseFile:     parseFile,
 	}
 	//dmf_lang.ForEachQuery(errorQuery, tree, func(_ uint, node *tree_sitter.Node) bool {
@@ -75,32 +76,51 @@ func (S *SemanticContext) parseSourceFile() {
 	// TODO Import Statement
 	S.parseImportStatements()
 	for _, statement := range S.Model.ImportStatements {
-		importedPackage := S.handleImport(statement)
-		if importedPackage != nil {
-			S.Model.Packages = append(S.Model.Packages, *importedPackage)
-		}
+		S.handleImport(&statement)
 	}
 	S.parseModelContent()
 
 }
 
-func (S *SemanticContext) handleImport(statement smodel.ImportStatement) *packages.Package {
-	lookUp, elements := S.ParseFile(statement)
+func (S *SemanticContext) handleImport(statement *smodel.ImportStatement) {
+	lookUp, elements := S.ParseFile(*statement)
 	if elements != nil {
 		S.ErrorElements = append(S.ErrorElements, *elements)
 		statement.ImportFailed = true
-		return nil
+		return
 	}
 	packageElement, found := lookUp[statement.Package.ToString()]
 	if !found {
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(statement.Node, errors.New("Das importierte Package konnte in der referenzierten Datei nicht gefunden werden.")))
-		return nil
+		return
 	}
 	if packageElement.GetType() != base.PACKAGE {
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(statement.Node, errors.New("Das importierte Element ist kein Package.")))
-		return nil
+		return
 	}
-	return packageElement.(*packages.Package)
+	S.addPackageToImportLookUp(statement, packageElement.(*packages.Package))
+}
+
+func (S *SemanticContext) addPackageToImportLookUp(statement *smodel.ImportStatement, p *packages.Package) {
+	_, found := S.ImportLookUp[p.Path.ToString()]
+	if found {
+		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(statement.Node, errors.New("Duplicate Import")))
+		return
+	}
+	S.ImportLookUp[p.Path.ToString()] = p
+
+	for _, element := range p.Elements {
+		switch element := element.(type) {
+		case *packages.Package:
+			S.addPackageToImportLookUp(statement, element)
+		default:
+			_, found := S.ImportLookUp[element.GetBase().Path.ToString()]
+			if found {
+				S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(statement.Node, errors.New("Duplicate Import")))
+			}
+			S.ImportLookUp[element.GetBase().Path.ToString()] = element
+		}
+	}
 }
 
 func (S *SemanticContext) parseDmfDeclaration() {
@@ -429,6 +449,26 @@ func (S *SemanticContext) parsePackageBlock(current base.ModelPath, comment *bas
 	}
 	p.Path = packageString
 	p.Identifier = elementIdentifier
+	var importedPackage *packages.Package
+	if expand {
+		element, found := S.ImportLookUp[packageString.ToString()]
+		if !found {
+			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(p.Node, errors.New("Erweitertes Element nicht gefunden")))
+		} else {
+			switch element := element.(type) {
+			case *packages.Package:
+				importedPackage = element
+			default:
+				S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(p.Node, errors.New("Erweitertes Element ist kein Package")))
+			}
+		}
+
+	}
+	if importedPackage != nil {
+		if p.Kommentar == nil {
+			p.Kommentar = importedPackage.Kommentar
+		}
+	}
 
 	hasNextSibling = S.Cursor.GotoNextSibling()
 	if !hasNextSibling {
@@ -446,6 +486,22 @@ func (S *SemanticContext) parsePackageBlock(current base.ModelPath, comment *bas
 		} else {
 			p.Elements = append(p.Elements, content)
 		}
+	}
+	if importedPackage != nil {
+		elementsToAdd := make([]packages.PackageElement, 0)
+	ImportedElementsLoop:
+		for _, element := range importedPackage.Elements {
+			for _, packageElement := range p.Elements {
+				if packageElement.GetBase().Path.Equals(element.GetBase().Path) {
+					if !packageElement.GetBase().Expand {
+						S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(packageElement.GetBase().Node, errors.New("erweitertes Element ohne Expand Keyword")))
+					}
+					continue ImportedElementsLoop
+				}
+			}
+			elementsToAdd = append(elementsToAdd, element)
+		}
+		p.Elements = append(p.Elements, elementsToAdd...)
 	}
 
 	return p
@@ -488,6 +544,50 @@ func (S *SemanticContext) parseStructBlock(current base.ModelPath, comment *base
 	structElement.Identifier = S.parseIdentifier(false)
 	structElement.Path = append(current, structElement.Identifier.Name)
 
+	var identifier *packages.EntityIdentifier
+	if expand {
+		element, found := S.ImportLookUp[structElement.Path.ToString()]
+		if !found {
+			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("Erweitertes Element nicht gefunden")))
+		} else {
+			var importedStructElement *packages.StructElement
+			var importedEntityIdentifier *packages.EntityIdentifier
+			switch element := element.(type) {
+			case *packages.EntityElement:
+				if entity {
+					importedStructElement = &element.StructElement
+					importedEntityIdentifier = &element.EntityIdentifier
+				} else {
+					S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("Erweitertes Element ist eine Entity und kein Struct")))
+				}
+			case *packages.StructElement:
+				if !entity {
+					importedStructElement = element
+				} else {
+					S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("Erweitertes Element ist ein Struct und keine Entity")))
+				}
+			default:
+				S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("Erweitertes Element ist kein Struct")))
+			}
+
+			if importedStructElement != nil {
+				structElement.NamedElements = importedStructElement.NamedElements
+				if structElement.Kommentar == nil {
+					structElement.Kommentar = importedStructElement.Kommentar
+				}
+				structElement.Override = importedStructElement.Override
+				structElement.ExtendsPath = importedStructElement.ExtendsPath
+				structElement.ImplementsPaths = importedStructElement.ImplementsPaths
+				structElement.Argumente = importedStructElement.Argumente
+				structElement.Referenzen = importedStructElement.Referenzen
+				structElement.MultiReferenzen = importedStructElement.MultiReferenzen
+				structElement.Funktionen = importedStructElement.Funktionen
+			}
+
+			identifier = importedEntityIdentifier
+		}
+	}
+
 	// extends
 	hasNextSibling = cursor.GotoNextSibling()
 	if !hasNextSibling {
@@ -498,7 +598,11 @@ func (S *SemanticContext) parseStructBlock(current base.ModelPath, comment *base
 	if errorElement != nil {
 		S.ErrorElements = append(S.ErrorElements, *errorElement)
 	} else if extendsPath != nil {
-		structElement.ExtendsPath = &extendsPath
+		if structElement.ExtendsPath == nil {
+			structElement.ExtendsPath = &extendsPath
+		} else {
+			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("Es darf keine Abstraktion festgelegt werden, wenn schon im importierten Modell eine festgelegt wurde.")))
+		}
 	}
 
 	// implements
@@ -514,7 +618,7 @@ func (S *SemanticContext) parseStructBlock(current base.ModelPath, comment *base
 	if elements != nil {
 		S.ErrorElements = append(S.ErrorElements, elements...)
 	}
-	structElement.ImplementsPaths = block
+	structElement.ImplementsPaths = append(structElement.ImplementsPaths, block...)
 
 	// skip to '{'
 	if cursor.Node().Kind() != "{" {
@@ -525,7 +629,6 @@ func (S *SemanticContext) parseStructBlock(current base.ModelPath, comment *base
 		}
 	}
 
-	var identifier *packages.EntityIdentifier
 	for cursor.GotoNextSibling() {
 		kind := cursor.Node().Kind()
 		n := cursor.Node()
@@ -702,6 +805,25 @@ func (S *SemanticContext) parseInterfaceBlock(current base.ModelPath, comment *b
 	interfaceElement.Identifier = S.parseIdentifier(false)
 	interfaceElement.Path = append(current, interfaceElement.Identifier.Name)
 
+	if expand {
+		element, found := S.ImportLookUp[interfaceElement.Path.ToString()]
+		if !found {
+			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("Erweitertes Element nicht gefunden")))
+		} else {
+			switch element := element.(type) {
+			case *packages.InterfaceElement:
+				interfaceElement.NamedElements = element.NamedElements
+				if interfaceElement.Kommentar == nil {
+					interfaceElement.Kommentar = element.Kommentar
+				}
+				interfaceElement.Override = element.Override
+				interfaceElement.ImplementsPaths = element.ImplementsPaths
+				interfaceElement.Funktionen = element.Funktionen
+			default:
+				S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("Erweitertes Element ist kein Interface")))
+			}
+		}
+	}
 	// implements
 	hasNextSibling = cursor.GotoNextSibling()
 	if !hasNextSibling {
@@ -819,6 +941,25 @@ func (S *SemanticContext) parseEnumBlock(current base.ModelPath, comment *base.C
 	enumElement.Identifier = S.parseIdentifier(false)
 	enumElement.Path = append(current, enumElement.Identifier.Name)
 
+	if expand {
+		element, found := S.ImportLookUp[enumElement.Path.ToString()]
+		if !found {
+			S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("Erweitertes Element nicht gefunden")))
+		} else {
+			switch element := element.(type) {
+			case *packages.EnumElement:
+				enumElement.NamedElements = element.NamedElements
+				if enumElement.Kommentar == nil {
+					enumElement.Kommentar = element.Kommentar
+				}
+				enumElement.Override = element.Override
+				enumElement.Argumente = element.Argumente
+				enumElement.Konstanten = element.Konstanten
+			default:
+				S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(node, errors.New("Erweitertes Element ist kein Enum")))
+			}
+		}
+	}
 	// '{'
 	hasNextSibling = cursor.GotoNextSibling()
 	if !hasNextSibling {

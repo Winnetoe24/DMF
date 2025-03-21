@@ -9,6 +9,10 @@ import (
 // findElementOfNode findet das PackageElement im LookUp durch die Id
 func FindElementOfNode(lookUp smodel.TypeLookUp, node *tree_sitter.Node) packages.PackageElement {
 	for _, element := range lookUp {
+
+		if element == nil || element.GetBase().Node == nil {
+			continue
+		}
 		if element.GetBase().Node.Id() == node.Id() {
 			return element
 		}
