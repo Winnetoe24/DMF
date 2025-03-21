@@ -571,7 +571,6 @@ func (S *SemanticContext) parseStructBlock(current base.ModelPath, comment *base
 			}
 
 			if importedStructElement != nil {
-				structElement.NamedElements = importedStructElement.NamedElements
 				if structElement.Kommentar == nil {
 					structElement.Kommentar = importedStructElement.Kommentar
 				}
@@ -812,7 +811,6 @@ func (S *SemanticContext) parseInterfaceBlock(current base.ModelPath, comment *b
 		} else {
 			switch element := element.(type) {
 			case *packages.InterfaceElement:
-				interfaceElement.NamedElements = element.NamedElements
 				if interfaceElement.Kommentar == nil {
 					interfaceElement.Kommentar = element.Kommentar
 				}
@@ -948,7 +946,6 @@ func (S *SemanticContext) parseEnumBlock(current base.ModelPath, comment *base.C
 		} else {
 			switch element := element.(type) {
 			case *packages.EnumElement:
-				enumElement.NamedElements = element.NamedElements
 				if enumElement.Kommentar == nil {
 					enumElement.Kommentar = element.Kommentar
 				}

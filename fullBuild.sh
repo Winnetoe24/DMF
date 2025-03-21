@@ -22,6 +22,8 @@ echo "Building Windows x86"
 GOOS=windows GOARCH=amd64 CGO_ENABLED=1 CC=/usr/bin/x86_64-w64-mingw32-gcc go build -a -o relay.exe || exit
 cd .. || exit
 
+./buildMavenPlugin.sh
+
 echo "Building Visual Studio Code Plugin"
 echo "Coping Binaries"
 cp ./lsp/lsp ./vscode-plugin/client/lsp/lsp || exit

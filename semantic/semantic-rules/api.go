@@ -10,6 +10,7 @@ import (
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
 	"path/filepath"
 	"slices"
+	"strings"
 )
 
 const (
@@ -28,7 +29,7 @@ func parseImportedFile(statement smodel.ImportStatement, usedFiles []string, loa
 	// Determine File Path
 	parentFilePath := usedFiles[len(usedFiles)-1]
 	dir, _ := filepath.Split(parentFilePath)
-	newRelativeFilePath := filepath.Join(dir, statement.FileName.Value)
+	newRelativeFilePath := filepath.Join(dir, strings.Trim(statement.FileName.Value, " "))
 	abs, err := filepath.Abs(newRelativeFilePath)
 	if err != nil {
 		return nil, err_element.CreateErrorElementRef(statement.FileName.Node, err)
