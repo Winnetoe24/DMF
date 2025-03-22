@@ -1,9 +1,6 @@
 {{define "delegate"}}package {{packagePath .Path}};
 {{$importKontext := createImportKontext .}}{{template "imports" $importKontext}}
 {{template "comment" .Kommentar}}public class {{nameFromPath .Path}} {
-    static {
-        {{nameFromPath .Caller}}.delegate = new {{nameFromPath .Path}}();
-    }
 {{$funktionen := findImplementedFunctions .}}{{range $index, $method := $funktionen}}{{template "method" createFunktionKontextDelegate $method $importKontext}}{{if ne $index (subtract (len $funktionen) 1)}}
 
 {{end}}{{end}}

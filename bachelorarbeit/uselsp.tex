@@ -4,6 +4,7 @@
 \usepackage{float}
 \usepackage{float}
 \usepackage{natbib}
+\usepackage{listings}
 \begin{document}
     \section{Die Nutzung des \acrshort{lsp}}
     \subsection{Installationsmöglichkeiten}
@@ -137,6 +138,7 @@
 
     \section{Nutzung des \acrshort{dmf}}\label{sec:nutzung-des-dmf}
     Zum Darstellen der Benutzung des \acrshort{dmf} wird das Anlegen eines Projektes mit einem Java und einen Typescript Programm beschrieben.
+    Es wird dafür das Modell aus dem Abschnitt \nameref{subsec:beispieldatei}.
 
     \begin{figure}[H]
         \caption{Dateiaufbau für ein Beispielprojekt}
@@ -144,14 +146,15 @@
             .0 .
             .1 Modell.
             .2 domain.dmf.
+            .2 base.dmf.
             .1 TSProjekt.
             .2 src.
-            .3 domain (Modell).
+            .3 de (Modell).
             .3 delegates (Delegates).
             .3 projekt (Projekt).
             .1 JDomain.
-            .2 src/gen/java (Modell).
             .2 src/main/java (Delegates).
+            .2 target/generated-sources/dmf (Modell).
             .1 JProjekt.
             .2 src/main/java (Projekt).
         }
@@ -166,6 +169,18 @@
     Konträr zur Poly-Repository Struktur ist die Mono-Repository Struktur.
     Bei dieser werden alle Projekte in einem Repository verwaltet. \cite{monorepo}
     Hier entfällt die Synchronisation des Modells.
+    \\\\
+    In unserem Beispiel wird das vorher beschriebene Modell (siehe~\ref{subsec:beispieldatei}) zusammen mit einem Basismodell genutzt.
+    \begin{lstlisting}[language=dmf, caption=Das Basismodell, label=lst:basismodell]
+dmf 1.0.0
+model "base" version 1.0.0
+
+package de.base {
+    interface IBeispiel {
+        func string printBeispiel();
+    }
+}
+    \end{lstlisting}
 
     \paragraph{Das Typescript Projekt} enthält sowohl die generierten Dateien als auch den Source Code des eigentlichen Projekts.
     Dies kann besonders in kleinen Projekten den Aufwand reduzieren.
@@ -207,42 +222,135 @@ npx ts-node src/index.ts
     Sie rufen den Generator mit den Parametern für den Source Code Ordner, dem Pfad der Modelldatei und dem jeweiligen Generationsziel auf.
     Da die Konfigurationen in der Build Konfiguration eingebaut wurden, werden sie bei jedem Build automatisch ausgeführt.
     \paragraph{Die generierten Modelldateien} werden in den Ordnern nach ihrem Package Pfad abgelegt.
-    Im Beispiel wird die Entität User genutzt.
-    \begin{lstlisting}[language=Typescript,caption=User.ts, label=lst:userTs]
-import * as delegate from "../delegates/domain/UserDelegate";
+    Aus dem verwendeten Modell werden folgende Dateien generiert.
+    \begin{lstlisting}[language=Typescript,caption=Aufgabe.ts, label=lst:aufgabeTs]
+import { Beispiel } from "./Beispiel";
+import * as delegate from "../../delegates/de/beispiel/AufgabeDelegate";
 
-export class User {
+export class Aufgabe {
+    beispiel: Beispiel;
+    frage: string;
+    antwort: string;
     id: number;
-    name: string;
 
-    constructor(id: number, name: string) {
+    constructor(frage: string, antwort: string, id: number, beispiel: Beispiel) {
+        this.frage = frage;
+        this.antwort = antwort;
         this.id = id;
-        this.name = name;
+        this.beispiel = beispiel;
     }
 
-    sayName(): string {
-        return delegate.sayName(this);
-    }
-}
-    \end{lstlisting} % TODO Beispiele für mehr Elemente
-    In der Modellklasse sind alle Variablen und Funktionen enthalten.
-    Die Delegate Funktionen werden importiert und in den Funktionen der Modellklasse aufgerufen.
-    \begin{lstlisting}[language=Typescript, caption=UserDelegate.ts, label=lst:userDelegateTs]
-import { User } from "../../domain/User";
-
-export function sayName(caller: User): string {
-    return "My Name is "+caller.name;
 }
     \end{lstlisting}
-    In der Delegatedatei werden die Funktionen mti dem zusätzlichen Caller generiert.
+    Bei der Aufgabe handelt es sich um eine Entity.
+    Es werden alle Argumente und Referenzen (und evt. Funktionen) generiert.
+    Typescript initialisiert Variablen nicht bei ihrer Definition.
+    Sie müssen von Entwickler*innen gesetzt werden.
+    Deshalb generiert das \acrshort{dmf} einen Konstruktor mit allen Variablen.
+    \begin{lstlisting}[language=Typescript, caption=Beispiel.ts, label=lst:beispielTs]
+import { IBeispiel } from "../base/IBeispiel";
+import { BeispielTyp } from "./BeispielTyp";
+import * as delegate from "../../delegates/de/beispiel/BeispielDelegate";
+
+export class Beispiel implements IBeispiel {
+    i: number;
+    inhalt: string;
+    typ: BeispielTyp;
+
+    constructor(i: number, inhalt: string, typ: BeispielTyp) {
+        this.i = i;
+        this.inhalt = inhalt;
+        this.typ = typ;
+    }
+
+
+    printBeispielMarkdown(): string {
+        return delegate.printBeispielMarkdown(this);
+    }
+
+    printBeispiel(): string {
+        return delegate.printBeispiel(this);
+    }
+}
+    \end{lstlisting}
+    In der Aufgabe wird das Struct Beispiel referenziert.
+    Structs werden im Typescript Generator equivalent zu Entities generiert.
+    Die Beispiel-Klasse demonstriert den Aufruf der Delegate Methoden.
+    \begin{lstlisting}[language=Typescript, caption=BeispielTyp.ts, label=lst:beispielTypTs]
+export enum BeispielTyp {
+    CODE = 0,
+    TEXT = 1
+}
+
+export interface BeispielTypDetails {
+
+}
+
+
+export const BeispielTypInfo : Record<BeispielTyp, BeispielTypDetails> = {
+    [BeispielTyp.CODE]: {  },
+    [BeispielTyp.TEXT]: {  },
+
+}
+    \end{lstlisting}
+    Am Enum BeispielTyp kann die Emulation von weiteren Argumenten, ohne native Unterstützung, präsentiert werden, obwohl das Enum keine weiteren Argumente besitzt.
+    Das eigentliche Enum besitzt nur Einträge mit den Datenbankindizes.
+    Das Details-Interface würde eventuelle Argumente deklarieren.
+    Im Info-Record werden die Enum Konstanten Details-Instanzen zugeordnet, welche die Werte aus dem Modell enthalten.\\
+    Die Typen (Interface/Record) müssen für jede Sprache ersetzt werden.
+    
+    \paragraph{Die Delegate Funktionen} werden von den Modellklassen importiert und in den Funktionen der Modellklassen aufgerufen.
+    \begin{lstlisting}[language=Typescript, caption=BeispielDelegate.ts, label=lst:beispielDelegateTs]
+import {Beispiel} from "../../../de/beispiel/Beispiel";
+import {BeispielTyp} from "../../../de/beispiel/BeispielTyp";
+
+
+export function printBeispiel(caller: Beispiel): string {
+    return `${caller.typ == BeispielTyp.TEXT ?
+    "Text-" : "Code-"}Beispiel ${caller.i}`;
+}
+
+export function printBeispielMarkdown(caller: Beispiel): string {
+    return `## Beispiel\n${caller.typ == BeispielTyp.TEXT ? "" :
+    "```javascript\n"}${caller.inhalt}${caller.typ == BeispielTyp.TEXT ?
+    "" : "\n```"}`;
+}
+    \end{lstlisting}
+    In der Delegatedatei werden die Funktionen mit dem zusätzlichen Caller generiert.
     Die Inhalte der Funktionen müssen die Entwickler*innen selbstständig implementieren.
     \\\\
-    Im Server kann nun ein neuer Endpunkt hinzugefügt werden, welcher eine Instanz des Users erstellt und ausgibt.
-    In einem realen Projekt würden an dieser Stelle die Prozesse des Programms mit den modellierten Elementen aufgerufen werden.
+    Im Server kann nun ein neuer Endpunkt hinzugefügt werden, welcher eine Aufgabe mit einem Beispiel zu Markdown rendert und ausgibt.
+    Die Aufgaben werden in einem Record gespeichert.
+    In einem realen Projekt würden an dieser Stelle die Prozesse des Programms aufgerufen werden.
     \begin{lstlisting}[language=Typescript, caption=Neuer Endpunkt in index.ts, label=indexTs]
-app.get("/user", (req: Request, res: Response) => {
-    let user: User = new User(1, "Test")
-    res.send(user);
+const aufgaben: Record<number, Aufgabe> = {
+    1: new Aufgabe(
+        "Was ist der Unterschied zwischen 'let' und 'const' in JavaScript?",
+        "'let' erlaubt Variablen nach der Deklaration zu ändern, ...",
+        1,
+        new Beispiel(1,`let i = 1;\nconst ii = 2`, BeispielTyp.CODE)
+    ),
+    2: new Aufgabe(
+        "Erkläre das Konzept der Vererbung in der objektorientierten Programmierung.",
+        "Vererbung ist ein Mechanismus, bei dem eine Klasse die ...",
+        2,
+        new Beispiel(1,  `Ein Pferd ist genauso ein Tier wie ein Hund.`, BeispielTyp.TEXT)
+    ),
+}
+app.get("/:id", (req: Request, res: Response) => {
+    const id: number = Number(req.params["id"]);
+
+    const aufgabe = aufgaben[id];
+
+    if (!aufgabe) {
+        res.status(404).send({
+            error: 'Aufgabe not found'
+        });
+        return
+    }
+    res.setHeader('Content-Type', 'text/markdown');
+
+    res.send(`# ${aufgabe.frage}\n${aufgabe.beispiel.printBeispielMarkdown()}`);
 });
     \end{lstlisting}
 
@@ -250,7 +358,7 @@ app.get("/user", (req: Request, res: Response) => {
     Für das Java Projekt wird Maven als Build Tool verwendet.
     Deshalb beginnt die Anlage der beiden Maven Artefakte mit der Anlage der `pom.xml'-Dateien.
     In ihnen werden die Namen, Versionen, die Plugins und Abhängigkeiten definiert.\\
-    Im JDomain Artefakt wird nun die Ausführung des \acrshort{dmf}-Plugins hinzugefügt.
+    Im JDomain Artefakt kann jetzt die Ausführung des \acrshort{dmf}-Plugins hinzugefügt werden.
     \begin{lstlisting}[language=XML, caption=Konfiguration des \acrshort{dmf}-Plugins, label=lst:jdomainPlugins]
 <build>
     <plugins>
@@ -270,9 +378,6 @@ app.get("/user", (req: Request, res: Response) => {
                     <goals>
                         <goal>generate-delegates</goal>
                     </goals>
-                    <configuration>
-                        <tempSources>./src/gen/java</tempSources>
-                    </configuration>
                 </execution>
                 <execution>
                     <id>schema-gen</id>
@@ -293,5 +398,179 @@ app.get("/user", (req: Request, res: Response) => {
     </plugins>
 </build>
     \end{lstlisting}
+    Mithilfe des Plugins werden die verschiedene Generationsziele in mehreren Ausführungen generiert.
+    \paragraph{Die Modelldateien} befinden sich in einem Unterordner des `target'-Ordners.
+    Im `target'-Ordner befinden sich alle temporären Dateien.
+    \begin{lstlisting}[language=Java, caption=Beispiel.java, label=lst:beispielJava]
+package de.beispiel;
 
+import de.base.IBeispiel;
+import java.util.Objects;
+
+/**
+ **/
+public class Beispiel implements IBeispiel {
+    protected static BeispielDelegate delegate = new BeispielDelegate();
+    protected int i;
+    protected String inhalt;
+    protected BeispielTyp typ;
+
+    public String printBeispiel(){
+        return delegate.printBeispiel(this);
+    }
+
+    public String printBeispielMarkdown(){
+        return delegate.printBeispielMarkdown(this);
+    }
+
+    public int getI() {
+        return this.i;
+    }
+
+    public void setI(int i) {
+        this.i = i;
+    }
+
+    public String getInhalt() {
+        return this.inhalt;
+    }
+
+    public void setInhalt(String inhalt) {
+        this.inhalt = inhalt;
+    }
+    public BeispielTyp getTyp() {
+        return this.typ;
+    }
+
+    public void setTyp(BeispielTyp typ) {
+        this.typ = typ;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Beispiel entity = (Beispiel) o;
+        return Objects.equals(typ, entity.typ)  && Objects.equals(i, entity.i)  && Objects.equals(inhalt, entity.inhalt) ;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(typ, i, inhalt);
+    }
+}
+    \end{lstlisting}
+    Innerhalb der Java Klassen werden für jede Variable Getter und Setter Methoden generiert, um den Best Practices in Java zu folgen.\\
+    Die Delegates werden in Java als Methoden in eigenen Klassen generiert.
+    Um diese Methode aufzurufen wird in der Modellklasse eine statische Instanz der Delegateklasse erzeugt.
+    In den Methoden der Modellklasse kann die Instanz der Delegateklasse aufgerufen werden.\\
+    Die `equals' und die `hashCode' Methoden werden für jede generierte Klasse überschrieben.
+    Sie bestimmen die Identität eines Objekts.
+    Die für die Entities modellierte Identität wird auch in den Methoden beachtet.
+    Deshalb werden bei Entities nur die Variablen des Identifiers in den Methoden genutzt.
+
+    \begin{lstlisting}[language=Java, caption=BeispielTyp.java, label=lst:beispielTypJava]
+package de.beispiel;
+
+/**
+ **/
+public enum BeispielTyp {
+    CODE(),
+    TEXT();
+
+
+    BeispielTyp(){
+
+    }
+}
+    \end{lstlisting}
+    Java Enum können zusätzliche Werte beinhalten.
+    Würde das Enum BeispielTyp Argumente beinhalten, so würden diese als Variablen im Enum und im Konstruktor des Enums hinzugefügt werden.
+    Die Werte einer Konstante werden direkt in die Deklaration der Konstante generiert.\\
+    Datenbankindize werden nicht ins Java Enum generiert.
+    
+    \paragraph{Delegate Klassen}
+    \begin{lstlisting}[language=Java, caption=BeispielDelegate.java, label=lst:beispielDelegateJava]
+package de.beispiel;
+
+/**
+ * Delegate von Beispiel
+ * Wird nur initial generiert.
+ * Methoden müssen implementiert werden.
+ **/
+public class BeispielDelegate {
+
+    public String printBeispiel(Beispiel caller){
+        return "Beispiel: \n" + caller.getInhalt();
+    }
+
+    public String printBeispielMarkdown(Beispiel caller){
+        return "";
+    }
+}
+    \end{lstlisting}
+    Die vorher erwähnten Delegateklassen werden in einen eigenen Ordner generiert.
+    Sie enthalten alle Methode der ursprünglichen Klasse mit dem Modellobjekt als zusätzlichen Parameter.
+
+    \paragraph{Java Programm}\mbox{}\\
+    Um das angelegte Java Domain Modell zu nutzen wird das JProjekt Artefakt angelegt.
+    Da es sich auch um ein Maven Projekt handelt, beginnt die Anlage mit der `pom.xml'-Datei.
+    Das Java Programm soll eine ausführbare \acrshort{jar}-Datei erzeugen.
+    Dafür werden Plugins hinzugefügt (siehe~\ref{sec:dateien-aus-dem-beispielprojekt}).\\
+    Für das JDomain-Artefakt müssen zusätzlich die Abhängigkeiten angepasst werden.
+    \begin{lstlisting}[language=XML, caption=Abhängigkeit zum JDomain Artefakt, label=lst:dependeciesJProjekt]
+<dependencies>
+    <dependency>
+        <groupId>de.alex-brand</groupId>
+        <artifactId>JDomain</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </dependency>
+</dependencies>
+    \end{lstlisting}
+    Nun kann die Logik des Projektes implementiert werden.\\
+    Es werden die gleichen Aufgaben wie im Typescript Projekt genutzt.
+    Sie werden diesmal jedoch in einer Liste gespeichert.
+    Für die Initialisierung der Aufgaben wurde eine eigene Methode implementiert.
+    Durch diese Methoden könnte in einem größeren Projekt die Initialisierung überschrieben werden.\\
+    Das Programm iteriert durch die Aufgaben.
+    Der Nutzer deckt mit einer Eingabe die Antwort auf und springt zur nächsten Seite.
+    Zur Ausgabe werden wird die Methode `Beispiel.printBeispiel()` genutzt, welche im BeispielDelegate implementiert wird.
+    \begin{lstlisting}[language=Java, caption=Main.java, label=lst:mainJava]
+public class Main {
+    private static final List<Aufgabe> aufgaben = Arrays.asList(createAufgabe(1,
+            "Was ist der Unterschied zwischen 'let' und 'const' in JavaScript?",
+            "'let' erlaubt Variablen nach der Deklaration zu ändern, während 'const' nur eine einmalige Zuweisung erlaubt. Der Wert einer 'const' Variable kann nicht geändert werden, aber die Eigenschaften eines Objekts oder Arrays, das mit 'const' deklariert wurde, können geändert werden.",
+            "let i = 1;\nconst ii = 2",
+            BeispielTyp.CODE), createAufgabe(2,
+            "Erkläre das Konzept der Vererbung in der objektorientierten Programmierung.",
+            "Vererbung ist ein Mechanismus, bei dem eine Klasse die Eigenschaften und Methoden einer anderen Klasse erben kann. Die Klasse, die erbt, wird als abgeleitete Klasse oder Unterklasse bezeichnet, während die Klasse, von der geerbt wird, als Basisklasse oder Oberklasse bezeichnet wird. Durch Vererbung können gemeinsame Eigenschaften und Verhalten wiederverwendet werden.",
+            "Ein Pferd ist genauso ein Tier wie ein Hund.",
+            BeispielTyp.TEXT));
+
+    public static void main(String[] args) {
+        aufgaben.forEach(aufgabe -> {
+            System.out.println();
+            System.out.println("Frage: " + aufgabe.getFrage());
+            System.out.println(aufgabe.getBeispiel().printBeispiel());
+            try {
+                System.in.read();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            System.out.println("Antwort: "+aufgabe.getAntwort());
+        });
+    }
+
+    private static Aufgabe createAufgabe(int id, String frage, String antwort, String beispiel, BeispielTyp beispielTyp) {
+        Aufgabe aufgabe = new Aufgabe();
+        aufgabe.setId(id);
+        aufgabe.setFrage(frage);
+        aufgabe.setAntwort(antwort);
+        aufgabe.setBeispiel(new Beispiel());
+        aufgabe.getBeispiel().setTyp(beispielTyp);
+        aufgabe.getBeispiel().setInhalt(beispiel);
+        return aufgabe;
+    }
+}
+    \end{lstlisting}
 \end{document}

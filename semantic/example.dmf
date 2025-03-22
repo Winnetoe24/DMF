@@ -7,6 +7,11 @@ expand package domain {
     expand struct DomainElement {
         ref ..de.beispiel.hotel.Buchungszeitraum zeitraum;
     }
+
+    expand entity TestE {
+        arg double d;
+        identifier(i, d);
+    }
 }
 
 // Das ist das oberste Package

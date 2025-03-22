@@ -9,7 +9,10 @@ import (
 var CharacterInMarkdownLinksActiv = false
 
 func CreateMarkdownLinkFromNode(file protokoll.DocumentURI, node *tree_sitter.Node) string {
-	position := protokoll.ToPosition(node.StartPosition())
+	var position protokoll.Position
+	if node != nil {
+		position = protokoll.ToPosition(node.StartPosition())
+	}
 	return CreateMarkdownLink(file, position)
 }
 

@@ -6,4 +6,11 @@ package domain {
     struct DomainElement {
         arg double i;
     }
+
+    entity TestE {
+
+        arg int i;
+
+        identifier(i);
+    }
 }
