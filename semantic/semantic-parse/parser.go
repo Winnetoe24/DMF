@@ -73,7 +73,6 @@ func (S *SemanticContext) parseSourceFile() {
 		S.ErrorElements = append(S.ErrorElements, errElement.CreateErrorElement(S.Cursor.Node(), errors.New("keine Model Content vorhanden")))
 		return
 	}
-	// TODO Import Statement
 	S.parseImportStatements()
 	for _, statement := range S.Model.ImportStatements {
 		S.handleImport(&statement)

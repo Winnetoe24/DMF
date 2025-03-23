@@ -52,13 +52,16 @@ type FehlerStelle struct {
     Dieser Kontext beinhaltet die erkannten Fehler, das bisherige Modell, den Text der Modelldatei und die TreeCursor.
     Mithilfe des TreeCursors kann der \acrshort{ast} durchlaufen werden.
     Der Kontext durchläuft den \acrshort{ast} in der PreOrder-Reihenfolge.
-    Für jedes Element des \acrshort{ast}s enthält der Kontext eine Methode zum Parsen.\\
+    Für jedes Element des \acrshort{ast}s enthält der Kontext eine Methode zum Parsen in der die entsprechenden Elemente aus dem Semantik-Modell erzeugt werden.\\
 %    Beispiel Call Tree
     Sollte der \acrshort{ast} Import Statements beinhalten, so werden zunächst die referenzierten Modelle verarbeitet.
     Die importierten Packages werden nun in das Modell übernommen.
     Das Laden der verschiedenen Modelle wird mithilfe einer Callbackstruktur außerhalb der Semantik-Komponente definiert.
     So können verschiedene Logiken genutzt werden. \\
-%    TODO Anpassen nach Implementierung des Imporierens
+    Der Callback-Aufruf beinhaltet den kompletten Parse-Durchlauf.
+    Im \acrshort{lsp}-Server werden die Ergebnisse zwischengespeichert, sodass die Verarbeitung von Dokumenten die gerade geöffnet sind beschleunigt wird.\\
+    In der Kontext-Struktur des Parsen wird ein Lookup (siehe~\nameref{subsubsec:lookup}) genutzt um die importierten PackageElemente zwischenzuspeichern.
+    Während des Parsen von erweiternden Elementen wird der Lookup referenziert und die Eigenschaften in neue Element kopiert.
     Am Ende des Parsen ist Modell vollständig mit allen gültigen Elementen.
     Elemente die durch den Parser im \acrshort{ast} als Fehlerhaft gekennzeichnet wurden, werden ignoriert.
 

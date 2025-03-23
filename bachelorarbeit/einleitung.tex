@@ -11,7 +11,7 @@
 
 
 \colorlet{currenttext}{.}% store current text color
-%\hypersetup{linkcolor=currenttext}% set link color
+\hypersetup{linkcolor=currenttext}% set link color
 
 
 \newlength{\mycolwidth}
@@ -223,12 +223,13 @@ Die Erklärung der technischen Spezifikation befindet sich im Abschnitt zum \hyp
 \subfile{generator.tex}
 \chapter{Benutzung des \acrshort{dmf}}\label{ch:nutzung}
 \subfile{uselsp.tex}
-\chapter{Anhang}
+\subfile{zusammenfassung.tex}
 \printbibliography[title={Literatur}]
 \hypertarget{lsp-quelle}{}
 \printglossary[type=\acronymtype,title=Abkürzungsverzeichnis,toctitle=Abkürzungsverzeichnis]
+\chapter{Anhang}
 \subfile{grammatik.tex}
-
+\subfile{projektAnhang.tex}
 
 \end{document}
 

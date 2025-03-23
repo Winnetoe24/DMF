@@ -1,4 +1,5 @@
 \documentclass[./einleitung.tex]{subfiles}
+\usepackage{float}
 \normalsize
 
 \begin{document}
@@ -127,10 +128,82 @@ type DelegateElement struct {
     \subsection{Die Generationsziele}\label{subsec:die-generationsziele}
     Die Generationsziele sind unterteilt in Zielsprachen und in Datenmodell und Delegates.\\
     Für jedes Generationsziel müssen Templates und Funktionen bestimmt werden.
+    \\\\
+    Eine Definition eines Generationsziels beginnt mit der Definition eines neuen Datentyps.
+    Obwohl Datenmodell und Delegates unterschiedliche Generationsziele darstellen, werden sie in einer Datenstruktur zusammengefasst.
+    \begin{lstlisting}[language=Go, cation=Definition des Typescript Generationsziel, label=lst:TsTemplate]
+type TsTemplate struct {
+	template *template.Template
+}
 
-    \subsubsection{Java}
-    Was soll ich hier schreiben?
+var _ gbase.DMFTemplate = TsTemplate{}
+    \end{lstlisting}
+    Der neue Datentyp implementiert das DMFTemplate-Interface.
+    Dafür müssen zwar alle Funktionen deklariert werden.
+    Es werden jedoch nur die für das Generationsziel relevante Methoden implementiert.
+    \begin{lstlisting}[language=Go, caption=Definition des DMFTemplate-Interfaces, label=lst:DMFTemplate]
+type DMFTemplate interface {
+	GenerateStruct(writer io.Writer, element *packages.StructElement) error
+	GenerateEntity(writer io.Writer, element *packages.EntityElement) error
+	GenerateEnum(writer io.Writer, element *packages.EnumElement) error
+	GenerateInterface(writer io.Writer, element *packages.InterfaceElement) error
+	GenerateDelegate(writer io.Writer, element packages.PackageElement) error
+	GenerateDelegateInterface(writer io.Writer, element packages.PackageElement) error
+	GenerateTable(writer io.Writer, table dmodel.Table) error
+}
+    \end{lstlisting}
+    In den Methoden wird das richtige Template definiert und mit den Parametern aufgerufen.
+    Zusätzlich wird die Information über die Generation ausgegeben.
+    \begin{lstlisting}[language=Go, caption=Aufruf der Generation einer Typescript Klasse, label=lst:genTsClass]
+func (receiver TsTemplate) GenerateStruct(writer io.Writer, element *packages.StructElement) error {
+	println("Generate Struct: " + element.Path.ToString())
+	return receiver.template.ExecuteTemplate(writer, "classFile", element)
+}
+    \end{lstlisting}
+    Damit die Templates richtig geladen werden und die richtigen Funktionen nutzen wird für jedes Generationsziel ein Konstruktor definiert.
+    Die Funktionen stammen sowohl aus dem Generator Modell als auch aus der Implementierung des Generationsziels.
+    \begin{lstlisting}[language=Go, caption=Initialisierung des Typescript Templates, label:newTsTemplate]
+//go:embed template/*
+var tmplFiles embed.FS
 
+func NewTemplate() TsTemplate {
+	funcMap := template.FuncMap{
+		"subtract": func(a, b int) int {
+			return a - b
+		},
+		"sub": func(a, b int) int {
+			return a - b
+		},
+		"add": func(a, b int) int {
+			return a + b
+		},
+		"nameFromPath": func(path base.ModelPath) string {
+			return path[len(path)-1]
+		},
+		"pathType":                 gbase.PathType,
+		"toUpperCase":              gbase.ToUpperCase,
+		"createImportKontext":      createTsImportKontext,
+		"getImports":               getImports,
+		"findImplementedFunctions": gbase.FindImplementedFunctions,
+		"toPackageElement":         toPackageElement,
+		"toFields":                 toTsFields,
+		"toArgs":                   toArgs,
+		"computeImplementNames":    computeImplementNames,
+		"createTsKlasse":           createTsKlasse,
+		"createTsInterface":        createTsInterface,
+		"removeNewLine":            gbase.RemoveNewLine,
+		"createFunktionKontext":    gbase.CreateFunktionKontext,
+		"variableName":             gbase.VariableName,
+		"variableType":             variableType,
+		"toConstructor":            gbase.ToConstructor,
+		"valueInit":                valueInit,
+		"variableDefaultValue":     variableDefaultValue,
+		"isNotVoid":                gbase.IsNotVoid,
+	}
+	must := template.Must(template.New("").Funcs(funcMap).ParseFS(tmplFiles, "template/*"))
+	return TsTemplate{template: must}
+}
+    \end{lstlisting}
 
     \subsection{Maven Plugin}
     Um die Ausführung des Generators in das Maven Build-Tool zu integrieren, muss ein Maven Plugin implementiert werden.\\
@@ -153,13 +226,12 @@ type DelegateElement struct {
     Die Ausgabe wird über den Logger von Maven ausgegeben.
     Sollte ein Fehler vom Generator ausgegeben wird dieser über den Fehlerkanal des Loggers ausgegeben und in einer Exception zurückgegeben.
     Das Auftreten dieser Exception hält die Ausführung von Maven an und der Text der Exception wird in der Konsole als letztes ausgegeben, sodass Entwickler*innen ihn direkt sehen.
-    \begin{figure}
+    \begin{figure}[tH]
         \centering
         \includegraphics[width=\linewidth]{bilder/screenshot-error-generator}
         \caption{Ausgabe eines Fehlers}
         \label{fig:screenshot-error-generator}
     \end{figure}
-
 
 
 
