@@ -15,7 +15,11 @@ Hierfür werden häufig \acrshort{uml}-Diagramme genutzt.
 Die \acrshort{uml} Spezifikation enthält Diagramme für Datenmodelle, Abläufe und die Strukturierung von Komponenten.\\
 Modelle für einzelne Komponenten stellen das Gegenteil dar.
 Sie basieren häufig auf einer Datei für jedes Modell.
-Diese Dateien können auch direkt im Texteditor bearbeitet werden.
+Diese Dateien können auch direkt im Texteditor bearbeitet werden.\\
+Die Auswahl zwischen den Strategien basiert häufig auf den beabsichtigten Nutzer*innen.
+Modelle für einzelne Softwarekomponenten eigenen sich nur zur vereinfachung der Arbeit von Entwickler*innen.
+Grafische Modellierung hingegen eignet sich auch für Nutzer*innen mit geringer technischer Kompetenz, jedoch auch nur für eine eingeschränkte Menge aller Software.
+
 \subsection{\acrfull{ple}}\label{subsec:ple}
 \acrshort{ple} befasst sich mit der Entwicklung von mehreren verwandten Softwareprodukten.
 Dabei handelt es sich häufig um Software für Teilaufgaben und angepasste Kundenversionen der Standardsoftware. \\
@@ -59,9 +63,19 @@ Dies führt häufig dazu, dass andere Updates auch nicht genutzt werden können.
 
 \section{Anforderungen}\label{sec:aufgabenstellung}
 Das \acrfull{dmf} soll es ermöglichen Datenmodelle zentral zu modellieren, sodass diese von verschiedenen Software-Projekten genutzt werden können.
+Die Grundvoraussetzung ist, dass ein Modell die Arbeit gegenüber der manuellen Implementierung erleichtert.
 Dabei soll die Flexibilität besonders beachtet werden, um die bisher bestehenden Nachteile zu vermeiden.
 Zur Flexibilität gehört die (möglichst) freie Wahl der Programmiersprache und die freie Wahl der Entwicklungsumgebung.
-\newline
-Ziel ist es das \acrshort{dmf} für Java und Typescript zu implementieren.
-Es sollen primär Intellij und Visual Studio Code unterstützt werden.
+
+\paragraph{Konkret} soll das \acrshort{dmf} im ersten Schritt die Generierung von Java und Typescript Code aus einer Modelldatei ermöglichen.\\
+Es soll ein Datenbankschema zur Persistierung des Modells generiert werden.\\
+Während der Entwicklung soll die Generation automatisch mit dem Bauvorgang der Anwendung durchgeführt werden können.\\
+Die Generationsausgabe soll auf einer allgemeinen Abstraktion basieren.
+Mithilfe dieser Abstraktion werden Inhalt und Aufbau im Modell festgelegt und in die generierten Dateien übersetzt.\\
+Die Übersetzung vom Modell soll für einzelne Elemente überschrieben werden können.
+Dadurch sollen die Einschränkungen und Annahmen der Abstraktion umgangen werden können.\\
+Um die Entwicklung in einem \acrshort{ple} Kontext zu vereinfachen, soll es die Möglichkeit geben Modelle miteinander zu vereinen und zu erweitern.\\
+Code welcher ein erweitertes Modell nutzt soll nach der Erweiterung weiter genutzt werden können.\\
+Die Entwicklung in verschieden Entwicklungsumgebungen soll mit den \acrshort{ide}s Intellij und Visual Studio Code validiert werden.\\
+
 \end{document}
