@@ -47,14 +47,14 @@ Treesitter ist ein Open Source Framework zur Generierung von Parsern.\\
 Dabei wird die Grammatik mithilfe eines Javascript \acrlong{api} definiert.
 Mithilfe der Treesitter \acrlong{cli} wird aus der Javascript Datei der Parser generiert. \\
 
-\paragraph[LR-Parsern]{Bei LR-Parsern}\label{par:lr-parser} handelt es um sogenannte ``Bottom-Up-Parser''.
+\paragraph[LR-Parsern]{Bei LR-Parsern}\label{par:lr-parser} handelt es sich um sogenannte ``Bottom-Up-Parser''.
 Diese Parser bauen den \acrshort{ast} von den Blättern auf.
 Sie zeichnen sich durch ihr deterministisches Parsen und die große Klasse an nutzbaren Grammatiken aus.\newline
 Für die Generierung von Parsern eignen sich LR-Parser, da die Aktions-Tabellen, auf denen das Parsen aufbaut, automatisch generiert werden kann und während des Parsens keine Rückverfolgung durchgeführt werden muss. \cite{aho1974lr}
 Aus diesen Gründen generiert Treesitter LR(1)-Parser.
 \\\\
 Der generierte Parser nutzt C als Implementierungssprache.
-C eignet sich hier sehr gut, da es die höchste Performance und die Möglichkeit es in jeder anderen Sprache zu nutzen bietet.
+C eignet sich hier sehr gut, da es die hohe Performance und die Möglichkeit es in jeder anderen Sprache zu nutzen bietet.
 Das Nutzen von C ist für jede Sprache eine Voraussetzung, um mit dem Betriebssystem zu kommunizieren.
 C's größter Nachteil, die manuelle Speicherverwaltung, wird durch die Generation des Parsers gelöst.
 Die bereitgestellten Schnittstellen übergeben Strukturen, welche vom Aufrufer verwaltet werden.
