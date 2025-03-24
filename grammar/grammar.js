@@ -17,8 +17,6 @@ module.exports = grammar({
 
   // word: $ => $.identifier,
   rules: {
-    // TODO: add the actual grammar rules
-
 
     source_file: $ =>
       seq(
