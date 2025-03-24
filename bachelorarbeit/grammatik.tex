@@ -151,17 +151,4 @@
 <dateValue> ::= 'D' R'[0-9]\{4\}' '-' R'(?:0[1-9]|1[0-2])' '-' R'(?:0[1-9]|[12][0-9]|3[01])'
 \end{grammar}
 
-\section{Beispiel}
-\setlength{\grammarparsep}{20pt plus 1pt minus 1pt} % increase separation between rules
-\setlength{\grammarindent}{12em} % increase separation between LHS/RHS 
-
-\begin{grammar}
-<statement> ::= <ident> `=' <expr> 
-\alt `for' <ident> `=' <expr> `to' <expr> `do' <statement> 
-\alt `{' <stat-list> `}' 
-\alt <empty> 
-
-<stat-list> ::= <statement> `;' <stat-list> | <statement> 
-
-\end{grammar}
 \end{document}

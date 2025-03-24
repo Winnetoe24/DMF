@@ -67,7 +67,8 @@ Sollten keine Importstatements genutzt werden, so wird der komplette Importblock
 <import_statement> ::= 'import' <package_string> 'from' <string_value>
 \end{grammar}
 
-\subparagraph{Modellelemente erweitern} Das \acrshort{dmf} beinhaltet die Möglichkeit Elemente zu erweitern.
+\subparagraph{Modellelemente erweitern}\mbox{}\\
+Das \acrshort{dmf} beinhaltet die Möglichkeit Elemente zu erweitern.
 Dies ermöglicht Code für das ursprüngliche Modell wiederzuverwenden und trotzdem Argumente, Referenzen und Funktionen hinzuzufügen. \\
 Eine Erweiterung im \acrshort{dmf} muss generell explizit gekennzeichnet sein.
 Dafür muss zuerst das Package, indem der Entwickler*in etwas erweitern will, importiert werden.
@@ -84,7 +85,7 @@ Deshalb enthält die Regeln für den Modellinhalt auch die Regeln für Packages.
 <model_content> ::= <package_content>+
 \end{grammar}
 
-\subparagraph{Override}
+\subparagraph{Override}\mbox{}\\
 Die Abstraktion des \acrshort{dmf}s kann bei manchen sprachspezifischen Anforderungen an ihre Grenzen stoßen.
 Deshalb gibt es in der \acrshort{dmf} \acrshort{dsl} das Konzept des Overrides.
 An jedem PackageElement und jedem Element innerhalb des PackageElements kann ein Override-Block hinzugefügt werden. \\
@@ -120,7 +121,7 @@ JavaDoc & Überschreibt den Kommentar.\\
 \end{tabular}
 \end{center}
 
-\paragraph{Packages}
+\paragraph{Packages}\mbox{}\\
 Innerhalb eines Package können weitere Packages, Structs, Entities, Enums und Interfaces enthalten sein.
 Diese verschiedenen Elemente werden im weiterem als PackageElemente bezeichnet.\\
 \begin{lstlisting}
@@ -150,7 +151,7 @@ Der `package_string' beinhaltet Regeln für die Separation der Packages mit Punk
 <package_block> ::= 'package' <package_string> '\{' <package_content>* '\}'
 \end{grammar}
 
-\paragraph{Structs} 
+\paragraph{Structs} \mbox{}\\
 Structs beginnen wie Packages mit ihrem identifizierenden Keyword.
 Die Syntax für die Abstraktion folgt der Java-Syntax.
 \begin{lstlisting}
@@ -171,11 +172,11 @@ Der Inhalt eines Structs können Argumente, Referenzen, Multi-Referenzen (Collec
 
 \end{grammar}
 
-\paragraph{Inhalt-Elemente}
+\paragraph{Inhalt-Elemente}\mbox{}\\
 Die Regeln für Argumente, Referenzen, Multi-Referenzen (Collections) und Funktionen werden in den verschiedenen PackageElementen wiederverwendet.
 Deshalb werden sie hier zentral vorgestellt.
 
-\subparagraph{Argument}
+\subparagraph{Argument}\mbox{}\\
 \begin{lstlisting}
 arg int i;
 \end{lstlisting}
@@ -184,7 +185,7 @@ Beim Argument werden die verschiedenen primitiven Typen mit einer Regel zusammen
 <arg_block> ::= 'arg' <primitive_type> <identifier> ';'
 \end{grammar}
 
-\subparagraph{Referenz}
+\subparagraph{Referenz}\mbox{}\\
 \begin{lstlisting}
 ref ..beispiel.Beispiel beilspiel;
 ref de.beispiel.Beispiel zweitesBeispiel;
@@ -198,7 +199,7 @@ Die Punkte zu Beginn eines relativen Pfades folgen dabei den Regeln eines relati
 <reftype> ::= '.'* <package_string>
 \end{grammar}
 
-\subparagraph{Multi-Referenz}
+\subparagraph{Multi-Referenz}\mbox{}\\
 \begin{lstlisting}
 ref Map<int, .Beispiel> beispielLookup;
 ref Set<string> namen;
@@ -215,7 +216,7 @@ Die Typen können Referenzen oder primitive Typen sein.
 \alt 'ref' <multi_name> '"<"' <reftype> [',' <reftype>] '">"' <identifier> ';'
 \end{grammar}
 
-\subparagraph{Funktionen}
+\subparagraph{Funktionen}\mbox{}\\
 \begin{lstlisting}
 func void displayBeispiel(.Beispiel beispiel);
 func int add(int a, int b);
@@ -234,7 +235,7 @@ Die Parameter bestehen aus einem Typen, der entweder zu den primitiven Typen geh
 \alt <primitive_type> <identifier>
 \end{grammar}
 
-\paragraph{Entity}
+\paragraph{Entity}\mbox{}\\
 Entities sind im Aufbau sehr ähnlich zu Structs.
 Sie unterschieden sich im Keyword und im Identifier-Statement.
 \begin{lstlisting}
@@ -253,7 +254,7 @@ Hierbei ist zu beachten, dass `identifier' als Keyword und als Regelname verwend
 <identifier_statement> ::= 'identifier' '(' <identifier> (',' <identifier>)* ')' ';'
 \end{grammar}
 
-\paragraph{Interface}
+\paragraph{Interface}\mbox{}\\
 Der Aufbau eines Interfaces ist simpler im Vergleich zu einem Struct.
 Es entfällt der Extends-Block und alle Inhalte bis auf Funktionen.
 \begin{lstlisting}
@@ -268,7 +269,7 @@ Da nur Funktionen in einem Interface vorkommen können, besitzt die Content-Rege
 <interface_content> ::= [<comment_block>] <func_block> [<override_block>]
 \end{grammar}
 
-\paragraph{Enum}
+\paragraph{Enum}\mbox{}\\
 Enum beinhalten ein neues Element: die Konstante. \\
 Konstanten sind die Einträge eines Enums und bilden mit Argumenten den Inhalt eines Enums.
 \begin{lstlisting}

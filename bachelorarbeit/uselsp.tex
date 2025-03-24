@@ -486,7 +486,7 @@ public enum BeispielTyp {
     Die Werte einer Konstante werden direkt in die Deklaration der Konstante generiert.\\
     Datenbankindize werden nicht ins Java Enum generiert.
     
-    \paragraph{Delegate Klassen}
+    \paragraph{Delegate Klassen}\mbox{}\\
     \begin{lstlisting}[language=Java, caption=BeispielDelegate.java, label=lst:beispielDelegateJava]
 package de.beispiel;
 
@@ -536,11 +536,18 @@ public class BeispielDelegate {
 public class Main {
     private static final List<Aufgabe> aufgaben = Arrays.asList(createAufgabe(1,
             "Was ist der Unterschied zwischen 'let' und 'const' in JavaScript?",
-            "'let' erlaubt Variablen nach der Deklaration zu ändern, während 'const' nur eine einmalige Zuweisung erlaubt. Der Wert einer 'const' Variable kann nicht geändert werden, aber die Eigenschaften eines Objekts oder Arrays, das mit 'const' deklariert wurde, können geändert werden.",
+            "'let' erlaubt Variablen nach der Deklaration zu ändern, während 'const' " +
+                "nur eine einmalige Zuweisung erlaubt. Der Wert einer 'const' Variable kann" +
+                " nicht geändert werden, aber die Eigenschaften eines Objekts oder Arrays, " +
+                "das mit 'const' deklariert wurde, können geändert werden.",
             "let i = 1;\nconst ii = 2",
             BeispielTyp.CODE), createAufgabe(2,
             "Erkläre das Konzept der Vererbung in der objektorientierten Programmierung.",
-            "Vererbung ist ein Mechanismus, bei dem eine Klasse die Eigenschaften und Methoden einer anderen Klasse erben kann. Die Klasse, die erbt, wird als abgeleitete Klasse oder Unterklasse bezeichnet, während die Klasse, von der geerbt wird, als Basisklasse oder Oberklasse bezeichnet wird. Durch Vererbung können gemeinsame Eigenschaften und Verhalten wiederverwendet werden.",
+            "Vererbung ist ein Mechanismus, bei dem eine Klasse die Eigenschaften und Methoden " +
+                "einer anderen Klasse erben kann. Die Klasse, die erbt, wird als abgeleitete " +
+                "Klasse oder Unterklasse bezeichnet, während die Klasse, von der geerbt wird, als " +
+                "Basisklasse oder Oberklasse bezeichnet wird. Durch Vererbung können gemeinsame " +
+                "Eigenschaften und Verhalten wiederverwendet werden.",
             "Ein Pferd ist genauso ein Tier wie ein Hund.",
             BeispielTyp.TEXT));
 

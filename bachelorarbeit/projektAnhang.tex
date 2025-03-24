@@ -4,5 +4,324 @@
 \begin{document}
     \section{Dateien aus dem Beispielprojekt}\label{sec:dateien-aus-dem-beispielprojekt}
 
+    \begin{lstlisting}[language=JSON, caption=package.json, label=lst:packageJSON]
+{
+  "name": "tsprojekt",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "run": "npx ts-node src/index.ts",
+    "build": "npm run generateModell && npm run generateDelegates && npx tsc",
+    "start": "node dist/index.js",
+    "generateModell": "generator --basePath ./src --mode ts --modelFile ../Modell/domain.dmf",
+    "generateDelegates": "generator --basePath ./src --mode tsDelegates --modelFile ../Modell/domain.dmf",
+    "dev": "nodemon src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.10",
+    "typescript": "^5.8.2"
+  }
+}
+    \end{lstlisting}
+    \begin{lstlisting}[language=JSON, caption=tsconfig.json (Ohne Kommentare), label=lst:tsconfig]
+{
+  "compilerOptions": {
+    "target": "es2016",
+    "module": "commonjs",
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
+  }
+}
+    \end{lstlisting}
+    \begin{lstlisting}[language=Typescript, caption=IBeispiel.ts, label=lst:ibeispielTs]
+export interface IBeispiel {
 
+    printBeispielMarkdown(): string;
+}
+    \end{lstlisting}
+    \begin{lstlisting}[language=Typescript, caption=AufgabeDelegate.ts, label=lst:aufgabeDelegateTs]
+import { Aufgabe } from "../../../de/beispiel/Aufgabe";
+import { Beispiel } from "../../../de/beispiel/Beispiel";
+
+    \end{lstlisting}
+    \begin{lstlisting}[language=Typescript, caption=index.ts, label=lst:indexTs]
+import express, {Express, Request, Response} from "express";
+import dotenv from "dotenv";
+import {Beispiel} from "./de/beispiel/Beispiel"
+import {BeispielTyp} from "./de/beispiel/BeispielTyp"
+import {Aufgabe} from "./de/beispiel/Aufgabe";
+
+dotenv.config();
+
+const app: Express = express();
+const port = process.env.PORT || 3000;
+
+app.get("/", (req: Request, res: Response) => {
+    res.send("Express + TypeScript Server");
+});
+
+const aufgaben: Record<number, Aufgabe> = {
+    1: new Aufgabe(
+        "Was ist der Unterschied zwischen 'let' und 'const' in JavaScript?",
+        "'let' erlaubt Variablen nach der Deklaration zu ändern, während 'const' nur eine einmalige Zuweisung erlaubt. Der Wert einer 'const' Variable kann nicht geändert werden, aber die Eigenschaften eines Objekts oder Arrays, das mit 'const' deklariert wurde, können geändert werden.",
+        1,
+        new Beispiel(1,`let i = 1;\nconst ii = 2`, BeispielTyp.CODE)
+    ),
+    2: new Aufgabe(
+        "Erkläre das Konzept der Vererbung in der objektorientierten Programmierung.",
+        "Vererbung ist ein Mechanismus, bei dem eine Klasse die Eigenschaften und Methoden einer anderen Klasse erben kann. Die Klasse, die erbt, wird als abgeleitete Klasse oder Unterklasse bezeichnet, während die Klasse, von der geerbt wird, als Basisklasse oder Oberklasse bezeichnet wird. Durch Vererbung können gemeinsame Eigenschaften und Verhalten wiederverwendet werden.",
+        2,
+        new Beispiel(1,  `Ein Pferd ist genauso ein Tier wie ein Hund.`, BeispielTyp.TEXT)
+    ),
+}
+app.get("/:id", (req: Request, res: Response) => {
+    const id: number = Number(req.params["id"]);
+
+    const aufgabe = aufgaben[id];
+
+    if (!aufgabe) {
+        res.status(404).send({
+            error: 'Aufgabe not found'
+        });
+        return
+    }
+    res.setHeader('Content-Type', 'text/markdown');
+
+    res.send(`# ${aufgabe.frage}\n${aufgabe.beispiel.printBeispielMarkdown()}`);
+});
+
+app.listen(port, () => {
+    console.log(`[server]: Server is running at http://localhost:${port}`);
+});
+    \end{lstlisting}
+    \begin{lstlisting}[language=xml, caption=pom.xml des JDomain Artefakts, label=lst:jdomainPom]
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>de.alex-brand</groupId>
+    <artifactId>JDomain</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>de.alex-brand.dmf</groupId>
+                <artifactId>dmf-generator-plugin</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <id>java-gen</id>
+                        <goals>
+                            <goal>generate-model</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>java-delegates-gen</id>
+                        <goals>
+                            <goal>generate-delegates</goal>
+                        </goals>
+                        <configuration>
+                            <tempSources>./src/gen/java</tempSources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>schema-gen</id>
+                        <goals>
+                            <goal>generate-model</goal>
+                        </goals>
+                        <configuration>
+                            <zielsprache>sql</zielsprache>
+                            <tempSources>./src/test/resources</tempSources>
+                        </configuration>
+                    </execution>
+
+                </executions>
+                <configuration>
+                    <modelPath>../Modell/domain.dmf</modelPath>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+    \end{lstlisting}
+    \begin{lstlisting}[language=java, caption=Aufgabe.java, label=lst:aufgabeJava]
+package de.beispiel;
+import java.util.Objects;
+
+public class Aufgabe {
+    protected static AufgabeDelegate delegate = new AufgabeDelegate();
+    protected Beispiel beispiel;
+    protected String frage;
+    protected String antwort;
+    protected int id;
+
+
+
+    public Beispiel getBeispiel() {
+        return this.beispiel;
+    }
+
+    public void setBeispiel(Beispiel beispiel) {
+        this.beispiel = beispiel;
+    }
+
+    public String getFrage() {
+        return this.frage;
+    }
+
+    public void setFrage(String frage) {
+        this.frage = frage;
+    }
+
+    public String getAntwort() {
+        return this.antwort;
+    }
+
+    public void setAntwort(String antwort) {
+        this.antwort = antwort;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Aufgabe entity = (Aufgabe) o;
+        return Objects.equals(id, entity.id) ;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+}
+    \end{lstlisting}
+    \begin{lstlisting}[language=java, caption=IBeispiel.java, label=lst:ibeispielJava]
+package de.base;
+
+public interface IBeispiel {
+    public String printBeispiel();
+    public String printBeispielMarkdown();
+
+}
+    \end{lstlisting}
+    \begin{lstlisting}[language=java, caption=AufgabeDelegate.java, label=lst:aufgabeDelegateJava]
+package de.beispiel;
+
+/**
+ * Delegate von Aufgabe
+ * Wird nur initial generiert.
+ * Methoden müssen implementiert werden.
+ **/
+public class AufgabeDelegate {
+
+}
+    \end{lstlisting}
+    \begin{lstlisting}[language=xml, caption=pom.xml des JProjekt Artefakts, label=lst:pomJProjekt]
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>de.alex-brand</groupId>
+    <artifactId>JProjekt</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>18</maven.compiler.source>
+        <maven.compiler.target>18</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>de.alex-brand</groupId>
+            <artifactId>JDomain</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>
+                                ${project.build.directory}/libs
+                            </outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>libs/</classpathPrefix>
+                            <mainClass>Main</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <archive>
+                                <manifest>
+                                    <mainClass>Main</mainClass>
+                                </manifest>
+                            </archive>
+                            <descriptorRefs>
+                                <descriptorRef>jar-with-dependencies</descriptorRef>
+                            </descriptorRefs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
+    \end{lstlisting}
 \end{document}
