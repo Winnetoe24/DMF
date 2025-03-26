@@ -11,7 +11,7 @@
 9. TODO getter und setter dürfen nicht als Namen benutzt werden
 9. TODO "equals" und "hashcode" dürfen nicht als Namen benutzt werden
 10. TODO richtige Overrides überprüfen
-
+11. TODO Es dürfen keine Multireferenzen als Identifier in Entities genutzt werden.
 
 * ##### asds
 

@@ -26,6 +26,7 @@ package de.alex.brand.klein {
             arg long l;
             arg date sa;
             ref .Apfelsaft a;
+            ref .I inter;
             // Das ist eine Map
             ref Map<.Apfelsaft, int> i;
             ref Map<int, int> intMap;

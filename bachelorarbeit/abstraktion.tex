@@ -63,10 +63,10 @@
     Es ist klar zu erkennen, dass bis auf Python jede Sprache Wert-Variablen ohne Nullwerte darstellen kann.
     Referenzen können auch in jeder Sprache Nullwerte beinhalten.
     In Typescript und Rust muss dies bloß explizit definiert werden.
-    Aus diesen Ergebnissen ergibt sich, dass die Unterteilung in Wert- und Referenz-Variablen auch die Unterteilung in Nullbare und nicht Nullbare Variablen abbildet.
+    Aus diesen Ergebnissen ergibt sich, dass die Unterteilung in Wert- und Referenz-Variablen auch die Unterteilung in nullbare und nicht nullbare Variablen abbildet.
 
     \subsubsection{Collectiontypen}
-    Um 1:n- oder n:m-Beziehungen im Datenmodell modellieren zu können wurden drei Collection-Typen aus Java ausgewählt und passende Äquivalente zu finden.
+    Um 1:n- oder n:m-Beziehungen im Datenmodell modellieren zu können wurden drei Collection-Typen aus Java ausgewählt, um passende Äquivalente zu finden.
     \begin{center}
         \begin{tabular}{| c || m{3em} | m{4.5em} | m{5.5em} | m{4.5em} | m{3em} | m{4.5em} |}
             \hline
@@ -82,9 +82,9 @@
         \end{tabular}
     \end{center}
     Die gewählten Typen sind die am häufigsten verwendeten Collection-Typen.
-    Eine Map beinhaltet eine 1:n-Beziehung und ermöglicht einen schnellen Zugriff.
-    Eine Liste bildet eine n:m-Beziehung zwischen den modelliertem Element und dem Inhalt der Liste.
-    Ein Set bildet eine n:m.Beziehung mit der Garantie, dass jeder enthaltener Wert einzigartig ist. \\
+    Eine Map beinhaltet eine n:m-Beziehung und ermöglicht einen schnellen Zugriff.
+    Eine Liste bildet eine 1:n-Beziehung zwischen den modelliertem Element und dem Inhalt der Liste.
+    Ein Set bildet eine 1:n-Beziehung mit der Garantie, dass jeder enthaltener Wert einzigartig ist. \\
 
     In der Analyse der Liste gab es feine Unterschiede in der Implementierung.
     Typescript und C nutzen einen Array, jedoch verhält sich der Typescript Array wie eine Liste.
@@ -99,9 +99,9 @@
     Bei der Analyse der Map wurde nur in C keine Implementierung gefunden.
     Python nutzt für die Map den Namen `dictionary'.
 
-    \subsection{Elemente eines Modells}
-    Um mit dem \acrshort{dmf} Daten in Strukturen verschiedener Programmiersprachen darstellen zu können, müssen auch diese Abstrahiert werden.
-    Dieser Abschnitt beschriebt wie aus den Analysen der Programmiersprachen die Abstraktion des \acrshort{dmf}s gebildet wurde.
+    \subsection{Elemente eines Modells}\label{subsec:elemente-eines-modells}
+    Um mit dem \acrshort{dmf} Daten in Strukturen verschiedener Programmiersprachen darstellen zu können, müssen auch diese abstrahiert werden.
+    Dieser Abschnitt beschreibt wie aus den Analysen der Programmiersprachen die Abstraktion des \acrshort{dmf}s gebildet wurde.
 
     \subsubsection{Primitive Typen}
     Grundvoraussetzung sind die primitiven Typen und Referenzen zu anderen Elementen.
@@ -137,7 +137,7 @@
     Diese primitiven Typen werden im \acrshort{dmf} in Argumenten abgebildet.
     Argumente bestehen aus einem primitiven Typen und einem Namen.
     Alle anderen Datentypen werden als Referenzen abgebildet.
-    Vorgesehen ist nur Referenzen explizit als Nullbar generiert werden.
+    Vorgesehen ist nur Referenzen explizit als nullbar generiert werden.
 
     \subsubsection{Funktionen}
     Funktionen gehören zu den Elementen, die sich in jeder Programmiersprache wiederfinden.
@@ -163,7 +163,8 @@
     Da jedoch Funktionen auch ohne Objektorientierung für Datentypen generiert werden können, kann das \acrshort{dmf} diese Abstraktion unterstützen.
     \newline
     Für die Modellierung wird auch die Abstraktion von Datentypen essenziell sein.
-    Dafür müssen Structs von anderen Structs erben und Funktionen von Interfaces implementieren können. \\
+    Dafür müssen Structs von anderen Structs erben und Funktionen von Interfaces implementieren können.
+    Dabei ist rekursive Abstraktion nicht erlaubt.\\
     Abstraktion funktioniert in jeder Sprache ein wenig unterschiedlich, weshalb das \acrshort{dmf} nur garantieren kann, dass die Variablen und Funktionen, die von einem Struct geerbt werden, im Generat vorhanden sind.
     Zum Beispiel in C könnte ein \acrshort{dmf} Generat keine Abstraktion generieren, sondern nur die Elemente kombinieren.
 
@@ -298,7 +299,7 @@ enum IpAddr {
     Structs, Entities und Interfaces können direkt in die nativen Elemente übersetzt werden.\\
     Da Typescript Enums nur einen Wert pro Eintrag erlauben, müssen eine zusätzliche Struktur für zusätzlichen Daten und eine Struktur für Zuweisung zwischen Enum-Eintrag und Daten generiert werden.
     Das ``Details''-Interface enthält die Definitionen der weiteren Argumente.
-    Der ``Info''-Record enthält die Zuweisung zwischen dem Enum-Eintrag und einer Instanz des Details-Interfaces. (Für Beispiel siehe \ref{TODO})\\ % TOOD Ref fertig machen
+    Der ``Info''-Record enthält die Zuweisung zwischen dem Enum-Eintrag und einer Instanz des Details-Interfaces. (Für~Beispiel~siehe~\ref{lst:beispielTypTs})\\
     Die Delegates können als Funktionen generiert werden, welche von der modellierten Klasse importiert werden können.
     \begin{center}
         \begin{tabular}{| c || c |}
