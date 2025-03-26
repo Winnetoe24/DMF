@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>de.alex-brand</groupId>
+    <artifactId>JDomain</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>de.alex-brand.dmf</groupId>
+                <artifactId>dmf-generator-plugin</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+                <executions>
+                    <execution>
+                        <id>java-gen</id>
+                        <goals>
+                            <goal>generate-model</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>java-delegates-gen</id>
+                        <goals>
+                            <goal>generate-delegates</goal>
+                        </goals>
+                        <configuration>
+                            <tempSources>./src/gen/java</tempSources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>schema-gen</id>
+                        <goals>
+                            <goal>generate-model</goal>
+                        </goals>
+                        <configuration>
+                            <zielsprache>sql</zielsprache>
+                            <tempSources>./src/test/resources</tempSources>
+                        </configuration>
+                    </execution>
+
+                </executions>
+                <configuration>
+                    <modelPath>../Modell/domain.dmf</modelPath>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

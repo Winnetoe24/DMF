@@ -1,0 +1,8 @@
+dmf 1.0.0
+model "base" version 1.0.0
+
+package de.base {
+    interface IBeispiel {
+        func string printBeispiel();
+    }
+}

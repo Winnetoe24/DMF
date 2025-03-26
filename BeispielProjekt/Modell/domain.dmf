@@ -1,0 +1,31 @@
+dmf 1.0.0
+model "beispiel " version 0.0.1
+
+import de.base from " ./base.dmf"
+
+expand package de.base {
+    expand interface IBeispiel {
+        func string printBeispielMarkdown();
+    }
+}
+
+package de.beispiel {
+    struct Beispiel implements ..base.IBeispiel {
+        arg int i;
+        arg string inhalt;
+        ref .BeispielTyp typ;
+    }
+
+    entity Aufgabe {
+        ref .Beispiel beispiel;
+        arg string frage;
+        arg string antwort;
+        arg int id;
+
+        identifier(id);
+    }
+    enum BeispielTyp {
+        CODE(_);
+        TEXT(_);
+    }
+}
