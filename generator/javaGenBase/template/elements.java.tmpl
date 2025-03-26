@@ -10,9 +10,12 @@
     }{{end}}
 {{define "parameter_list"}}{{range $index, $element := .Parameter}}{{template "parameter" $element}}{{if ne $index (subtract (len $.Parameter) 1)}}, {{end}}{{end}}{{end}}
 {{define "parameter_call_list"}}{{range $index, $element := .Parameter}}{{variableName $element.Variable}}{{if ne $index (subtract (len $.Parameter) 1)}}, {{end}}{{end}}{{end}}
-{{define "field"}}{{template "comment_tab" .Kommentar}}    protected {{.Typ}} {{.Name}}{{if ne .Value nil}} = {{.Value}}{{end}};
+{{define "field"}}{{template "comment_tab" .Kommentar}}{{template "annotations" .Override}}    protected {{.Typ}} {{.Name}}{{if ne .Value nil}} = {{.Value}}{{end}};
 {{end}}
 
+{{define "annotations"}}{{- /*gotype: github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base.Override*/ -}}
+{{if and (and . .JavaOverride) .JavaOverride.Annotations}}    {{.JavaOverride.Annotations.GetValue}}
+{{end}}{{end}}
 
 {{define "parameter"}}{{variableType .Variable .ImportKontext}} {{variableName .Variable}}{{end}}
 

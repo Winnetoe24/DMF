@@ -10,6 +10,7 @@ type FieldData struct {
 	Name      string
 	Value     *string
 	Kommentar *base.Comment
+	Override  *base.Override
 }
 
 // ParameterKontext kann genauso wie KonstruktorData für die Parameter genutzt werden

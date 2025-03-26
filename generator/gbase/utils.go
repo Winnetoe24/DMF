@@ -13,7 +13,7 @@ func ToFields(argumente []packages.Argument, referenzen []packages.Referenz, mul
 	buildGenericType func(element *packages.MultiReferenz, kontext ImportKontext) (typ string, value string)) []FieldData {
 	data := make([]FieldData, 0)
 	lookup := make(map[uint]packages.Variable)
-	keys := make([]uint, 0, len(argumente)+len(referenzen))
+	keys := make([]uint, 0, len(argumente)+len(referenzen)+len(multiReferenzen))
 	for _, argument := range argumente {
 		startByte := argument.Node.StartByte()
 		_, found := lookup[startByte]
@@ -54,12 +54,15 @@ func ToFields(argumente []packages.Argument, referenzen []packages.Referenz, mul
 				Typ:       typ,
 				Name:      element.Name.Name,
 				Kommentar: element.Kommentar,
+				Override:  element.Override,
 			})
+
 		case *packages.Referenz:
 			data = append(data, FieldData{
 				Typ:       PathType(element.Typ, kontext),
 				Name:      element.Name.Name,
 				Kommentar: element.Kommentar,
+				Override:  element.Override,
 			})
 		case *packages.MultiReferenz:
 			typ, value := buildGenericType(element, kontext)
@@ -68,6 +71,7 @@ func ToFields(argumente []packages.Argument, referenzen []packages.Referenz, mul
 				Name:      element.Name.Name,
 				Kommentar: element.Kommentar,
 				Value:     &value,
+				Override:  element.Override,
 			})
 
 		}

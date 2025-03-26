@@ -4,7 +4,14 @@ model "dp_success" version 0.0.0
 package de.alex.brand.klein {
 
         struct Holla {
+            // Hallo ich bin Kommentar
             arg int i;
+            override {
+                java {
+                    annotations '@Deprecated
+    @SuppressWarnings("unchecked")'
+                }
+            }
         }
         // asd
         enum Hersteller {
