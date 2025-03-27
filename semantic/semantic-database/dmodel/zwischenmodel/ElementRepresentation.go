@@ -14,11 +14,12 @@ import (
 type ElementRepresentation interface {
 	GetPackageElement() packages.PackageElement
 	GetIdentifiable() Identifiable
+	GetAusgelagerteElemente() []*NamedElementWrapper
 	TryFinish(kontext Kontext) (ElementRepresentation, error)
 }
 
 type Identifiable interface {
-	getIdentifier() []*dmodel.Column
+	GetIdentifier() []*dmodel.Column
 }
 
 type NamedElementWrapper struct {
@@ -56,6 +57,16 @@ const (
 type UnfinishedElement struct {
 	Element       packages.PackageElement
 	ElementLookUp map[string]*NamedElementWrapper
+}
+
+func (u *UnfinishedElement) GetAusgelagerteElemente() []*NamedElementWrapper {
+	wrappers := make([]*NamedElementWrapper, 0)
+	for _, wrapper := range u.ElementLookUp {
+		if wrapper != nil && wrapper.State == Ausgelagert {
+			wrappers = append(wrappers, wrapper)
+		}
+	}
+	return wrappers
 }
 
 func (u *UnfinishedElement) GetPackageElement() packages.PackageElement {
@@ -283,7 +294,7 @@ func (u *UnfinishedElement) updateReferenz(kontext Kontext,
 	}
 	// Element kann referenziert werden
 	if identifiable != nil {
-		identifier := identifiable.getIdentifier()
+		identifier := identifiable.GetIdentifier()
 		for _, column := range identifier {
 			col := &dmodel.Column{
 				Name:       element.Name.Name + column.Name,

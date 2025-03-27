@@ -17,6 +17,9 @@ package domain {
         arg int i;
         ref .DomainElement ele;
         ref .Emard zahl;
+        ref List<string> namen;
+        ref Set<string> modes;
+        ref Map<string, .DomainElement> domains;
         identifier(i);
     }
 }

@@ -193,9 +193,18 @@ func GenerateTsDelegates(basePath string, lookup smodel.TypeLookUp) {
 func GenerateDatabase(basePath string, schema dmodel.Schema) {
 	file := createFile(basePath, base.ModelPath{}, buildDbPath)
 
-	for _, tabelle := range schema.TableLookUp {
+	for _, tabellenName := range schema.FileOrdner {
+		tabelle := schema.TableLookUp[tabellenName]
+		if tabelle == nil {
+			panic("table for name " + tabellenName + " not found")
+		}
 		operations.Add(1)
 		generateFile(file, apply(template.GenerateTable, *tabelle))
+		for _, tableReference := range (*tabelle).TablesForElements {
+			operations.Add(1)
+			generateFile(file, apply(template.GenerateTable, *tableReference.Table))
+		}
+
 	}
 }
 

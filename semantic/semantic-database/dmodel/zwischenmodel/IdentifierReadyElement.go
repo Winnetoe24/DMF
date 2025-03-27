@@ -13,6 +13,6 @@ func (i *IdentifierReadyElement) GetIdentifiable() Identifiable {
 	return i
 }
 
-func (i *IdentifierReadyElement) getIdentifier() []*dmodel.Column {
+func (i *IdentifierReadyElement) GetIdentifier() []*dmodel.Column {
 	return i.Identifier
 }

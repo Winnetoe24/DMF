@@ -26,8 +26,8 @@ func BenchmarkGenerateDatabase(b *testing.B) {
 }
 
 func TestGenerateDatabase(t *testing.T) {
-	file, err := os.ReadFile("../intellijTest/riesig.dmf")
-	//file, err := os.ReadFile("./simpleDatabaseTest.dmf")
+	//file, err := os.ReadFile("../intellijTest/riesig.dmf")
+	file, err := os.ReadFile("./simpleDatabaseTest.dmf")
 	if err != nil {
 		t.Errorf("Error reading file: %e", err)
 	}
