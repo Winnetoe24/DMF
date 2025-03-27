@@ -69,7 +69,7 @@ func main() {
 	}
 	var schema dmodel.Schema
 	if generationMode == Database {
-		schema, errorElements = semantic_database.GenerateSchema(up)
+		schema, errorElements = semantic_database.GenerateSchemaNew(up)
 		for _, errElement := range errorElements {
 			println(errElement.ToErrorMsg(&context))
 		}

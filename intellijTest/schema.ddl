@@ -1,446 +1,674 @@
-create table MaintenanceLog_tasks (
-    logId VARCHAR(255),
-    tasks VARCHAR(255),
-    PRIMARY KEY(logId)
-);
-
-comment on column MaintenanceLog_tasks.logId is 'Referenz zur Ursprungstabelle';
-
-create table LightingZone (
-    zoneId VARCHAR(255),
-    schedule VARCHAR(255),
-    isDimmed boolean,
-    dailyUsage float(8),
-    PRIMARY KEY(zoneId)
-);
-
-
-create table Restaurant_operatingHours (
+create table Asset (
+    acquisitionCost float(8),
+    priorityID INTEGER,
     assetId VARCHAR(255),
-    operatingHours TIMESTAMP,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    statusID INTEGER,
+    name VARCHAR(255),
+    installationDate DATE,
+    expectedLifespanYears INTEGER,
+    lastMaintenanceDate DATE,
     PRIMARY KEY(assetId)
 );
 
-comment on column Restaurant_operatingHours.assetId is 'Referenz zur Ursprungstabelle';
+comment on column Asset.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column Asset.assetId is 'Die universelle Id des Assets';
 
-create table DataCollection (
-    datasetId VARCHAR(255),
-    experiment_experimentId VARCHAR(255),
-    classification_ID INTEGER,
-    format VARCHAR(255),
-    collectionStart TIMESTAMP,
-    collectionEnd TIMESTAMP,
-    sampleSize float(8),
-    isBackedUp boolean,
-    PRIMARY KEY(datasetId)
-);
-
-
-create table StudyRoom_reservations (
-    roomId VARCHAR(255),
-    reservations TIMESTAMP,
-    PRIMARY KEY(roomId)
-);
-
-comment on column StudyRoom_reservations.roomId is 'Referenz zur Ursprungstabelle';
-
-create table ManufacturingPlant (
-    assetId VARCHAR(255),
-    totalArea float(8),
-    installationDate DATE,
-    acquisitionCost float(8),
-    productionCapacity float(8),
-    isTwentyFourSeven boolean,
-    shiftCount INTEGER,
-    name VARCHAR(255),
+create table NetworkNode (
+    priorityID INTEGER,
     lastMaintenanceDate DATE,
     expectedLifespanYears INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    employeeCount INTEGER,
-    status_ID INTEGER,
-    PRIMARY KEY(assetId)
-);
-
-
-create table SignContent (
-    contentId VARCHAR(255),
-    content VARCHAR(255),
-    startDisplay TIMESTAMP,
-    endDisplay TIMESTAMP,
-    priority INTEGER,
-    sign_assetId VARCHAR(255),
-    PRIMARY KEY(contentId)
-);
-
-
-create table TouristAttraction (
-    assetId VARCHAR(255),
-    isAccessible boolean,
-    type_ID INTEGER,
-    installationDate DATE,
-    entryFee float(8),
-    lastMaintenanceDate DATE,
+    isRedundant boolean,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
     acquisitionCost float(8),
-    expectedLifespanYears INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    status_ID INTEGER,
+    connectedDevices INTEGER,
+    typeID INTEGER,
+    statusID INTEGER,
+    uptime float(8),
     name VARCHAR(255),
-    dailyVisitorCapacity INTEGER,
+    bandwidthID INTEGER,
+    installationDate DATE,
+    assetId VARCHAR(255),
     PRIMARY KEY(assetId)
 );
 
-
-create table ProductionLine (
-    lineId VARCHAR(255),
-    workerCount INTEGER,
-    outputRate float(8),
-    currentProduct VARCHAR(255),
-    lastStartup TIMESTAMP,
-    type_ID INTEGER,
-    status_ID INTEGER,
-    metrics_energyConsumption float(8),
-    metrics_targetOutput INTEGER,
-    metrics_efficiency float(8),
-    metrics_defectRate INTEGER,
-    metrics_actualOutput INTEGER,
-    metrics_materialWaste float(8),
-    PRIMARY KEY(lineId)
-);
-
-
-create table FilmPermit (
-    permitId VARCHAR(255),
-    status_ID INTEGER,
-    startTime TIMESTAMP,
-    endTime TIMESTAMP,
-    location VARCHAR(255),
-    crewSize INTEGER,
-    type_ID INTEGER,
-    PRIMARY KEY(permitId)
-);
-
-
-create table RecyclingFacility_acceptedTypes (
-    assetId VARCHAR(255),
-    ID INTEGER,
-    PRIMARY KEY(assetId, ID)
-);
-
-comment on column RecyclingFacility_acceptedTypes.assetId is 'Referenz zur Ursprungstabelle';
+comment on column NetworkNode.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column NetworkNode.assetId is 'Die universelle Id des Assets';
 
 create table EmergencyIncident (
-    incidentId VARCHAR(255),
-    type_ID INTEGER,
-    priority_ID INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    reportedTime TIMESTAMP,
     responseTime TIMESTAMP,
     isActive boolean,
+    typeID INTEGER,
+    priorityID INTEGER,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    incidentId VARCHAR(255),
+    reportedTime TIMESTAMP,
     PRIMARY KEY(incidentId)
 );
 
 
-create table HealthcareFacility (
-    assetId VARCHAR(255),
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    status_ID INTEGER,
-    type_ID INTEGER,
+create table TransportRoute (
+    lastDepartureTime TIMESTAMP,
+    frequencyMinutes INTEGER,
+    statusID INTEGER,
+    routeId VARCHAR(255),
+    routeName VARCHAR(255),
+    firstDepartureTime TIMESTAMP,
+    PRIMARY KEY(routeId)
+);
+
+
+create table GridNode (
     acquisitionCost float(8),
-    expectedLifespanYears INTEGER,
-    name VARCHAR(255),
+    typeID INTEGER,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    profileID INTEGER,
+    current float(8),
+    assetId VARCHAR(255),
+    priorityID INTEGER,
+    voltage float(8),
     installationDate DATE,
-    bedCapacity INTEGER,
-    currentOccupancy INTEGER,
-    hasEmergencyUnit boolean,
+    name VARCHAR(255),
+    statusID INTEGER,
+    expectedLifespanYears INTEGER,
+    isRedundant boolean,
     lastMaintenanceDate DATE,
     PRIMARY KEY(assetId)
 );
 
+comment on column GridNode.assetId is 'Die universelle Id des Assets';
+comment on column GridNode.priorityID is 'the priority of the asset
+the priority of the asset';
 
-create table CulturalVenue (
-    assetId VARCHAR(255),
-    installationDate DATE,
-    capacity INTEGER,
-    hasAccessibility boolean,
+create table MaintenanceTicket (
+    ticketId VARCHAR(255),
+    issue VARCHAR(255),
+    reportTime TIMESTAMP,
+    isUrgent boolean,
+    resolved boolean,
+    bathroomassetId VARCHAR(255),
+    PRIMARY KEY(ticketId)
+);
+
+
+create table Elevator (
     acquisitionCost float(8),
-    expectedLifespanYears INTEGER,
-    status_ID INTEGER,
-    name VARCHAR(255),
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    operationalStatusID INTEGER,
     lastMaintenanceDate DATE,
-    type_ID INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    PRIMARY KEY(assetId)
-);
-
-
-create table CulturalVenue_facilities (
-    assetId VARCHAR(255),
-    facilities VARCHAR(255),
-    PRIMARY KEY(assetId, facilities)
-);
-
-comment on column CulturalVenue_facilities.assetId is 'Referenz zur Ursprungstabelle';
-
-create table Inspection_violations (
-    inspectionId VARCHAR(255),
-    violations VARCHAR(255),
-    PRIMARY KEY(inspectionId)
-);
-
-comment on column Inspection_violations.inspectionId is 'Referenz zur Ursprungstabelle';
-
-create table SafetyProtocol_precautions (
-    protocolId VARCHAR(255),
-    precautions VARCHAR(255),
-    PRIMARY KEY(protocolId, precautions)
-);
-
-comment on column SafetyProtocol_precautions.protocolId is 'Referenz zur Ursprungstabelle';
-
-create table PostOffice (
-    assetId VARCHAR(255),
-    lastMaintenanceDate DATE,
-    counterCount INTEGER,
-    hasAutomation boolean,
-    storageCapacity float(8),
-    status_ID INTEGER,
     name VARCHAR(255),
+    totalFloors INTEGER,
+    currentFloor INTEGER,
+    typeID INTEGER,
     installationDate DATE,
+    priorityID INTEGER,
     expectedLifespanYears INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    staffCount INTEGER,
-    acquisitionCost float(8),
-    PRIMARY KEY(assetId)
-);
-
-
-create table InventoryItem (
-    itemId VARCHAR(255),
-    name VARCHAR(255),
-    stockLevel INTEGER,
-    price float(8),
-    isDiscounted boolean,
-    store_assetId VARCHAR(255),
-    PRIMARY KEY(itemId)
-);
-
-
-create table Farm_crops (
-    assetId VARCHAR(255),
-    ID INTEGER,
-    PRIMARY KEY(assetId, ID)
-);
-
-comment on column Farm_crops.assetId is 'Referenz zur Ursprungstabelle';
-
-create table Tournament (
-    tournamentId VARCHAR(255),
-    startDate DATE,
-    endDate DATE,
-    participants INTEGER,
-    sponsor VARCHAR(255),
-    sport_ID INTEGER,
-    PRIMARY KEY(tournamentId)
-);
-
-
-create table Market_operatingDays (
-    assetId VARCHAR(255),
-    operatingDays VARCHAR(255),
-    PRIMARY KEY(assetId)
-);
-
-comment on column Market_operatingDays.assetId is 'Referenz zur Ursprungstabelle';
-
-create table AccessCredential (
-    credentialId VARCHAR(255),
-    validFrom TIMESTAMP,
-    validUntil TIMESTAMP,
-    isActive boolean,
-    lab_assetId VARCHAR(255),
-    clearanceLevel_ID INTEGER,
-    holderName VARCHAR(255),
-    PRIMARY KEY(credentialId)
-);
-
-
-create table LibraryBranch (
-    assetId VARCHAR(255),
-    branchName VARCHAR(255),
-    hasStudyRooms boolean,
-    installationDate DATE,
-    status_ID INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    lastMaintenanceDate DATE,
-    expectedLifespanYears INTEGER,
-    capacity INTEGER,
-    computerStations INTEGER,
-    name VARCHAR(255),
-    acquisitionCost float(8),
-    PRIMARY KEY(assetId)
-);
-
-
-create table DigitalSign (
-    assetId VARCHAR(255),
-    contentType_ID INTEGER,
-    acquisitionCost float(8),
-    expectedLifespanYears INTEGER,
-    status_ID INTEGER,
-    name VARCHAR(255),
-    lastMaintenanceDate DATE,
-    resolution VARCHAR(255),
-    isInteractive boolean,
-    type_ID INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    installationDate DATE,
-    PRIMARY KEY(assetId)
-);
-
-
-create table Asset (
-    assetId VARCHAR(255),
-    name VARCHAR(255),
-    installationDate DATE,
-    lastMaintenanceDate DATE,
-    acquisitionCost float(8),
-    expectedLifespanYears INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    status_ID INTEGER,
-    PRIMARY KEY(assetId)
-);
-
-
-create table ParkingFacility (
-    assetId VARCHAR(255),
-    availableSpaces INTEGER,
-    hasChargingStations boolean,
-    type_ID INTEGER,
-    lastMaintenanceDate DATE,
-    expectedLifespanYears INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    status_ID INTEGER,
-    totalSpaces INTEGER,
-    hourlyRate float(8),
-    name VARCHAR(255),
-    installationDate DATE,
-    acquisitionCost float(8),
-    PRIMARY KEY(assetId)
-);
-
-
-create table Vehicle (
-    registrationNumber VARCHAR(255),
-    currentFuelLevel float(8),
-    acquisitionCost float(8),
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    status_ID INTEGER,
-    installationDate DATE,
-    lastMaintenanceDate DATE,
-    expectedLifespanYears INTEGER,
+    statusID INTEGER,
     capacity INTEGER,
     assetId VARCHAR(255),
-    currentPassengerCount INTEGER,
-    type_ID INTEGER,
-    currentRoute_routeId VARCHAR(255),
-    name VARCHAR(255),
-    PRIMARY KEY(registrationNumber)
+    PRIMARY KEY(assetId)
 );
 
+comment on column Elevator.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column Elevator.assetId is 'Die universelle Id des Assets';
 
-create table ComplianceCheck (
+create table QualityCheck (
+    passed boolean,
+    action VARCHAR(255),
+    linelineId VARCHAR(255),
     checkId VARCHAR(255),
-    passedKYC boolean,
-    transaction_transactionId VARCHAR(255),
-    passedAML boolean,
+    timestamp TIMESTAMP,
+    inspector VARCHAR(255),
     PRIMARY KEY(checkId)
 );
 
 
-create table StudyRoom (
-    roomId VARCHAR(255),
-    capacity INTEGER,
-    hasProjector boolean,
-    hasWhiteboard boolean,
-    isOccupied boolean,
-    branch_assetId VARCHAR(255),
-    PRIMARY KEY(roomId)
-);
-
-
-create table StreetLight_scheduleOn (
-    assetId VARCHAR(255),
-    scheduleOn TIMESTAMP,
-    PRIMARY KEY(assetId)
-);
-
-comment on column StreetLight_scheduleOn.assetId is 'Referenz zur Ursprungstabelle';
-
-create table Laboratory (
-    assetId VARCHAR(255),
-    status_ID INTEGER,
+create table ManufacturingPlant (
+    isTwentyFourSeven boolean,
+    expectedLifespanYears INTEGER,
     lastMaintenanceDate DATE,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    totalArea float(8),
-    securityLevel_ID INTEGER,
-    acquisitionCost float(8),
-    workstationCount INTEGER,
+    shiftCount INTEGER,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
     name VARCHAR(255),
     installationDate DATE,
-    expectedLifespanYears INTEGER,
-    hasCleanRoom boolean,
-    PRIMARY KEY(assetId)
-);
-
-
-create table AnimalShelter_services (
     assetId VARCHAR(255),
-    services VARCHAR(255),
+    priorityID INTEGER,
+    productionCapacity float(8),
+    totalArea float(8),
+    statusID INTEGER,
+    employeeCount INTEGER,
+    acquisitionCost float(8),
     PRIMARY KEY(assetId)
 );
 
-comment on column AnimalShelter_services.assetId is 'Referenz zur Ursprungstabelle';
+comment on column ManufacturingPlant.assetId is 'Die universelle Id des Assets';
+comment on column ManufacturingPlant.priorityID is 'the priority of the asset
+the priority of the asset';
+
+create table Artwork (
+    lastMaintenanceDate DATE,
+    priorityID INTEGER,
+    installationDate DATE,
+    acquisitionCost float(8),
+    expectedLifespanYears INTEGER,
+    assetId VARCHAR(255),
+    materials VARCHAR(255),
+    artistTypeID INTEGER,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    typeID INTEGER,
+    statusID INTEGER,
+    name VARCHAR(255),
+    requiresRestoration boolean,
+    PRIMARY KEY(assetId)
+);
+
+comment on column Artwork.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column Artwork.assetId is 'Die universelle Id des Assets';
+
+create table WaterSource (
+    qualityID INTEGER,
+    expectedLifespanYears INTEGER,
+    assetId VARCHAR(255),
+    acquisitionCost float(8),
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    name VARCHAR(255),
+    installationDate DATE,
+    capacity float(8),
+    isActive boolean,
+    lastMaintenanceDate DATE,
+    currentLevel float(8),
+    flowRate float(8),
+    statusID INTEGER,
+    priorityID INTEGER,
+    PRIMARY KEY(assetId)
+);
+
+comment on column WaterSource.assetId is 'Die universelle Id des Assets';
+comment on column WaterSource.priorityID is 'the priority of the asset
+the priority of the asset';
+
+create table TransitCard (
+    methodID INTEGER,
+    fareTypeID INTEGER,
+    cardId VARCHAR(255),
+    balance float(8),
+    expiryDate DATE,
+    isActive boolean,
+    PRIMARY KEY(cardId)
+);
+
+
+create table PowerPlant (
+    installationDate DATE,
+    expectedLifespanYears INTEGER,
+    sourceID INTEGER,
+    priorityID INTEGER,
+    name VARCHAR(255),
+    capacity float(8),
+    assetId VARCHAR(255),
+    lastMaintenanceDate DATE,
+    acquisitionCost float(8),
+    isBackupSource boolean,
+    efficiency float(8),
+    statusID INTEGER,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    currentOutput float(8),
+    PRIMARY KEY(assetId)
+);
+
+comment on column PowerPlant.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column PowerPlant.assetId is 'Die universelle Id des Assets';
+
+create table WildlifeIncident (
+    reportTime TIMESTAMP,
+    description VARCHAR(255),
+    requiresAction boolean,
+    resolution VARCHAR(255),
+    speciesID INTEGER,
+    incidentId VARCHAR(255),
+    PRIMARY KEY(incidentId)
+);
+
+
+create table VeterinaryClinic (
+    priorityID INTEGER,
+    statusID INTEGER,
+    expectedLifespanYears INTEGER,
+    capacity INTEGER,
+    name VARCHAR(255),
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    acquisitionCost float(8),
+    installationDate DATE,
+    clinicName VARCHAR(255),
+    hasLaboratory boolean,
+    emergencyTwentyFourHour boolean,
+    assetId VARCHAR(255),
+    lastMaintenanceDate DATE,
+    PRIMARY KEY(assetId)
+);
+
+comment on column VeterinaryClinic.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column VeterinaryClinic.assetId is 'Die universelle Id des Assets';
+
+create table WeatherStation (
+    installationDate DATE,
+    precipitation float(8),
+    statusID INTEGER,
+    lastMaintenanceDate DATE,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    humidity float(8),
+    conditionID INTEGER,
+    windSpeed float(8),
+    assetId VARCHAR(255),
+    expectedLifespanYears INTEGER,
+    temperature float(8),
+    acquisitionCost float(8),
+    priorityID INTEGER,
+    name VARCHAR(255),
+    PRIMARY KEY(assetId)
+);
+
+comment on column WeatherStation.assetId is 'Die universelle Id des Assets';
+comment on column WeatherStation.priorityID is 'the priority of the asset
+the priority of the asset';
+
+create table PostOffice (
+    staffCount INTEGER,
+    name VARCHAR(255),
+    acquisitionCost float(8),
+    lastMaintenanceDate DATE,
+    counterCount INTEGER,
+    installationDate DATE,
+    statusID INTEGER,
+    priorityID INTEGER,
+    expectedLifespanYears INTEGER,
+    hasAutomation boolean,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    storageCapacity float(8),
+    assetId VARCHAR(255),
+    PRIMARY KEY(assetId)
+);
+
+comment on column PostOffice.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column PostOffice.assetId is 'Die universelle Id des Assets';
+
+create table ProductionCrew (
+    productionCompany VARCHAR(255),
+    contactPerson VARCHAR(255),
+    permitpermitId VARCHAR(255),
+    crewId VARCHAR(255),
+    PRIMARY KEY(crewId)
+);
+
+
+create table SmartDevice (
+    buildingassetId VARCHAR(255),
+    deviceId VARCHAR(255),
+    deviceType VARCHAR(255),
+    isOnline boolean,
+    lastPing TIMESTAMP,
+    firmwareVersion VARCHAR(255),
+    PRIMARY KEY(deviceId)
+);
+
+
+create table Zone (
+    area float(8),
+    maxDensity float(8),
+    installationDate DATE,
+    acquisitionCost float(8),
+    isHistorical boolean,
+    typeID INTEGER,
+    heightLimit INTEGER,
+    lastMaintenanceDate DATE,
+    expectedLifespanYears INTEGER,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    assetId VARCHAR(255),
+    priorityID INTEGER,
+    statusID INTEGER,
+    name VARCHAR(255),
+    PRIMARY KEY(assetId)
+);
+
+comment on column Zone.assetId is 'Die universelle Id des Assets';
+comment on column Zone.priorityID is 'the priority of the asset
+the priority of the asset';
+
+create table SignContent (
+    startDisplay TIMESTAMP,
+    endDisplay TIMESTAMP,
+    priority INTEGER,
+    signassetId VARCHAR(255),
+    contentId VARCHAR(255),
+    content VARCHAR(255),
+    PRIMARY KEY(contentId)
+);
+
+
+create table WasteCollection (
+    estimatedVolume float(8),
+    isCompleted boolean,
+    typeID INTEGER,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    collectionId VARCHAR(255),
+    scheduledTime TIMESTAMP,
+    PRIMARY KEY(collectionId)
+);
+
+
+create table HealthcareFacility (
+    hasEmergencyUnit boolean,
+    currentOccupancy INTEGER,
+    lastMaintenanceDate DATE,
+    installationDate DATE,
+    expectedLifespanYears INTEGER,
+    bedCapacity INTEGER,
+    priorityID INTEGER,
+    acquisitionCost float(8),
+    typeID INTEGER,
+    assetId VARCHAR(255),
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    statusID INTEGER,
+    name VARCHAR(255),
+    PRIMARY KEY(assetId)
+);
+
+comment on column HealthcareFacility.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column HealthcareFacility.assetId is 'Die universelle Id des Assets';
+
+create table Plot (
+    plotId VARCHAR(255),
+    lastMaintenance DATE,
+    isOccupied boolean,
+    owner VARCHAR(255),
+    typeID INTEGER,
+    scheduleID INTEGER,
+    PRIMARY KEY(plotId)
+);
+
+
+create table EducationalInstitution (
+    acquisitionCost float(8),
+    staffCount INTEGER,
+    priorityID INTEGER,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    installationDate DATE,
+    isPublic boolean,
+    accreditationStatus VARCHAR(255),
+    expectedLifespanYears INTEGER,
+    assetId VARCHAR(255),
+    studentCapacity INTEGER,
+    statusID INTEGER,
+    name VARCHAR(255),
+    typeID INTEGER,
+    lastMaintenanceDate DATE,
+    PRIMARY KEY(assetId)
+);
+
+comment on column EducationalInstitution.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column EducationalInstitution.assetId is 'Die universelle Id des Assets';
+
+create table FareTransaction (
+    transactionId VARCHAR(255),
+    timestamp TIMESTAMP,
+    amount float(8),
+    route VARCHAR(255),
+    isRefunded boolean,
+    cardcardId VARCHAR(255),
+    PRIMARY KEY(transactionId)
+);
+
+
+create table Machine (
+    machineId VARCHAR(255),
+    manufacturer VARCHAR(255),
+    model VARCHAR(255),
+    installationDate DATE,
+    powerConsumption float(8),
+    statusID INTEGER,
+    maintenancetasks VARCHAR(255),
+    maintenanceresponsible VARCHAR(255),
+    maintenancelastMaintenance DATE,
+    maintenancenextMaintenance DATE,
+    maintenancefrequency INTEGER,
+    PRIMARY KEY(machineId)
+);
+
+
+create table Building (
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    statusID INTEGER,
+    installationDate DATE,
+    totalArea float(8),
+    priorityID INTEGER,
+    lastMaintenanceDate DATE,
+    typeID INTEGER,
+    securityLevelID INTEGER,
+    name VARCHAR(255),
+    occupancy INTEGER,
+    acquisitionCost float(8),
+    assetId VARCHAR(255),
+    expectedLifespanYears INTEGER,
+    floors INTEGER,
+    isSmartEnabled boolean,
+    PRIMARY KEY(assetId)
+);
+
+comment on column Building.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column Building.assetId is 'Die universelle Id des Assets';
+
+create table ClimateProject (
+    strategyID INTEGER,
+    projectId VARCHAR(255),
+    description VARCHAR(255),
+    startDate DATE,
+    budget float(8),
+    isActive boolean,
+    PRIMARY KEY(projectId)
+);
+
+
+create table EnvironmentalControl (
+    pressure float(8),
+    particleCount float(8),
+    labassetId VARCHAR(255),
+    controlId VARCHAR(255),
+    humidity float(8),
+    withinSpecs boolean,
+    temperature float(8),
+    PRIMARY KEY(controlId)
+);
+
+
+create table Experiment (
+    hasEthicalApproval boolean,
+    experimentId VARCHAR(255),
+    scheduledStart TIMESTAMP,
+    scheduledEnd TIMESTAMP,
+    locationassetId VARCHAR(255),
+    metadatamethodology VARCHAR(255),
+    metadatastartDate DATE,
+    metadataendDate DATE,
+    dependencies VARCHAR(255),
+    phaseID INTEGER,
+    PRIMARY KEY(experimentId)
+);
+
+
+create table LibraryMember (
+    currentBorrows INTEGER,
+    levelID INTEGER,
+    memberId VARCHAR(255),
+    name VARCHAR(255),
+    email VARCHAR(255),
+    joinDate DATE,
+    membershipExpiry DATE,
+    isActive boolean,
+    PRIMARY KEY(memberId)
+);
+
+
+create table AnimalShelter (
+    acceptsStrays boolean,
+    providesVetCare boolean,
+    currentOccupancy INTEGER,
+    name VARCHAR(255),
+    acquisitionCost float(8),
+    expectedLifespanYears INTEGER,
+    shelterName VARCHAR(255),
+    capacity INTEGER,
+    assetId VARCHAR(255),
+    statusID INTEGER,
+    lastMaintenanceDate DATE,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    installationDate DATE,
+    priorityID INTEGER,
+    PRIMARY KEY(assetId)
+);
+
+comment on column AnimalShelter.assetId is 'Die universelle Id des Assets';
+comment on column AnimalShelter.priorityID is 'the priority of the asset
+the priority of the asset';
+
+create table Pet (
+    breed VARCHAR(255),
+    birthDate DATE,
+    ownerName VARCHAR(255),
+    microchipId VARCHAR(255),
+    typeID INTEGER,
+    licenseStatusID INTEGER,
+    petId VARCHAR(255),
+    name VARCHAR(255),
+    PRIMARY KEY(petId)
+);
+
+
+create table SportsFacility (
+    name VARCHAR(255),
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    statusID INTEGER,
+    lastMaintenanceDate DATE,
+    isIndoor boolean,
+    hasFloodlights boolean,
+    spectatorCapacity INTEGER,
+    acquisitionCost float(8),
+    assetId VARCHAR(255),
+    priorityID INTEGER,
+    installationDate DATE,
+    expectedLifespanYears INTEGER,
+    typeID INTEGER,
+    PRIMARY KEY(assetId)
+);
+
+comment on column SportsFacility.assetId is 'Die universelle Id des Assets';
+comment on column SportsFacility.priorityID is 'the priority of the asset
+the priority of the asset';
+
+create table MonitoringStation (
+    expectedLifespanYears INTEGER,
+    isCalibrated boolean,
+    installationDate DATE,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    priorityID INTEGER,
+    stationId VARCHAR(255),
+    lastCalibrationDate DATE,
+    name VARCHAR(255),
+    assetId VARCHAR(255),
+    statusID INTEGER,
+    lastMaintenanceDate DATE,
+    acquisitionCost float(8),
+    PRIMARY KEY(stationId)
+);
+
+comment on column MonitoringStation.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column MonitoringStation.assetId is 'Die universelle Id des Assets';
+
+create table MaintenanceRecord (
+    recordId VARCHAR(255),
+    maintenanceDate DATE,
+    work VARCHAR(255),
+    cost float(8),
+    contractor VARCHAR(255),
+    furnitureassetId VARCHAR(255),
+    PRIMARY KEY(recordId)
+);
+
 
 create table Treatment (
+    typeID INTEGER,
+    patientpatientId VARCHAR(255),
     treatmentId VARCHAR(255),
-    type_ID INTEGER,
-    patient_patientId VARCHAR(255),
     startTime TIMESTAMP,
     endTime TIMESTAMP,
     provider VARCHAR(255),
@@ -450,1933 +678,1268 @@ create table Treatment (
 );
 
 
-create table DevelopmentProject (
-    projectId VARCHAR(255),
-    description VARCHAR(255),
-    startDate DATE,
-    completionDate DATE,
-    budget float(8),
-    status_ID INTEGER,
-    PRIMARY KEY(projectId)
-);
-
-
-create table ProductionCrew_specialNeeds (
-    crewId VARCHAR(255),
-    specialNeeds VARCHAR(255),
-    PRIMARY KEY(crewId, specialNeeds)
-);
-
-comment on column ProductionCrew_specialNeeds.crewId is 'Referenz zur Ursprungstabelle';
-
-create table EnvironmentalControl_gasLevels (
-    controlId VARCHAR(255),
-    gasLevels float(8),
-    PRIMARY KEY(controlId)
-);
-
-comment on column EnvironmentalControl_gasLevels.controlId is 'Referenz zur Ursprungstabelle';
-
-create table ProductionCrew (
-    crewId VARCHAR(255),
-    productionCompany VARCHAR(255),
-    contactPerson VARCHAR(255),
-    permit_permitId VARCHAR(255),
-    PRIMARY KEY(crewId)
-);
-
-
-create table Experiment (
-    experimentId VARCHAR(255),
-    dependencies VARCHAR(255),
-    phase_ID INTEGER,
-    metadata_endDate DATE,
-    metadata_methodology VARCHAR(255),
-    metadata_startDate DATE,
-    location_assetId VARCHAR(255),
-    scheduledStart TIMESTAMP,
-    scheduledEnd TIMESTAMP,
-    hasEthicalApproval boolean,
-    PRIMARY KEY(experimentId)
-);
-
-
-create table AuthenticationSystem_activeTokens (
-    systemId VARCHAR(255),
-    activeTokens VARCHAR(255),
-    PRIMARY KEY(systemId, activeTokens)
-);
-
-comment on column AuthenticationSystem_activeTokens.systemId is 'Referenz zur Ursprungstabelle';
-
-create table TransportRoute_segments (
-    routeId VARCHAR(255),
-    estimatedTimeMinutes INTEGER,
-    startPoint_altitude float(8),
-    startPoint_addressString VARCHAR(255),
-    startPoint_latitude float(8),
-    startPoint_longitude float(8),
-    endPoint_altitude float(8),
-    endPoint_addressString VARCHAR(255),
-    endPoint_latitude float(8),
-    endPoint_longitude float(8),
-    distance float(8),
-    PRIMARY KEY(routeId, estimatedTimeMinutes, startPoint_altitude, startPoint_addressString, startPoint_latitude, startPoint_longitude, endPoint_altitude, endPoint_addressString, endPoint_latitude, endPoint_longitude, distance)
-);
-
-comment on column TransportRoute_segments.routeId is 'Referenz zur Ursprungstabelle';
-
-create table Market (
-    assetId VARCHAR(255),
-    closeTime TIMESTAMP,
-    name VARCHAR(255),
-    installationDate DATE,
-    lastMaintenanceDate DATE,
-    acquisitionCost float(8),
-    expectedLifespanYears INTEGER,
-    stallCapacity INTEGER,
-    status_ID INTEGER,
-    type_ID INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    openTime TIMESTAMP,
-    PRIMARY KEY(assetId)
-);
-
-
-create table DataCollection_validationRules (
-    datasetId VARCHAR(255),
-    validationRules VARCHAR(255),
-    PRIMARY KEY(datasetId, validationRules)
-);
-
-comment on column DataCollection_validationRules.datasetId is 'Referenz zur Ursprungstabelle';
-
-create table TreatmentOperation (
-    operationId VARCHAR(255),
-    route_routeId VARCHAR(255),
-    startTime TIMESTAMP,
-    completionTime TIMESTAMP,
-    materialUsed float(8),
-    type_ID INTEGER,
-    PRIMARY KEY(operationId)
-);
-
-
-create table DataTransfer (
-    transferId VARCHAR(255),
-    timestamp TIMESTAMP,
-    isEncrypted boolean,
-    source_assetId VARCHAR(255),
-    destination_assetId VARCHAR(255),
-    amount float(8),
-    PRIMARY KEY(transferId)
-);
-
-
-create table LibraryResource_authors (
-    resourceId VARCHAR(255),
-    authors VARCHAR(255),
-    PRIMARY KEY(resourceId)
-);
-
-comment on column LibraryResource_authors.resourceId is 'Referenz zur Ursprungstabelle';
-
-create table SportsFacility_supportedSports (
-    assetId VARCHAR(255),
-    ID INTEGER,
-    PRIMARY KEY(assetId, ID)
-);
-
-comment on column SportsFacility_supportedSports.assetId is 'Referenz zur Ursprungstabelle';
-
-create table EnvironmentalControl_alerts (
-    controlId VARCHAR(255),
-    alerts VARCHAR(255),
-    PRIMARY KEY(controlId)
-);
-
-comment on column EnvironmentalControl_alerts.controlId is 'Referenz zur Ursprungstabelle';
-
-create table ResearchEquipment_supportedExperiments (
-    assetId VARCHAR(255),
-    supportedExperiments VARCHAR(255),
-    PRIMARY KEY(assetId, supportedExperiments)
-);
-
-comment on column ResearchEquipment_supportedExperiments.assetId is 'Referenz zur Ursprungstabelle';
-
-create table StreetFurniture (
-    assetId VARCHAR(255),
-    installationDate DATE,
-    lastMaintenanceDate DATE,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    status_ID INTEGER,
-    material VARCHAR(255),
-    needsRepair boolean,
-    type_ID INTEGER,
-    state_ID INTEGER,
-    name VARCHAR(255),
-    acquisitionCost float(8),
-    expectedLifespanYears INTEGER,
-    PRIMARY KEY(assetId)
-);
-
-
-create table FraudDetection_anomalyIndicators (
-    detectionId VARCHAR(255),
-    anomalyIndicators VARCHAR(255),
-    PRIMARY KEY(detectionId)
-);
-
-comment on column FraudDetection_anomalyIndicators.detectionId is 'Referenz zur Ursprungstabelle';
-
-create table SafetyIncident (
-    incidentId VARCHAR(255),
-    description VARCHAR(255),
-    requiresEvacuation boolean,
-    type_ID INTEGER,
-    reportTime TIMESTAMP,
-    PRIMARY KEY(incidentId)
-);
-
-
-create table Shipment (
-    trackingId VARCHAR(255),
-    status_ID INTEGER,
-    receivedTime TIMESTAMP,
-    estimatedDelivery TIMESTAMP,
-    isInsured boolean,
-    type_ID INTEGER,
-    PRIMARY KEY(trackingId)
-);
-
-
-create table FinancialInstitution_supportedCurrencies (
-    institutionId VARCHAR(255),
-    supportedCurrencies VARCHAR(255),
-    PRIMARY KEY(institutionId, supportedCurrencies)
-);
-
-comment on column FinancialInstitution_supportedCurrencies.institutionId is 'Referenz zur Ursprungstabelle';
-
-create table Elevator (
-    assetId VARCHAR(255),
-    capacity INTEGER,
-    type_ID INTEGER,
-    operationalStatus_ID INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    status_ID INTEGER,
-    installationDate DATE,
-    lastMaintenanceDate DATE,
-    currentFloor INTEGER,
-    totalFloors INTEGER,
-    acquisitionCost float(8),
-    expectedLifespanYears INTEGER,
-    name VARCHAR(255),
-    PRIMARY KEY(assetId)
-);
-
-
-create table FareTransaction (
-    transactionId VARCHAR(255),
-    route VARCHAR(255),
-    isRefunded boolean,
-    card_cardId VARCHAR(255),
-    timestamp TIMESTAMP,
-    amount float(8),
-    PRIMARY KEY(transactionId)
-);
-
-
-create table MaterialInventory (
-    inventoryId VARCHAR(255),
-    storageLocation VARCHAR(255),
-    hazardous boolean,
-    materialType VARCHAR(255),
-    quantity float(8),
-    unit VARCHAR(255),
-    expiryDate DATE,
-    supplier VARCHAR(255),
-    PRIMARY KEY(inventoryId)
-);
-
-
-create table ResourceSchedule_maintenanceWindows (
-    scheduleId VARCHAR(255),
-    maintenanceWindows VARCHAR(255),
-    PRIMARY KEY(scheduleId)
-);
-
-comment on column ResourceSchedule_maintenanceWindows.scheduleId is 'Referenz zur Ursprungstabelle';
-
-create table RecyclingFacility (
-    assetId VARCHAR(255),
-    currentStorage float(8),
-    isAcceptingWaste boolean,
-    status_ID INTEGER,
-    lastMaintenanceDate DATE,
-    processingCapacity float(8),
-    name VARCHAR(255),
-    installationDate DATE,
-    acquisitionCost float(8),
-    expectedLifespanYears INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    PRIMARY KEY(assetId)
-);
-
-
-create table Laboratory_domains (
-    assetId VARCHAR(255),
-    ID INTEGER,
-    PRIMARY KEY(assetId, ID)
-);
-
-comment on column Laboratory_domains.assetId is 'Referenz zur Ursprungstabelle';
-
-create table Farm (
-    assetId VARCHAR(255),
-    isOrganic boolean,
-    lastHarvestDate DATE,
-    expectedLifespanYears INTEGER,
-    status_ID INTEGER,
-    installationDate DATE,
-    lastMaintenanceDate DATE,
-    area float(8),
-    irrigationType_ID INTEGER,
-    acquisitionCost float(8),
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    name VARCHAR(255),
-    PRIMARY KEY(assetId)
-);
-
-
-create table TransportRoute (
-    routeId VARCHAR(255),
-    firstDepartureTime TIMESTAMP,
-    lastDepartureTime TIMESTAMP,
-    frequencyMinutes INTEGER,
-    status_ID INTEGER,
-    routeName VARCHAR(255),
-    PRIMARY KEY(routeId)
-);
-
-
-create table CulturalEvent (
-    eventId VARCHAR(255),
-    ticketing_basePrice float(8),
-    ticketing_discount float(8),
-    ticketing_availableSeats INTEGER,
-    ticketing_isRefundable boolean,
-    startTime TIMESTAMP,
-    endTime TIMESTAMP,
-    curator VARCHAR(255),
-    category_ID INTEGER,
-    PRIMARY KEY(eventId)
-);
-
-
-create table MonitoringStation_readings (
-    stationId VARCHAR(255),
-    exceedsLimit boolean,
-    pollutant_ID INTEGER,
-    concentration float(8),
-    timestamp TIMESTAMP,
-    PRIMARY KEY(stationId)
-);
-
-comment on column MonitoringStation_readings.stationId is 'Referenz zur Ursprungstabelle';
-
-create table SafetyIncident_requiredUnits (
-    incidentId VARCHAR(255),
-    ID INTEGER,
-    PRIMARY KEY(incidentId)
-);
-
-comment on column SafetyIncident_requiredUnits.incidentId is 'Referenz zur Ursprungstabelle';
-
-create table ResourceSchedule_reservedTimes (
-    scheduleId VARCHAR(255),
-    reservedTimes TIMESTAMP,
-    PRIMARY KEY(scheduleId)
-);
-
-comment on column ResourceSchedule_reservedTimes.scheduleId is 'Referenz zur Ursprungstabelle';
-
-create table VeterinaryClinic_specialists (
-    assetId VARCHAR(255),
-    specialists VARCHAR(255),
-    PRIMARY KEY(assetId, specialists)
-);
-
-comment on column VeterinaryClinic_specialists.assetId is 'Referenz zur Ursprungstabelle';
-
-create table WaterSource (
-    assetId VARCHAR(255),
-    name VARCHAR(255),
-    installationDate DATE,
-    lastMaintenanceDate DATE,
-    currentLevel float(8),
-    isActive boolean,
-    quality_ID INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    expectedLifespanYears INTEGER,
-    capacity float(8),
-    flowRate float(8),
-    status_ID INTEGER,
-    acquisitionCost float(8),
-    PRIMARY KEY(assetId)
-);
-
-
-create table MedicalEquipment (
-    assetId VARCHAR(255),
-    manufacturer VARCHAR(255),
-    warrantyExpiry DATE,
-    hoursInUse INTEGER,
-    requiresCalibration boolean,
-    installationDate DATE,
-    lastMaintenanceDate DATE,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    equipmentType VARCHAR(255),
-    expectedLifespanYears INTEGER,
-    status_ID INTEGER,
-    name VARCHAR(255),
-    acquisitionCost float(8),
-    PRIMARY KEY(assetId)
-);
-
-
-create table TreatmentPlant_stages (
-    assetId VARCHAR(255),
-    ID INTEGER,
-    PRIMARY KEY(assetId)
-);
-
-comment on column TreatmentPlant_stages.assetId is 'Referenz zur Ursprungstabelle';
-
-create table ComplianceAudit_protocols (
-    auditId VARCHAR(255),
-    protocolId VARCHAR(255),
-    PRIMARY KEY(auditId)
-);
-
-comment on column ComplianceAudit_protocols.auditId is 'Referenz zur Ursprungstabelle';
-
-create table SmartMeter (
-    meterId VARCHAR(255),
-    currentReading float(8),
-    peakDemand float(8),
-    lastReadingTime TIMESTAMP,
-    isOnline boolean,
-    pattern_ID INTEGER,
-    PRIMARY KEY(meterId)
-);
-
-
-create table AccessCredential_authorizedAreas (
-    credentialId VARCHAR(255),
-    authorizedAreas VARCHAR(255),
-    PRIMARY KEY(credentialId, authorizedAreas)
-);
-
-comment on column AccessCredential_authorizedAreas.credentialId is 'Referenz zur Ursprungstabelle';
-
-create table GridNode (
-    assetId VARCHAR(255),
-    expectedLifespanYears INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    status_ID INTEGER,
-    voltage float(8),
-    current float(8),
-    isRedundant boolean,
-    type_ID INTEGER,
-    profile_ID INTEGER,
-    name VARCHAR(255),
-    acquisitionCost float(8),
-    installationDate DATE,
-    lastMaintenanceDate DATE,
-    PRIMARY KEY(assetId)
-);
-
-
-create table MaintenanceLog_replacedParts (
+create table AuditLog (
+    action VARCHAR(255),
+    details VARCHAR(255),
+    transactiontransactionId VARCHAR(255),
     logId VARCHAR(255),
-    replacedParts VARCHAR(255),
+    timestamp TIMESTAMP,
+    performedBy VARCHAR(255),
     PRIMARY KEY(logId)
 );
 
-comment on column MaintenanceLog_replacedParts.logId is 'Referenz zur Ursprungstabelle';
 
-create table NetworkNode (
-    assetId VARCHAR(255),
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    installationDate DATE,
-    type_ID INTEGER,
-    uptime float(8),
-    isRedundant boolean,
-    bandwidth_ID INTEGER,
-    lastMaintenanceDate DATE,
-    acquisitionCost float(8),
+create table LibraryBranch (
     expectedLifespanYears INTEGER,
-    status_ID INTEGER,
-    connectedDevices INTEGER,
-    name VARCHAR(255),
-    PRIMARY KEY(assetId)
-);
-
-
-create table FilmLocation (
-    assetId VARCHAR(255),
-    locationName VARCHAR(255),
-    isIndoor boolean,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    dailyRate float(8),
-    maxOccupancy INTEGER,
-    expectedLifespanYears INTEGER,
-    acquisitionCost float(8),
-    hasParking boolean,
-    name VARCHAR(255),
+    branchName VARCHAR(255),
     installationDate DATE,
+    acquisitionCost float(8),
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
     lastMaintenanceDate DATE,
-    status_ID INTEGER,
-    PRIMARY KEY(assetId)
-);
-
-
-create table VeterinaryClinic (
+    computerStations INTEGER,
+    priorityID INTEGER,
     assetId VARCHAR(255),
     name VARCHAR(255),
-    acquisitionCost float(8),
-    emergencyTwentyFourHour boolean,
-    hasLaboratory boolean,
-    lastMaintenanceDate DATE,
+    statusID INTEGER,
     capacity INTEGER,
-    status_ID INTEGER,
-    installationDate DATE,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    clinicName VARCHAR(255),
+    hasStudyRooms boolean,
+    PRIMARY KEY(assetId)
+);
+
+comment on column LibraryBranch.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column LibraryBranch.assetId is 'Die universelle Id des Assets';
+
+create table ParkingFacility (
+    name VARCHAR(255),
+    typeID INTEGER,
+    availableSpaces INTEGER,
     expectedLifespanYears INTEGER,
-    PRIMARY KEY(assetId)
-);
-
-
-create table VeterinaryClinic_services (
+    hourlyRate float(8),
+    acquisitionCost float(8),
+    priorityID INTEGER,
+    hasChargingStations boolean,
+    totalSpaces INTEGER,
     assetId VARCHAR(255),
-    services VARCHAR(255),
+    lastMaintenanceDate DATE,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    installationDate DATE,
+    statusID INTEGER,
     PRIMARY KEY(assetId)
 );
 
-comment on column VeterinaryClinic_services.assetId is 'Referenz zur Ursprungstabelle';
+comment on column ParkingFacility.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column ParkingFacility.assetId is 'Die universelle Id des Assets';
 
-create table SafetyProtocol_emergencyProcedures (
-    protocolId VARCHAR(255),
-    emergencyProcedures VARCHAR(255),
-    PRIMARY KEY(protocolId, emergencyProcedures)
+create table Sensor (
+    expectedLifespanYears INTEGER,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    lastReading TIMESTAMP,
+    sensorType VARCHAR(255),
+    lastMaintenanceDate DATE,
+    acquisitionCost float(8),
+    statusID INTEGER,
+    name VARCHAR(255),
+    installationDate DATE,
+    needsCalibration boolean,
+    assetId VARCHAR(255),
+    priorityID INTEGER,
+    unit VARCHAR(255),
+    readingValue float(8),
+    PRIMARY KEY(assetId)
 );
 
-comment on column SafetyProtocol_emergencyProcedures.protocolId is 'Referenz zur Ursprungstabelle';
+comment on column Sensor.assetId is 'Die universelle Id des Assets';
+comment on column Sensor.priorityID is 'the priority of the asset
+the priority of the asset';
 
-create table MaintenanceTicket (
-    ticketId VARCHAR(255),
-    reportTime TIMESTAMP,
-    isUrgent boolean,
-    resolved boolean,
-    bathroom_assetId VARCHAR(255),
-    issue VARCHAR(255),
-    PRIMARY KEY(ticketId)
+create table RecyclingFacility (
+    statusID INTEGER,
+    isAcceptingWaste boolean,
+    installationDate DATE,
+    lastMaintenanceDate DATE,
+    priorityID INTEGER,
+    currentStorage float(8),
+    name VARCHAR(255),
+    acquisitionCost float(8),
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    assetId VARCHAR(255),
+    expectedLifespanYears INTEGER,
+    processingCapacity float(8),
+    PRIMARY KEY(assetId)
+);
+
+comment on column RecyclingFacility.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column RecyclingFacility.assetId is 'Die universelle Id des Assets';
+
+create table FinancialAccount (
+    institutioninstitutionId VARCHAR(255),
+    accountId VARCHAR(255),
+    balance float(8),
+    currency VARCHAR(255),
+    isFrozen boolean,
+    accountType VARCHAR(255),
+    openedDate DATE,
+    PRIMARY KEY(accountId)
+);
+
+
+create table RiskAssessment (
+    assessmentDate DATE,
+    institutioninstitutionId VARCHAR(255),
+    profilecreditScore INTEGER,
+    profiledefaultProbability float(8),
+    profilelastAssessment DATE,
+    assessmentId VARCHAR(255),
+    PRIMARY KEY(assessmentId)
 );
 
 
 create table RegulatoryReport (
+    institutioninstitutionId VARCHAR(255),
     reportId VARCHAR(255),
     reportType VARCHAR(255),
-    submitted boolean,
-    institution_institutionId VARCHAR(255),
     reportingPeriod DATE,
+    submitted boolean,
     PRIMARY KEY(reportId)
-);
-
-
-create table EducationalInstitution (
-    assetId VARCHAR(255),
-    name VARCHAR(255),
-    acquisitionCost float(8),
-    status_ID INTEGER,
-    staffCount INTEGER,
-    isPublic boolean,
-    accreditationStatus VARCHAR(255),
-    lastMaintenanceDate DATE,
-    expectedLifespanYears INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    studentCapacity INTEGER,
-    type_ID INTEGER,
-    installationDate DATE,
-    PRIMARY KEY(assetId)
-);
-
-
-create table ImpactNotification (
-    notificationId VARCHAR(255),
-    noticeTime TIMESTAMP,
-    requiresEvacuation boolean,
-    permit_permitId VARCHAR(255),
-    PRIMARY KEY(notificationId)
-);
-
-
-create table Equipment_restrictions (
-    equipmentId VARCHAR(255),
-    restrictions VARCHAR(255),
-    PRIMARY KEY(equipmentId)
-);
-
-comment on column Equipment_restrictions.equipmentId is 'Referenz zur Ursprungstabelle';
-
-create table Vendor (
-    vendorId VARCHAR(255),
-    licenseExpiry DATE,
-    category_ID INTEGER,
-    market_assetId VARCHAR(255),
-    products VARCHAR(255),
-    isRegistered boolean,
-    PRIMARY KEY(vendorId)
-);
-
-
-create table Drone (
-    assetId VARCHAR(255),
-    batteryLevel float(8),
-    maxAltitude float(8),
-    range float(8),
-    flightStatus_ID INTEGER,
-    name VARCHAR(255),
-    lastMaintenanceDate DATE,
-    type_ID INTEGER,
-    expectedLifespanYears INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    status_ID INTEGER,
-    installationDate DATE,
-    acquisitionCost float(8),
-    PRIMARY KEY(assetId)
-);
-
-
-create table Machine (
-    machineId VARCHAR(255),
-    maintenance_tasks VARCHAR(255),
-    maintenance_responsible VARCHAR(255),
-    maintenance_lastMaintenance DATE,
-    maintenance_nextMaintenance DATE,
-    maintenance_frequency INTEGER,
-    manufacturer VARCHAR(255),
-    model VARCHAR(255),
-    installationDate DATE,
-    powerConsumption float(8),
-    status_ID INTEGER,
-    PRIMARY KEY(machineId)
-);
-
-
-create table Machine_capabilities (
-    machineId VARCHAR(255),
-    capabilities VARCHAR(255),
-    PRIMARY KEY(machineId, capabilities)
-);
-
-comment on column Machine_capabilities.machineId is 'Referenz zur Ursprungstabelle';
-
-create table QualityCheck_defects (
-    checkId VARCHAR(255),
-    defects VARCHAR(255),
-    PRIMARY KEY(checkId)
-);
-
-comment on column QualityCheck_defects.checkId is 'Referenz zur Ursprungstabelle';
-
-create table ComplianceAudit_recommendations (
-    auditId VARCHAR(255),
-    recommendations VARCHAR(255),
-    PRIMARY KEY(auditId)
-);
-
-comment on column ComplianceAudit_recommendations.auditId is 'Referenz zur Ursprungstabelle';
-
-create table RetailStore (
-    assetId VARCHAR(255),
-    employeeCount INTEGER,
-    name VARCHAR(255),
-    acquisitionCost float(8),
-    expectedLifespanYears INTEGER,
-    status_ID INTEGER,
-    lastMaintenanceDate DATE,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    floorArea float(8),
-    isChainStore boolean,
-    type_ID INTEGER,
-    segment_ID INTEGER,
-    installationDate DATE,
-    PRIMARY KEY(assetId)
-);
-
-
-create table MaintenanceRecord (
-    recordId VARCHAR(255),
-    maintenanceDate DATE,
-    work VARCHAR(255),
-    cost float(8),
-    contractor VARCHAR(255),
-    furniture_assetId VARCHAR(255),
-    PRIMARY KEY(recordId)
-);
-
-
-create table Equipment (
-    equipmentId VARCHAR(255),
-    powerRequirement float(8),
-    type VARCHAR(255),
-    specifications VARCHAR(255),
-    requiresPermit boolean,
-    PRIMARY KEY(equipmentId)
-);
-
-
-create table LibraryMember (
-    memberId VARCHAR(255),
-    name VARCHAR(255),
-    email VARCHAR(255),
-    joinDate DATE,
-    membershipExpiry DATE,
-    isActive boolean,
-    currentBorrows INTEGER,
-    level_ID INTEGER,
-    PRIMARY KEY(memberId)
-);
-
-
-create table ResearchEquipment (
-    assetId VARCHAR(255),
-    warrantyExpiry DATE,
-    lastCalibration TIMESTAMP,
-    name VARCHAR(255),
-    manufacturer VARCHAR(255),
-    status_ID INTEGER,
-    installationDate DATE,
-    lastMaintenanceDate DATE,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    serialNumber VARCHAR(255),
-    purchaseDate DATE,
-    requiresSpecialTraining boolean,
-    specs_precision float(8),
-    specs_accuracy float(8),
-    specs_lastVerification TIMESTAMP,
-    acquisitionCost float(8),
-    expectedLifespanYears INTEGER,
-    model VARCHAR(255),
-    PRIMARY KEY(assetId)
-);
-
-
-create table ClimateProject (
-    projectId VARCHAR(255),
-    description VARCHAR(255),
-    startDate DATE,
-    budget float(8),
-    isActive boolean,
-    strategy_ID INTEGER,
-    PRIMARY KEY(projectId)
-);
-
-
-create table RegulatoryReport_findings (
-    reportId VARCHAR(255),
-    findings VARCHAR(255),
-    PRIMARY KEY(reportId)
-);
-
-comment on column RegulatoryReport_findings.reportId is 'Referenz zur Ursprungstabelle';
-
-create table ComplianceAudit_findings (
-    auditId VARCHAR(255),
-    findings VARCHAR(255),
-    PRIMARY KEY(auditId)
-);
-
-comment on column ComplianceAudit_findings.auditId is 'Referenz zur Ursprungstabelle';
-
-create table LibraryBranch_operatingHours (
-    assetId VARCHAR(255),
-    operatingHours TIMESTAMP,
-    PRIMARY KEY(assetId)
-);
-
-comment on column LibraryBranch_operatingHours.assetId is 'Referenz zur Ursprungstabelle';
-
-create table Laboratory_certifications (
-    assetId VARCHAR(255),
-    certifications VARCHAR(255),
-    PRIMARY KEY(assetId, certifications)
-);
-
-comment on column Laboratory_certifications.assetId is 'Referenz zur Ursprungstabelle';
-
-create table ComplianceCheck_regulations (
-    checkId VARCHAR(255),
-    regulations VARCHAR(255),
-    PRIMARY KEY(checkId)
-);
-
-comment on column ComplianceCheck_regulations.checkId is 'Referenz zur Ursprungstabelle';
-
-create table Sensor (
-    assetId VARCHAR(255),
-    readingValue float(8),
-    status_ID INTEGER,
-    expectedLifespanYears INTEGER,
-    name VARCHAR(255),
-    installationDate DATE,
-    lastMaintenanceDate DATE,
-    sensorType VARCHAR(255),
-    unit VARCHAR(255),
-    lastReading TIMESTAMP,
-    needsCalibration boolean,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    acquisitionCost float(8),
-    PRIMARY KEY(assetId)
-);
-
-
-create table ComplianceAudit (
-    auditId VARCHAR(255),
-    auditDate DATE,
-    auditor VARCHAR(255),
-    passed boolean,
-    lab_assetId VARCHAR(255),
-    PRIMARY KEY(auditId)
-);
-
-
-create table FinancialInstitution_licenses (
-    institutionId VARCHAR(255),
-    licenses VARCHAR(255),
-    PRIMARY KEY(institutionId)
-);
-
-comment on column FinancialInstitution_licenses.institutionId is 'Referenz zur Ursprungstabelle';
-
-create table QualityCheck_parameters (
-    checkId VARCHAR(255),
-    parameters VARCHAR(255),
-    PRIMARY KEY(checkId)
-);
-
-comment on column QualityCheck_parameters.checkId is 'Referenz zur Ursprungstabelle';
-
-create table SafetyProtocol_authorizedPersonnel (
-    protocolId VARCHAR(255),
-    authorizedPersonnel VARCHAR(255),
-    PRIMARY KEY(protocolId, authorizedPersonnel)
-);
-
-comment on column SafetyProtocol_authorizedPersonnel.protocolId is 'Referenz zur Ursprungstabelle';
-
-create table EmergencyTeam (
-    teamId VARCHAR(255),
-    memberCount INTEGER,
-    isAvailable boolean,
-    specialty_ID INTEGER,
-    currentLocation_altitude float(8),
-    currentLocation_addressString VARCHAR(255),
-    currentLocation_latitude float(8),
-    currentLocation_longitude float(8),
-    PRIMARY KEY(teamId)
-);
-
-
-create table SmartDevice (
-    deviceId VARCHAR(255),
-    firmwareVersion VARCHAR(255),
-    building_assetId VARCHAR(255),
-    deviceType VARCHAR(255),
-    isOnline boolean,
-    lastPing TIMESTAMP,
-    PRIMARY KEY(deviceId)
-);
-
-
-create table Zone (
-    assetId VARCHAR(255),
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    area float(8),
-    isHistorical boolean,
-    type_ID INTEGER,
-    name VARCHAR(255),
-    installationDate DATE,
-    lastMaintenanceDate DATE,
-    acquisitionCost float(8),
-    expectedLifespanYears INTEGER,
-    maxDensity float(8),
-    heightLimit INTEGER,
-    status_ID INTEGER,
-    PRIMARY KEY(assetId)
-);
-
-
-create table SportsFacility (
-    assetId VARCHAR(255),
-    acquisitionCost float(8),
-    expectedLifespanYears INTEGER,
-    status_ID INTEGER,
-    spectatorCapacity INTEGER,
-    name VARCHAR(255),
-    installationDate DATE,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    hasFloodlights boolean,
-    isIndoor boolean,
-    type_ID INTEGER,
-    lastMaintenanceDate DATE,
-    PRIMARY KEY(assetId)
-);
-
-
-create table Course (
-    courseId VARCHAR(255),
-    credits INTEGER,
-    maxEnrollment INTEGER,
-    isOnline boolean,
-    level_ID INTEGER,
-    title VARCHAR(255),
-    PRIMARY KEY(courseId)
 );
 
 
 create table FinancialInstitution (
-    institutionId VARCHAR(255),
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    installationDate DATE,
-    acquisitionCost float(8),
+    statusID INTEGER,
     isActive boolean,
-    status_ID INTEGER,
-    expectedLifespanYears INTEGER,
-    securityLevel_ID INTEGER,
-    assetId VARCHAR(255),
-    name VARCHAR(255),
     lastMaintenanceDate DATE,
+    securityLevelID INTEGER,
+    name VARCHAR(255),
+    expectedLifespanYears INTEGER,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    acquisitionCost float(8),
+    priorityID INTEGER,
+    assetId VARCHAR(255),
+    institutionId VARCHAR(255),
+    installationDate DATE,
     PRIMARY KEY(institutionId)
 );
 
+comment on column FinancialInstitution.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column FinancialInstitution.assetId is 'Die universelle Id des Assets';
 comment on column FinancialInstitution.institutionId is 'Id of the Institution';
 
-create table Restaurant (
-    assetId VARCHAR(255),
-    acquisitionCost float(8),
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    hasDelivery boolean,
-    type_ID INTEGER,
-    name VARCHAR(255),
-    installationDate DATE,
-    lastMaintenanceDate DATE,
-    expectedLifespanYears INTEGER,
-    status_ID INTEGER,
-    seatingCapacity INTEGER,
-    rating_ID INTEGER,
-    PRIMARY KEY(assetId)
+create table Shipment (
+    typeID INTEGER,
+    statusID INTEGER,
+    trackingId VARCHAR(255),
+    receivedTime TIMESTAMP,
+    estimatedDelivery TIMESTAMP,
+    isInsured boolean,
+    PRIMARY KEY(trackingId)
 );
 
-
-create table LoanTransaction (
-    loanId VARCHAR(255),
-    borrowDate TIMESTAMP,
-    dueDate TIMESTAMP,
-    returnDate TIMESTAMP,
-    isOverdue boolean,
-    fineAmount float(8),
-    member_memberId VARCHAR(255),
-    resource_resourceId VARCHAR(255),
-    PRIMARY KEY(loanId)
-);
-
-
-create table WasteCollection (
-    collectionId VARCHAR(255),
-    scheduledTime TIMESTAMP,
-    estimatedVolume float(8),
-    isCompleted boolean,
-    type_ID INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    PRIMARY KEY(collectionId)
-);
-
-
-create table StreetLight (
-    assetId VARCHAR(255),
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    status_ID INTEGER,
-    name VARCHAR(255),
-    energyConsumption float(8),
-    type_ID INTEGER,
-    lastMaintenanceDate DATE,
-    installationDate DATE,
-    acquisitionCost float(8),
-    expectedLifespanYears INTEGER,
-    hasMotionSensor boolean,
-    brightness_ID INTEGER,
-    PRIMARY KEY(assetId)
-);
-
-
-create table ManufacturingPlant_productionTypes (
-    assetId VARCHAR(255),
-    ID INTEGER,
-    PRIMARY KEY(assetId)
-);
-
-comment on column ManufacturingPlant_productionTypes.assetId is 'Referenz zur Ursprungstabelle';
-
-create table ServiceRequest (
-    requestId VARCHAR(255),
-    description VARCHAR(255),
-    type_ID INTEGER,
-    requester_citizenId VARCHAR(255),
-    submissionTime TIMESTAMP,
-    status VARCHAR(255),
-    PRIMARY KEY(requestId)
-);
-
-
-create table QualityCheck (
-    checkId VARCHAR(255),
-    timestamp TIMESTAMP,
-    inspector VARCHAR(255),
-    passed boolean,
-    action VARCHAR(255),
-    line_lineId VARCHAR(255),
-    PRIMARY KEY(checkId)
-);
-
-
-create table AuditLog (
-    logId VARCHAR(255),
-    timestamp TIMESTAMP,
-    action VARCHAR(255),
-    details VARCHAR(255),
-    performedBy VARCHAR(255),
-    transaction_transactionId VARCHAR(255),
-    PRIMARY KEY(logId)
-);
-
-
-create table HealthcareFacility_specialties (
-    assetId VARCHAR(255),
-    ID INTEGER,
-    PRIMARY KEY(assetId, ID)
-);
-
-comment on column HealthcareFacility_specialties.assetId is 'Referenz zur Ursprungstabelle';
-
-create table Patient_allergies (
-    patientId VARCHAR(255),
-    allergies VARCHAR(255),
-    PRIMARY KEY(patientId, allergies)
-);
-
-comment on column Patient_allergies.patientId is 'Referenz zur Ursprungstabelle';
-
-create table Cemetery (
-    assetId VARCHAR(255),
-    lastMaintenanceDate DATE,
-    acquisitionCost float(8),
-    expectedLifespanYears INTEGER,
-    totalArea float(8),
-    availablePlots INTEGER,
-    hasChapel boolean,
-    status_ID INTEGER,
-    name VARCHAR(255),
-    installationDate DATE,
-    totalPlots INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    PRIMARY KEY(assetId)
-);
-
-
-create table EnvironmentalControl (
-    controlId VARCHAR(255),
-    pressure float(8),
-    particleCount float(8),
-    withinSpecs boolean,
-    lab_assetId VARCHAR(255),
-    temperature float(8),
-    humidity float(8),
-    PRIMARY KEY(controlId)
-);
-
-
-create table MonitoringStation (
-    stationId VARCHAR(255),
-    lastCalibrationDate DATE,
-    installationDate DATE,
-    acquisitionCost float(8),
-    expectedLifespanYears INTEGER,
-    status_ID INTEGER,
-    name VARCHAR(255),
-    isCalibrated boolean,
-    lastMaintenanceDate DATE,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    assetId VARCHAR(255),
-    PRIMARY KEY(stationId)
-);
-
-
-create table RiskAssessment_findings (
-    assessmentId VARCHAR(255),
-    findings VARCHAR(255),
-    PRIMARY KEY(assessmentId)
-);
-
-comment on column RiskAssessment_findings.assessmentId is 'Referenz zur Ursprungstabelle';
-
-create table TouristAttraction_openingHours (
-    assetId VARCHAR(255),
-    openingHours TIMESTAMP,
-    PRIMARY KEY(assetId)
-);
-
-comment on column TouristAttraction_openingHours.assetId is 'Referenz zur Ursprungstabelle';
-
-create table Laboratory_specializations (
-    assetId VARCHAR(255),
-    specializations VARCHAR(255),
-    PRIMARY KEY(assetId, specializations)
-);
-
-comment on column Laboratory_specializations.assetId is 'Referenz zur Ursprungstabelle';
-
-create table AuthenticationSystem_supportedMethods (
-    systemId VARCHAR(255),
-    supportedMethods VARCHAR(255),
-    PRIMARY KEY(systemId, supportedMethods)
-);
-
-comment on column AuthenticationSystem_supportedMethods.systemId is 'Referenz zur Ursprungstabelle';
-
-create table ProductionCrew_vehicles (
-    crewId VARCHAR(255),
-    vehicles VARCHAR(255),
-    PRIMARY KEY(crewId)
-);
-
-comment on column ProductionCrew_vehicles.crewId is 'Referenz zur Ursprungstabelle';
-
-create table Citizen (
-    citizenId VARCHAR(255),
-    residence_altitude float(8),
-    residence_addressString VARCHAR(255),
-    residence_latitude float(8),
-    residence_longitude float(8),
-    firstName VARCHAR(255),
-    lastName VARCHAR(255),
-    dateOfBirth DATE,
-    email VARCHAR(255),
-    phone VARCHAR(255),
-    PRIMARY KEY(citizenId)
-);
-
-
-create table ManufacturingPlant_certifications (
-    assetId VARCHAR(255),
-    ID INTEGER,
-    PRIMARY KEY(assetId, ID)
-);
-
-comment on column ManufacturingPlant_certifications.assetId is 'Referenz zur Ursprungstabelle';
 
 create table ResourceSchedule (
     scheduleId VARCHAR(255),
     hasConflicts boolean,
     isOptimized boolean,
-    equipment_assetId VARCHAR(255),
+    equipmentassetId VARCHAR(255),
     PRIMARY KEY(scheduleId)
+);
+
+
+create table CulturalEvent (
+    startTime TIMESTAMP,
+    endTime TIMESTAMP,
+    curator VARCHAR(255),
+    categoryID INTEGER,
+    ticketingbasePrice float(8),
+    ticketingdiscount float(8),
+    ticketingavailableSeats INTEGER,
+    ticketingisRefundable boolean,
+    eventId VARCHAR(255),
+    PRIMARY KEY(eventId)
+);
+
+
+create table AuthenticationSystem (
+    systemId VARCHAR(255),
+    multiFactorEnabled boolean,
+    levelID INTEGER,
+    PRIMARY KEY(systemId)
+);
+
+
+create table EmissionReport (
+    measurementDate DATE,
+    verified boolean,
+    sourceID INTEGER,
+    reportId VARCHAR(255),
+    amount float(8),
+    unit VARCHAR(255),
+    PRIMARY KEY(reportId)
+);
+
+
+create table DataTransfer (
+    amount float(8),
+    timestamp TIMESTAMP,
+    isEncrypted boolean,
+    sourceassetId VARCHAR(255),
+    destinationassetId VARCHAR(255),
+    transferId VARCHAR(255),
+    PRIMARY KEY(transferId)
+);
+
+
+create table InventoryItem (
+    isDiscounted boolean,
+    storeassetId VARCHAR(255),
+    itemId VARCHAR(255),
+    name VARCHAR(255),
+    stockLevel INTEGER,
+    price float(8),
+    PRIMARY KEY(itemId)
+);
+
+
+create table LoanTransaction (
+    borrowDate TIMESTAMP,
+    dueDate TIMESTAMP,
+    returnDate TIMESTAMP,
+    isOverdue boolean,
+    fineAmount float(8),
+    membermemberId VARCHAR(255),
+    resourceresourceId VARCHAR(255),
+    loanId VARCHAR(255),
+    PRIMARY KEY(loanId)
+);
+
+
+create table DevelopmentProject (
+    statusID INTEGER,
+    projectId VARCHAR(255),
+    description VARCHAR(255),
+    startDate DATE,
+    completionDate DATE,
+    budget float(8),
+    PRIMARY KEY(projectId)
 );
 
 
 create table AnimalControl (
     caseId VARCHAR(255),
-    resolved boolean,
-    resolution VARCHAR(255),
-    animalType_ID INTEGER,
     reportTime TIMESTAMP,
     incidentType VARCHAR(255),
     location VARCHAR(255),
+    resolved boolean,
+    resolution VARCHAR(255),
+    animalTypeID INTEGER,
     PRIMARY KEY(caseId)
 );
 
 
-create table Experiment_prerequisites (
-    experimentId VARCHAR(255),
-    prerequisites VARCHAR(255),
-    PRIMARY KEY(experimentId)
-);
-
-comment on column Experiment_prerequisites.experimentId is 'Referenz zur Ursprungstabelle';
-
-create table NoiseSensor (
-    assetId VARCHAR(255),
-    installationDate DATE,
+create table TouristAttraction (
     lastMaintenanceDate DATE,
-    expectedLifespanYears INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    status_ID INTEGER,
-    name VARCHAR(255),
-    currentLevel_ID INTEGER,
     acquisitionCost float(8),
-    averageReading float(8),
-    lastPeak TIMESTAMP,
-    needsCalibration boolean,
-    sources_ID INTEGER,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    entryFee float(8),
+    priorityID INTEGER,
+    dailyVisitorCapacity INTEGER,
+    typeID INTEGER,
+    installationDate DATE,
+    statusID INTEGER,
+    expectedLifespanYears INTEGER,
+    assetId VARCHAR(255),
+    isAccessible boolean,
+    name VARCHAR(255),
     PRIMARY KEY(assetId)
 );
 
+comment on column TouristAttraction.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column TouristAttraction.assetId is 'Die universelle Id des Assets';
 
-create table PetLicense (
-    licenseId VARCHAR(255),
-    issueDate DATE,
-    expiryDate DATE,
-    fee float(8),
-    rabiesVaccinated boolean,
-    pet_petId VARCHAR(255),
-    status_ID INTEGER,
-    PRIMARY KEY(licenseId)
-);
-
-
-create table PowerPlant (
-    assetId VARCHAR(255),
-    expectedLifespanYears INTEGER,
-    efficiency float(8),
-    isBackupSource boolean,
-    source_ID INTEGER,
-    name VARCHAR(255),
+create table DigitalSign (
+    priorityID INTEGER,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
     lastMaintenanceDate DATE,
-    acquisitionCost float(8),
-    capacity float(8),
-    currentOutput float(8),
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    status_ID INTEGER,
-    installationDate DATE,
-    PRIMARY KEY(assetId)
-);
-
-
-create table ParkingTransaction (
-    transactionId VARCHAR(255),
-    exitTime TIMESTAMP,
-    amount float(8),
-    isPaid boolean,
-    vehicleSize_ID INTEGER,
-    entryTime TIMESTAMP,
-    PRIMARY KEY(transactionId)
-);
-
-
-create table WildlifeZone_presentSpecies (
-    assetId VARCHAR(255),
-    ID INTEGER,
-    PRIMARY KEY(assetId, ID)
-);
-
-comment on column WildlifeZone_presentSpecies.assetId is 'Referenz zur Ursprungstabelle';
-
-create table Pet (
-    petId VARCHAR(255),
-    name VARCHAR(255),
-    breed VARCHAR(255),
-    birthDate DATE,
-    ownerName VARCHAR(255),
-    microchipId VARCHAR(255),
-    type_ID INTEGER,
-    licenseStatus_ID INTEGER,
-    PRIMARY KEY(petId)
-);
-
-
-create table AuthenticationSystem_blockedIPs (
-    systemId VARCHAR(255),
-    blockedIPs VARCHAR(255),
-    PRIMARY KEY(systemId, blockedIPs)
-);
-
-comment on column AuthenticationSystem_blockedIPs.systemId is 'Referenz zur Ursprungstabelle';
-
-create table WaterTreatmentPlant (
-    assetId VARCHAR(255),
-    installationDate DATE,
-    treatmentStages INTEGER,
     expectedLifespanYears INTEGER,
-    isOperating boolean,
-    acquisitionCost float(8),
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    status_ID INTEGER,
+    installationDate DATE,
+    typeID INTEGER,
     name VARCHAR(255),
-    lastMaintenanceDate DATE,
-    processingCapacity float(8),
-    currentThroughput float(8),
-    PRIMARY KEY(assetId)
-);
-
-
-create table NoiseComplaint (
-    complaintId VARCHAR(255),
-    reportTime TIMESTAMP,
-    description VARCHAR(255),
-    isResolved boolean,
+    acquisitionCost float(8),
+    assetId VARCHAR(255),
+    statusID INTEGER,
+    contentTypeID INTEGER,
     resolution VARCHAR(255),
-    source_ID INTEGER,
-    PRIMARY KEY(complaintId)
-);
-
-
-create table TreatmentPlant (
-    assetId VARCHAR(255),
-    currentFlow float(8),
-    lastInspection DATE,
-    lastMaintenanceDate DATE,
-    acquisitionCost float(8),
-    status_ID INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    dailyCapacity float(8),
-    isOperational boolean,
-    name VARCHAR(255),
-    installationDate DATE,
-    expectedLifespanYears INTEGER,
+    isInteractive boolean,
     PRIMARY KEY(assetId)
 );
 
+comment on column DigitalSign.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column DigitalSign.assetId is 'Die universelle Id des Assets';
 
-create table SecurityIncident_affectedSystems (
-    incidentId VARCHAR(255),
-    affectedSystems VARCHAR(255),
-    PRIMARY KEY(incidentId, affectedSystems)
+create table MedicalEquipment (
+    warrantyExpiry DATE,
+    name VARCHAR(255),
+    equipmentType VARCHAR(255),
+    manufacturer VARCHAR(255),
+    acquisitionCost float(8),
+    lastMaintenanceDate DATE,
+    priorityID INTEGER,
+    requiresCalibration boolean,
+    assetId VARCHAR(255),
+    expectedLifespanYears INTEGER,
+    statusID INTEGER,
+    installationDate DATE,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    hoursInUse INTEGER,
+    PRIMARY KEY(assetId)
 );
 
-comment on column SecurityIncident_affectedSystems.incidentId is 'Referenz zur Ursprungstabelle';
+comment on column MedicalEquipment.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column MedicalEquipment.assetId is 'Die universelle Id des Assets';
 
-create table ResourceSchedule_users (
-    scheduleId VARCHAR(255),
-    users VARCHAR(255),
-    PRIMARY KEY(scheduleId, users)
+create table AccessCredential (
+    clearanceLevelID INTEGER,
+    credentialId VARCHAR(255),
+    holderName VARCHAR(255),
+    validFrom TIMESTAMP,
+    validUntil TIMESTAMP,
+    isActive boolean,
+    labassetId VARCHAR(255),
+    PRIMARY KEY(credentialId)
 );
 
-comment on column ResourceSchedule_users.scheduleId is 'Referenz zur Ursprungstabelle';
+
+create table DataPoint (
+    value float(8),
+    timestamp TIMESTAMP,
+    source VARCHAR(255),
+    isVerified boolean,
+    typeID INTEGER,
+    dataId VARCHAR(255),
+    PRIMARY KEY(dataId)
+);
+
+
+create table EmergencyTeam (
+    specialtyID INTEGER,
+    currentLocationlatitude float(8),
+    currentLocationlongitude float(8),
+    currentLocationaltitude float(8),
+    currentLocationaddressString VARCHAR(255),
+    teamId VARCHAR(255),
+    memberCount INTEGER,
+    isAvailable boolean,
+    PRIMARY KEY(teamId)
+);
+
+
+create table DataCollection (
+    format VARCHAR(255),
+    experimentexperimentId VARCHAR(255),
+    collectionStart TIMESTAMP,
+    collectionEnd TIMESTAMP,
+    isBackedUp boolean,
+    sampleSize float(8),
+    classificationID INTEGER,
+    datasetId VARCHAR(255),
+    PRIMARY KEY(datasetId)
+);
+
+
+create table RetailStore (
+    isChainStore boolean,
+    floorArea float(8),
+    installationDate DATE,
+    acquisitionCost float(8),
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    typeID INTEGER,
+    expectedLifespanYears INTEGER,
+    priorityID INTEGER,
+    lastMaintenanceDate DATE,
+    employeeCount INTEGER,
+    assetId VARCHAR(255),
+    statusID INTEGER,
+    segmentID INTEGER,
+    name VARCHAR(255),
+    PRIMARY KEY(assetId)
+);
+
+comment on column RetailStore.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column RetailStore.assetId is 'Die universelle Id des Assets';
 
 create table PowerFlow (
     flowId VARCHAR(255),
     amount float(8),
     timestamp TIMESTAMP,
     isStable boolean,
-    source_assetId VARCHAR(255),
-    destination_assetId VARCHAR(255),
+    sourceassetId VARCHAR(255),
+    destinationassetId VARCHAR(255),
     PRIMARY KEY(flowId)
 );
 
 
-create table FraudDetection (
-    detectionId VARCHAR(255),
-    resolution VARCHAR(255),
-    transaction_transactionId VARCHAR(255),
-    risk_lastAssessment DATE,
-    risk_creditScore INTEGER,
-    risk_defaultProbability float(8),
-    requiresReview boolean,
-    PRIMARY KEY(detectionId)
+create table Patient (
+    patientId VARCHAR(255),
+    bloodType VARCHAR(255),
+    admissionDate DATE,
+    statusID INTEGER,
+    departmentID INTEGER,
+    vitalsrespiratoryRate INTEGER,
+    vitalsoxygenSaturation float(8),
+    vitalstemperature float(8),
+    vitalsheartRate INTEGER,
+    vitalsbloodPressureSystolic INTEGER,
+    vitalsbloodPressureDiastolic INTEGER,
+    PRIMARY KEY(patientId)
 );
 
 
-create table ManufacturingPlant_safetyProtocols (
+create table Farm (
+    irrigationTypeID INTEGER,
     assetId VARCHAR(255),
-    safetyProtocols VARCHAR(255),
-    PRIMARY KEY(assetId, safetyProtocols)
-);
-
-comment on column ManufacturingPlant_safetyProtocols.assetId is 'Referenz zur Ursprungstabelle';
-
-create table DigitalSign_activeHours (
-    assetId VARCHAR(255),
-    activeHours TIMESTAMP,
-    PRIMARY KEY(assetId)
-);
-
-comment on column DigitalSign_activeHours.assetId is 'Referenz zur Ursprungstabelle';
-
-create table AnimalShelter (
-    assetId VARCHAR(255),
-    providesVetCare boolean,
+    expectedLifespanYears INTEGER,
     installationDate DATE,
     acquisitionCost float(8),
-    shelterName VARCHAR(255),
+    area float(8),
+    statusID INTEGER,
+    lastHarvestDate DATE,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    isOrganic boolean,
     lastMaintenanceDate DATE,
-    capacity INTEGER,
-    acceptsStrays boolean,
-    expectedLifespanYears INTEGER,
+    priorityID INTEGER,
     name VARCHAR(255),
-    currentOccupancy INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    status_ID INTEGER,
     PRIMARY KEY(assetId)
 );
 
+comment on column Farm.assetId is 'Die universelle Id des Assets';
+comment on column Farm.priorityID is 'the priority of the asset
+the priority of the asset';
 
-create table WeatherAlert (
-    alertId VARCHAR(255),
-    level_ID INTEGER,
-    message VARCHAR(255),
-    issueTime TIMESTAMP,
-    expiryTime TIMESTAMP,
-    isActive boolean,
-    PRIMARY KEY(alertId)
-);
-
-
-create table Cemetery_availableTypes (
+create table WaterTreatmentPlant (
+    statusID INTEGER,
+    name VARCHAR(255),
+    installationDate DATE,
+    acquisitionCost float(8),
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
     assetId VARCHAR(255),
-    ID INTEGER,
-    PRIMARY KEY(assetId, ID)
+    currentThroughput float(8),
+    lastMaintenanceDate DATE,
+    expectedLifespanYears INTEGER,
+    priorityID INTEGER,
+    processingCapacity float(8),
+    treatmentStages INTEGER,
+    isOperating boolean,
+    PRIMARY KEY(assetId)
 );
 
-comment on column Cemetery_availableTypes.assetId is 'Referenz zur Ursprungstabelle';
+comment on column WaterTreatmentPlant.assetId is 'Die universelle Id des Assets';
+comment on column WaterTreatmentPlant.priorityID is 'the priority of the asset
+the priority of the asset';
 
-create table Transaction (
+create table ParkingTransaction (
+    entryTime TIMESTAMP,
+    exitTime TIMESTAMP,
+    amount float(8),
+    isPaid boolean,
+    vehicleSizeID INTEGER,
     transactionId VARCHAR(255),
-    type_ID INTEGER,
-    destination_accountId VARCHAR(255),
-    isProcessed boolean,
-    metadata_originatorId VARCHAR(255),
-    metadata_purpose VARCHAR(255),
-    metadata_timestamp TIMESTAMP,
-    metadata_beneficiaryId VARCHAR(255),
-    metadata_amount float(8),
-    metadata_currency VARCHAR(255),
-    source_accountId VARCHAR(255),
-    status VARCHAR(255),
     PRIMARY KEY(transactionId)
 );
 
 
-create table Evacuation (
-    evacuationId VARCHAR(255),
+create table Citizen (
+    email VARCHAR(255),
+    phone VARCHAR(255),
+    residencelatitude float(8),
+    residencelongitude float(8),
+    residencealtitude float(8),
+    residenceaddressString VARCHAR(255),
+    citizenId VARCHAR(255),
+    firstName VARCHAR(255),
+    lastName VARCHAR(255),
+    dateOfBirth DATE,
+    PRIMARY KEY(citizenId)
+);
+
+
+create table SafetyProtocol (
+    hazardType VARCHAR(255),
+    lastReview DATE,
+    requiresTraining boolean,
+    labassetId VARCHAR(255),
+    protocolId VARCHAR(255),
+    PRIMARY KEY(protocolId)
+);
+
+
+create table FilmLocation (
+    hasParking boolean,
+    maxOccupancy INTEGER,
+    name VARCHAR(255),
+    acquisitionCost float(8),
+    priorityID INTEGER,
+    lastMaintenanceDate DATE,
+    installationDate DATE,
+    expectedLifespanYears INTEGER,
+    assetId VARCHAR(255),
+    locationName VARCHAR(255),
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    dailyRate float(8),
+    isIndoor boolean,
+    statusID INTEGER,
+    PRIMARY KEY(assetId)
+);
+
+comment on column FilmLocation.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column FilmLocation.assetId is 'Die universelle Id des Assets';
+
+create table StreetFurniture (
+    stateID INTEGER,
+    expectedLifespanYears INTEGER,
+    assetId VARCHAR(255),
+    material VARCHAR(255),
+    needsRepair boolean,
+    installationDate DATE,
+    name VARCHAR(255),
+    priorityID INTEGER,
+    acquisitionCost float(8),
+    statusID INTEGER,
+    lastMaintenanceDate DATE,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    typeID INTEGER,
+    PRIMARY KEY(assetId)
+);
+
+comment on column StreetFurniture.assetId is 'Die universelle Id des Assets';
+comment on column StreetFurniture.priorityID is 'the priority of the asset
+the priority of the asset';
+
+create table TreatmentOperation (
     startTime TIMESTAMP,
-    endTime TIMESTAMP,
-    affectedPopulation INTEGER,
-    isCompleted boolean,
-    incident_incidentId VARCHAR(255),
-    PRIMARY KEY(evacuationId)
+    completionTime TIMESTAMP,
+    materialUsed float(8),
+    typeID INTEGER,
+    routerouteId VARCHAR(255),
+    operationId VARCHAR(255),
+    PRIMARY KEY(operationId)
 );
 
 
-create table ImpactNotification_mitigation (
-    notificationId VARCHAR(255),
-    mitigation VARCHAR(255),
-    PRIMARY KEY(notificationId, mitigation)
-);
-
-comment on column ImpactNotification_mitigation.notificationId is 'Referenz zur Ursprungstabelle';
-
-create table Event (
-    eventId VARCHAR(255),
-    endTime TIMESTAMP,
-    expectedAttendance INTEGER,
-    season_ID INTEGER,
-    name VARCHAR(255),
-    startTime TIMESTAMP,
-    PRIMARY KEY(eventId)
-);
-
-
-create table PostOffice_serviceHours (
+create table Drone (
+    batteryLevel float(8),
+    flightStatusID INTEGER,
     assetId VARCHAR(255),
-    serviceHours TIMESTAMP,
-    PRIMARY KEY(assetId)
-);
-
-comment on column PostOffice_serviceHours.assetId is 'Referenz zur Ursprungstabelle';
-
-create table Building (
-    assetId VARCHAR(255),
-    name VARCHAR(255),
-    expectedLifespanYears INTEGER,
-    occupancy INTEGER,
-    isSmartEnabled boolean,
-    type_ID INTEGER,
-    status_ID INTEGER,
-    floors INTEGER,
-    totalArea float(8),
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    securityLevel_ID INTEGER,
-    installationDate DATE,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    maxAltitude float(8),
+    typeID INTEGER,
+    priorityID INTEGER,
+    range float(8),
     lastMaintenanceDate DATE,
+    installationDate DATE,
+    statusID INTEGER,
+    expectedLifespanYears INTEGER,
+    name VARCHAR(255),
     acquisitionCost float(8),
     PRIMARY KEY(assetId)
 );
 
+comment on column Drone.assetId is 'Die universelle Id des Assets';
+comment on column Drone.priorityID is 'the priority of the asset
+the priority of the asset';
 
-create table DataPoint (
-    dataId VARCHAR(255),
-    value float(8),
-    timestamp TIMESTAMP,
-    source VARCHAR(255),
-    isVerified boolean,
-    type_ID INTEGER,
-    PRIMARY KEY(dataId)
-);
-
-
-create table PublicBathroom (
-    assetId VARCHAR(255),
-    hasChangingTable boolean,
-    status_ID INTEGER,
-    installationDate DATE,
-    lastMaintenanceDate DATE,
-    acquisitionCost float(8),
-    expectedLifespanYears INTEGER,
-    isOccupied boolean,
-    lastCleaning TIMESTAMP,
-    type_ID INTEGER,
-    cleaningStatus_ID INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    name VARCHAR(255),
-    PRIMARY KEY(assetId)
-);
-
-
-create table MaintenanceLog (
-    logId VARCHAR(255),
-    maintenanceTime TIMESTAMP,
-    technician VARCHAR(255),
-    cost float(8),
-    requiresFollowup boolean,
-    equipment_assetId VARCHAR(255),
-    PRIMARY KEY(logId)
-);
-
-
-create table Patient_medications (
-    patientId VARCHAR(255),
-    medications VARCHAR(255),
-    PRIMARY KEY(patientId)
-);
-
-comment on column Patient_medications.patientId is 'Referenz zur Ursprungstabelle';
-
-create table AuthenticationSystem (
-    systemId VARCHAR(255),
-    level_ID INTEGER,
-    multiFactorEnabled boolean,
-    PRIMARY KEY(systemId)
-);
-
-
-create table WeatherStation (
-    assetId VARCHAR(255),
-    temperature float(8),
-    humidity float(8),
-    lastMaintenanceDate DATE,
-    acquisitionCost float(8),
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    windSpeed float(8),
-    precipitation float(8),
-    condition_ID INTEGER,
-    installationDate DATE,
-    expectedLifespanYears INTEGER,
-    status_ID INTEGER,
-    name VARCHAR(255),
-    PRIMARY KEY(assetId)
-);
-
-
-create table FilmPermit_equipment (
-    permitId VARCHAR(255),
-    equipment VARCHAR(255),
-    PRIMARY KEY(permitId)
-);
-
-comment on column FilmPermit_equipment.permitId is 'Referenz zur Ursprungstabelle';
-
-create table ComplianceCheck_violations (
-    checkId VARCHAR(255),
-    violations VARCHAR(255),
-    PRIMARY KEY(checkId)
-);
-
-comment on column ComplianceCheck_violations.checkId is 'Referenz zur Ursprungstabelle';
-
-create table Plot (
-    plotId VARCHAR(255),
-    lastMaintenance DATE,
-    isOccupied boolean,
-    owner VARCHAR(255),
-    type_ID INTEGER,
-    schedule_tasks VARCHAR(255),
-    schedule_responsible VARCHAR(255),
-    schedule_lastMaintenance DATE,
-    schedule_nextMaintenance DATE,
-    schedule_frequency INTEGER,
-    PRIMARY KEY(plotId)
-);
-
-
-create table LightingZone_lights (
-    zoneId VARCHAR(255),
-    assetId VARCHAR(255),
-    PRIMARY KEY(zoneId)
-);
-
-comment on column LightingZone_lights.zoneId is 'Referenz zur Ursprungstabelle';
-
-create table WildlifeZone (
-    assetId VARCHAR(255),
-    isProtected boolean,
-    status_ID INTEGER,
-    expectedLifespanYears INTEGER,
-    area float(8),
-    lastSurvey DATE,
-    type_ID INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    name VARCHAR(255),
-    installationDate DATE,
-    lastMaintenanceDate DATE,
-    acquisitionCost float(8),
-    PRIMARY KEY(assetId)
-);
-
-
-create table Artwork (
-    assetId VARCHAR(255),
-    artistType_ID INTEGER,
-    status_ID INTEGER,
-    installationDate DATE,
-    expectedLifespanYears INTEGER,
-    lastMaintenanceDate DATE,
-    acquisitionCost float(8),
-    requiresRestoration boolean,
-    materials VARCHAR(255),
-    type_ID INTEGER,
-    location_altitude float(8),
-    location_addressString VARCHAR(255),
-    location_latitude float(8),
-    location_longitude float(8),
-    name VARCHAR(255),
-    PRIMARY KEY(assetId)
-);
-
-
-create table TransitCard (
-    cardId VARCHAR(255),
-    balance float(8),
-    expiryDate DATE,
-    isActive boolean,
-    method_ID INTEGER,
-    fareType_ID INTEGER,
-    PRIMARY KEY(cardId)
-);
-
-
-create table QualityTest (
-    testId VARCHAR(255),
-    value float(8),
-    timestamp TIMESTAMP,
-    meetsStandard boolean,
-    analyst VARCHAR(255),
-    metric_ID INTEGER,
-    PRIMARY KEY(testId)
-);
-
-
-create table SecurityIncident (
-    incidentId VARCHAR(255),
-    resolved boolean,
-    detectionTime TIMESTAMP,
-    description VARCHAR(255),
-    impactLevel_ID INTEGER,
-    PRIMARY KEY(incidentId)
-);
-
-
-create table ImpactNotification_affectedAreas (
-    notificationId VARCHAR(255),
-    affectedAreas VARCHAR(255),
-    PRIMARY KEY(notificationId, affectedAreas)
-);
-
-comment on column ImpactNotification_affectedAreas.notificationId is 'Referenz zur Ursprungstabelle';
-
-create table WildlifeIncident (
-    incidentId VARCHAR(255),
+create table NoiseComplaint (
+    isResolved boolean,
+    resolution VARCHAR(255),
+    sourceID INTEGER,
+    complaintId VARCHAR(255),
     reportTime TIMESTAMP,
     description VARCHAR(255),
-    requiresAction boolean,
-    resolution VARCHAR(255),
-    species_ID INTEGER,
-    PRIMARY KEY(incidentId)
+    PRIMARY KEY(complaintId)
 );
 
 
-create table RiskAssessment_recommendations (
-    assessmentId VARCHAR(255),
-    recommendations VARCHAR(255),
-    PRIMARY KEY(assessmentId)
-);
-
-comment on column RiskAssessment_recommendations.assessmentId is 'Referenz zur Ursprungstabelle';
-
-create table FinancialAccount (
-    accountId VARCHAR(255),
-    balance float(8),
-    currency VARCHAR(255),
-    openedDate DATE,
-    isFrozen boolean,
-    institution_institutionId VARCHAR(255),
-    accountType VARCHAR(255),
-    PRIMARY KEY(accountId)
-);
-
-
-create table LibraryResource (
-    resourceId VARCHAR(255),
-    location VARCHAR(255),
-    isAvailable boolean,
-    type_ID INTEGER,
-    title VARCHAR(255),
-    publicationDate DATE,
-    publisher VARCHAR(255),
-    PRIMARY KEY(resourceId)
-);
-
-
-create table EmissionReport (
-    reportId VARCHAR(255),
-    amount float(8),
+create table MaterialInventory (
+    quantity float(8),
     unit VARCHAR(255),
-    measurementDate DATE,
-    verified boolean,
-    source_ID INTEGER,
-    PRIMARY KEY(reportId)
-);
-
-
-create table SnowRoute (
-    routeId VARCHAR(255),
-    length float(8),
-    estimatedTime INTEGER,
-    isCleared boolean,
-    lastCleared TIMESTAMP,
-    priority_ID INTEGER,
-    PRIMARY KEY(routeId)
-);
-
-
-create table RiskAssessment (
-    assessmentId VARCHAR(255),
-    assessmentDate DATE,
-    profile_lastAssessment DATE,
-    profile_creditScore INTEGER,
-    profile_defaultProbability float(8),
-    institution_institutionId VARCHAR(255),
-    PRIMARY KEY(assessmentId)
+    expiryDate DATE,
+    supplier VARCHAR(255),
+    storageLocation VARCHAR(255),
+    hazardous boolean,
+    inventoryId VARCHAR(255),
+    materialType VARCHAR(255),
+    PRIMARY KEY(inventoryId)
 );
 
 
 create table ArtEvent (
     eventId VARCHAR(255),
-    artwork_assetId VARCHAR(255),
     eventType VARCHAR(255),
     startTime TIMESTAMP,
     endTime TIMESTAMP,
     attendees INTEGER,
+    artworkassetId VARCHAR(255),
     PRIMARY KEY(eventId)
 );
 
 
-create table CulturalVenue_operatingHours (
+create table Course (
+    levelID INTEGER,
+    courseId VARCHAR(255),
+    title VARCHAR(255),
+    credits INTEGER,
+    maxEnrollment INTEGER,
+    isOnline boolean,
+    PRIMARY KEY(courseId)
+);
+
+
+create table TreatmentPlant (
+    statusID INTEGER,
+    lastMaintenanceDate DATE,
+    installationDate DATE,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
     assetId VARCHAR(255),
-    operatingHours TIMESTAMP,
+    priorityID INTEGER,
+    isOperational boolean,
+    name VARCHAR(255),
+    dailyCapacity float(8),
+    lastInspection DATE,
+    acquisitionCost float(8),
+    currentFlow float(8),
+    expectedLifespanYears INTEGER,
     PRIMARY KEY(assetId)
 );
 
-comment on column CulturalVenue_operatingHours.assetId is 'Referenz zur Ursprungstabelle';
+comment on column TreatmentPlant.assetId is 'Die universelle Id des Assets';
+comment on column TreatmentPlant.priorityID is 'the priority of the asset
+the priority of the asset';
 
 create table FlightMission (
+    isCompleted boolean,
+    droneassetId VARCHAR(255),
     missionId VARCHAR(255),
     startTime TIMESTAMP,
     endTime TIMESTAMP,
     purpose VARCHAR(255),
-    isCompleted boolean,
-    drone_assetId VARCHAR(255),
     PRIMARY KEY(missionId)
 );
 
+
+create table StreetLight (
+    brightnessID INTEGER,
+    energyConsumption float(8),
+    hasMotionSensor boolean,
+    lastMaintenanceDate DATE,
+    assetId VARCHAR(255),
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    installationDate DATE,
+    expectedLifespanYears INTEGER,
+    typeID INTEGER,
+    name VARCHAR(255),
+    acquisitionCost float(8),
+    statusID INTEGER,
+    priorityID INTEGER,
+    PRIMARY KEY(assetId)
+);
+
+comment on column StreetLight.assetId is 'Die universelle Id des Assets';
+comment on column StreetLight.priorityID is 'the priority of the asset
+the priority of the asset';
+
+create table ImpactNotification (
+    noticeTime TIMESTAMP,
+    requiresEvacuation boolean,
+    permitpermitId VARCHAR(255),
+    notificationId VARCHAR(255),
+    PRIMARY KEY(notificationId)
+);
+
+
+create table StudyRoom (
+    roomId VARCHAR(255),
+    capacity INTEGER,
+    hasProjector boolean,
+    hasWhiteboard boolean,
+    isOccupied boolean,
+    branchassetId VARCHAR(255),
+    PRIMARY KEY(roomId)
+);
+
+
+create table ComplianceAudit (
+    passed boolean,
+    labassetId VARCHAR(255),
+    auditId VARCHAR(255),
+    auditDate DATE,
+    auditor VARCHAR(255),
+    PRIMARY KEY(auditId)
+);
+
+
+create table SnowRoute (
+    length float(8),
+    estimatedTime INTEGER,
+    isCleared boolean,
+    lastCleared TIMESTAMP,
+    priorityID INTEGER,
+    routeId VARCHAR(255),
+    PRIMARY KEY(routeId)
+);
+
+
+create table PublicBathroom (
+    isOccupied boolean,
+    priorityID INTEGER,
+    statusID INTEGER,
+    expectedLifespanYears INTEGER,
+    typeID INTEGER,
+    hasChangingTable boolean,
+    cleaningStatusID INTEGER,
+    name VARCHAR(255),
+    lastCleaning TIMESTAMP,
+    lastMaintenanceDate DATE,
+    assetId VARCHAR(255),
+    installationDate DATE,
+    acquisitionCost float(8),
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    PRIMARY KEY(assetId)
+);
+
+comment on column PublicBathroom.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column PublicBathroom.assetId is 'Die universelle Id des Assets';
+
+create table Evacuation (
+    startTime TIMESTAMP,
+    endTime TIMESTAMP,
+    affectedPopulation INTEGER,
+    isCompleted boolean,
+    incidentincidentId VARCHAR(255),
+    evacuationId VARCHAR(255),
+    PRIMARY KEY(evacuationId)
+);
+
+
+create table Laboratory (
+    installationDate DATE,
+    acquisitionCost float(8),
+    statusID INTEGER,
+    priorityID INTEGER,
+    assetId VARCHAR(255),
+    name VARCHAR(255),
+    totalArea float(8),
+    hasCleanRoom boolean,
+    securityLevelID INTEGER,
+    lastMaintenanceDate DATE,
+    expectedLifespanYears INTEGER,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    workstationCount INTEGER,
+    PRIMARY KEY(assetId)
+);
+
+comment on column Laboratory.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column Laboratory.assetId is 'Die universelle Id des Assets';
+
+create table Cemetery (
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    name VARCHAR(255),
+    statusID INTEGER,
+    expectedLifespanYears INTEGER,
+    installationDate DATE,
+    lastMaintenanceDate DATE,
+    acquisitionCost float(8),
+    totalPlots INTEGER,
+    availablePlots INTEGER,
+    priorityID INTEGER,
+    assetId VARCHAR(255),
+    totalArea float(8),
+    hasChapel boolean,
+    PRIMARY KEY(assetId)
+);
+
+comment on column Cemetery.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column Cemetery.assetId is 'Die universelle Id des Assets';
+
+create table FraudDetection (
+    resolution VARCHAR(255),
+    requiresReview boolean,
+    riskcreditScore INTEGER,
+    riskdefaultProbability float(8),
+    risklastAssessment DATE,
+    transactiontransactionId VARCHAR(255),
+    detectionId VARCHAR(255),
+    PRIMARY KEY(detectionId)
+);
+
+
+create table Equipment (
+    equipmentId VARCHAR(255),
+    type VARCHAR(255),
+    specifications VARCHAR(255),
+    requiresPermit boolean,
+    powerRequirement float(8),
+    PRIMARY KEY(equipmentId)
+);
+
+
+create table ComplianceCheck (
+    passedAML boolean,
+    transactiontransactionId VARCHAR(255),
+    checkId VARCHAR(255),
+    passedKYC boolean,
+    PRIMARY KEY(checkId)
+);
+
+
+create table Tournament (
+    endDate DATE,
+    participants INTEGER,
+    sponsor VARCHAR(255),
+    sportID INTEGER,
+    tournamentId VARCHAR(255),
+    startDate DATE,
+    PRIMARY KEY(tournamentId)
+);
+
+
+create table Restaurant (
+    typeID INTEGER,
+    statusID INTEGER,
+    lastMaintenanceDate DATE,
+    hasDelivery boolean,
+    expectedLifespanYears INTEGER,
+    ratingID INTEGER,
+    assetId VARCHAR(255),
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    installationDate DATE,
+    seatingCapacity INTEGER,
+    name VARCHAR(255),
+    priorityID INTEGER,
+    acquisitionCost float(8),
+    PRIMARY KEY(assetId)
+);
+
+comment on column Restaurant.assetId is 'Die universelle Id des Assets';
+comment on column Restaurant.priorityID is 'the priority of the asset
+the priority of the asset';
+
+create table WeatherAlert (
+    expiryTime TIMESTAMP,
+    isActive boolean,
+    levelID INTEGER,
+    alertId VARCHAR(255),
+    message VARCHAR(255),
+    issueTime TIMESTAMP,
+    PRIMARY KEY(alertId)
+);
+
+
+create table LibraryResource (
+    typeID INTEGER,
+    resourceId VARCHAR(255),
+    title VARCHAR(255),
+    publicationDate DATE,
+    publisher VARCHAR(255),
+    location VARCHAR(255),
+    isAvailable boolean,
+    PRIMARY KEY(resourceId)
+);
+
+
+create table Vehicle (
+    currentPassengerCount INTEGER,
+    lastMaintenanceDate DATE,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    installationDate DATE,
+    currentFuelLevel float(8),
+    acquisitionCost float(8),
+    typeID INTEGER,
+    assetId VARCHAR(255),
+    currentRouterouteId VARCHAR(255),
+    priorityID INTEGER,
+    expectedLifespanYears INTEGER,
+    statusID INTEGER,
+    capacity INTEGER,
+    name VARCHAR(255),
+    registrationNumber VARCHAR(255),
+    PRIMARY KEY(registrationNumber)
+);
+
+comment on column Vehicle.assetId is 'Die universelle Id des Assets';
+comment on column Vehicle.priorityID is 'the priority of the asset
+the priority of the asset';
+
+create table CulturalVenue (
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    installationDate DATE,
+    priorityID INTEGER,
+    capacity INTEGER,
+    typeID INTEGER,
+    expectedLifespanYears INTEGER,
+    assetId VARCHAR(255),
+    statusID INTEGER,
+    lastMaintenanceDate DATE,
+    hasAccessibility boolean,
+    acquisitionCost float(8),
+    name VARCHAR(255),
+    PRIMARY KEY(assetId)
+);
+
+comment on column CulturalVenue.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column CulturalVenue.assetId is 'Die universelle Id des Assets';
+
+create table ProductionLine (
+    typeID INTEGER,
+    statusID INTEGER,
+    metricsdefectRate INTEGER,
+    metricsenergyConsumption float(8),
+    metricsactualOutput INTEGER,
+    metricsmaterialWaste float(8),
+    metricstargetOutput INTEGER,
+    metricsefficiency float(8),
+    lineId VARCHAR(255),
+    workerCount INTEGER,
+    outputRate float(8),
+    currentProduct VARCHAR(255),
+    lastStartup TIMESTAMP,
+    PRIMARY KEY(lineId)
+);
+
+
+create table ElevatorsMaintenanceLog (
+    logId VARCHAR(255),
+    serviceTime TIMESTAMP,
+    technician VARCHAR(255),
+    work VARCHAR(255),
+    resolved boolean,
+    elevatorassetId VARCHAR(255),
+    PRIMARY KEY(logId)
+);
+
+
+create table Vendor (
+    isRegistered boolean,
+    licenseExpiry DATE,
+    categoryID INTEGER,
+    marketassetId VARCHAR(255),
+    vendorId VARCHAR(255),
+    products VARCHAR(255),
+    PRIMARY KEY(vendorId)
+);
+
+
+create table LightingZone (
+    dailyUsage float(8),
+    zoneId VARCHAR(255),
+    schedule VARCHAR(255),
+    isDimmed boolean,
+    PRIMARY KEY(zoneId)
+);
+
+
+create table ServiceRequest (
+    submissionTime TIMESTAMP,
+    status VARCHAR(255),
+    description VARCHAR(255),
+    typeID INTEGER,
+    requestercitizenId VARCHAR(255),
+    requestId VARCHAR(255),
+    PRIMARY KEY(requestId)
+);
+
+
+create table PetLicense (
+    rabiesVaccinated boolean,
+    petpetId VARCHAR(255),
+    statusID INTEGER,
+    licenseId VARCHAR(255),
+    issueDate DATE,
+    expiryDate DATE,
+    fee float(8),
+    PRIMARY KEY(licenseId)
+);
+
+
+create table Market (
+    statusID INTEGER,
+    stallCapacity INTEGER,
+    installationDate DATE,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    typeID INTEGER,
+    openTime TIMESTAMP,
+    assetId VARCHAR(255),
+    lastMaintenanceDate DATE,
+    acquisitionCost float(8),
+    expectedLifespanYears INTEGER,
+    priorityID INTEGER,
+    name VARCHAR(255),
+    closeTime TIMESTAMP,
+    PRIMARY KEY(assetId)
+);
+
+comment on column Market.assetId is 'Die universelle Id des Assets';
+comment on column Market.priorityID is 'the priority of the asset
+the priority of the asset';
+
+create table Research_facilitiesMaintenanceLog (
+    logId VARCHAR(255),
+    maintenanceTime TIMESTAMP,
+    technician VARCHAR(255),
+    cost float(8),
+    requiresFollowup boolean,
+    equipmentassetId VARCHAR(255),
+    PRIMARY KEY(logId)
+);
+
+
+create table Event (
+    endTime TIMESTAMP,
+    expectedAttendance INTEGER,
+    seasonID INTEGER,
+    eventId VARCHAR(255),
+    name VARCHAR(255),
+    startTime TIMESTAMP,
+    PRIMARY KEY(eventId)
+);
+
+
+create table SmartMeter (
+    lastReadingTime TIMESTAMP,
+    isOnline boolean,
+    patternID INTEGER,
+    meterId VARCHAR(255),
+    currentReading float(8),
+    peakDemand float(8),
+    PRIMARY KEY(meterId)
+);
+
+
+create table SecurityIncident (
+    detectionTime TIMESTAMP,
+    resolved boolean,
+    impactLevelID INTEGER,
+    incidentId VARCHAR(255),
+    description VARCHAR(255),
+    PRIMARY KEY(incidentId)
+);
+
+
+create table ResearchEquipment (
+    installationDate DATE,
+    assetId VARCHAR(255),
+    serialNumber VARCHAR(255),
+    purchaseDate DATE,
+    lastCalibration TIMESTAMP,
+    specsprecision float(8),
+    specsaccuracy float(8),
+    specslastVerification TIMESTAMP,
+    warrantyExpiry DATE,
+    name VARCHAR(255),
+    expectedLifespanYears INTEGER,
+    priorityID INTEGER,
+    acquisitionCost float(8),
+    statusID INTEGER,
+    lastMaintenanceDate DATE,
+    manufacturer VARCHAR(255),
+    model VARCHAR(255),
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    requiresSpecialTraining boolean,
+    PRIMARY KEY(assetId)
+);
+
+comment on column ResearchEquipment.assetId is 'Die universelle Id des Assets';
+comment on column ResearchEquipment.priorityID is 'the priority of the asset
+the priority of the asset';
 
 create table Inspection (
     inspectionId VARCHAR(255),
     inspectionDate DATE,
     passed boolean,
     followupDate DATE,
-    restaurant_assetId VARCHAR(255),
+    restaurantassetId VARCHAR(255),
     PRIMARY KEY(inspectionId)
 );
 
 
-create table SafetyProtocol (
-    protocolId VARCHAR(255),
-    hazardType VARCHAR(255),
-    lastReview DATE,
-    requiresTraining boolean,
-    lab_assetId VARCHAR(255),
-    PRIMARY KEY(protocolId)
+create table Transaction (
+    metadataamount float(8),
+    metadataoriginatorId VARCHAR(255),
+    metadatatimestamp TIMESTAMP,
+    metadatabeneficiaryId VARCHAR(255),
+    metadatacurrency VARCHAR(255),
+    metadatapurpose VARCHAR(255),
+    destinationaccountId VARCHAR(255),
+    transactionId VARCHAR(255),
+    typeID INTEGER,
+    sourceaccountId VARCHAR(255),
+    isProcessed boolean,
+    status VARCHAR(255),
+    PRIMARY KEY(transactionId)
 );
 
 
-create table ResourceSchedule_experiments (
-    scheduleId VARCHAR(255),
-    experimentId VARCHAR(255),
-    PRIMARY KEY(scheduleId)
+create table QualityTest (
+    metricID INTEGER,
+    testId VARCHAR(255),
+    value float(8),
+    timestamp TIMESTAMP,
+    meetsStandard boolean,
+    analyst VARCHAR(255),
+    PRIMARY KEY(testId)
 );
 
-comment on column ResourceSchedule_experiments.scheduleId is 'Referenz zur Ursprungstabelle';
 
-create table FilmLocation_features (
+create table WildlifeZone (
+    lastSurvey DATE,
+    typeID INTEGER,
+    statusID INTEGER,
+    priorityID INTEGER,
+    acquisitionCost float(8),
+    name VARCHAR(255),
+    expectedLifespanYears INTEGER,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
+    area float(8),
+    lastMaintenanceDate DATE,
+    installationDate DATE,
+    isProtected boolean,
     assetId VARCHAR(255),
-    features VARCHAR(255),
-    PRIMARY KEY(assetId, features)
-);
-
-comment on column FilmLocation_features.assetId is 'Referenz zur Ursprungstabelle';
-
-create table LibraryBranch_facilities (
-    assetId VARCHAR(255),
-    facilities VARCHAR(255),
     PRIMARY KEY(assetId)
 );
 
-comment on column LibraryBranch_facilities.assetId is 'Referenz zur Ursprungstabelle';
+comment on column WildlifeZone.priorityID is 'the priority of the asset
+the priority of the asset';
+comment on column WildlifeZone.assetId is 'Die universelle Id des Assets';
 
-create table Laboratory_safetyProtocols (
+create table FilmPermit (
+    startTime TIMESTAMP,
+    endTime TIMESTAMP,
+    location VARCHAR(255),
+    crewSize INTEGER,
+    typeID INTEGER,
+    statusID INTEGER,
+    permitId VARCHAR(255),
+    PRIMARY KEY(permitId)
+);
+
+
+create table SafetyIncident (
+    description VARCHAR(255),
+    requiresEvacuation boolean,
+    typeID INTEGER,
+    incidentId VARCHAR(255),
+    reportTime TIMESTAMP,
+    PRIMARY KEY(incidentId)
+);
+
+
+create table NoiseSensor (
+    installationDate DATE,
+    statusID INTEGER,
+    lastMaintenanceDate DATE,
+    expectedLifespanYears INTEGER,
+    acquisitionCost float(8),
+    sourcesID INTEGER,
+    locationlatitude float(8),
+    locationlongitude float(8),
+    locationaltitude float(8),
+    locationaddressString VARCHAR(255),
     assetId VARCHAR(255),
-    safetyProtocols VARCHAR(255),
-    PRIMARY KEY(assetId, safetyProtocols)
+    currentLevelID INTEGER,
+    lastPeak TIMESTAMP,
+    name VARCHAR(255),
+    priorityID INTEGER,
+    averageReading float(8),
+    needsCalibration boolean,
+    PRIMARY KEY(assetId)
 );
 
-comment on column Laboratory_safetyProtocols.assetId is 'Referenz zur Ursprungstabelle';
-
-create table Patient (
-    patientId VARCHAR(255),
-    department_ID INTEGER,
-    vitals_heartRate INTEGER,
-    vitals_bloodPressureSystolic INTEGER,
-    vitals_bloodPressureDiastolic INTEGER,
-    vitals_respiratoryRate INTEGER,
-    vitals_oxygenSaturation float(8),
-    vitals_temperature float(8),
-    bloodType VARCHAR(255),
-    admissionDate DATE,
-    status_ID INTEGER,
-    PRIMARY KEY(patientId)
-);
-
+comment on column NoiseSensor.assetId is 'Die universelle Id des Assets';
+comment on column NoiseSensor.priorityID is 'the priority of the asset
+the priority of the asset';
 

@@ -1,7 +1,6 @@
 package semantic_database
 
 import (
-	"fmt"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
@@ -50,7 +49,7 @@ func determineTableNames(paths []base.ModelPath, tableLookUp *map[string]string)
 	}
 
 	for duplicateLength := namesUnique(maps.Values(currentNames)); duplicateLength >= 0; duplicateLength = namesUnique(maps.Values(currentNames)) {
-		fmt.Printf("currentNames: %v\n", currentNames)
+		//fmt.Printf("currentNames: %v\n", currentNames)
 		for i := len(paths) - 1; i >= 0; i-- {
 
 			path := paths[i]

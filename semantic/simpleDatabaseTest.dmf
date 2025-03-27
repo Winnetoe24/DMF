@@ -1,0 +1,22 @@
+dmf 1.0.0
+model "import" version 1.0.0
+
+package domain {
+    // Kommentar aus anderer Datei
+    struct DomainElement {
+        arg double i;
+    }
+
+    enum Emard {
+        EINS(_);
+        ZWEI(_);
+    }
+
+    entity TestE {
+
+        arg int i;
+        ref .DomainElement ele;
+        ref .Emard zahl;
+        identifier(i);
+    }
+}

@@ -17,12 +17,7 @@ func TestAPI(t *testing.T) {
 	}
 
 	//When
-	models := make(chan<- *sematic_model.Model)
 	errorElements, errPos, err, _, _, _ := ParseNewFile(string(file), nil, []string{})
-	//model := <-models
-	//packages := model.Packages
-	//t.Logf("Size: %v", unsafe.Sizeof(packages))
-
 	if errPos > 0 {
 		t.Errorf("Error parsing at Pos %v\n", errPos)
 	}

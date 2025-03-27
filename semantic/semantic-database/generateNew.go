@@ -6,21 +6,21 @@ import (
 	zmodel "github.com/Winnetoe24/DMF/semantic/semantic-database/dmodel/zwischenmodel"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
 	errElement "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
+	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
 )
 
 func GenerateSchemaNew(lookup smodel.TypeLookUp) (dmodel.Schema, []errElement.ErrorElement) {
 
 	// Setup
-
 	initialKontext := zmodel.Kontext{
 		Up:                   lookup,
 		RepLookUp:            createRepresentationLookUp(lookup),
-		TableNameLookUp:      nil,
-		CallSet:              nil,
-		ImplementationLookUp: nil,
+		TableNameLookUp:      createTableLookUp(lookup),
+		CallSet:              []string{},
+		ImplementationLookUp: createImplementationLookUp(lookup),
 	}
 
-	entitySet := []string{}
+	entitySet := createEntitySet(lookup)
 
 	// Generate Representation
 	for _, name := range entitySet {
@@ -34,7 +34,24 @@ func GenerateSchemaNew(lookup smodel.TypeLookUp) (dmodel.Schema, []errElement.Er
 	}
 
 	//Generate Tables
-	return dmodel.Schema{}, nil
+	schema := dmodel.Schema{
+		TableLookUp: make(map[string]*dmodel.Table),
+	}
+
+	// Generate Entity Tables
+	for _, name := range entitySet {
+		representation := (*initialKontext.RepLookUp)[name].(*zmodel.ReadyElement)
+		for _, column := range representation.Identifier {
+			column.PrimaryKey = true
+		}
+		schema.TableLookUp[name] = &dmodel.Table{
+			Name:              initialKontext.TableNameLookUp[name],
+			Columns:           representation.Columns,
+			TablesForElements: nil,
+		}
+	}
+
+	return schema, nil
 }
 
 func createRepresentationLookUp(up smodel.TypeLookUp) *map[string]zmodel.ElementRepresentation {
@@ -46,4 +63,15 @@ func createRepresentationLookUp(up smodel.TypeLookUp) *map[string]zmodel.Element
 		}
 	}
 	return &m
+}
+
+func createEntitySet(up smodel.TypeLookUp) []string {
+	entitySet := []string{}
+	for path, element := range up {
+		switch element.(type) {
+		case *packages.EntityElement:
+			entitySet = append(entitySet, path)
+		}
+	}
+	return entitySet
 }

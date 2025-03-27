@@ -98,7 +98,7 @@ func (u *UnfinishedElement) TryFinish(kontext Kontext) (ElementRepresentation, e
 		isReady, isIdentifiable := true, true
 	IsReadyLoop:
 		for name, wrapper := range u.ElementLookUp {
-			if wrapper.State == NotReady {
+			if wrapper == nil || wrapper.State == NotReady {
 				isReady = false
 				for _, identifier := range element.EntityIdentifier.Variablen {
 					if name == identifier.Name {
@@ -232,6 +232,9 @@ func (u *UnfinishedElement) updateNamedElements(kontext Kontext, element *packag
 					wrapper = nWrapper
 				}
 			}
+			if wrapper != nil {
+				u.ElementLookUp[name] = wrapper
+			}
 		} else {
 			// Update Element
 			if wrapper.State == NotReady {
@@ -299,5 +302,5 @@ func (u *UnfinishedElement) updateReferenz(kontext Kontext,
 		}
 		wrapper.State = Ready
 	}
-	return nil, nil
+	return wrapper, nil
 }

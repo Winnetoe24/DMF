@@ -10,6 +10,7 @@ package domain {
     entity TestE {
 
         arg int i;
+        ref .DomainElement ele;
 
         identifier(i);
     }

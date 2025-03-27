@@ -104,11 +104,11 @@ func TestGenerate(t *testing.T) {
 	}
 
 	// When
-	schema, elements := GenerateSchema(lookup)
+	schema, elements := GenerateSchemaNew(lookup)
 
 	// Then
-	if len(schema.TableLookUp) != 3 {
-		t.Errorf("schema has %d table, should be 0", len(schema.TableLookUp))
+	if len(schema.TableLookUp) != 2 {
+		t.Errorf("schema has %d tables, should be 2", len(schema.TableLookUp))
 	}
 	if len(elements) != 0 {
 		t.Errorf("schema has %d elements, should be 0", len(elements))
