@@ -7,6 +7,6 @@ type ReadyElement struct {
 	Columns []*dmodel.Column
 }
 
-func (r *ReadyElement) getIdentifiable() Identifiable {
+func (r *ReadyElement) GetIdentifiable() Identifiable {
 	return r
 }

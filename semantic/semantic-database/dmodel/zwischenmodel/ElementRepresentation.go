@@ -12,9 +12,9 @@ import (
 )
 
 type ElementRepresentation interface {
-	getPackageElement() packages.PackageElement
-	getIdentifiable() Identifiable
-	tryFinish(kontext Kontext) (ElementRepresentation, error)
+	GetPackageElement() packages.PackageElement
+	GetIdentifiable() Identifiable
+	TryFinish(kontext Kontext) (ElementRepresentation, error)
 }
 
 type Identifiable interface {
@@ -58,15 +58,15 @@ type UnfinishedElement struct {
 	ElementLookUp map[string]*NamedElementWrapper
 }
 
-func (u *UnfinishedElement) getPackageElement() packages.PackageElement {
+func (u *UnfinishedElement) GetPackageElement() packages.PackageElement {
 	return u.Element
 }
 
-func (u *UnfinishedElement) getIdentifiable() Identifiable {
+func (u *UnfinishedElement) GetIdentifiable() Identifiable {
 	return nil
 }
 
-func (u *UnfinishedElement) tryFinish(kontext Kontext) (ElementRepresentation, error) {
+func (u *UnfinishedElement) TryFinish(kontext Kontext) (ElementRepresentation, error) {
 	if slices.Contains(kontext.CallSet, u.Element.GetBase().Path.ToString()) {
 		return nil, errors.New("rekursive element")
 	}
@@ -265,17 +265,17 @@ func (u *UnfinishedElement) updateReferenz(kontext Kontext,
 	if !found {
 		return nil, errors.New("No Representation found for: " + element.Typ.ToString())
 	}
-	identifiable := representation.getIdentifiable()
+	identifiable := representation.GetIdentifiable()
 	// Rekursive Call
 	if identifiable == nil {
 
-		finish, err := representation.tryFinish(kontext.addCall(u.Element.GetBase().Path.ToString()))
+		finish, err := representation.TryFinish(kontext.addCall(u.Element.GetBase().Path.ToString()))
 		if err != nil {
 			fmt.Printf("Error while trying to finish element %s:%s\n", element.Typ.ToString(), err)
 		} else {
 			rep[typ] = finish
 			representation = finish
-			identifiable = representation.getIdentifiable()
+			identifiable = representation.GetIdentifiable()
 		}
 	}
 	// Element kann referenziert werden

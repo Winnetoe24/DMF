@@ -9,7 +9,7 @@ type IdentifierReadyElement struct {
 	Identifier []*dmodel.Column
 }
 
-func (i *IdentifierReadyElement) getIdentifiable() Identifiable {
+func (i *IdentifierReadyElement) GetIdentifiable() Identifiable {
 	return i
 }
 
