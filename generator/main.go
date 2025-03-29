@@ -193,6 +193,7 @@ func GenerateTsDelegates(basePath string, lookup smodel.TypeLookUp) {
 func GenerateDatabase(basePath string, schema dmodel.Schema) {
 	file := createFile(basePath, base.ModelPath{}, buildDbPath)
 
+	extraTables := make(map[string]*dmodel.Table)
 	for _, tabellenName := range schema.FileOrdner {
 		tabelle := schema.TableLookUp[tabellenName]
 		if tabelle == nil {
@@ -201,10 +202,17 @@ func GenerateDatabase(basePath string, schema dmodel.Schema) {
 		operations.Add(1)
 		generateFile(file, apply(template.GenerateTable, *tabelle))
 		for _, tableReference := range (*tabelle).TablesForElements {
+			if tableReference.IsExtra {
+				extraTables[tableReference.Name] = tableReference.Table
+				continue
+			}
 			operations.Add(1)
 			generateFile(file, apply(template.GenerateTable, *tableReference.Table))
 		}
-
+	}
+	for _, tabelle := range extraTables {
+		operations.Add(1)
+		generateFile(file, apply(template.GenerateTable, *tabelle))
 	}
 }
 

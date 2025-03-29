@@ -55,6 +55,7 @@ func GenerateSchemaNew(lookup smodel.TypeLookUp) (dmodel.Schema, []errElement.Er
 	}
 
 	// Generate Ausgelagerte Tables
+	interfaceTablesGenerated := make(map[string]*dmodel.Table)
 	for _, name := range entitySet {
 		representation := (*initialKontext.RepLookUp)[name]
 		parentTable := schema.TableLookUp[name]
@@ -180,6 +181,69 @@ func GenerateSchemaNew(lookup smodel.TypeLookUp) (dmodel.Schema, []errElement.Er
 					Referenzname: element.Name.Name,
 					Table:        table,
 				})
+			case *packages.Referenz:
+				interfacePath := element.Typ.ToString()
+				packageElement := initialKontext.Up[interfacePath]
+				switch packageElement.(type) {
+				case *packages.InterfaceElement:
+					if table := interfaceTablesGenerated[interfacePath]; table != nil {
+						parentTable.TablesForElements = append(parentTable.TablesForElements, dmodel.TableReference{
+							Referenzname: element.Name.Name,
+							Table:        table,
+						})
+						continue
+					}
+					table := &dmodel.Table{
+						Name:              initialKontext.TableNameLookUp[interfacePath],
+						Columns:           nil,
+						TablesForElements: nil,
+					}
+
+					table.Columns = append(table.Columns, &dmodel.Column{
+						Name:       "ID",
+						Type:       base.INT,
+						PrimaryKey: true,
+						ForeignKey: nil,
+						Kommentar:  "Die ID jeder Instanz",
+					})
+
+					for _, implementation := range initialKontext.ImplementationLookUp[interfacePath] {
+						isEntity := false
+						switch implementation.(type) {
+						case *packages.InterfaceElement:
+							continue
+						case *packages.EntityElement:
+							isEntity = true
+						}
+						implementationPath := implementation.GetBase().Path.ToString()
+						elementRepresentation := (*initialKontext.RepLookUp)[implementationPath]
+						identifiable := elementRepresentation.GetIdentifiable()
+						for _, column := range identifiable.GetIdentifier() {
+							var foreignKey *dmodel.ColumnReference
+							if isEntity {
+								foreignKey = &dmodel.ColumnReference{
+									TableName: initialKontext.TableNameLookUp[implementationPath],
+									Column:    column,
+								}
+							}
+							table.Columns = append(table.Columns, &dmodel.Column{
+								Name:       implementation.GetBase().Identifier.Name + column.Name,
+								Type:       column.Type,
+								PrimaryKey: false,
+								ForeignKey: foreignKey,
+								Kommentar:  column.Kommentar,
+							})
+						}
+
+					}
+					interfaceTablesGenerated[interfacePath] = table
+
+					parentTable.TablesForElements = append(parentTable.TablesForElements, dmodel.TableReference{
+						Referenzname: element.Name.Name,
+						Table:        table,
+					})
+				}
+
 			}
 		}
 	}

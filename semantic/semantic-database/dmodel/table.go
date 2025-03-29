@@ -24,5 +24,8 @@ type ColumnReference struct {
 
 type TableReference struct {
 	Referenzname string
+	// Extra Tabellen werden für mehrere Tabellen generiert.
+	// Sie werden im Datenbankschema besonders behandelt.
+	IsExtra bool
 	*Table
 }

@@ -3,8 +3,16 @@ model "import" version 1.0.0
 
 package domain {
     // Kommentar aus anderer Datei
-    struct DomainElement {
+    struct DomainElement implements Inter {
         arg double i;
+    }
+
+    entity EineReferenz implements Inter{
+        arg int id;
+        identifier(id);
+    }
+    interface Inter {
+        func void Hallo();
     }
 
     enum Emard {
@@ -17,6 +25,7 @@ package domain {
         arg int i;
         ref .DomainElement ele;
         ref .Emard zahl;
+        ref .Inter intRef;
         ref List<string> namen;
         ref Set<string> modes;
         ref Map<string, .DomainElement> domains;
