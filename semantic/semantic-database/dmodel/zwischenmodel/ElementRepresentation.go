@@ -8,6 +8,7 @@ import (
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
+	"maps"
 	"slices"
 )
 
@@ -138,7 +139,13 @@ func (u *UnfinishedElement) TryFinish(kontext Kontext) (ElementRepresentation, e
 
 		if isReady {
 			columns := make([]*dmodel.Column, 0)
-			for _, wrapper := range u.ElementLookUp {
+			values := maps.Values(u.ElementLookUp)
+			sortedValues := make([]*NamedElementWrapper, 0)
+			for wrapper := range values {
+				sortedValues = append(sortedValues, wrapper)
+			}
+			slices.SortFunc(sortedValues, SortNamedElementWrapper)
+			for _, wrapper := range sortedValues {
 				columns = append(columns, wrapper.Columns...)
 			}
 			return &ReadyElement{
@@ -163,7 +170,13 @@ func (u *UnfinishedElement) TryFinish(kontext Kontext) (ElementRepresentation, e
 			return u, nil
 		}
 		columns := make([]*dmodel.Column, 0)
-		for _, wrapper := range u.ElementLookUp {
+		values := maps.Values(u.ElementLookUp)
+		sortedValues := make([]*NamedElementWrapper, 0)
+		for wrapper := range values {
+			sortedValues = append(sortedValues, wrapper)
+		}
+		slices.SortFunc(sortedValues, SortNamedElementWrapper)
+		for _, wrapper := range sortedValues {
 			columns = append(columns, wrapper.Columns...)
 		}
 		return &ReadyElement{
@@ -173,10 +186,7 @@ func (u *UnfinishedElement) TryFinish(kontext Kontext) (ElementRepresentation, e
 			},
 			Columns: columns,
 		}, nil
-	case *packages.InterfaceElement:
-		//TODO Implement Interface Tables
 	}
-	//TODO richtig?
 	return u, nil
 }
 

@@ -59,7 +59,9 @@ func GenerateSchemaNew(lookup smodel.TypeLookUp) (dmodel.Schema, []errElement.Er
 	for _, name := range entitySet {
 		representation := (*initialKontext.RepLookUp)[name]
 		parentTable := schema.TableLookUp[name]
-		for _, wrapper := range representation.GetAusgelagerteElemente() {
+		elemente := representation.GetAusgelagerteElemente()
+		slices.SortFunc(elemente, zmodel.SortNamedElementWrapper)
+		for _, wrapper := range elemente {
 			switch element := wrapper.Element.(type) {
 			case *packages.MultiReferenz:
 				table := &dmodel.Table{
