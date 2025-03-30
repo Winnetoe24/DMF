@@ -509,6 +509,26 @@ public class BeispielDelegate {
     Die vorher erwähnten Delegateklassen werden in einen eigenen Ordner generiert.
     Sie enthalten alle Methode der ursprünglichen Klasse mit dem Modellobjekt als zusätzlichen Parameter.
 
+    \paragraph{Das Datenbankschema} wird automatisch bei der Ausführung in den `src/test/resources'-Ordner generiert.
+    Es kann somit in der Versionsverwaltung verwaltet werden.\\
+    Es könnten auch Tests implementiert werden, welche Entwickler*innen automatisch auf Schemaänderungen hinweisen.
+    Die Änderungen in der Schema-Datei erleichtern auch die Entwicklung eines Migrationsscripts, da die Änderungen klar in der Versionsverwaltung sichtbar sind.\\
+    Das \acrshort{dmf} generiert das \acrshort{sql}-Schema für die Postgres Datenbank.
+    \begin{lstlisting}[language=sql, caption=schema.sql, label=lst:schemaSQL]
+create table Aufgabe (
+    id INTEGER,
+    frage VARCHAR(255),
+    antwort VARCHAR(255),
+    beispiel_inhalt VARCHAR(255),
+    beispiel_typ_ID INTEGER,
+    beispiel_i INTEGER,
+    PRIMARY KEY(id)
+);
+    \end{lstlisting}
+    Im Schema erkennt man die Inklusion der Spalten des referenzierten Structs in der Tabelle der Entity.
+    Sie besitzen alle den Namen der Referenz als Prefix.
+
+
     \paragraph{Java Programm}\mbox{}\\
     Um das angelegte Java Domain Modell zu nutzen wird das JProjekt Artefakt angelegt.
     Da es sich auch um ein Maven Projekt handelt, beginnt die Anlage mit der `pom.xml'-Datei.

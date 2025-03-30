@@ -63,8 +63,8 @@ type FehlerStelle struct {
     So können verschiedene Logiken genutzt werden. \\
     Der Callback-Aufruf beinhaltet den kompletten Parse-Durchlauf.
     Im \acrshort{lsp}-Server werden die Ergebnisse zwischengespeichert, sodass die Verarbeitung von Dokumenten die gerade geöffnet sind beschleunigt wird.\\
-    In der Kontext-Struktur des Parsen wird ein Lookup (siehe~\nameref{subsubsec:lookup}) genutzt um die importierten PackageElemente zwischenzuspeichern.
-    Während des Parsen von erweiternden Elementen wird der Lookup referenziert und die Eigenschaften in neue Element kopiert.
+    In der Kontext-Struktur des Parsens wird ein Lookup (siehe~\ref{subsubsec:lookup})) genutzt um die importierten PackageElemente zwischenzuspeichern.
+    Während des Parsen von erweiternden Elementen wird der Lookup referenziert und die Eigentschaften in neue Element
     Am Ende des Parsen ist Modell vollständig mit allen gültigen Elementen.
     Elemente die durch den Parser im \acrshort{ast} als Fehlerhaft gekennzeichnet wurden, werden ignoriert.
 
@@ -75,8 +75,82 @@ type FehlerStelle struct {
     Jedes erreichte Package Element wird dem Lookup hinzugefügt.
     Beim Packages werden auch alle enthaltenen Elemente durchlaufen.
 
+    \subsection{Das Datenbankmodell}\label{subsec:das-datenbankmodell}
+    Um das semantische Modell auf ein Datenbankschema abzubilden, muss es eine zentrale Übersetzung geben.
+    In dieser wird aus dem semantischen Modell Tabellen und Spalten generiert.
+    \begin{lstlisting}[language=Go, captio=Datenstruktur für Tabellen und Spalten, label=lst:tableColumn]
+type Table struct {
+	Name string
+	Columns           []*Column
+	TablesForElements []TableReference
+}
+
+type Column struct {
+	Name       string
+	Type       base.PrimitivType
+	PrimaryKey bool
+	ForeignKey *ColumnReference
+	Kommentar  string
+}
+
+type ColumnReference struct {
+	TableName string
+	Column    *Column
+}
+
+type TableReference struct {
+	Referenzname string
+	IsExtra bool
+	*Table
+}
+    \end{lstlisting}
+    Bei der Generierung werden zunächst die \textbf{Tabellen für die Entitäten} berechnet.
+    Hierbei werden die Elemente in einer Entität in Spalten übersetzt.
+    Dafür wird ein Zwischenmodell genutzt (siehe~\nameref{ch:anhang}).\\
+    Bei der Übersetzung wird ein Argument zu einer Spalte mit dem gleichen Datentyp.
+    Bei Referenzen wird nach dem referenzierten Typ unterschieden.\\
+    Wird ein \textbf{Struct} Referenziert, werden die Spalten der Elemente des Structs zur Tabelle hinzugefügt.\\
+    Wird eine \textbf{Entity} Referenziert, werden die Spalten des Identifiers der Entität hinzugefügt.
+    Bei diesen Spalten wird der `ForeignKey' mit einer Referenz zu referenzierten Spalte und mit dem Tabellennamen befüllt.\\
+    Wird ein \textbf{Enum} referenziert, so wird nur in einer Spalte der Index der Enum-Konstante gespeichert.\\
+    Werden \textbf{Multireferenzen} verwendet, so werden keine Spalten hinzugefügt.
+    Während der Generation wird im Zwischenmodell (siehe~\nameref{ch:anhang}) die Auslagerung dieser Referenzen vermerkt.
+    So können zusätzliche Tabellen in einem späteren Schritt generiert werden.
+    Diese zusätzlichen Tabellen werden in der Variable `TablesForElements' gespeichert.\\
+    Auch bei Referenzen zu \textbf{Interfaces} wird eine ausgelagerte Tabelle generiert.
+    Jedoch handelt es sich hierbei um eine Tabelle, welche von verschiedenen Entitäten genutzt werden kann.
+    Deshalb wird dies in der Tabellenreferenz in der Variable `isExtra' festgehalten.
+    Tabellenreferenzen mit dem `isExtra' Wert werden nur einmal bei der \acrshort{sql}-Schema-Generation generiert.
+    \\\\
+    Nach der Generation der Tabellen für die Entitäten werden die \textbf{zusätzlichen Tabellen} generiert.
+    \textbf{Tabellen für Multireferenzen} enthalten immer den Primärschlüssel der Entität, welche die Referenz enthält.
+    So können Zeilen in der Tabelle zu einer Spalte in der Entität-Tabelle zugeordnet werden.\\
+    Der Typ der Multireferenz entscheidet über die weiteren Spalten.
+    Für die generischen Typen wird die Übersetzung aus dem ersten Schritt übernommen.\\
+    Eine \textbf{Map} generiert den Typ des Keys als Spalten mit dem Prefix `Key'.
+    Diese Spalten sind auch Teil des Primärschlüssels.
+    Der Typ des Values der Map (2. generischer Typ) wird mit dem Prefix `Value' generiert.\\
+    \textbf{Listen} enthalten eine Spalte namens `Index' mit dem Typ `int' als Teil des Primärschlüssels.
+    Diese Spalte repräsentiert den Index in der Liste.
+    Die Spalten des Inhalt-Typs der Liste werden mit dem Präfix `Value' generiert.\\
+    Wie bei einer Liste werden die Spalten des Inhalt-Typs eines \textbf{Sets} mit dem Präfix `Value' generiert.
+    Jedoch enthält ein Set keine Index-Spalte, sondern nutzt die Spalten des Inhalts als Teil des Primärschlüssels.\\
+    \textbf{Tabellen für Interfaces} enthalten einen Index und die Referenzspalten von jedem Typ welcher das Interface implementiert.
+    Der Index ist der Primärschlüssel und wird in anderen Tabellen referenziert.
+    \\\\
+    Nachdem alle Tabellen und ausgelagerten Tabellen generiert wurden, werden die Tabellen in einem Schema gespeichert.
+    Dieses Schema wird später vom Generator (siehe~\ref{sec:der-generator}) genutzt.
+    Im Schema wird neben den Tabellen auch die Reihenfolge der Entitäten, dessen Tabellen generiert wurden, in der Modelldatei gespeichert.
+    So können die Tabellen immer in der gleichen Reihenfolge im \acrshort{sql}-Schema generiert werden.
+    Dies ist wichtig um Unterschiede zu identifizieren.
+    \begin{lstlisting}[language=Go, caption=Datenstruktur Schema, label=lst:schema]
+type Schema struct {
+	TableLookUp map[string]*Table
+    FileOrdner []string
+}
+    \end{lstlisting}
     \subsection{Die semantischen Regeln}\label{subsec:die-semantischen-regeln}
-    Die semantischen Regeln basieren alle auf dem Typen `walkRule'.
+    Die semantischen Regeln basieren alle auf dem Typen `walkRule' und verarbeiten das vorher erstellte semantische Modell.
     Dieser Typ verallgemeinert das Iterieren über den Lookup und nutzt eine Instanz der `iWalkRule' um die Elemente zu verarbeiten.
     \begin{lstlisting}[language=go]
 package semantic_rules

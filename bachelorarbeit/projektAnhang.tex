@@ -324,4 +324,64 @@ public class AufgabeDelegate {
     </build>
 </project>
     \end{lstlisting}
+
+    \section{Sourcecode aus der Implementierung des \acrshort{dmf}s}\label{sec:dateien-aus-der-implementierung-des-dmfs}
+    \begin{lstlisting}[language=Go, caption=Zwischenmodell für die Datenbankmodell-Generation ohne Implementierung der Methoden, label=zmodel]
+package zwischenmodel
+type ElementRepresentation interface {
+	GetPackageElement() packages.PackageElement
+	GetIdentifiable() Identifiable
+	GetAusgelagerteElemente() []*NamedElementWrapper
+	TryFinish(kontext Kontext) (ElementRepresentation, error)
+}
+
+type Identifiable interface {
+	GetIdentifier() []*dmodel.Column
+}
+
+type NamedElementWrapper struct {
+	Element base.NamedElement
+	State   ColumnState
+	Columns []*dmodel.Column
+}
+
+type Kontext struct {
+	Up                   smodel.TypeLookUp
+	RepLookUp            *map[string]ElementRepresentation
+	TableNameLookUp      map[string]string
+	CallSet              []string
+	ImplementationLookUp map[string][]packages.PackageElement
+}
+
+type ColumnWrapper struct {
+	Element base.NamedElement
+	State   ColumnState
+	Column  *dmodel.Column
+}
+type ColumnState int
+
+const (
+	NotReady    ColumnState = iota
+	Ausgelagert ColumnState = iota
+	Ready       ColumnState = iota
+)
+
+// Implements ElementRepresentation
+type UnfinishedElement struct {
+	Element       packages.PackageElement
+	ElementLookUp map[string]*NamedElementWrapper
+}
+
+// Implements ElementRepresentation & Identifiable
+type IdentifierReadyElement struct {
+	UnfinishedElement
+	Identifier []*dmodel.Column
+}
+
+// Implements ElementRepresentation & Identifiable
+type ReadyElement struct {
+	IdentifierReadyElement
+	Columns []*dmodel.Column
+}
+    \end{lstlisting}
 \end{document}
