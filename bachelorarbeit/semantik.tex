@@ -3,9 +3,12 @@
 
 \begin{document}
     \section{Semantische Verarbeitung des \acrfull{ast}}\label{sec:semantische-verarbeitung-des-ast}
-    Für die korrekte Verwendung des \acrshort{ast}s benötigt das \acrshort{dmf} auch eine Softwarekomponente,
-    welche den \acrshort{ast} durchläuft und ein semantisches Modell erstellt.
-    Anhand dieses semantischen Modells werden semantische Regeln überprüft. \\
+    Mithilfe von Treesitter kann nun ein Parser für die vorher beschriebene Grammatik generiert werden.
+    Dieser Parser ist in der Lage, einen \acrshort{ast} aus einem Text zu generieren.
+    Damit der Generator (siehe~Kapitel~\ref{sec:der-generator}) und der \acrshort{lsp}-Server (siehe~Kapitel~\ref{sec:der-lsp-server}) die Informationen des \acrshort{ast} effektiv verarbeiten können,
+    muss der \acrshort{ast} vorher verarbeitet werden.
+    Während dieser Verarbeitung wird zuerst ein semantisches Modell erstellt.
+    Anhand dieses semantischen Modells werden semantische Regeln überprüft.\\
 
     Diese Softwarekomponente ist die erste Komponente welche mithilfe von Golang implementiert wird.
 
