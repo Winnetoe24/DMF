@@ -50,7 +50,7 @@ Mithilfe der Treesitter \acrlong{cli} wird aus der Javascript Datei der Parser g
 \paragraph[LR-Parsern]{Bei LR-Parsern}\label{par:lr-parser} handelt es sich um sogenannte ``Bottom-Up-Parser''.
 Diese Parser bauen den \acrshort{ast} von den Blättern auf.
 Sie zeichnen sich durch ihr deterministisches Parsen und die große Klasse an nutzbaren Grammatiken aus.\newline
-Für die Generierung von Parsern eignen sich LR-Parser, da die Aktions-Tabellen, auf denen das Parsen aufbaut, automatisch generiert werden kann und während des Parsens keine Rückverfolgung durchgeführt werden muss. \cite{aho1974lr}
+Für die Generierung von Parsern eignen sich LR-Parser, da die Aktions-Tabellen, auf denen das Parsen aufbaut, automatisch generiert werden kann und während des Parsens keine Rückverfolgung durchgeführt werden muss. (vgl.~\cite{aho1974lr})
 Aus diesen Gründen generiert Treesitter LR(1)-Parser.
 \\\\
 Der generierte Parser nutzt C als Implementierungssprache.
@@ -86,7 +86,7 @@ Sie bauen damit den AST von der Wurzel aus auf.
 Dafür benötigen die Parser einen Look-Ahead, welcher mehr als ein Zeichen enthält.
 Bei den Look-Ahead handelt es sich um Eingabe Tokens welche für die Entscheidung zwischen verschiedenen Regeln der Grammatik benötigt werden.
 \acrshort{ant} generiert LL(*)-Parser, welche die Größe des Look-Ahead dynamisch anpassen können.
-So können die Parser deutlich mehr Grammatiken verarbeiten und produzieren bessere ASTs als LL(k)-Parser. \cite{parr2011ll}
+So können die Parser deutlich mehr Grammatiken verarbeiten und produzieren bessere ASTs als LL(k)-Parser. (vgl.~\cite{parr2011ll})
 Der Look-Ahead verhindert jedoch das inkrementelle Parsen, da der Zustand des Look-Aheads sich bei jedem Schritt verändert und nicht aus dem AST wiederherstellbar ist.
 
 \subsubsection{Auswahl Parser}
