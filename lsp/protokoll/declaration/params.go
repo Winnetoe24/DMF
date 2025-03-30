@@ -12,12 +12,6 @@ type DeclarationParams struct {
 
 	// Position defines the position in the text document where declaration is requested
 	Position protokoll.Position `json:"position"`
-
-	// WorkDoneToken is an optional token that can be used to report work progress
-	WorkDoneToken *string `json:"workDoneToken,omitempty"`
-
-	// PartialResultToken is an optional token that can be used to report partial results
-	PartialResultToken *string `json:"partialResultToken,omitempty"`
 }
 
 // DeclarationLink represents a declaration target with an optional origin range

@@ -30,7 +30,7 @@ interface Message {
 	jsonrpc: string;
 }
     \end{lstlisting}
-    Die Nachrichten gehören zusätzlich zu einem der folgenden Typen:
+    Die Nachrichten gehören zusätzlich zu einem der folgenden Typen (vgl.~\cite{lsp}):
     \paragraph{Anfragen}\footnotesize{Request-Message\\}
     \begin{lstlisting}[language=Typescript]
 interface RequestMessage extends Message {
@@ -55,9 +55,9 @@ interface ResponseMessage extends Message {
     Antworten werden immer nach einer Anfrage geschickt, selbst bei einem Fehler.\\
     Die meisten \acrshort{lsp}-Clients geben dem Server für die Antwort 5 Sekunden Zeit.\\
     Die ID beinhaltet die ID aus der Anfrage.\\
-    Das Ergebnis(`result') existiert immer bei einer erfolgreichen Durchführung der Methode.
+    Das Ergebnis (`result') existiert immer bei einer erfolgreichen Durchführung der Methode.
     Soll kein Wert zurückgegeben werden, so wird beim Ergebnis der Wert ``null'' gesetzt.\\
-    Bei einem Fehler während der Ausführung der Methode muss der Fehler(`error') in der Antwort befüllt werden.
+    Bei einem Fehler während der Ausführung der Methode muss der Fehler (`error') in der Antwort befüllt werden.
     \begin{lstlisting}[language=Typescript]
 interface ResponseError {
 	code: integer;
@@ -66,7 +66,7 @@ interface ResponseError {
 }
     \end{lstlisting}
     Der beinhaltet zwei wichtige Elemente: den Error-Code und die Error-Nachricht.
-    Die Error-Codes sind vordefiniert vom Protokoll.\cite{response}
+    Die Error-Codes sind vordefiniert vom Protokoll (siehe~\cite{response}).
     Die Nachricht ist frei wählbar, sollte jedoch dem Nutzer erklären, wodurch der Fehler entstand.\\
     Es können zusätzliche Daten übermittelt werden.
     Jedoch ist das Format nicht definiert.
@@ -82,6 +82,31 @@ interface NotificationMessage extends Message {
     Benachrichtigungen übermitteln Daten, ohne eine Antwort zu erwarten.
     Sie werden für z.B.\ den Abbruch einer Anfrage oder dem Übermitteln der aktuellen Fehler genutzt.\\
     Das Datenmodell einer Benachrichtigung unterscheidet sich von einer Anfrage nur durch die fehlende ID.
+
+
+    \paragraph{In Modell des \acrshort{dmf}-\acrshort{lsp}-Servers} werden die verschiedenen Nachrichten in einer Struktur zusammengefasst.
+    Der Typ der Nachricht wird dabei anhand der mit Werten befüllten Variablen bestimmt.\\
+    Damit bei der Verarbeitung der Nachricht der Typ der Parameter anhand der Methode bestimmt werden kann, enthält die Variable Params nur einen Wert von Typ `json.RawMessage'.
+    Das Parsen der Parameter wird im zugeordneten Service durchgeführt.\\
+    Die ID wird auch nicht direkt zu einer Zahl geparsed, da die sowohl als Zahl als auch als String übermittelt werden kann.\\
+    Zur Abstraktion des Ergebnisses wird ein allgemeines Interfaces als Typ definiert, welches jede Datenstruktur in Go implementiert.
+    \begin{lstlisting}[language=Go, caption=Definition der Nachricht im Go-Modell, label=lst:messageGo]
+type Message struct {
+	// JsonRPC ist die Version des Protokolls → 2.0
+	JsonRPC string `json:"jsonrpc"`
+	// ID des Requests. Wird auch von Responses mit der ID des Requests befüllt.
+	ID json.RawMessage `json:"id,omitempty"`
+	// Method die aufgerufen wird. Nur Teil von Requests und Notifications.
+	Method string `json:"method,omitempty"`
+	// Params sind Teil von Requests und Notifications.
+	// Sie werden in den entsprechenden Services geparst.
+	Params json.RawMessage `json:"params,omitempty"`
+	// Result wird nur bei erfolgreichen Responses mit der Antwort befüllt.
+	Result interface{} `json:"result,omitempty"`
+	// Error wird nur bei fehlgeschlagenen Responses befüllt.
+	Error *Error `json:"error,omitempty"`
+}
+    \end{lstlisting}
 
 
     \subsubsection{Der \acrshort{lsp}-Kommunikation-Lebenszyklus}
@@ -140,9 +165,9 @@ interface NotificationMessage extends Message {
 
     \subsubsection[Anfragen stornieren]{Anfragen stornieren\\ {\textnormal{\footnotesize Cancelation Support (\$/cancelRequest) \cite{cancelation}}}} \label{subsubsec:cancel}
     Der Client kann jederzeit entscheiden, dass das Ergebnis einer Anfrage nicht mehr benötigt wird.
-    \begin{lstlisting}[language=Typescript,title=Definition der Parameter \cite{cancelation},label={lst:cancelParams}]
-interface CancelParams {
-	id: integer | string;
+    \begin{lstlisting}[language=Go,title=Definition der Parameter,label={lst:cancelParams}]
+type CancelParams struct {
+	ID json.RawMessage `json:"id"`
 }
     \end{lstlisting}
     Die Parameter enthalten die ID der Anfrage, dessen Ergebnis nicht mehr benötigt wird.
@@ -157,15 +182,17 @@ interface CancelParams {
     Der \acrshort{dmf}-\acrshort{lsp}-Server nutzt sowohl das Öffnen und Schließen der Dateien als auch die inkrementelle Übertragung der Bearbeitungen.
     \\\\
     Die Synchronisation beginnt, mit der Methode `textDocument/didOpen', welche beim Öffnen einer Datei ausgeführt wird.
-    \begin{lstlisting}[language=Typescript,title=Definition der Parameter \cite{dokumente}, label=lst:dokumenteParams]
-interface DidOpenTextDocumentParams {
-	textDocument: TextDocumentItem;
+    \begin{lstlisting}[language=Go,title=Definition der Parameter aus zwei Packages, label=lst:dokumenteParams]
+package textEdit
+type DidOpenTextDocumentParams struct {
+	TextDocument protokoll.TextDocumentItem `json:"textDocument"`
 }
-interface TextDocumentItem {
-	uri: DocumentUri;
-	languageId: string;
-	version: integer;
-	text: string;
+package protokoll
+type TextDocumentItem struct {
+	URI        DocumentURI `json:"uri"`
+	LanguageID string      `json:"languageId"`
+	Version    int32       `json:"version"`
+	Text       string      `json:"text"`
 }
     \end{lstlisting}
     Die Parameter der Methode enthalten die \acrfull{uri}, den Inhalt der Datei, die Sprache und die Version.
@@ -174,10 +201,11 @@ interface TextDocumentItem {
     \\\\
     Nachdem ein Dokument geöffnet wurde, wird bei jeder Änderung die Methode `textDocument/didChange' aufgerufen.
     Die Parameter enthalten neben der \acrshort{uri} die Änderungen, welche die direkt in die Bearbeitungen der Treesitter-API übersetzt werden können.
-    \begin{lstlisting}[language=Typescript, title=Definition der Bearbeitungen (ohne irrelevante Elemente)\cite{dokumente}, label=lst:dokumenteBearbeitung]
-export type TextDocumentContentChangeEvent = {
-	range: Range;
-	text: string;
+    \begin{lstlisting}[language=Go, title=Definition der Bearbeitungen, label=lst:dokumenteBearbeitung]
+type TextDocumentContentChangeEvent struct {
+	Range       *protokoll.Range `json:"range,omitempty"`
+	RangeLength uint32           `json:"rangeLength,omitempty"`
+	Text        string           `json:"text"`
 }
     \end{lstlisting}
 
@@ -190,42 +218,39 @@ export type TextDocumentContentChangeEvent = {
     Referenzen sind ein großer Teil des Typsystems des \acrshort{dmf}s.
     Damit diese Referenzen auch nachvollziehbar für die Entwickler*innen sind, bietet das \acrshort{lsp} mehrere Funktionen an.
     \paragraph{Die Deklaration eines Typs} kann mit der Methode `textDocument/declaration' abfragt werden.
-    \begin{lstlisting}[language=Typescript, title=Definition der Parameter \cite{declaration}, caption=Definition der Deklarations-Parameter \cite{declaration}, label=lst:declarationParams]
-export interface DeclarationParams extends TextDocumentPositionParams,
-	WorkDoneProgressParams, PartialResultParams {
-}
-interface TextDocumentPositionParams {
-	textDocument: TextDocumentIdentifier;
-	position: Position;
+    \begin{lstlisting}[language=Go, title=Definition der Parameter, caption=Definition der Deklarations-Parameter, label=lst:declarationParams]
+type DeclarationParams struct {
+	TextDocument protokoll.TextDocumentIdentifier `json:"textDocument"`
+	Position protokoll.Position `json:"position"`
 }
     \end{lstlisting}
-    Die Deklaration wird als LocationLink als Ergebnis bereitgestellt.
-    \begin{lstlisting}[language=Typescript, title=Definition des LocationLink \cite{declaration}, label=lst:locationLink]
-interface LocationLink {
-	originSelectionRange?: Range;
-	targetUri: DocumentUri;
-	targetRange: Range;
-	targetSelectionRange: Range;
+    Die Deklaration wird als DeclarationLink als Ergebnis bereitgestellt.
+    \begin{lstlisting}[language=Go, title=Definition des DeclarationLink , label=lst:locationLink]
+type DeclarationLink struct {
+	Origin *protokoll.Range `json:"originSelectionRange,omitempty"`
+	TargetURI            string          `json:"targetUri"`
+	TargetRange          protokoll.Range `json:"targetRange"`
+	TargetSelectionRange protokoll.Range `json:"targetSelectionRange"`
 }
     \end{lstlisting}
-    Ein LocationLink beschriebt einen Bereich in einem, auch vom aktuellem Dokument unterschiedlichem, Dokument.
+    Ein DeclarationLink beschriebt einen Bereich in einem, auch vom aktuellem Dokument unterschiedlichem, Dokument.
     Dabei wird zwischen dem kompletten Bereich der Deklaration und dem Bereich welcher automatisch ausgewählt und in einer Auswahl angezeigt werden soll.
 
     \paragraph{Alle Referenzen zu einem Typ} können mit der Methode `textDocument/references' abgefragt werden.
     Zu den Referenzen gehören die Deklarationen und die Verwendung des Typs in Referenzen, Multireferenzen, Funktionen und Abstraktionen.\\
     Die Parameter unterscheiden sich von den der Deklaration nur im ReferenceContext.
     Dieser beinhaltet die Information, ob die Deklaration in der Antwort enthalten sein soll.
-    \begin{lstlisting}[language=Typescript, title=Definition des ReferenceContext \cite{references}, label=lst:referenceContext]
-export interface ReferenceContext {
-	includeDeclaration: boolean;
+    \begin{lstlisting}[language=Go, title=Definition des ReferenceContext, label=lst:referenceContext]
+type ReferenceContext struct {
+	IncludeDeclaration bool `json:"includeDeclaration"`
 }
     \end{lstlisting}
     Im Ergebnis werden die Referenzen nicht in einem LocationLink zurückgegeben, sondern nur in einer Location.
     Diese Location enthält nur die \acrshort{uri} der Datei und den Bereich der Referenz.
-    \begin{lstlisting}[language=Typescript, title=Definition der Location \cite{references}, label=lst:location]
-interface Location {
-	uri: DocumentUri;
-	range: Range;
+    \begin{lstlisting}[language=Go, title=Definition der Location, label=lst:location]
+type Location struct {
+	URI   DocumentURI `json:"uri"`
+	Range Range       `json:"range"`
 }
     \end{lstlisting}
 
@@ -237,19 +262,37 @@ interface Location {
     Während der Initialisierung gibt der Client die Formate an, die er für die Dokumentation unterstützt.
     Das \acrshort{lsp} beinhaltet zwei Formate in der Spezifikation: normaler Text und Mardown.
     \\\\
-    Die Parameter der Anfrage erben von den TextDocumentPositionParams (siehe \nameref{lst:declarationParams}).
-    Sie enthalten die \acrshort{uri} der Datei und die Position.\\
+    Die Parameter enthalten die \acrshort{uri} der Datei und die Position.
+    \begin{lstlisting}[language=Go, caption=Definition der Hover Paramer, label=lst:hoverParams]
+type HoverParams struct {
+	TextDocument protokoll.TextDocumentIdentifier `json:"textDocument"`
+	Position protokoll.Position `json:"position"`
+}
+    \end{lstlisting}
     Die Dokumentation wird zusammen mit einem optionalen Bereich übermittelt.
-    \begin{lstlisting}[language=Typescript, caption=Definition des Hover Ergebnis \cite{hover}, label=lst:hover]
-export interface Hover {
-	contents: MarkedString | MarkedString[] | MarkupContent;
-	range?: Range;
+    Das Ergebnis kann verschiedene Typen beinhalten, weshalb der Inhalt der Nachricht schon vorzeitig geparsed wird.
+    \begin{lstlisting}[language=Go, caption=Definition des Hover Ergebnis, label=lst:hover]
+type HoverResult struct {
+    // Kann []MarkupContent, MarkupContent oder MarkedString beinhalten.
+	Contents json.RawMessage `json:"contents"`
+	Range *protokoll.Range `json:"range,omitempty"`
 }
-export interface MarkupContent {
-	kind: MarkupKind;
-	value: string;
+
+type MarkupContent struct {
+	Kind MarkupKind `json:"kind"`
+	Value string `json:"value"`
 }
-export type MarkupKind = 'plaintext' | 'markdown';
+
+type MarkupKind string
+const (
+	PlainText MarkupKind = "plaintext"
+	Markdown MarkupKind = "markdown"
+)
+
+type MarkedString struct {
+	Language string `json:"language,omitempty"`
+	Value string `json:"value"`
+}
     \end{lstlisting}
     Die Implementierung des Hover-Effekts wird im Abschnitt \nameref{subsubsec:hover-service} beschrieben.
 
@@ -924,7 +967,9 @@ for {
     Auch bei den Deklarationen wird zwischen Typen und Variablen unterschieden. \\
     Für die \textbf{Variablen} wird das Element und die SubElemente durchsucht.
     Jedoch werden nur die Deklarationen der Variablen nach der gesuchten Variable durchsucht.\\
-    Die Suche nach \textbf{Typen} wird wie für die Variablen für die PackageElemente durchgeführt.
+    Die Suche nach \textbf{Typen} wird wie d
+%%    TODO erklären
+%        Für die \textbf{Typen} wird ???
 
     \subsubsection[HoverService]{HoverService \secsubtitle{\nameref{subsubsec:hover}}}\label{subsubsec:hover-service}
     Der HoverService lässt die Entwickler*innen Zusammenfassungen für jedes Element aufrufen.

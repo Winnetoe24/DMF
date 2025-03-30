@@ -15,9 +15,6 @@ type ReferenceParams struct {
 
 	// Context provides additional information about the reference request
 	Context ReferenceContext `json:"context"`
-
-	// WorkDoneToken is an optional token that can be used to report work progress
-	WorkDoneToken *string `json:"workDoneToken,omitempty"`
 }
 
 // ReferenceContext provides additional information about the reference request

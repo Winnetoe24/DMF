@@ -13,8 +13,6 @@ type HoverParams struct {
 	TextDocument protokoll.TextDocumentIdentifier `json:"textDocument"`
 	// Position defines the position in the text document where hover is requested
 	Position protokoll.Position `json:"position"`
-	// WorkDoneToken is an optional token that can be used to report work progress
-	WorkDoneToken *string `json:"workDoneToken,omitempty"`
 }
 
 // HoverResult represents the result of a hover request.
