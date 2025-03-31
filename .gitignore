@@ -11,3 +11,4 @@ intellijTest/gen
 /intellijPlugin/.gradle/
 /intellijPlugin/build/
 /intellijPlugin/gradle/
+temp
