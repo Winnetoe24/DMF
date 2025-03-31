@@ -6,8 +6,6 @@ import "github.com/Winnetoe24/DMF/lsp/protokoll"
 type FoldingRangeParams struct {
 	// TextDocument is the document to get folding ranges for
 	TextDocument protokoll.TextDocumentIdentifier `json:"textDocument"`
-	// WorkDoneToken is an optional token that can be used to report work progress
-	WorkDoneToken *string `json:"workDoneToken,omitempty"`
 }
 
 // FoldingRange represents a folding range in a document

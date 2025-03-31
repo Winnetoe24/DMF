@@ -14,7 +14,7 @@
         \begin{tabular}{|c|c|}
             \hline
             Parameter & Funktion\\
-            \hline
+            \hline\hline
             basePath & Der Pfad unter dem die generierten Dateien ausgegeben werden.\\
             \hline
             modelFile & Die Modelldatei deren Modell generiert werden soll.\\
@@ -25,14 +25,14 @@
     \end{center}
     Nachdem diese Parameter eingelesen wurden, kann die Generation vorbereitet werden.\\
     Zuerst wird dafür die Modelldatei eingelesen und verarbeitet.
-    Benötigt das Generationsziel das Datenbankmodell wird dieses aus dem semantischen Modell erzeugt.
-    Sollten bei der Verarbeitung Fehler entstehen, so werden diese Ausgegeben und die Ausführung beendet.\\
+    Benötigt das Generationsziel das Datenbankmodell, wird dieses aus dem semantischen Modell erzeugt.
+    Sollten bei der Verarbeitung Fehler entstehen, so werden diese ausgegeben und die Ausführung beendet.\\
     Die Generation wird für jedes Generationsziel nach dem gleichen Schema implementiert.
-    Es wird zunächst durch alle Elemente entweder aus dem Lookup des semantischen Modells (\ref{subsubsec:lookup}) oder aus dem Datenbankschema (\ref{subsubsec:db-schema}) iteriert.
+    Es wird zunächst durch alle Elemente entweder aus dem Lookup des semantischen Modells (\ref{subsubsec:lookup}) oder aus dem Datenbankschema (\ref{subsec:das-datenbankmodell}) iteriert.
     Für jedes Element wird die Methode `generateFile' aufgerufen.
     Dies geschieht immer in einer eigenen Routine.
     Die Ausführung wird erst beendet, nachdem alle Routinen beendet wurden.
-    Dies wird mithilfe einer `WaitGroup' verwaltet.
+    Dies wird mithilfe der `WaitGroup' `operations' verwaltet.
     \begin{lstlisting}[language=Go, caption=Die Methode generateFile, label=lst:generateFile]
 func generateFile(file *os.File, f func(writer io.Writer) error) {
 	if file != nil {
@@ -161,7 +161,7 @@ func (receiver TsTemplate) GenerateStruct(writer io.Writer, element *packages.St
 }
     \end{lstlisting}
     Damit die Templates richtig geladen werden und die richtigen Funktionen nutzen wird für jedes Generationsziel ein Konstruktor definiert.
-    Die Funktionen stammen sowohl aus dem Generator Modell als auch aus der Implementierung des Generationsziels.
+    Die Funktionen stammen sowohl aus dem Generator Modell, als auch aus der Implementierung des Generationsziels.
     \begin{lstlisting}[language=Go, caption=Initialisierung des Typescript Templates, label:newTsTemplate]
 //go:embed template/*
 var tmplFiles embed.FS

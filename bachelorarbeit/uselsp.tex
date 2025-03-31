@@ -6,7 +6,7 @@
     \section{Die Nutzung des \acrshort{lsp}}
     \subsection{Installationsmöglichkeiten}
     Der \acrshort{lsp}-Server benötigt keine zusätzlichen Strukturen und kann direkt als Datei ausgeführt werden.
-    Deshalb ist die normale Vorgehensweise das Ablegen des \acrshort{lsp}-Servers in einem Zentralen Server und das Hinzufügen des Pfades zu dem Umgebungsvariablen.
+    Deshalb ist die normale Vorgehensweise das Ablegen des \acrshort{lsp}-Servers in einem Zentralen Server und das Hinzufügen des Pfades zu den Umgebungsvariablen.
     Im Beispiel wurde die Datei zu `dmflsp' umbenannt, damit der Name genauer das Programm beschreibt und nicht mit anderen \acrshort{lsp}-Server kollidieren kann.\\
     \begin{figure}[H]
         \centering
@@ -40,7 +40,7 @@
     Während des Bearbeitens der Modelle können die Funktionen des \acrshort{lsp}-Servers genutzt werden.
     In diesem Abschnitt werden die Funktionen präsentiert.
     
-    \subsubsection{Einfärbung des Textes}
+    \subsubsection{Einfärbung des Textes}\label{subsubsec:useSemanticTokens}
     Mithilfe der semantischen Token kann der Editor den Text der Modelldatei einfärben.
     Da der Server nicht die Farbe, sondern nur die Funktion, vorgibt, wird der Text anhand der Einstellungen der Entwickler*innen eingefärbt.
     \begin{figure}[H]
@@ -51,7 +51,7 @@
         \label{fig:semanticintellij}
     \end{figure}
 
-    \subsubsection{Diagnosen}
+    \subsubsection{Diagnosen}\label{subsubsec:useDiagnosen}
     Wenn der Fehler in der Datei existieren werden diese automatisch im Editor markiert.
     Es wird auch eine Beschreibung und die detaillierte Beschreibung, welche auch im Generator ausgegeben wird, übertragen.\\
     Die Darstellung wird von der \acrshort{ide} übernommen.
@@ -64,7 +64,7 @@
         \label{fig:markierung-fehler-intellij}
     \end{figure}
 
-    \subsubsection{Hover-Beschreibungen}
+    \subsubsection{Hover-Beschreibungen}\label{subsubsec:useHover}
     Um Informationen über ein Element bereitzustellen, kann mit dem Mauszeiger über einem Element gehovered werden.
     Für alle PackageElemente, EntityIdentifier, Argumente, Referenzen, MultiReferenzen und Kommentare können Beschreibungen angezeigt werden.
     Mithilfe von Links in den Beschreibungen kann direkt zum erwähnten Element navigiert werden.
@@ -94,12 +94,12 @@
     \begin{figure}[H]
         \centering
         \includegraphics[height=7em]{bilder/hover-entity-identifier}
-        \caption{Beschreibung eines Entity Identifiers}
+        \caption{Beschreibung eines EntityIdentifiers}
         \label{fig:hover-entity-identifier}
     \end{figure}
-    Bei einem Entity Identifier werden die referenzierten Variablen ihren Kommentaren angezeigt.
+    Bei einem EntityIdentifier werden die referenzierten Variablen ihren Kommentaren angezeigt.
 
-    \subsubsection{Referenzen}
+    \subsubsection{Referenzen}\label{subsubsec:useReferenzen}
     In den \acrshort{ide}s können die Referenzen aufgerufen werden.
     Der \acrshort{dmf}-\acrshort{lsp}-Server findet Referenzen, Deklarationen und Verwendungen in Parametern und EntityIdentifier.
     \begin{figure}[H]
@@ -110,7 +110,7 @@
         \label{fig:callreferencen}
     \end{figure}
 
-    \subsubsection{Faltbereiche}
+    \subsubsection{Faltbereiche}\label{subsubsec:useFaltbereiche}
     Damit Entwickler*innen in großen Dateien die Übersicht behalten können unterstützt der \acrshort{lsp}-Server die Übermittlung von Faltbereichen.
     Die Steuerung der Faltbereiche ist \acrshort{ide} spezifisch.
     \begin{figure}[H]
@@ -120,7 +120,7 @@
         \label{fig:faltbereich}
     \end{figure}
 
-    \subsubsection{Auswahlbereiche}
+    \subsubsection{Auswahlbereiche}\label{subsubsec:useAuswahlbereiche}
     Damit die Entwickler*innen auch verschiedene Elemente gut Auswählen können, werden die Auswahlbereiche von \acrshort{lsp}-Server berechnet.
     \begin{figure}[H]
         \centering
@@ -160,13 +160,13 @@
     \end{figure}
 
     \paragraph{Im Modell} Ordner wird das Modell abgelegt.
-    Die Bereitstellung kann an die Organisation angepasst werden, da die restlichen Projekte per relativen Pfad auf die Datei zugreifen.
+    Die Bereitstellung kann an die Organisation angepasst werden, da die restlichen Projekte mithilfe von relativen Pfaden auf die Datei zugreifen.
     Entscheidend ist dabei die Organisation der Git Repositories.
     Werden die verschiedenen Komponenten (Modell, Typescript Projekt, Java Projekt) in verschiedenen Repositories abgelegt, so handelt es sich um eine Poly-Repository Struktur. (vgl.~\cite{monorepo})
     Die Verwaltung der verschiedenen Repositories kann manuell durch Entwickler*innen oder durch Build Scripte gesteuert werden.
     Konträr zur Poly-Repository Struktur ist die Mono-Repository Struktur.
     Bei dieser werden alle Projekte in einem Repository verwaltet. (vgl.~\cite{monorepo})
-    Hier entfällt die Synchronisation des Modells.
+    Hierbei entfällt die Synchronisation des Modells.
     \\\\
     In unserem Beispiel wird das vorher beschriebene Modell (siehe~\ref{subsec:beispieldatei}) zusammen mit einem Basismodell genutzt.
     \begin{lstlisting}[language=dmf, caption=Das Basismodell, label=lst:basismodell]
@@ -190,7 +190,7 @@ package de.base {
     \subsection{Anlage des Typescript Projektes}\label{subsec:anlage-des-typescript-projektes}
     Das Beispiel Typescript Projekt nutzt die Bibliothek `Express' um einen kleinen Webserver zu implementieren.
     Ziel ist es die Verwendung des \acrshort{dmf} im Kontext einer simplen Restschnittstelle zu zeigen.\\
-    Das Projekt wurde mithilfe der einer Anleitung von \citeauthor{initExpress} angelegt.\\
+    Das Projekt wurde mithilfe der einer Anleitung von \citeauthor{initExpress}~\cite{initExpress} angelegt.\\
     Zuerst wird die `package.json'-Datei mithilfe der NPM-\acrshort{cli} angelegt.
     In ihr wird das Projekt beschrieben.
     Dazu gehören unter anderem der Name, Version, Abhängigkeiten und Ausführungskonfigurationen.\\
@@ -295,7 +295,7 @@ export const BeispielTypInfo : Record<BeispielTyp, BeispielTypDetails> = {
     Das eigentliche Enum besitzt nur Einträge mit den Datenbankindizes.
     Das Details-Interface würde eventuelle Argumente deklarieren.
     Im Info-Record werden die Enum Konstanten Details-Instanzen zugeordnet, welche die Werte aus dem Modell enthalten.\\
-    Die Typen (Interface/Record) müssen für jede Sprache ersetzt werden.
+    Die Typen (Interface/Record) müssen für jede Sprache, die das \acrshort{dmf} in der Zukunft implementiert, ersetzt werden.
     
     \paragraph{Die Delegate Funktionen} werden von den Modellklassen importiert und in den Funktionen der Modellklassen aufgerufen.
     \begin{lstlisting}[language=Typescript, caption=BeispielDelegate.ts, label=lst:beispielDelegateTs]

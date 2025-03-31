@@ -118,7 +118,7 @@ integer
 %    emph={},
     emphstyle={\color{blue}},
     keywordstyle=[3]{\color{blue}},
-%    escapechar=\&,
+    escapechar=\~,
     % keyword highlighting
 %    classoffset=1, % starting new class
 %    classoffset=0,
@@ -267,6 +267,11 @@ Die Erklärung der technischen Spezifikation befindet sich im Abschnitt zum \hyp
 \subfile{semantik.tex}
 
 \chapter{Programme des \acrshort{dmf}}\label{ch:programme}
+Das \acrshort{dmf} besteht aus zwei Programmen, welche schon vorher referenziert wurden: Der \acrshort{lsp}-Server und der Generator.\\
+Der \acrshort{lsp}-Server wird zur Unterstützung der \acrshort{ide}s verwendet und später in den Plugins für die \acrshort{ide}s genutzt.\\
+Der Generator erstellt aus einer Modelldatei verschiedene Source-Code-Dateien.
+Er kann entweder direkt über ein Terminal oder mithilfe des Maven-Plugins aufgerufen werden.\\
+In den folgenden Abschnitten wird die Implementierung beider Programme erläutert.
 \subfile{lsp.tex}
 \subfile{generator.tex}
 \chapter{Benutzung des \acrshort{dmf}}\label{ch:nutzung}
