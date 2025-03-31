@@ -2,13 +2,27 @@
 
 \begin{document}
 \chapter{Zusammenfassung}\label{ch:zusammenfassung}
-Ausgehend vom bisherigen Stand des \acrshort{dmf}s konnten die zuvor gestellten konkreten Anforderungen erfüllt werden.\\
+Grundlage der Arbeit war das Ziel ein Framework zu entwickeln, um die Vorteile einer modellgetriebenen Entwicklung,
+ohne die Nachteile eines unflexiblen Frameworks (wie z.B. \acrshort{emf}), nutzen zu können.
+Ein unflexibles Framework besitzt mehrere Nachteile.\\
+Es fördert die Konzentrierung von Wissen und Erfahrung auf die verwendeten Technologien, wodurch die Breite der Erfahrungen gemindert wird.
+Eine geringe Breite der Erfahrungen innerhalb eines Teams verhindert eine richtige Evaluation der bisherigen Vorgehensweise.\\
+Es senkt die Anzahl der Bewerber, da die verwendeten Technologien an Popularität verlieren werden und erzeugt eine Anfälligkeit gegenüber Sicherheitslücken,
+da jedes Programm auf den gleichen Technologien mit den gleichen Schwachstellen basiert.\\
+Das \acrshort{dmf} hat den Anspruch mithilfe von Flexibilität in allen Aspekten des Frameworks die Nachteile bestehender Technologien zu vermeiden.
+Die Flexibilität wurde im Design und den verwendeten Technologien beachtet, um eine Nutzung in jeder Entwicklungsumgebung zu ermöglichen.
+\\\\
+Ausgehend vom bisherigen Stand des \acrshort{dmf}s konnten, die am Anfang der Arbeit gestellten, konkreten Anforderungen erfüllt werden.\\
 Mithilfe des Vergleichs verschiedener Programmiersprachen konnte eine Abstraktion zur Modellierung der Datenstrukturen gefunden werden.
 Basierend auf der Abstraktion konnte eine Syntax und Semantik entworfen werden, welche eine kompakte und ausdrucksvolle Modellierung ermöglicht.\\
 Durch die Inklusion der Override Funktion konnte auch eine Flexibilität im Generat erreicht werden.\\
 Die Anforderung einer Wiederverwendung und Erweiterung von Modellen für das \acrshort{ple} konnte mithilfe des Importierens und der `expand'-Funktion erreicht werden.
 \\\\
-Mithilfe des \acrshort{lsp}-Servers können Entwickler*innen \acrshort{dmf}-Modelle in den meisten \acrshort{ide}s einsetzen.
+Diese Syntax konnte mithilfe des Treesitter Frameworks in einen Parser übersetzt werden.
+Der Parser unterstützt sowohl das Parsen einer kompletten Datei als auch das inkrementelle Parsen.\\
+Mithilfe der Implementierung der zentralen semantischen Verarbeitung des \acrshort{ast}s konnte der \acrshort{lsp}-Server und der Generator mit einer allgemeinen Interpretation und Verarbeitung implementiert werden.
+\\\\
+Dank des \acrshort{lsp}-Servers können Entwickler*innen \acrshort{dmf}-Modelle in den meisten \acrshort{ide}s einsetzen.
 Durch die zusätzlichen Plugins ist der Einsatz in Intellij und Visual Studio Code nochmals stark vereinfacht worden.\\
 Ein Nebeneffekt des \acrshort{lsp} ist die schnellere Entwicklung von Erweiterungen für nicht kompatible \acrshort{ide}s.
 Da dieses Protokoll so weit verbreitet ist, kann auf mehr Dokumentation für die Entwicklung zurückgegriffen werden.\\
@@ -29,7 +43,7 @@ Durch die Generierung eines Datenbankschemas ist die korrekte Einrichtung einer 
 \\\\
 Das beschriebene Beispielprojekt zeigt, dass das \acrshort{dmf} schon heute einsatzbereit ist.
 Gerade wenn ein Modell sowohl in Typescript als auch in Java genutzt werden soll, bietet es entscheidende Vorteile gegenüber vergleichbaren Frameworks.
-Es steigert dabei abhängig von der Modell- von Team-größe die Produktivität und spart so Kosten.
+Es steigert dabei abhängig von der Modell- und Team-größe die Produktivität und spart so Kosten.
 \\\\
 Doch es gibt auch Schwachstellen der bisherigen Implementierung.
 Deswegen bietet sich auch ein Ausblick in eine potenzielle Entwicklung des \acrshort{dmf}s an.
