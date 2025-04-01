@@ -10,7 +10,8 @@ import (
 
 func ToFields(argumente []packages.Argument, referenzen []packages.Referenz, multiReferenzen []packages.MultiReferenz, kontext ImportKontext,
 	primitiveTypeMapping func(base.PrimitivType, ImportKontext, bool) string,
-	buildGenericType func(element *packages.MultiReferenz, kontext ImportKontext) (typ string, value string)) []FieldData {
+	buildGenericType func(element *packages.MultiReferenz, kontext ImportKontext) (typ string, value string),
+	overrideAdapter OverrideAdapter) []FieldData {
 	data := make([]FieldData, 0)
 	lookup := make(map[uint]packages.Variable)
 	keys := make([]uint, 0, len(argumente)+len(referenzen)+len(multiReferenzen))
@@ -50,30 +51,48 @@ func ToFields(argumente []packages.Argument, referenzen []packages.Referenz, mul
 		switch element := variable.(type) {
 		case *packages.Argument:
 			typ := primitiveTypeMapping(element.Typ, kontext, false)
-			data = append(data, FieldData{
+			data = append(data, applyOverrideAdapterToFieldData(overrideAdapter, FieldData{
 				Typ:       typ,
 				Name:      element.Name.Name,
 				Kommentar: element.Kommentar,
 				Override:  element.Override,
-			})
+			}))
 
 		case *packages.Referenz:
-			data = append(data, FieldData{
+			data = append(data, applyOverrideAdapterToFieldData(overrideAdapter, FieldData{
 				Typ:       PathType(element.Typ, kontext),
 				Name:      element.Name.Name,
 				Kommentar: element.Kommentar,
 				Override:  element.Override,
-			})
+			}))
 		case *packages.MultiReferenz:
 			typ, value := buildGenericType(element, kontext)
-			data = append(data, FieldData{
+			data = append(data, applyOverrideAdapterToFieldData(overrideAdapter, FieldData{
 				Typ:       typ,
 				Name:      element.Name.Name,
 				Kommentar: element.Kommentar,
 				Value:     &value,
 				Override:  element.Override,
-			})
+			}))
 
+		}
+	}
+	return data
+}
+
+func applyOverrideAdapterToFieldData(adapter OverrideAdapter, data FieldData) FieldData {
+	if adapter != nil && data.Override != nil {
+		name := adapter.GetName(data.Override)
+		if name != nil {
+			data.Name = *name
+		}
+		getType := adapter.GetType(data.Override)
+		if getType != nil {
+			data.Typ = *getType
+		}
+		doc := adapter.GetDoc(data.Override)
+		if doc != nil {
+			data.Kommentar = doc
 		}
 	}
 	return data

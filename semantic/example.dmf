@@ -27,6 +27,13 @@ package de.beispiel {
         struct Buchungszeitraum implements Zeitraum {
             // Kommentar über einem Argument
             arg datetime start;
+            override {
+                java {
+                    name "startJava"
+                    type "long"
+                    javaDoc "Kommentar in Java\n nächste Zeile"
+                }
+            }
             arg datetime end;
 
             arg long zimmernummer;
@@ -130,6 +137,20 @@ package de.beispiel {
                             javaDoc "Hallo"
                         }
 
+            }
+
+           // Falsche Kommentar
+            struct TestOver {
+
+            }
+            override {
+                java {
+                        extends "Beispiel"
+                        implements "asd"
+                        class "TestOverJava"
+                        annotations "@Deprecated"
+                        javaDoc "Hallo"
+                }
             }
 
     }

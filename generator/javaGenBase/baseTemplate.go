@@ -51,6 +51,12 @@ func NewTemplate() JavaTemplate {
 		"findImplementedFunctions":        gbase.FindImplementedFunctions,
 		"generateIdentifier":              generateIdentifier,
 		"isNotVoid":                       gbase.IsNotVoid,
+		"overrideClassName":               overrideClassName,
+		"overrideJavaDoc":                 overrideJavaDoc,
+		"overrideType":                    overrideType,
+		"overrideName":                    overrideName,
+		"overrideExtends":                 JavaOverrideAdapter{}.GetExtends,
+		"overrideImplements":              JavaOverrideAdapter{}.GetImplements,
 	}
 	must := template.Must(template.New("").Funcs(funcMap).ParseFS(tmplFiles, "template/*"))
 	return JavaTemplate{template: must}
@@ -98,4 +104,8 @@ func (receiver JavaTemplate) GenerateDelegateInterface(writer io.Writer, element
 
 func (receiver JavaTemplate) GenerateTable(writer io.Writer, table dmodel.Table) error {
 	panic("Java kann keine Tabellen generieren")
+}
+
+func (receiver JavaTemplate) GetOverrideAdapter() gbase.OverrideAdapter {
+	return JavaOverrideAdapter{}
 }

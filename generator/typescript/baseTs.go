@@ -95,3 +95,7 @@ func (receiver TsTemplate) GenerateDelegateInterface(writer io.Writer, element p
 func (receiver TsTemplate) GenerateTable(writer io.Writer, table dmodel.Table) error {
 	panic("Typescript kann keine Tabellen generieren")
 }
+
+func (receiver TsTemplate) GetOverrideAdapter() gbase.OverrideAdapter {
+	panic("Typescript enthält keine Override Optionen")
+}

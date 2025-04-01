@@ -39,10 +39,10 @@ func NewTemplate() DbTemplate {
 	must := template.Must(template.New("").Funcs(funcMap).ParseFS(tmplFiles, "template/*"))
 	return DbTemplate{template: must}
 }
+
 func (d DbTemplate) GenerateStruct(writer io.Writer, element *packages.StructElement) error {
 	panic("Ist keine DB Struktur")
 }
-
 func (d DbTemplate) GenerateEntity(writer io.Writer, element *packages.EntityElement) error {
 	panic("Ist keine DB Struktur")
 }
@@ -66,4 +66,8 @@ func (d DbTemplate) GenerateDelegateInterface(writer io.Writer, element packages
 func (d DbTemplate) GenerateTable(writer io.Writer, table dmodel.Table) error {
 	println("Generate Table: " + table.Name)
 	return d.template.ExecuteTemplate(writer, "table", table)
+}
+
+func (d DbTemplate) GetOverrideAdapter() gbase.OverrideAdapter {
+	panic("Die Datenbank enthält keine Override Funktionen")
 }

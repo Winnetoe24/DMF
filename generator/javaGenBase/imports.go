@@ -64,18 +64,20 @@ func createParameterKontext(variablen []packages.Variable, kontext gbase.ImportK
 	}
 }
 
-func createVererbungKontext(extendsPath *base.ModelPath, implPaths []base.ModelPath, kontext gbase.ImportKontext) gbase.VererbungKontext {
+func createVererbungKontext(extendsPath *base.ModelPath, implPaths []base.ModelPath, kontext gbase.ImportKontext, override *base.Override) gbase.VererbungKontext {
 	return gbase.VererbungKontext{
 		ImportKontext:   kontext,
 		ExtendsPath:     extendsPath,
 		ImplementsPaths: implPaths,
+		Override:        override,
 	}
 }
-func createVererbungKontextInterface(extendsPath *base.ModelPath, implPaths []base.ModelPath, kontext gbase.ImportKontext) gbase.VererbungKontext {
+func createVererbungKontextInterface(extendsPath *base.ModelPath, implPaths []base.ModelPath, kontext gbase.ImportKontext, override *base.Override) gbase.VererbungKontext {
 	return gbase.VererbungKontext{
 		ImportKontext:   kontext,
 		ExtendsPath:     extendsPath,
 		ImplementsPaths: implPaths,
+		Override:        override,
 		Interface:       true,
 	}
 }

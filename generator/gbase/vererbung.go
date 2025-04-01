@@ -8,5 +8,6 @@ type VererbungKontext struct {
 	ImportKontext   ImportKontext
 	ExtendsPath     *base.ModelPath
 	ImplementsPaths []base.ModelPath
+	Override        *base.Override
 	Interface       bool
 }

@@ -1,6 +1,6 @@
 {{define "delegate"}}package {{packagePath .Path}};
 {{$importKontext := createImportKontext .}}{{template "imports" $importKontext}}
-{{template "comment" .Kommentar}}public class {{nameFromPath .Path}} {
+{{template "comment" (overrideJavaDoc .Kommentar .Override)}}public class {{overrideClassName (nameFromPath .Path) .Override}} {
 {{$funktionen := findImplementedFunctions .}}{{range $index, $method := $funktionen}}{{template "method" createFunktionKontextDelegate $method $importKontext}}{{if ne $index (subtract (len $funktionen) 1)}}
 
 {{end}}{{end}}

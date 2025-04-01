@@ -11,7 +11,7 @@ import (
 )
 
 func toTsFields(argumente []packages.Argument, referenzen []packages.Referenz, multiReferenzen []packages.MultiReferenz, kontext gbase.ImportKontext) []gbase.FieldData {
-	return gbase.ToFields(argumente, referenzen, multiReferenzen, kontext, tsPrimitiveTypeMapping, buildGenericTsType)
+	return gbase.ToFields(argumente, referenzen, multiReferenzen, kontext, tsPrimitiveTypeMapping, buildGenericTsType, nil)
 }
 
 func toArgs(argumente []packages.Argument) []gbase.FieldData {

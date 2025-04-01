@@ -55,7 +55,7 @@ func toArgs(argumente []packages.Argument, kontext gbase.ImportKontext) []gbase.
 	return toJavaFields(argumente, make([]packages.Referenz, 0), make([]packages.MultiReferenz, 0), kontext)
 }
 func toJavaFields(argumente []packages.Argument, referenzen []packages.Referenz, multiReferenzen []packages.MultiReferenz, kontext gbase.ImportKontext) []gbase.FieldData {
-	return gbase.ToFields(argumente, referenzen, multiReferenzen, kontext, javaPrimitiveTypeMapping, buildGenericJavaType)
+	return gbase.ToFields(argumente, referenzen, multiReferenzen, kontext, javaPrimitiveTypeMapping, buildGenericJavaType, JavaOverrideAdapter{})
 }
 
 var javaMapPath = base.ModelPath([]string{"java", "util", "Map"})

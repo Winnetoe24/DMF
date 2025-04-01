@@ -1,8 +1,8 @@
-{{define "entity"}}package {{packagePath .Path}};
+{{define "entity"}}{{- /*gotype: github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages.EntityElement*/ -}}{{- $name := overrideClassName (nameFromPath .Path) .Override -}}package {{packagePath .Path}};
 {{$importKontext := createImportKontext .}}{{template "imports" $importKontext}}{{$fields := toFields .Argumente .Referenzen .MultiReferenzen $importKontext}}import java.util.Objects;
 
-{{template "comment" .Kommentar}}public class {{nameFromPath .Path}} {{template "extends" createVererbungKontext .ExtendsPath .ImplementsPaths $importKontext}}{
-    protected static {{nameFromPath .Path}}Delegate delegate = new {{nameFromPath .Path}}Delegate();
+{{template "comment" (overrideJavaDoc .Kommentar .Override)}}public class {{$name}} {{template "extends" createVererbungKontext .ExtendsPath .ImplementsPaths $importKontext .Override}}{
+    protected static {{$name}}Delegate delegate = new {{$name}}Delegate();
 {{range $index, $field := $fields}}{{template "field" $field}}{{end}}
 {{$funktionen := findImplementedFunctions .}}{{range $index, $method := $funktionen}}{{template "method" createFunktionKontext $method $importKontext}}{{if ne $index (subtract (len $funktionen) 1)}}
 
@@ -14,7 +14,7 @@
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        {{nameFromPath .Path}} entity = ({{nameFromPath .Path}}) o;
+        {{$name}} entity = ({{$name}}) o;
         return {{if eq (len $identifier) 0}}true{{end}}{{range $index, $field := $identifier}}Objects.equals({{$field.Name}}, entity.{{$field.Name}}) {{if ne $index (subtract (len $identifier) 1)}} && {{end}}{{end}};
     }
 

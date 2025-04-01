@@ -14,4 +14,5 @@ type DMFTemplate interface {
 	GenerateDelegate(writer io.Writer, element packages.PackageElement) error
 	GenerateDelegateInterface(writer io.Writer, element packages.PackageElement) error
 	GenerateTable(writer io.Writer, table dmodel.Table) error
+	GetOverrideAdapter() OverrideAdapter
 }

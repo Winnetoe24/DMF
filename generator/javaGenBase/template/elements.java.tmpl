@@ -2,7 +2,7 @@
 {{end}}{{range $index, $import := $importSlice}}import {{$import}};
 {{end}}{{end}}
 
-{{define "extends"}}{{if .ExtendsPath}}extends {{pathType .ExtendsPath .ImportKontext}} {{end}}{{if .ImplementsPaths}}{{if .Interface}}extends{{else}}implements{{end}} {{range $index, $implPath := .ImplementsPaths}}{{pathType $implPath $.ImportKontext}}{{if ne $index (subtract (len $.ImplementsPaths) 1)}}, {{end}}{{end}} {{end}}{{end}}
+{{define "extends"}}{{if or .ExtendsPath (overrideExtends .Override)}}extends {{if overrideExtends .Override}}{{overrideExtends .Override}}{{else}}{{pathType .ExtendsPath .ImportKontext .Override}}{{end}} {{end}}{{if or .ImplementsPaths (overrideImplements .Override)}}{{if .Interface}}extends{{else}}implements{{end}} {{if overrideImplements .Override}}{{overrideImplements .Override}}{{else}}{{range $index, $implPath := .ImplementsPaths}}{{pathType $implPath $.ImportKontext}}{{if ne $index (subtract (len $.ImplementsPaths) 1)}}, {{end}}{{end}} {{end}}{{end}}{{end}}
 
 {{define "constructor"}}{{.Name}}({{template "parameter_list" .}}){
         {{range $index, $parameter := .Parameter}}
@@ -19,7 +19,7 @@
 
 {{define "parameter"}}{{variableType .Variable .ImportKontext}} {{variableName .Variable}}{{end}}
 
-{{define "method_header"}}{{template "comment_tab" .Funktion.Kommentar}}    public {{variableType .Funktion.ReturnType .ImportKontext}} {{.Funktion.Name.Name}}({{template "parameter_list" createParameterKontext .Funktion.Parameter .ImportKontext}}){{end}}
+{{define "method_header"}}{{template "comment_tab" (overrideJavaDoc .Funktion.Kommentar .Funktion.Override)}}    public {{overrideType (variableType .Funktion.ReturnType .ImportKontext) .Funktion.Override}} {{overrideName .Funktion.Name.Name .Funktion.Override}}({{template "parameter_list" createParameterKontext .Funktion.Parameter .ImportKontext}}){{end}}
 {{define "method"}}{{template "method_header" .}}{
         {{if isNotVoid .Funktion.ReturnType}}return {{end}}{{if .UseDelegate}}delegate.{{.Funktion.Name.Name}}({{template "parameter_call_list" createParameterKontext (prependThis .Funktion.Parameter) .ImportKontext}}){{else}}{{variableDefaultValue .Funktion.ReturnType}}{{end}};
     }{{end}}

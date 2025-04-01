@@ -25,6 +25,7 @@ import (
 
 var template gbase.DMFTemplate
 var operations = sync.WaitGroup{}
+var generationMode = NotSet
 
 type GenerationMode string
 
@@ -46,7 +47,7 @@ func main() {
 		fmt.Println("A generation mode is required.")
 		os.Exit(1)
 	}
-	generationMode := GenerationMode(*mode)
+	generationMode = GenerationMode(*mode)
 	file, err := os.ReadFile(*modelFile)
 	if err != nil {
 		panic(err)
@@ -128,13 +129,13 @@ func GenerateJava(basePath string, lookup smodel.TypeLookUp) {
 
 		switch element := pElement.(type) {
 		case *packages.EnumElement:
-			go generateFile(createFile(basePath, element.Path, buildJavaPath), apply(template.GenerateEnum, element))
+			go generateFile(createFile(basePath, element.Path, element.Override, buildJavaPath), apply(template.GenerateEnum, element))
 		case *packages.EntityElement:
-			go generateFile(createFile(basePath, element.Path, buildJavaPath), apply(template.GenerateEntity, element))
+			go generateFile(createFile(basePath, element.Path, element.Override, buildJavaPath), apply(template.GenerateEntity, element))
 		case *packages.StructElement:
-			go generateFile(createFile(basePath, element.Path, buildJavaPath), apply(template.GenerateStruct, element))
+			go generateFile(createFile(basePath, element.Path, element.Override, buildJavaPath), apply(template.GenerateStruct, element))
 		case *packages.InterfaceElement:
-			go generateFile(createFile(basePath, element.Path, buildJavaPath), apply(template.GenerateInterface, element))
+			go generateFile(createFile(basePath, element.Path, element.Override, buildJavaPath), apply(template.GenerateInterface, element))
 		default:
 			operations.Done()
 		}
@@ -147,9 +148,9 @@ func GenerateJavaDelegates(basePath string, lookup smodel.TypeLookUp) {
 
 		switch element := pElement.(type) {
 		case *packages.EntityElement:
-			go generateFile(createFileIfNotExists(basePath, gbase.CreateDelegatePath(slices.Clone(element.Path)), buildJavaPath), apply(template.GenerateDelegate, pElement))
+			go generateFile(createFileIfNotExists(basePath, gbase.CreateDelegatePath(slices.Clone(element.Path)), element.Override, buildJavaPath), apply(template.GenerateDelegate, pElement))
 		case *packages.StructElement:
-			go generateFile(createFileIfNotExists(basePath, gbase.CreateDelegatePath(slices.Clone(element.Path)), buildJavaPath), apply(template.GenerateDelegate, pElement))
+			go generateFile(createFileIfNotExists(basePath, gbase.CreateDelegatePath(slices.Clone(element.Path)), element.Override, buildJavaPath), apply(template.GenerateDelegate, pElement))
 		default:
 			operations.Done()
 		}
@@ -162,13 +163,13 @@ func GenerateTs(basePath string, lookup smodel.TypeLookUp) {
 
 		switch element := pElement.(type) {
 		case *packages.EnumElement:
-			go generateFile(createFile(basePath, element.Path, buildTsPath), apply(template.GenerateEnum, element))
+			go generateFile(createFile(basePath, element.Path, element.Override, buildTsPath), apply(template.GenerateEnum, element))
 		case *packages.EntityElement:
-			go generateFile(createFile(basePath, element.Path, buildTsPath), apply(template.GenerateEntity, element))
+			go generateFile(createFile(basePath, element.Path, element.Override, buildTsPath), apply(template.GenerateEntity, element))
 		case *packages.StructElement:
-			go generateFile(createFile(basePath, element.Path, buildTsPath), apply(template.GenerateStruct, element))
+			go generateFile(createFile(basePath, element.Path, element.Override, buildTsPath), apply(template.GenerateStruct, element))
 		case *packages.InterfaceElement:
-			go generateFile(createFile(basePath, element.Path, buildTsPath), apply(template.GenerateInterface, element))
+			go generateFile(createFile(basePath, element.Path, element.Override, buildTsPath), apply(template.GenerateInterface, element))
 		default:
 			operations.Done()
 		}
@@ -181,9 +182,9 @@ func GenerateTsDelegates(basePath string, lookup smodel.TypeLookUp) {
 
 		switch element := pElement.(type) {
 		case *packages.EntityElement:
-			go generateFile(createFileIfNotExists(basePath, gbase.CreateDelegatePath(append([]string{"delegates"}, slices.Clone(element.Path)...)), buildTsPath), apply(template.GenerateDelegate, pElement))
+			go generateFile(createFileIfNotExists(basePath, gbase.CreateDelegatePath(append([]string{"delegates"}, slices.Clone(element.Path)...)), element.Override, buildTsPath), apply(template.GenerateDelegate, pElement))
 		case *packages.StructElement:
-			go generateFile(createFileIfNotExists(basePath, gbase.CreateDelegatePath(append([]string{"delegates"}, slices.Clone(element.Path)...)), buildTsPath), apply(template.GenerateDelegate, pElement))
+			go generateFile(createFileIfNotExists(basePath, gbase.CreateDelegatePath(append([]string{"delegates"}, slices.Clone(element.Path)...)), element.Override, buildTsPath), apply(template.GenerateDelegate, pElement))
 		default:
 			operations.Done()
 		}
@@ -191,7 +192,7 @@ func GenerateTsDelegates(basePath string, lookup smodel.TypeLookUp) {
 }
 
 func GenerateDatabase(basePath string, schema dmodel.Schema) {
-	file := createFile(basePath, base.ModelPath{}, buildDbPath)
+	file := createFile(basePath, base.ModelPath{}, nil, buildDbPath)
 
 	extraTables := make(map[string]*dmodel.Table)
 	for _, tabellenName := range schema.FileOrdner {
@@ -216,8 +217,8 @@ func GenerateDatabase(basePath string, schema dmodel.Schema) {
 	}
 }
 
-func createFileIfNotExists(basePath string, path base.ModelPath, buildPath func(string, base.ModelPath) string) *os.File {
-	finalPath := buildPath(basePath, path)
+func createFileIfNotExists(basePath string, path base.ModelPath, override *base.Override, buildPath func(string, base.ModelPath, *base.Override) string) *os.File {
+	finalPath := buildPath(basePath, path, override)
 	if _, err := os.Stat(finalPath); err == nil {
 		return nil
 	} else {
@@ -230,8 +231,8 @@ func createFileIfNotExists(basePath string, path base.ModelPath, buildPath func(
 	}
 }
 
-func createFile(basePath string, path base.ModelPath, buildPath func(string, base.ModelPath) string) *os.File {
-	finalPath := buildPath(basePath, path)
+func createFile(basePath string, path base.ModelPath, override *base.Override, buildPath func(string, base.ModelPath, *base.Override) string) *os.File {
+	finalPath := buildPath(basePath, path, override)
 	create, err := os.Create(finalPath)
 	if err != nil {
 		panic(err)
@@ -240,10 +241,23 @@ func createFile(basePath string, path base.ModelPath, buildPath func(string, bas
 	return create
 }
 
-func buildJavaPath(basePath string, path base.ModelPath) string {
+func buildJavaPath(basePath string, path base.ModelPath, override *base.Override) string {
 	finalPath := basePath
+
 	for i, s := range path {
-		finalPath = finalPath + string(os.PathSeparator) + s
+		if override != nil && i == len(path)-1 {
+			if class := template.GetOverrideAdapter().GetClass(override); class != nil {
+				finalPath = finalPath + string(os.PathSeparator) + *class
+				if generationMode == JavaDelegates {
+					finalPath = finalPath + "Delegate"
+				}
+			} else {
+				finalPath = finalPath + string(os.PathSeparator) + s
+			}
+		} else {
+			finalPath = finalPath + string(os.PathSeparator) + s
+		}
+
 		if i == len(path)-1 {
 			finalPath += ".java"
 			break
@@ -255,7 +269,7 @@ func buildJavaPath(basePath string, path base.ModelPath) string {
 	}
 	return finalPath
 }
-func buildTsPath(basePath string, path base.ModelPath) string {
+func buildTsPath(basePath string, path base.ModelPath, _ *base.Override) string {
 	finalPath := basePath
 	for i, s := range path {
 		finalPath = finalPath + string(os.PathSeparator) + s
@@ -270,7 +284,7 @@ func buildTsPath(basePath string, path base.ModelPath) string {
 	}
 	return finalPath
 }
-func buildDbPath(basePath string, path base.ModelPath) string {
+func buildDbPath(basePath string, path base.ModelPath, _ *base.Override) string {
 	return basePath + string(os.PathSeparator) + "schema.ddl"
 }
 
