@@ -140,36 +140,37 @@
 \contentsline {subsubsection}{\nonumberline Das Generator-Modell}{63}{subsubsection*.209}%
 \contentsline {paragraph}{\nonumberline ImportKontext}{63}{paragraph*.211}%
 \contentsline {paragraph}{\nonumberline Variablen}{63}{paragraph*.213}%
-\contentsline {paragraph}{\nonumberline Delegate}{64}{paragraph*.215}%
+\contentsline {paragraph}{\nonumberline Der OverrideAdapter}{64}{paragraph*.215}%
+\contentsline {paragraph}{\nonumberline Delegate}{64}{paragraph*.217}%
 \contentsline {subsection}{\numberline {4.2.2}Die Generationsziele}{64}{subsection.4.2.2}%
-\contentsline {subsection}{\numberline {4.2.3}Maven Plugin}{65}{subsection.4.2.3}%
+\contentsline {subsection}{\numberline {4.2.3}Maven Plugin}{66}{subsection.4.2.3}%
 \contentsline {chapter}{\numberline {5}Benutzung des \acrshort {dmf}}{67}{chapter.5}%
 \contentsline {section}{\numberline {5.1}Die Nutzung des \acrshort {lsp}}{67}{section.5.1}%
 \contentsline {subsection}{\numberline {5.1.1}Installationsmöglichkeiten}{67}{subsection.5.1.1}%
-\contentsline {subsubsection}{\nonumberline Intellij}{67}{subsubsection*.219}%
-\contentsline {subsubsection}{\nonumberline Visual Studio Code}{68}{subsubsection*.222}%
+\contentsline {subsubsection}{\nonumberline Intellij}{67}{subsubsection*.221}%
+\contentsline {subsubsection}{\nonumberline Visual Studio Code}{68}{subsubsection*.224}%
 \contentsline {subsection}{\numberline {5.1.2}Funktionen im Editor}{68}{subsection.5.1.2}%
-\contentsline {subsubsection}{\nonumberline Einfärbung des Textes}{68}{subsubsection*.224}%
-\contentsline {subsubsection}{\nonumberline Diagnosen}{69}{subsubsection*.227}%
-\contentsline {subsubsection}{\nonumberline Hover-Beschreibungen}{70}{subsubsection*.230}%
-\contentsline {subsubsection}{\nonumberline Referenzen}{71}{subsubsection*.236}%
-\contentsline {subsubsection}{\nonumberline Faltbereiche}{71}{subsubsection*.239}%
-\contentsline {subsubsection}{\nonumberline Auswahlbereiche}{72}{subsubsection*.242}%
+\contentsline {subsubsection}{\nonumberline Einfärbung des Textes}{68}{subsubsection*.226}%
+\contentsline {subsubsection}{\nonumberline Diagnosen}{69}{subsubsection*.229}%
+\contentsline {subsubsection}{\nonumberline Hover-Beschreibungen}{70}{subsubsection*.232}%
+\contentsline {subsubsection}{\nonumberline Referenzen}{71}{subsubsection*.238}%
+\contentsline {subsubsection}{\nonumberline Faltbereiche}{71}{subsubsection*.241}%
+\contentsline {subsubsection}{\nonumberline Auswahlbereiche}{72}{subsubsection*.244}%
 \contentsline {section}{\numberline {5.2}Nutzung des \acrshort {dmf}}{72}{section.5.2}%
-\contentsline {paragraph}{\nonumberline Im Modell}{72}{paragraph*.246}%
-\contentsline {paragraph}{\nonumberline Das Typescript Projekt}{73}{paragraph*.248}%
-\contentsline {paragraph}{\nonumberline Das Java Projekt}{73}{paragraph*.250}%
+\contentsline {paragraph}{\nonumberline Im Modell}{72}{paragraph*.248}%
+\contentsline {paragraph}{\nonumberline Das Typescript Projekt}{73}{paragraph*.250}%
+\contentsline {paragraph}{\nonumberline Das Java Projekt}{73}{paragraph*.252}%
 \contentsline {subsection}{\numberline {5.2.1}Anlage des Typescript Projektes}{73}{subsection.5.2.1}%
-\contentsline {paragraph}{\nonumberline Die generierten Modelldateien}{74}{paragraph*.252}%
-\contentsline {paragraph}{\nonumberline Die Delegate Funktionen}{75}{paragraph*.254}%
+\contentsline {paragraph}{\nonumberline Die generierten Modelldateien}{74}{paragraph*.254}%
+\contentsline {paragraph}{\nonumberline Die Delegate Funktionen}{75}{paragraph*.256}%
 \contentsline {subsection}{\numberline {5.2.2}Anlage des Java Projektes}{76}{subsection.5.2.2}%
-\contentsline {paragraph}{\nonumberline Die Modelldateien}{76}{paragraph*.256}%
-\contentsline {paragraph}{\nonumberline Delegate Klassen}{78}{paragraph*.258}%
-\contentsline {paragraph}{\nonumberline Das Datenbankschema}{78}{paragraph*.260}%
-\contentsline {paragraph}{\nonumberline Java Programm}{79}{paragraph*.262}%
+\contentsline {paragraph}{\nonumberline Die Modelldateien}{76}{paragraph*.258}%
+\contentsline {paragraph}{\nonumberline Delegate Klassen}{78}{paragraph*.260}%
+\contentsline {paragraph}{\nonumberline Das Datenbankschema}{78}{paragraph*.262}%
+\contentsline {paragraph}{\nonumberline Java Programm}{79}{paragraph*.264}%
 \contentsline {chapter}{\numberline {6}Zusammenfassung}{81}{chapter.6}%
 \contentsline {section}{\numberline {6.1}Ausblick}{82}{section.6.1}%
-\contentsline {chapter}{Abkürzungsverzeichnis}{85}{section*.263}%
+\contentsline {chapter}{Abkürzungsverzeichnis}{85}{section*.265}%
 \contentsline {chapter}{\numberline {7}Anhang}{87}{chapter.7}%
 \contentsline {section}{\numberline {7.1}EBNF Grammatik für DMF}{87}{section.7.1}%
 \contentsline {section}{\numberline {7.2}Dateien aus dem Beispielprojekt}{91}{section.7.2}%
