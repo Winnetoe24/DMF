@@ -28,12 +28,12 @@ Die Grammatik des \acrshort{dmf}s nutzt eine Namenskonvention, um den Zweck eine
 Ein Block beschreibt immer die Regeln, die ein Element umschließen. \\
 Eine Content-Regel beschreibt den Inhalt in einem Block.
 Ein Block kann immer mehrere Content-Elemente beinhalten.
-Ein Content-Element schreibt auch ein modelliertes Element, z.B.\ ein Argument. \\
-Eine Value-Regel beschreibt eine Regel, welche einen Wert welcher während der semantischen Verarbeitung des ASTs eingelesen wird.
+Ein Content-Element beschreibt auch ein modelliertes Element, z.B.\ ein Argument. \\
+Eine Value-Regel beschreibt eine Regel, welche einen Wert im \acrshort{ast} beinhaltet, welcher während der semantischen Verarbeitung des \acrshort{ast}s eingelesen wird.
 
 \subsubsection{Header}
 Jede \acrshort{dmf} Datei beginnt mit einem Header.
-Dieser Header wird genutzt die Version des Formats und Metadaten über das Modell zu dokumentieren.
+Dieser Header wird genutzt, um die Version des Formats und Metadaten über das Modell zu dokumentieren.
 \begin{lstlisting}[caption={Header einer \acrshort{dmf}-Modelldatei}]
 dmf 1.0.0
 model "beispiel" version 0.0.1
@@ -53,8 +53,8 @@ Es gibt zwei Gründe für den Import von vorhandenen Modellen:
 \item Um die enthaltenen Klassen in das eigene Modell zu kopieren.
 \item Um die enthaltenen Klassen zu erweitern.
 \end{enumerate}
-Um ein \acrshort{dmf} Modell zu importieren wird die Datei und das Package das vom Modell übernommen werden soll.
-Es muss ein Package angegeben werden damit immer klar ist, welche Pfade schon belegt sind.
+Um ein \acrshort{dmf} Modell zu importieren wird die Datei und das Package, das vom Modell übernommen werden soll, angegeben.
+Es muss ein Package angegeben werden, damit immer klar ist, welche Pfade schon belegt sind.
 %! suppress = MissingLabel
 \begin{lstlisting}[caption={Import des Package de.base}]
 import de.base from "./base.dmf"
@@ -68,12 +68,12 @@ Sollten keine Importstatements genutzt werden, so wird der komplette Importblock
 \end{grammar}
 
 \subparagraph{Modellelemente erweitern}\mbox{}\\
-Das \acrshort{dmf} beinhaltet die Möglichkeit Elemente zu erweitern.
-Dies ermöglicht Code für das ursprüngliche Modell wiederzuverwenden und trotzdem Argumente, Referenzen und Funktionen hinzuzufügen. \\
+Das \acrshort{dmf} beinhaltet die Möglichkeit, Elemente zu erweitern.
+Dies ermöglicht Code, für das ursprüngliche Modell wiederzuverwenden und trotzdem Argumente, Referenzen und Funktionen hinzuzufügen. \\
 Eine Erweiterung im \acrshort{dmf} muss generell explizit gekennzeichnet sein.
-Dafür muss zuerst das Package, indem der Entwickler*in etwas erweitern will, importiert werden.
+Dafür muss zuerst das Package, indem die Entwickler*in etwas erweitern will, importiert werden.
 Das importierte Package muss nun im Modell modelliert werden.
-Es muss bei jedem, schon im importierten Modell vorhandenen Element, das Keyword `expand' verwendet werden.
+Es muss bei jedem schon im importierten Modell vorhandenen Element das Keyword `expand' verwendet werden.
 In den mit `expand' gekennzeichneten Elementen können neue Inhalte modelliert werden.
 
 \subsubsection{Modellinhalt}
@@ -222,7 +222,7 @@ func void displayBeispiel(.Beispiel beispiel);
 func int add(int a, int b);
 func void execute();
 \end{lstlisting}
-Funktionen bestehen aus dem Keyword `func' dem Rückgabetypen, dem Namen und den Parametern.
+Funktionen bestehen aus dem Keyword `func', dem Rückgabetypen, dem Namen und den Parametern.
 Der Rückgabetyp kann ein primitiver Typ, eine Referenz oder `void' sein.
 `void' bedeutet, dass kein Wert zurückgegeben wird.
 Die Parameter bestehen aus einem Typen, der entweder zu den primitiven Typen gehört oder eine Referenz ist, und einem Namen.
@@ -237,7 +237,7 @@ Die Parameter bestehen aus einem Typen, der entweder zu den primitiven Typen geh
 
 \paragraph{Entity}\mbox{}\\
 Entities sind im Aufbau sehr ähnlich zu Structs.
-Sie unterschieden sich im Keyword und im Identifier-Statement.
+Sie unterscheiden sich im Keyword und im Identifier-Statement.
 \begin{lstlisting}
 entity BeispielEntity extends AndereEntity implements IBeispiel, IABeispiel {
     arg int i;

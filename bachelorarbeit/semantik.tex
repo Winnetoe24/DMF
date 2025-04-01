@@ -15,11 +15,9 @@
     \subsection{Das semantische Modell}\label{subsec:das-semantische-modell}
     Das semantische Modell bildet alle Informationen, die aus dem \acrshort{ast} entnommen werden können, ab.
     Dazu gehören Referenzen zum \acrshort{ast} für Positionen in der Modelldatei, die verschiedenen PackageElemente und die NamedElemente.
-%  Wie sollte hier adas Modell beschrieben werden?
-%      Wäre ein UML Modell richtig?
 
     \subsubsection{ErrorElemente}
-    Für eine annehme und effiziente Entwicklung ist die verständliche Kommunikation von Fehlern essenziell.
+    Für eine angenehme und effiziente Entwicklung ist die verständliche Kommunikation von Fehlern essenziell.
     Deshalb enthält das semantische Modell das ErrorElement.
     \begin{lstlisting}[language=go]
 package err_element
@@ -37,15 +35,15 @@ type FehlerStelle struct {
 }
     \end{lstlisting}
     Mithilfe dieser Strukturen lassen sich Fehler festhalten, ohne die spätere Darstellung mit einzubeziehen zu müssen.
-    Der Error dokumentiert um welchen Fehler es sich handelt. \\
+    Der Error dokumentiert, um welchen Fehler es sich handelt. \\
     Die FehlerStelle `Fehler' dokumentiert den Modellcode, der falsch ist. \\
     Die FehlerStelle `Cause' dokumentiert den Modellcode, wodurch der Modellcode, welcher in der `Fehler'-FehlerStelle enthalten ist, falsch wurde. \\
     Jede FehlerStelle beinhaltet zwei Nodes.
     Diese beinhalten die Positionen in der Modelldatei.
-    Die ContextNode ist optional und wird gesetzt wenn für einen Fehler der umliegende Code wichtig.
+    Die ContextNode ist optional und wird gesetzt, wenn für einen Fehler der umliegende Code wichtig ist.
     Es handelt sich dabei um eine der Parent-Nodes. \\
     Der ModelCode wird erst beim Rendern der FehlerStelle genutzt.
-    Die Variable dient als Zwischenspeicher für den Code den die Nodes referenzieren. \\ \\
+    Die Variable dient als Zwischenspeicher für den Code, den die Nodes referenzieren. \\ \\
     ErrorElemente werden in der gesamten Semantik-Komponente genutzt und erzeugt.
     Spätere Komponenten nutzen die ErrorElemente, um den Entwickler*innen die Fehler zu erläutern.
 
@@ -55,29 +53,29 @@ type FehlerStelle struct {
     Dieser Kontext beinhaltet die erkannten Fehler, das bisherige Modell, den Text der Modelldatei und die TreeCursor.
     Mithilfe des TreeCursors kann der \acrshort{ast} durchlaufen werden.
     Der Kontext durchläuft den \acrshort{ast} in der PreOrder-Reihenfolge.
-    Für jedes Element des \acrshort{ast}s enthält der Kontext eine Methode zum Parsen in der die entsprechenden Elemente aus dem Semantik-Modell erzeugt werden.\\
+    Für jedes Element des \acrshort{ast}s enthält der Kontext eine Methode zum Parsen, in der die entsprechenden Elemente aus dem Semantik-Modell erzeugt werden.\\
 %    Beispiel Call Tree
     Sollte der \acrshort{ast} Import Statements beinhalten, so werden zunächst die referenzierten Modelle verarbeitet.
     Die importierten Packages werden nun in das Modell übernommen.
     Das Laden der verschiedenen Modelle wird mithilfe einer Callbackstruktur außerhalb der Semantik-Komponente definiert.
     So können verschiedene Logiken genutzt werden. \\
     Der Callback-Aufruf beinhaltet den kompletten Parse-Durchlauf.
-    Im \acrshort{lsp}-Server werden die Ergebnisse zwischengespeichert, sodass die Verarbeitung von Dokumenten die gerade geöffnet sind beschleunigt wird.\\
-    In der Kontext-Struktur des Parsens wird ein Lookup (siehe~\ref{subsubsec:lookup})) genutzt um die importierten PackageElemente zwischenzuspeichern.
-    Während des Parsen von erweiternden Elementen wird der Lookup referenziert und die Eigentschaften in neue Element
+    Im \acrshort{lsp}-Server werden die Ergebnisse zwischengespeichert, sodass die Verarbeitung von Dokumenten, die gerade geöffnet sind, beschleunigt wird.\\
+    In der Kontext-Struktur des Parsens wird ein Lookup (siehe~\ref{subsubsec:lookup}) genutzt, um die importierten PackageElemente zwischenzuspeichern.
+    Während des Parsen von erweiternden Elementen wird der Lookup referenziert und die Eigenschaften in die neuen Elemente übernommen.
     Am Ende des Parsen ist Modell vollständig mit allen gültigen Elementen.
-    Elemente die durch den Parser im \acrshort{ast} als Fehlerhaft gekennzeichnet wurden, werden ignoriert.
+    Elemente die durch den Parser im \acrshort{ast} als fehlerhaft gekennzeichnet wurden, werden ignoriert.
 
     \subsubsection{Der Lookup}\label{subsubsec:lookup}
     Um anhand des vollständigen Namens (Package Pfad + Name) ein Element schnell zu finden, wird nach dem semantischen Parsen ein Lookup erstellt.
     Dieser Lookup nutzt eine Map für den schnellen Zugriff.
     Zum Befüllen des Lookups wird das semantische Modell durchlaufen.
     Jedes erreichte Package Element wird dem Lookup hinzugefügt.
-    Beim Packages werden auch alle enthaltenen Elemente durchlaufen.
+    Bei Packages werden auch alle enthaltenen Elemente durchlaufen.
 
     \subsection{Das Datenbankmodell}\label{subsec:das-datenbankmodell}
     Um das semantische Modell auf ein Datenbankschema abzubilden, muss es eine zentrale Übersetzung geben.
-    In dieser wird aus dem semantischen Modell Tabellen und Spalten generiert.
+    In dieser werden aus dem semantischen Modell Tabellen und Spalten generiert.
     \begin{lstlisting}[language=Go, captio=Datenstruktur für Tabellen und Spalten, label=lst:tableColumn]
 type Table struct {
 	Name string
@@ -109,8 +107,8 @@ type TableReference struct {
     Dafür wird ein Zwischenmodell genutzt (siehe~\nameref{ch:anhang}).\\
     Bei der Übersetzung wird ein Argument zu einer Spalte mit dem gleichen Datentyp.
     Bei Referenzen wird nach dem referenzierten Typ unterschieden.\\
-    Wird ein \textbf{Struct} Referenziert, werden die Spalten der Elemente des Structs zur Tabelle hinzugefügt.\\
-    Wird eine \textbf{Entity} Referenziert, werden die Spalten des Identifiers der Entität hinzugefügt.
+    Wird ein \textbf{Struct} referenziert, werden die Spalten der Elemente des Structs zur Tabelle hinzugefügt.\\
+    Wird eine \textbf{Entity} referenziert, werden die Spalten des Identifiers der Entität hinzugefügt.
     Bei diesen Spalten wird der `ForeignKey' mit einer Referenz zu referenzierten Spalte und mit dem Tabellennamen befüllt.\\
     Wird ein \textbf{Enum} referenziert, so wird nur in einer Spalte der Index der Enum-Konstante gespeichert.\\
     Werden \textbf{Multireferenzen} verwendet, so werden keine Spalten hinzugefügt.
@@ -127,22 +125,22 @@ type TableReference struct {
     So können Zeilen in der Tabelle zu einer Spalte in der Entität-Tabelle zugeordnet werden.\\
     Der Typ der Multireferenz entscheidet über die weiteren Spalten.
     Für die generischen Typen wird die Übersetzung aus dem ersten Schritt übernommen.\\
-    Eine \textbf{Map} generiert den Typ des Keys als Spalten mit dem Prefix `Key'.
+    Eine \textbf{Map} generiert den Typ des Keys als Spalten mit dem Präfix `Key'.
     Diese Spalten sind auch Teil des Primärschlüssels.
-    Der Typ des Values der Map (2. generischer Typ) wird mit dem Prefix `Value' generiert.\\
+    Der Typ des Values der Map (2. generischer Typ) wird mit dem Präfix `Value' generiert.\\
     \textbf{Listen} enthalten eine Spalte namens `Index' mit dem Typ `int' als Teil des Primärschlüssels.
     Diese Spalte repräsentiert den Index in der Liste.
     Die Spalten des Inhalt-Typs der Liste werden mit dem Präfix `Value' generiert.\\
     Wie bei einer Liste werden die Spalten des Inhalt-Typs eines \textbf{Sets} mit dem Präfix `Value' generiert.
     Jedoch enthält ein Set keine Index-Spalte, sondern nutzt die Spalten des Inhalts als Teil des Primärschlüssels.\\
-    \textbf{Tabellen für Interfaces} enthalten einen Index und die Referenzspalten von jedem Typ welcher das Interface implementiert.
+    \textbf{Tabellen für Interfaces} enthalten einen Index und die Referenzspalten von jedem Typ, welcher das Interface implementiert.
     Der Index ist der Primärschlüssel und wird in anderen Tabellen referenziert.
     \\\\
     Nachdem alle Tabellen und ausgelagerten Tabellen generiert wurden, werden die Tabellen in einem Schema gespeichert.
     Dieses Schema wird später vom Generator (siehe~\ref{sec:der-generator}) genutzt.
-    Im Schema wird neben den Tabellen auch die Reihenfolge der Entitäten, dessen Tabellen generiert wurden, in der Modelldatei gespeichert.
+    Im Schema wird neben den Tabellen auch die Reihenfolge der Entitäten, deren Tabellen generiert wurden, in der Modelldatei gespeichert.
     So können die Tabellen immer in der gleichen Reihenfolge im \acrshort{sql}-Schema generiert werden.
-    Dies ist wichtig um Unterschiede zu identifizieren.
+    Dies ist wichtig, um Unterschiede zu identifizieren.
     \begin{lstlisting}[language=Go, caption=Datenstruktur Schema, label=lst:schema]
 type Schema struct {
 	TableLookUp map[string]*Table
@@ -206,8 +204,8 @@ func newComputeSuperTypes(lookup *smodel.TypeLookUp) *computeSuperTypes {
         \item Konstanten
     \end{enumerate}
     Beim Hinzufügen eines Elementes wird überprüft, ob der Name schon von einem Element in der Map genutzt wird. \\ \\
-    Die `Compute Elements Regel' einzigartig, denn sie überschreibt das Verhalten des iterierens durch den Lookup mit einem zweifachen Durchlauf.
-    Denn um alle geerbten Elemente zu Bestimmen müssen die NamedElements-Maps der anderen PackageElemente schon die eigenen Elemente enthalten.
+    Die `Compute Elements Regel' ist einzigartig, denn sie überschreibt das Verhalten des iterierens durch den Lookup mit einem zweifachen Durchlauf.
+    Denn um alle geerbten Elemente zu bestimmen, müssen die NamedElements-Maps der anderen PackageElemente schon die eigenen Elemente enthalten.
     \begin{lstlisting}[language=Go]
 package semantic_rules
 func (c *computeElements) walk() []errElement.ErrorElement {
@@ -220,8 +218,8 @@ func (c *computeElements) walk() []errElement.ErrorElement {
 	return c.elements
 }
     \end{lstlisting}
-    Das Bestimmen der gerbten Elemente (handleAbstraction) ist rekursiv implementiert.
-    So werden auch alle Elemente, die das erweiterte Element erbt mit eingeschlossen.
+    Das Bestimmen der geerbten Elemente (handleAbstraction) ist rekursiv implementiert.
+    So werden auch alle Elemente, die das erweiterte Element erbt, mit eingeschlossen.
 
     \subsubsection{Check Entity Identifier Regel}
     Die `Check Entity Identifier Regel' überprüft, ob alle im Entity-Identifier referenzierten Variablen enthalten sind.

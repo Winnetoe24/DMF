@@ -138,7 +138,7 @@ type Message struct {
     In den Parametern des Aufrufs werden die vom Client unterstützten Funktionen des \acrshort{lsp}s übermittelt.
     Der Server antwortet mit der Auswahl aus den vom Client gesendeten Funktionen, die auch der Server unterstützt.
     Die Unterstützung einer Funktion muss keine Entscheidungsfrage sein.
-    Server und Client übermitteln auch wie sie Funktionen unterstützen.
+    Server und Client übermitteln auch, wie sie Funktionen unterstützen.
     So können Client oder Server kommunizieren, dass sie z.B.\ die Veränderungen an einer Datei und/oder die vollständigen Dateien unterstützen.
     (Für genauere Informationen siehe Abschnitt \nameref{subsubsec:dokumenten-synchronisation})
     \newline
@@ -157,7 +157,7 @@ type Message struct {
     Ansonsten soll er sich mit dem Exit-Code 1 beenden.\\
     Der Exit-Code kann nur vom Client gelesen werden, wenn dieser den Prozess des Servers auch gestartet hat.
     \\\\
-    In den folgenden Abschnitten werden die Funktionen die der \acrshort{dmf}-\acrshort{lsp}-Server unterstützt vorgestellt.
+    In den folgenden Abschnitten werden die Funktionen, die der \acrshort{dmf}-\acrshort{lsp}-Server unterstützt, vorgestellt.
 
     \subsubsection[Anfragen stornieren]{Anfragen stornieren\\ {\textnormal{\footnotesize Cancelation Support (\$/cancelRequest) \cite{cancelation}}}} \label{subsubsec:cancel}
     Der Client kann jederzeit entscheiden, dass das Ergebnis einer Anfrage nicht mehr benötigt wird.
@@ -171,7 +171,7 @@ type CancelParams struct {
     \\\\
     Diese Funktion wird im Abschnitt \nameref{subsubsec:cancel-service} implementiert.
 
-    \subsubsection[Dokumenten Synchronisation]{Dokumenten Synchronisation\\ {\textnormal{\footnotesize Text Document Synchronization \\ (textDocument/didOpen, textDocument/didChange, textDocument/didClose) \cite{dokumente}}}}\label{subsubsec:dokumenten-synchronisation}
+    \subsubsection[Dokumentensynchronisation]{Dokumentensynchronisation\\ {\textnormal{\footnotesize Text Document Synchronization \\ (textDocument/didOpen, textDocument/didChange, textDocument/didClose) \cite{dokumente}}}}\label{subsubsec:dokumenten-synchronisation}
     Damit ein \acrshort{lsp}-Server Aussagen über eine Datei oder ein ganzes Projekt treffen kann, muss der Server den aktuellen Stand der Dateien kennen.
     \\\\
     Während der Initialisierung wird vom Server festgelegt, ob das Öffnen und Schließen von Dateien an den Server übertragen und wie die Bearbeitungen an den Server übertragen werden sollen (gar nicht/komplette Datei/inkrementell).
@@ -196,7 +196,7 @@ type TextDocumentItem struct {
     Sie bestimmen welcher Inhalt unter welcher \acrshort{uri} vom Server gespeichert und verarbeitet wird.
     \\\\
     Nachdem ein Dokument geöffnet wurde, wird bei jeder Änderung die Methode `textDocument/didChange' aufgerufen.
-    Die Parameter enthalten neben der \acrshort{uri} die Änderungen, welche die direkt in die Bearbeitungen der Treesitter-API übersetzt werden können.
+    Die Parameter enthalten neben der \acrshort{uri} die Änderungen, welche direkt in die Bearbeitungen der Treesitter-API übersetzt werden können.
     \begin{lstlisting}[language=Go, title=Definition der Bearbeitungen, label=lst:dokumenteBearbeitung]
 type TextDocumentContentChangeEvent struct {
 	Range       *protokoll.Range `json:"range,omitempty"`
@@ -208,12 +208,12 @@ type TextDocumentContentChangeEvent struct {
     Wird eine Datei geschlossen, können im Server alle Ressourcen für die Datei freigegeben werden.
     Dafür ruft der Client die Methode `textDocument/didClose' auf.
     \\\\
-    Die Funktionen für die Dokumenten Synchronization werden im \nameref{subsubsec:file-service} implementiert.
+    Die Funktionen für die Dokumentensynchronization werden im \nameref{subsubsec:file-service} implementiert.
 
     \subsubsection[Referenzen bestimmen]{Referenzen bestimmen\\ {\textnormal{\footnotesize Go to Declaration \& Find References \\ (textDocument/declaration, textDocument/references) \cite{declaration} \cite{references}}}}\label{subsubsec:referenzen}
     Referenzen sind ein großer Teil des Typsystems des \acrshort{dmf}s.
     Damit diese Referenzen auch nachvollziehbar für die Entwickler*innen sind, bietet das \acrshort{lsp} mehrere Funktionen an.
-    \paragraph{Die Deklaration eines Typs} kann mit der Methode `textDocument/declaration' abfragt werden.
+    \paragraph{Die Deklaration eines Typs} kann mit der Methode `textDocument/declaration' abgefragt werden.
     \begin{lstlisting}[language=Go, title=Definition der Parameter, caption=Definition der Deklarations-Parameter, label=lst:declarationParams]
 type DeclarationParams struct {
 	TextDocument protokoll.TextDocumentIdentifier `json:"textDocument"`
@@ -229,8 +229,8 @@ type DeclarationLink struct {
 	TargetSelectionRange protokoll.Range `json:"targetSelectionRange"`
 }
     \end{lstlisting}
-    Ein DeclarationLink beschriebt einen Bereich in einem, auch vom aktuellem Dokument unterschiedlichem, Dokument.
-    Dabei wird zwischen dem kompletten Bereich der Deklaration und dem Bereich welcher automatisch ausgewählt und in einer Auswahl angezeigt werden soll.
+    Ein DeclarationLink beschreibt einen Bereich in einem, auch vom aktuellem Dokument unterschiedlichen, Dokument.
+    Dabei wird zwischen dem kompletten Bereich der Deklaration und dem Bereich welcher automatisch ausgewählt und in einer Auswahl angezeigt werden soll, unterschieden.
 
     \paragraph{Alle Referenzen zu einem Typ} können mit der Methode `textDocument/references' abgefragt werden.
     Zu den Referenzen gehören die Deklarationen und die Verwendung des Typs in Referenzen, Multireferenzen, Funktionen und Abstraktionen.\\
@@ -258,10 +258,10 @@ type Location struct {
     Das \acrshort{lsp} bietet die Funktion Informationen über ein Element bereitzustellen, wenn die Entwickler*innen mit ihrer Maus über den Text ``hovern''.
     \\\\
     Während der Initialisierung gibt der Client die Formate an, die er für die Dokumentation unterstützt.
-    Das \acrshort{lsp} beinhaltet zwei Formate in der Spezifikation: normaler Text und Mardown.
+    Das \acrshort{lsp} beinhaltet zwei Formate in der Spezifikation: normaler Text und Markdown.
     \\\\
     Die Parameter enthalten die \acrshort{uri} der Datei und die Position.
-    \begin{lstlisting}[language=Go, caption=Definition der Hover Paramer, label=lst:hoverParams]
+    \begin{lstlisting}[language=Go, caption=Definition der Hover Parameter, label=lst:hoverParams]
 type HoverParams struct {
 	TextDocument protokoll.TextDocumentIdentifier `json:"textDocument"`
 	Position protokoll.Position `json:"position"`
@@ -357,7 +357,7 @@ type SelectionRangeResult []SelectionRange
 
     \subsubsection[Semantische Tokens]{Semantische Tokens\\ {\textnormal{\footnotesize Semantic Tokens (textDocument/semanticTokens/full) \cite{semantic}}}}\label{subsubsec:semantic}
     Um ein schnelles Verständnis einer Datei zu ermöglichen, ist die Einfärbung der Syntax und Semantik wichtig.
-    Dafür stellt das \acrshort{lsp} die Möglichkeit bereit semantische Tokens/Symbole zu übermitteln.\\
+    Dafür stellt das \acrshort{lsp} die Möglichkeit bereit, semantische Tokens/Symbole zu übermitteln.\\
     Ein Token bezieht sich immer auf einen Bereich im Sourcecode und übermittelt einen Tokentyp und eine Auswahl der Tokenmodifikatoren.
     Die Tokentypen und Tokenmodifikatoren werden während der Initialisierung übermittelt.
     \\\\
@@ -365,7 +365,7 @@ type SelectionRangeResult []SelectionRange
     Für das DMF wurde nur die Methode `textDocument/semanticTokens/full' welche alle semantischen Token für eine Datei generiert beachtet.
     \paragraph{Die Codierung der semantischen Token}\label{par:semantic-code}\mbox{}\\
     Wenn die neuen semantischen Tokens übermittelt werden, werden die Tokens mithilfe einer Zahlenfolge codiert.
-    Dies führt zu einer starken Komprimierung des Ergebnisses, welche besonders relevant für diese Methode des \acrshort{lsp}s ist, da das Ergebnis besonders viele Daten beinhaltet.\\
+    Dies führt zu einer starken Komprimierung des Ergebnisses, welche besonders relevant für diese Methode des \acrshort{lsp}s ist, da das Ergebnis hohe Datenmengen beinhaltet.\\
     Die Einträge der Zahlenfolge werden nach dem folgenden Schema codiert:
     \begin{center}
         \begin{tabular}{| c | c | m{21.5em} |}
@@ -395,12 +395,12 @@ type SelectionRangeResult []SelectionRange
     Deshalb bietet das \acrshort{lsp} die Möglichkeit, dass der Server Benachrichtigungen an den Client mit den Diagnosen sendet.
     \\\\
     Während der Initialisierung kann der Client (neben der Unterstützung von Feinheiten der Spezifikation) angeben, ob er Diagnosen-Tags (eng.\ diagnostic tag) unterstützt.
-    Diese Tags differenzieren die Diagnosen, wie die semantischen Modifikatoren die semantisch Tokens weiter differenzieren.
+    Diese Tags differenzieren die Diagnosen, wie die semantischen Modifikatoren, die semantisch Tokens weiter differenzieren.
     \\\\
-    Die Benachrichtigung beinhalten eine Liste mit Diagnosen.
+    Die Benachrichtigungen beinhalten eine Liste mit Diagnosen.
     Jede Diagnose bezieht sich auf einen Bereich im Sourcecode.
     Eine Diagnose kann ein Fehler, eine Warnung, eine Information oder ein Hinweis sein.\\
-    Der Unterschied zwischen einer Information und einem Hinweis liegt Bedeutsamkeit der enthaltenen Information.
+    Der Unterschied zwischen einer Information und einem Hinweis liegt in der Bedeutsamkeit der enthaltenen Information.
     Eine Diagnose mit einer Information sollte beim Ermitteln eines Fehlers vor den Hinweisen beachtet werden.\\
     Der Inhalt einer Diagnose setzt sich aus den Feldern `Message' und `Source' zusammen.
     `Message' beschreibt den Fehler und `Source' den Grund.\\
@@ -429,7 +429,7 @@ type DiagnosticRelatedInformation struct {
     Die Serverschicht abstrahiert die Verbindung zum Client und das JSON-RPC Protkoll.
     So bekommen die Services, welche die vorher beschriebenen Funktionen implementieren, direkt Nachrichten und können auch Nachrichten verschicken.
     \subsubsection{Abstraktion der Server-Client-Verbindung}
-    Da das \acrshort{lsp} Medium unabhängig ist, muss der Server eine Abstraktion für die Verbindung bereitstellen.
+    Da das \acrshort{lsp} Mediumunabhängig ist, muss der Server eine Abstraktion für die Verbindung bereitstellen.
     \begin{lstlisting}[language=Go]
 package connect
 type Connection interface {
@@ -478,10 +478,10 @@ err = json.Unmarshal(data, &message)
     Deswegen muss keine zusätzliche Logik für einzelne Werte implementiert werden.
     Dies betrifft leere Werte, welche nicht übertragen werden sollen, und Werte, welche einen anderen Namen im JSON-Text besitzen.
 
-    \paragraph{Basis Protokoll}\mbox{}\\
-    Das \acrshort{lsp} besitzt nicht Spezifikationen für den Inhalt der Nachrichten, sondern auch für deren Übertragung.
-    Vorrausgesetzt wird nur eine bidirektionale Verbindung, welche parallel Text übertragen kann.\\
-    Jede Nachricht im Basis Protokoll besteht aus zwei Teilen: dem Header und dem Inhalt.
+    \paragraph{Basisprotokoll}\mbox{}\\
+    Das \acrshort{lsp} besitzt nicht nur Spezifikationen für den Inhalt der Nachrichten, sondern auch für deren Übertragung.
+    Vorausgesetzt wird nur eine bidirektionale Verbindung, welche parallel Text übertragen kann.\\
+    Jede Nachricht im Basisprotokoll besteht aus zwei Teilen: dem Header und dem Inhalt.
     \\\\
     Der Header enthält Angabe zum Einlesen.
     Diese werden jeweils in eine eigene Zeile geschrieben.
@@ -501,23 +501,24 @@ err = json.Unmarshal(data, &message)
         \\
         \cite{header}
     \end{center}
-    Der Header wird beendet einer leeren Zeile welche dennoch mit beiden Kontrollzeichen beendet wird.
+    Der Header wird durch eine inhaltsleere Zeile beendet.
+    Diese enthält dennoch die Kontrollzeichensequenz `{\textbackslash}r{\textbackslash}n'.\\
     Zuletzt folgt der Inhalt der Nachricht.
     Dabei ist wichtig, dass die angegebene Länge genau der Länge der Nachricht entspricht.
     \\\\
-    Um das Basis Protokoll Lesen zu können, wird der `BufReader' der Golang-Standardbibliothek verwendet.
+    Um das Basisprotokoll lesen zu können, wird der `BufReader' der Golang-Standardbibliothek verwendet.
     Beim Lesen aus dem `BufReader' kann ein Zeichen, bis zu dem gelesen werden soll, angegeben werden.
-    So kann die Verbindung Zeilenweise ausgelesen werden.\\
+    So kann die Verbindung zeilenweise ausgelesen werden.\\
     Beginnt eine Zeile mit dem Identifier der Länge der Datei, so wird der Rest der Zeile als Zahl interpretiert und zwischengespeichert.\\
     Wird eine leere Zeile gelesen wird die Schleife zum Auslesen des Headers beendet.\\
     Nun wird ein Buffer mit der gespeicherten Größe angelegt und mit dem Inhalt aus der Verbindung befüllt.
     Der Inhalt des Buffers kann nun als Text weiter verwendet werden.
     \\\\
-    Das Schreiben im Basis Protokoll beginnt mit Messung der Nachrichtenlänge.
+    Das Schreiben im Basisprotokoll beginnt mit der Messung der Nachrichtenlänge.
     Nun kann der Header in die Verbindung geschrieben werden.
-    Schließenlich wird der Inhalt in die Verbindung geschrieben.\\
+    Schlussendlich wird der Inhalt in die Verbindung geschrieben.\\
     Diese Schreibvorgänge müssen synchron erfolgen.
-    Deshalb enthält jede Verbindung einen ``actionChannel'' über den Funktionen an eine Routine übermittelt werden.
+    Deshalb enthält jede Verbindung einen ``actionChannel'', über den Funktionen an eine Routine übermittelt werden.
     Innerhalb der Routine werden die Funktionen synchron ausgeführt.\\
     Dieses Pattern wird auch im \nameref{subsubsec:file-service} verwendet und anhand eines Beispieles genauer erläutert.
 
@@ -525,13 +526,13 @@ err = json.Unmarshal(data, &message)
     Der \acrshort{dmf}-\acrshort{lsp}-Server unterstützt zwei Medien: Standard-IO und \acrshort{tcp}-Sockets.\\
     Standard-IO bietet sich für die meisten Fälle an, da der Prozess häufig von der \acrshort{ide} verwaltet wird.
     Diese Übertragung enthält auch keine weiteren Schichten und ist somit sehr schnell.
-    Sie vereinfacht auch den Server Prozess, da es nur einen Client geben kann.
+    Sie vereinfacht auch den Serverprozess, da es nur einen Client geben kann.
     \begin{lstlisting}[language=Go, caption=Start eines Standard-IO-Servers, label=lst:stdServer]
 newServer := server.NewServer(connect.NewStdIOConnection())
 newServer.MessageLoop()
     \end{lstlisting}
     Wenn der Prozess nicht von der \acrshort{ide} verwaltet werden kann und der Server zentral gehostet werden soll, können \acrshort{tcp}-Sockets genutzt werden.
-    Sie ermöglichen mehreren Nutzern eine Server Instanz zu nutzen und die Nutzung eines Servers, welcher nicht auf dem gleichen Computer läuft.\\
+    Sie ermöglichen mehreren Nutzer*innen eine Serverinstanz zu nutzen und die Nutzung eines Servers, welcher nicht auf dem gleichen Computer läuft.\\
     Bei der Implementierung ist die Unterscheidung zwischen dem Begriff Server und der Datenstruktur `Server' zu beachten.
     Für jede Verbindung wird eine eigene Server-Instanz in einer eigenen Routine erzeugt.
     \begin{lstlisting}[language=Go, caption=Verwaltung des \acrshort{tcp}-Servers, label=lst:tcpServer]
@@ -550,17 +551,17 @@ for {
 
     \subsubsection{Abstraktion des JSON-RPC-Protokolls}
     Die Abstraktion des JSON-RPC-Protokolls verbindet die Services und die Verbindung zum Client.
-    Sie beinhaltet zwei Phasen: Intialisierung und Verarbeitung.\\
-    Die Intialisierung erstellt alle Services und trägt diese eine Map ein.
+    Sie beinhaltet zwei Phasen: Initialisierung und Verarbeitung.\\
+    Die Initialisierung erstellt alle Services und trägt diese in eine Map ein.
     Die Map enthält die Referenzen zwischen den Methodennamen und den Services.
-    Die Methodennamen liefern die Services, so kann ein Service mit nur zweilen Zeilen hinzugefügt werden:
+    Die Methodennamen liefern die Services, so kann ein Service mit nur zwei Zeilen hinzugefügt werden:
     \begin{lstlisting}{language=Go, caption=Registierung eines Services, label:registerService}
 newCancelService := cancelService.NewCancelService(con)
 s.addHandler(newCancelService)
     \end{lstlisting}
     Die Verarbeitung beginnt mit Lesen der `initialize'-Methode.
     Diese wird an die Services weitergereicht, welche währenddessen die Antwort befüllen.\\
-    Nachdem die Kommunikation Intialisiert wurde, beginnt der Nachrichtenkreislauf.
+    Nachdem die Kommunikation initialisiert wurde, beginnt der Nachrichtenkreislauf.
     \begin{lstlisting}[language=Go, caption=Nachrichtenkreislauf, label=lst:messageLopp]
 MessageLoop:
 	for {
@@ -574,7 +575,7 @@ MessageLoop:
     Vor den Services muss auf die `shutdown'-Methode überprüft werden.
     Die Verarbeitung der \acrshort{lsp}-Lifecycle-Nachrichten fällt in den Aufgabenbereich des Servers.
     Sollte die `shutdown'-Anfrage vorliegen, wird der Message-Loop beendet.
-    Somit wird schließlich der Server herunter gefahren.
+    Somit wird schließlich der Server heruntergefahren.
     \\\\
     Für alle anderen Methoden wird die Map der Services genutzt, um den richtigen Service zu finden.
     Die Verarbeitung wird im Service fortgeführt.
@@ -634,7 +635,7 @@ type MethodHandler interface {
         \item \textbf{GetMethods} \\
         Gibt die Methoden aus dem \acrshort{lsp} zurück für die der Service Meldungen verarbeitet.
         \item \textbf{HandleMethod} \\
-        Verarbeite die Nachricht.
+        Verarbeitet die Nachricht.
     \end{enumerate}
 
 
@@ -683,7 +684,7 @@ func createActionChannel() chan func() {
 }
     \end{lstlisting}
     Jeder Zugriff auf die ``handleMap'' muss in einer Funktion geschehen, welche von der Routine des Channels ausgeführt wird.
-    Um auf Werte, welche innerhalb der Funktion geladen werden, auch außerhalb der Funktion zu zugreifen, wird ein zusätzlicher Channel erzeugt, über den die Werte übertragen werden.\\
+    Um auf Werte, welche innerhalb der Funktion geladen werden, auch außerhalb der Funktion zuzugreifen, wird ein zusätzlicher Channel erzeugt, über den die Werte übertragen werden.\\
     Dieses Pattern wird z.B. beim Laden des Dateiinhalts durch andere Services genutzt.
     \begin{lstlisting}[language=Go, captio=Laden eines FileHandles]
 func (receiver *FileService) GetFileContent(uri protokoll.DocumentURI) (FileContent, error) {
@@ -726,7 +727,7 @@ type FileChangeListener interface {
                     version int32)
 }
     \end{lstlisting}
-    Der FileService enthält Referenzen zu allen aktiven Listener.
+    Der FileService enthält Referenzen zu allen aktiven Listenern.
     Nachdem ein FileHandle erstellt oder bearbeitet wurde, werden alle Listener durchlaufen.\\
     Im \acrshort{dmf}-\acrshort{lsp}-Server ist nur ein FileChangeListener implementiert:
     \subparagraph[DiagnosticsService]{Der DiagnosticsService }\label{subsubsec:diagnostics-service}
@@ -815,7 +816,7 @@ type FileChangeListener interface {
     \subparagraph{Mithilfe des semantischen Modells} werden die restlichen Token bestimmt.
     Dies ist möglich da die Elemente im semantischen Modell Referenzen zum \acrshort{ast} beinhalten.
     Dazu gehören die Namen der verschiedenen Inhalte, wie z.B.\ von Argumenten.
-    Bei diesen Namen wird das gleiche \acrshort{ast}-Element genutzt, wodurch sie nur das semantische Parsen unterscheidbar sind.
+    Bei diesen Namen wird das gleiche \acrshort{ast}-Element genutzt, wodurch sie nur durch das semantische Parsen unterscheidbar sind.
     \\\\
     Die semantischen Tokens befinden sich nun in einer Liste mit semantischen Elementen.
     Diese müssen für die Antwort codiert werden.
@@ -909,8 +910,8 @@ func (s *SelectionRangeService) computeSelectionRangeForPosition(
     \end{lstlisting}
     Es wird zunächst das kleinste Element (das ``Blatt'' des Baums) des \acrshort{ast}s für die Position bestimmt.\\
     Nun wird durch die Schichten des \acrshort{ast}s bis zur Wurzel iteriert.
-    Bei jedem Element eine neue ``SelectionRange'' Instanz  angelegt.
-    Dieses ``SelectionRange'' enthält immer den Bereich und eine Referenz zu der vorherigen ``SelectionRange''.
+    Es wird bei jedem Element eine neue ``SelectionRange'' Instanz angelegt.
+    Diese ``SelectionRange'' enthält immer den Bereich und eine Referenz zu der vorherigen ``SelectionRange''.
     Durch die Referenz wird die Baum-Struktur auch im Ergebnis übermittelt und es müssen weniger Anfragen an den Server gesendet werden.\\
 
     Ein Request kann mehrere Positionen enthalten.
@@ -946,7 +947,7 @@ for {
     Die Ergebnisse einer Query werden in der Treesitter-\acrshort{api} QueryMatches genannt.
     Für diese Query enthalten sie alle `comment_block' Nodes im \acrshort{ast}.
     Durch die Ergebnisse wird iteriert und für jeden QueryMatch ein Faltbereich erstellt.
-    Dabei wird zwischen einzeiligen und mehrzeiligen Kommentaren unterschieden, die Position unterschiedlich interpretiert werden müssen.
+    Dabei wird zwischen einzeiligen und mehrzeiligen Kommentaren unterschieden, da die Positionen unterschiedlich interpretiert werden müssen.
     Einzeilige Kommentare werden nicht in jeder \acrshort{ide} gut verarbeitet, deshalb können sie über die Argumente beim Start des \acrshort{lsp}-Servers ausgeschaltet werden.
     \begin{lstlisting}[language=Go, caption=Auszug aus der Bestimmung der Faltbereiche für die Kommentare, label=lst:foldingCommentsFor]
 queryCursor := tree_sitter.NewQueryCursor()
@@ -966,17 +967,17 @@ for match, index := captures.Next(); match != nil;
 }
     \end{lstlisting}
     \textbf{Bei allen Kommentaren} liegt das Ende im Ergebnis der Query in der nächsten Zeile.
-    Der Faltbereich soll jeden am Ende der Kommentarzeile enden.
+    Der Faltbereich soll jedoch am Ende der Kommentarzeile enden.
     Deshalb wird die Endposition verschoben.\\
     \textbf{Bei mehrzeiligen Kommentaren} müssen Startzeichenindex und Endzeichenindex anhand von unterschiedlichen Zeilen bestimmt werden.
     Dafür muss der Inhalt des Kommentars in Zeilen aufgeteilt werden.
     Die erste und letzte Zeile werden für die Indexe genutzt.
     Für die Zusammenfassung wird der Inhalt des Kommentars in der ersten Zeile genutzt.\\
-    \textbf{Bei einzieligen Kommentaren} könen die Indexe anhand der einen Zeile bestimmt werden.
+    \textbf{Bei einzeiligen Kommentaren} können die Indexe anhand der einen Zeile bestimmt werden.
 
     \subparagraph{Für den Import-Block} wird die Node des Import-Blocks aus dem \acrshort{ast} genutzt.
     Diese enthält jedoch alle Zeilen, ab dem ersten Import-Statement bis zum ersten PackageElement.
-    Deshalb werden die Leerzeilen am Ende des Import-Blocks herrausgefiltert.
+    Deshalb werden die Leerzeilen am Ende des Import-Blocks herausgefiltert.
     \begin{lstlisting}[language=Go, caption=Filterung der leeren Zeilen, label=lst:filterImportFolding]
 var endPos tree_sitter.Point
 for {
@@ -1031,10 +1032,10 @@ for {
     Mithilfe dieser Nodes kann der Name für den LookUp der PackageElemente und der Name des NamedElements innerhalb des PackageElements bestimmt werden.
 
     \paragraph{Referenzen}\mbox{}\\
-    Nachdem das PackageElement und der Name bestimmt wurden, wird unterschieden ob es sich um einen Typ oder um eine Variable handelt.
+    Nachdem das PackageElement und der Name bestimmt wurden, wird unterschieden, ob es sich um einen Typ oder um eine Variable handelt.
     \\
     Für die \textbf{Variablen} wird das aktuelle Element und alle SubElemente (Elemente durch Abstraktion) durchsucht.
-    In den Elementen wird nach der Variable über den NamendElemente-LookUp und in dem EntityIdentifier gesucht.
+    In den Elementen wird nach der Variable über den NamedElement-LookUp und in dem EntityIdentifier gesucht.
     \\
     Für die Suche nach \textbf{Typ}-Referenzen müssen alle PackageElemente durchsucht werden.
     In den PackageElementen werden Referenzen, Multireferenzen, Parameter und die Abstraktion durchsucht.
@@ -1077,8 +1078,9 @@ for {
     Zuerst werden anhand der \acrshort{ast}-Nodes die Elemente aus dem semantischen Modell bestimmt.
     Aus diesen Elementen wird eine spezifische Datenstruktur erstellt.
     Mithilfe dieser Datenstruktur kann das jeweilige Template ausgeführt werden.
+
     \paragraph{Nutzung von Golang-Templates}\mbox{}\\
-    Die Standard Bibliothek von Golang bietet eine Template-Engine das Generieren von Texten genutzt wird.
+    Die Standard Bibliothek von Golang bietet eine Template-Engine die für das Generieren von Texten genutzt wird.
     Die \acrshort{api} besteht dabei aus 3 Komponenten: Templates, Funktionen und Datenstrukturen.
     \begin{lstlisting}[language=Go, caption=Ablauf der Template-\acrshort{api}, label=lst:template]
 // Inkludierung der Templates
@@ -1096,45 +1098,45 @@ err := templates.ExecuteTemplate(buffer, "variable", data)
 return buffer.String()
     \end{lstlisting}
     \textbf{Die Templates} werden in eigenen Dateien abgelegt.
-    Mithilfe der Golang-Embeded-\acrshort{api} werden diese Dateien in die ausführbare Datei kopiert und können während der Ausführung ausgelesen werden.\\
+    Mithilfe der Golang-Embedded-\acrshort{api} werden diese Dateien in die ausführbare Datei kopiert und können während der Ausführung ausgelesen werden.\\
     Ein Template wird immer mit einer Datenstruktur aufgerufen.
     Innerhalb eines Templates werden Kontrollstrukturen und Zugriffe auf die Datenstruktur innerhalb von Statements mit `\{\{' und `\}\}' gekennzeichnet.
-    Statements in Templates folgen einer simplifierzierten Golang Syntax.
-    Das Ergebnis nach ihrer Evaluirung wird in das Ergebnis eingefügt.
+    Statements in Templates folgen einer simplifizierten Golang Syntax.
+    Das Ergebnis nach ihrer Evaluierung wird in das Ergebnis eingefügt.
     Die größte Simplifizierung sind die Blöcke der Kontrollstrukturen.
     Die Beginnen immer mit einem Statement in der Syntax des jeweiligen Keywords und enden mit dem `\{\{end\}\}'-Statement.\\
     Ein Template wird definiert mit dem Define-Statement (`\{\{define "name"\}\}').
     Der Name im Statement wird später zum Aufrufen des Templates genutzt. \\
     Die Übergebene Datenstruktur wird immer mit `.' adressiert.
     So kann eine Variable der Datenstruktur mithilfe von `\{\{.Variablenname\}\}' eingefügt werden.
-    Es ist auch möglich lokale Variablen zu definieren, z.B. `\{\{\$importSlice := getImports .\}\}'.
+    Es ist auch möglich, lokale Variablen zu definieren, z.B. `\{\{\$importSlice := getImports .\}\}'.
     Ein Name einer lokalen Variable beginnt immer mit dem Zeichen \$.\\
     Funktionen werden ohne Klammern aufgerufen, jedoch können Klammern zur Abgrenzung der Parameter verschiedener Funktionen genutzt werden.
     Das Statement `ne (len \$importSlice) 0' wird zu einem Wahrheitswert evaluieren.
-    Der Aufruf der Funktion `len' befindet sich in Klammern sodass das Ergebnis als ein Parameter der Funktion `ne' verwendet wird.\\
+    Der Aufruf der Funktion `len' befindet sich in Klammern, sodass das Ergebnis als ein Parameter der Funktion `ne' verwendet wird.\\
     Mithilfe von `if' und `range' Statements kann der Ablauf eines Templates gesteuert werden.
-    Ein `if'-Statement funktioniert als Kontrollstruktur die einen Teil des Templates abhängig von einer Bedingung ausführt.
+    Ein `if'-Statement funktioniert als Kontrollstruktur, die einen Teil des Templates abhängig von einer Bedingung ausführt.
     Es kann mit einem `else'-Statement erweitert werden.
     Ein `range'-Statement übernimmt die Funktion der Schleifen.
     Es wird immer durch eine Slice iteriert, z.B. `\{\{range \$index, \$use := .Uses\}\}'.\\
     Es können andere Templates aufgerufen werden.
-    Dabei kann nur ein Parameter(=eine Datenstruktur) übergeben werden, weshalb häufig Methoden mehrere Parameter in eine Datenstruktur kombinieren.
-    Ein Aufruf Statement enthält neben dem Parameter auch den Namen des Templates: `\{\{template "parameter" \$element\}\}'.
+    Dabei kann nur ein Parameter(=eine Datenstruktur) übergeben werden, weshalb Methoden häufig mehrere Parameter in eine Datenstruktur kombinieren.
+    Ein Aufruf-Statement enthält neben dem Parameter auch den Namen des Templates: `\{\{template "parameter" \$element\}\}'.
     \\
     \textbf{Die Funktionen} werden in Go geschrieben.
-    Eine Map dient zum Aufruf der Funktionen während der Generationen.
+    Eine Map dient zum Aufruf der Funktionen während der Generierung.
     Zwischen Funktionen, Templates und Datenstrukturen wird während der Kompilierung und der Vorbereitung der Templates keine Typ-Überprüfung durchgeführt.
-    Besitzen die Parameter während der Generation die falschen Typen, wird die Generation mit einem Fehler abgebrochen.\\
-    Funktionen besitzen keine Referenzen zum Kontext indem die Generation gestartet wurde.
+    Besitzen die Parameter während der Generierung die falschen Typen, wird die Generierung mit einem Fehler abgebrochen.\\
+    Funktionen besitzen keine Referenzen zum Kontext, in dem die Generierung gestartet wurde.
     Deshalb bleiben nur noch die globalen Elemente und die Parameter.
-    Globale Elemente können jedoch diesen Kontext auch nicht speichern, wenn die Generation parallel ausgeführt wird.
-    Somit wird jeder erfordlicher Kontext in den Parametern übergeben.
+    Globale Elemente können jedoch diesen Kontext auch nicht speichern, wenn die Generierung parallel ausgeführt wird.
+    Somit wird jeder erforderlicher Kontext in den Parametern übergeben.
     \\
     \textbf{Die Datenstrukturen} werden normal im Go-Code definiert.
-    Sie enthalten neben den Daten aus dem semantischen Modell auch den evtuellen Kontext für den Aufruf für eine Funktion oder bündeln Parameter für den Aufruf eines Templates.
+    Sie enthalten neben den Daten aus dem semantischen Modell auch den eventuellen Kontext für den Aufruf für eine Funktion oder bündeln Parameter für den Aufruf eines Templates.
     \\
-    \textbf{Bei der Generation} wird ein Writer, der Name des Templates und die Datenstruktur übergeben.
-    Das Writer-Interface bietet eine Abstraktion, um Ziel und Implementierungs unabhängig Schreibvorgänge abbilden zu können.
+    \textbf{Bei der Generierung} wird ein Writer, der Name des Templates und die Datenstruktur übergeben.
+    Das Writer-Interface bietet eine Abstraktion, um Ziel und Implementierungsunabhängig Schreibvorgänge abbilden zu können.
     Um die Zusammenfassung später als String übergeben zu können, wird ein Buffer genutzt.
     \\\\
     Im folgenden Template für die Zusammenfassung des Entity-Identifiers werden einige der beschriebenen Funktionen der Golang Templates genutzt.

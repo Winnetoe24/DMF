@@ -106,12 +106,12 @@
     \subsubsection{Primitive Typen}
     Grundvoraussetzung sind die primitiven Typen und Referenzen zu anderen Elementen.
     Bei der Analyse wurde ein unterschiedliches Maß in der Feinheit der Zahlentypen festgestellt.
-    Es gibt in \acrfull{sql} Datenbanksystem generell eine Unterscheidung zwischen ganzen Zahlen und rationalen Zahlen.
+    Es gibt in \acrfull{sql} Datenbanksystemen generell eine Unterscheidung zwischen ganzen Zahlen und rationalen Zahlen.
     Somit muss es eine Unterscheidung zwischen int und double geben.
-    Es wird jedoch auch unterschieden wie groß ganze Zahlen werden, weshalb ein long Typ sinnvoll ist.
+    Es wird jedoch auch unterschieden, wie groß ganze Zahlen werden, weshalb ein long Typ sinnvoll ist.
     Dieser kann auch mithilfe von bigint in Typescript abgebildet werden.
     Für die Verarbeitung von unbekannten Daten werden häufig Bytes genutzt.
-    Von den drei verglichen Sprachen, beinhaltet nur Java den primitiven Typ.
+    Von den drei verglichenen Sprachen beinhaltet nur Java den primitiven Typ.
     Die int-Typen der jeweiligen Sprachen ermöglichen jedoch ähnliche Operationen.
     Deshalb wurde auch Byte aufgenommen.
     Eine Unterscheidung zwischen float und double wurde nicht vorgenommen, da diese Unterscheidung in den Systemen, die die Typen enthalten, sehr wenig verwendet wird.\\
@@ -137,7 +137,7 @@
     Diese primitiven Typen werden im \acrshort{dmf} in Argumenten abgebildet.
     Argumente bestehen aus einem primitiven Typen und einem Namen.
     Alle anderen Datentypen werden als Referenzen abgebildet.
-    Vorgesehen ist nur Referenzen explizit als nullbar generiert werden.
+    Vorgesehen ist nur, dass Referenzen explizit als nullbar generiert werden.
 
     \subsubsection{Funktionen}
     Funktionen gehören zu den Elementen, die sich in jeder Programmiersprache wiederfinden.
@@ -193,7 +193,7 @@ enum IpAddr {
 }
     \end{lstlisting}
 
-    Diese Funktion kann auch in Sprachen dessen Enums diese Möglichkeit nicht beinhalten, durch Funktionen, die für den Enum-Eintrag den modellierten Wert zurückgeben, emuliert werden.
+    Diese Funktion kann auch in Sprachen, deren Enums diese Möglichkeit nicht beinhalten, durch Funktionen, die für den Enum-Eintrag den modellierten Wert zurückgeben, emuliert werden.
 
     Im \acrshort{dmf} lassen sich diese Werte mithilfe von Argumenten modellieren.
     Bei der Definition eines Enum-Eintrags müssen die Konstanten mit angeben werden.
@@ -214,7 +214,7 @@ enum IpAddr {
 
     Damit diese Abstraktion genutzt werden kann, müssen für jeden abstrakten Typen im \acrshort{dmf} eine Zuweisung in jeder Sprache festgelegt werden.
     Zusätzlich zu der Representation der Daten müssen die Funktionen separat implementiert werden können, damit die Implementierung nicht bei jeder Neugeneration des Datenmodells überschrieben werden.
-    Dieses zusätzlich generierten Strukturen werden Delegates genannt.
+    Diese zusätzlich generierten Strukturen werden Delegates genannt.
 
     \subsubsection{Java}
     \begin{center}
@@ -239,7 +239,7 @@ enum IpAddr {
     Die \acrshort{dmf} Elemente können sehr gut in Java übersetzt werden.
     Für die Entity kann sogar die Identität mithilfe der Implementation von der Methoden `hashCode' und `equals' übernommen werden.
     Die Enums unterstützen auch die zusätzlichen Argumente.
-    Um die Delegates aufgerufen zu können, wird eine statische Instanz der Delegate Klasse genutzt.
+    Um die Delegates aufrufen zu können, wird eine statische Instanz der Delegate Klasse genutzt.
 
     \begin{center}
         \begin{tabular}{| c || c |}
@@ -295,7 +295,7 @@ enum IpAddr {
             \hline
         \end{tabular}
     \end{center}
-    Die Übersetzung der \acrshort{dmf} Elemente in Typescript stellt als ein wenig komplexer als die Übersetzung in Java dar.
+    Die Übersetzung der \acrshort{dmf} Elemente in Typescript stellt sich als ein wenig komplexer als die Übersetzung in Java dar.
     Structs, Entities und Interfaces können direkt in die nativen Elemente übersetzt werden.\\
     Da Typescript Enums nur einen Wert pro Eintrag erlauben, müssen eine zusätzliche Struktur für zusätzlichen Daten und eine Struktur für Zuweisung zwischen Enum-Eintrag und Daten generiert werden.
     Das ``Details''-Interface enthält die Definitionen der weiteren Argumente.
@@ -341,7 +341,7 @@ enum IpAddr {
     In der Datenbank müssen die Entitäten abgebildet werden.\\
     Dafür wird für jede Entität eine Tabelle angelegt.
     Diese enthält alle Argumente der Entität.
-    Der primäte Schlüssel wird durch die Spalten der Variablen, welche im Identifier-Statement spezifiziert werden, gebildet.
+    Der primäre Schlüssel wird durch die Spalten der Variablen, welche im Identifier-Statement spezifiziert werden, gebildet.
     Bei der Übersetzung der Referenzen wird zwischen Structs, Entitäten und Enums unterschieden:\\
     Die Spalten eines Structs werden zur Tabelle der Entität hinzugefügt.\\
     Bei einer Entität muss eine Referenz zu einer anderen Tabelle eingefügt werden.

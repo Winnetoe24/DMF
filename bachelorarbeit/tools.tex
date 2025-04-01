@@ -101,58 +101,59 @@ Essenziell für die Verarbeitung ist die Zusammenarbeit mit den folgenden Kompon
 Die Auswahl der Technologie für diesen Schritt basiert auf der Auswahl für die folgenden Schritte.
 
 \subsection{Kommunikation mit verschiedenen \acrshort{ide}'s}
-Damit ein Framework die Entwicklung nicht einschränkt muss es in verschiedenen \acrfull{ide} genutzt werden können.
+Damit ein Framework die Entwicklung nicht einschränkt, muss es in verschiedenen \acrlong{ide}s (\acrshort{ide}) genutzt werden können.
 Viele IDE's stellen Schnittstellen für Plugins bereit.
-Dazu zählen Intellij, Eclipse, NeoVim und VSCode.
+Dazu zählen u. A. Intellij, Eclipse, NeoVim und VSCode.
 Jede Schnittstelle ist jedoch unterschiedlich, wodurch die Entwicklung von vielen verschiedenen Plugins nötig wäre.
 \paragraph{\acrfull{lsp}}\hypertarget{lsp-ziel}
 Eine einfachere Möglichkeit bietet das \acrfull{lsp}.
 Dieses Protokoll bietet die Möglichkeit, dass viele verschiedene \acrshort{ide}'s eine Serverimplementierung nutzen.
-Im Fall von Zed und Eclipse lassen sich \acrlong{lsp}-Server sogar ohne jegliche Plugins einbinden.
-Wobei hier auf die schlechte Unterstützung des \acrlong{lsp}-Protokolls in Eclipse hingewiesen werden muss.
+Im Fall von Zed und Eclipse lassen sich \acrlong{lsp} Server sogar ohne jegliche Plugins einbinden,
+wobei hier auf die schlechte Unterstützung des \acrlong{lsp}-Protokolls in Eclipse hingewiesen werden muss.
 Intellij und NeoVim nutzen Plugins, um \acrlong{lsp}-Server anzubinden.
 VSCode bietet ein \acrlong{api} und einen einfachen \acrlong{lsp}-Client in ein kleines Plugin zu implementieren.
 Im \acrlong{lsp}-Server können gebündelt Logik und Protokoll implementiert werden.
 \newline\newline
 \acrlong{lsp} wird hauptsächlich über die Standard-Eingabe und -Ausgabe oder über einen Server Socket transportiert.
-Es wird ein JSON-RPC Format genutzt. % TODO Maybe JSOn als Abkürzung
+Es wird ein JSON-RPC Format genutzt.
 Der \acrlong{lsp}-Server muss somit JSON, Std-In und Std-Out, sowie Server Sockets unterstützen.
 
 \subsubsection{Typescript}
-Von der VSCode Dokumentation wird die Implementierung eines \acrlong{lsp}-Servers in Typescript empfohlen.
+Von der VSCode Dokumentation wird die Implementierung eines \acrlong{lsp} Servers in Typescript nahegelegt~\cite{vscodeDoc}.
 Dafür werden Bibliotheken bereitgestellt.
-Typescript eignet sich gut, für die JSON Parsing und für die Verwendung von Server Sockets.
+Typescript eignet sich gut für das JSON Parsing und für die Verwendung von Server Sockets.
 Probleme entstehen bei Typescript bei den Themen Performance, Anbindung an den Parser und bei der Fehlerbehandlung.
 
 \subsubsection{Golang}
 Golang ist eine Sprache, welche für die Entwicklung von Backends ausgelegt wurde. \\
-Es werden die Anforderungen für JSON-Parsing, Std-IO und Server Sockets erfüllt, durch die große Standard Bibliothek erfüllt.
+Es werden die Anforderungen für JSON-Parsing, Std-IO und Server Sockets durch die große Standard-Bibliothek erfüllt.
 Es gibt keine Bibliothek welche das komplette Protokoll beinhaltet.
 Dieses kann jedoch durch die Unterstützung von \acrshort{llm}'s schnell generiert werden.\\
 Golang bietet zusätzlich eine simple Anbindung an den Parser und die Möglichkeit sehr einfach Parallelität einzubauen.
-Besonders erwähnenswert ist die Geschwindigkeit eines Golang Programmes und die Startgeschwindigkeit ohne auf Speichersicherheit zu verzichten.
+Besonders erwähnenswert ist die Geschwindigkeit eines Golang Programmes,ohne auf Speichersicherheit zu verzichten, und die hohe Startgeschwindigkeit, welche besonders beim häufigen Ausführen eines Programmes wichtig wird.
 
 \subsubsection{Java}
-Java bietet eine bietet mit ``lsp4j'' eine Bibliothek zur einfachen Entwicklung.
-Bei der Einbindung des Parsers gestalten sich jedoch zusätzliche Herausforderungen da, der Java Code plattform unabhängig kompiliert wird und plattform abhängigen Code aufrufen muss.
-Java benötigt für die Ausführung eine installierte Instanz der JRE. Die JRE muss nicht nur zusätzlich zum \acrlong{lsp}-Server verwaltet werden, sondern benötigt zusätzlich Zeit zum Starten.
-So muss der Entwickler länger warten bis seine Entwicklungsumgebung bereitsteht.
+Java bietet mit ``lsp4j'' eine Bibliothek zur einfachen Entwicklung.
+Bei der Einbindung des Parsers gestalten sich jedoch zusätzliche Herausforderungen, da der Java Code plattformunabhängig kompiliert wird, aber plattformabhängigen Code aufrufen muss.
+Java benötigt für die Ausführung eine installierte Instanz eines \acrlong{jre}s (\acrshort{jre}).
+Die \acrshort{jre} muss nicht nur zusätzlich zum \acrlong{lsp}-Server verwaltet werden, sondern benötigt zusätzlich Zeit zum Starten.
+So muss der Entwickler länger warten, bis seine Entwicklungsumgebung bereitsteht.
 
 
 \subsection{Generation von Codedateien in verschiedenen Sprachen}
-Ziel des DMFs ist aus Modellen viel Sourcecode zu generieren.
+Ziel des DMFs ist, aus Modellen viel Sourcecode zu generieren.
 Dabei soll den Entwicklern die Wahl zwischen mehreren Zielsprachen gegeben werden.
 Diese Generation wird beim Build und damit sehr häufig ausgeführt.
 Eine langsame Generation wird jeder Organisation viel Geld kosten.
 \\\\
-Die Generation muss somit schnell und Zielsprachen unabhängig sein.
-Sie muss auch aus von den Build Tools gestartet werden.
+Die Generation muss somit schnell und zielsprachenunabhängig sein.
+Sie muss auch von den Build Tools gestartet werden.
 
 \subsubsection{Golang Templates}
-Golang Standardbibliothek bietet die Möglichkeit Templates zu definieren.
+Golang Standardbibliothek bietet die Möglichkeit, Templates zu definieren.
 Diese Templates werden hauptsächlich für die Generierung von HTML genutzt.
-Da sie Golang die Templates nicht nur für HTML, sondern auch für generelle Texte anbietet, können diese auch für jede Zielsprache genutzt werden. \\
-Die Anforderungen an einen Webserver (Geschwindigkeit, Resourcen schonend, Simpel) komplementieren die Anforderungen an einen Codegenerator sehr gut. \\
+Da Golang die Templates nicht nur für HTML, sondern auch für generelle Texte anbietet, können diese auch für jede Zielsprache genutzt werden. \\
+Die Anforderungen an einen Webserver (Geschwindigkeit, ressourcenschonend, simpel) komplementieren die Anforderungen an einen Codegenerator sehr gut. \\
 Golang Templates stechen besonders für ihre Integration in \acrshort{ide}'s wie z.B.\ in Intellij heraus.
 
 \subsubsection{Java}
@@ -163,18 +164,18 @@ Beide sind gut unterstützt und bieten alle nötigen Features für die Generieru
 \subsubsection{Typescript}
 Für Typescript gibt es viele Template Engines.
 Zu den bekannten gehören Eta, liquidjs und squirrelly.
-Sie bieten alle die Möglichkeit verschiedene Zielsprachen zu generieren und können mit nodejs ausgeführt werden.
+Sie bieten alle die Möglichkeit, verschiedene Zielsprachen zu generieren und können mit nodejs ausgeführt werden.
 
 \subsubsection{Auswahl}
-Da Golang eine exzellente Unterstützung in Intellij hat und keine zusätzliche Installation wie NodeJs oder JRE verwalten muss, fiel meine Wahl auf Golang.
+Da Golang eine exzellente Unterstützung in Intellij hat und keine zusätzliche Installation wie NodeJs oder JRE verwalten muss, wurde Golang für die Implementierung des \acrshort{dmf}s ausgewählt.
 Die Verwaltung von zusätzlichen Runtimes stellt immer eine besondere Herausforderung dar, denn diese Runtimes werden häufig schon von den Entwicklern in einer bestimmten Version, die potenziell nicht kompatibel mit dem \acrshort{dmf} wäre, genutzt.
 Es müssen auch der Pfad zur Installation verwaltet werden, welcher sich zwischen Betriebssystemen unterscheiden kann.
 \newline
 Mit der Wahl für Golang für den Generator ist auch die Wahl für die Verarbeitung des \acrshort{ast}'s und für den \acrlong{lsp}-Server gefallen.
 
 \subsection{Integration mit verschiedenen Build Tools}
-Damit eine Generation während des Buildvorgangs ist essenziell, um sicherzustellen, dass der generierte Code aktuell ist.
-Damit der Neugeneration werden auch alle eventuelle Anpassungen in den Dateien überschrieben, wodurch Fehler vermieden werden.
+Eine Generation während des Buildvorgangs ist essenziell, um sicherzustellen, dass der generierte Code aktuell ist.
+Während der Neugeneration werden auch alle eventuelle unerwünschten Anpassungen in den Dateien überschrieben, wodurch Fehler vermieden werden.
 
 \subsubsection{Maven}
 Maven ist ein sehr verbreitetes Build Tool für Java.
@@ -185,7 +186,7 @@ Dies ist möglich, indem die Datei des Generators ausgeführt wird.
 
 \subsubsection{NPM}
 NPM ist das führende Build Tool für Typescript Projekte.
-NPM unterstützt die Ausführung von Terminal Befehlen.
+NPM unterstützt die Ausführung von Terminalbefehlen.
 Der Generator kann somit über das Terminal ausgeführt werden.
 
 % Einfachere Aufruf für Golang Programme 
