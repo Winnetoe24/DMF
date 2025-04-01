@@ -1,7 +1,7 @@
 {{define "entity"}}{{- /*gotype: github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages.EntityElement*/ -}}{{- $name := overrideClassName (nameFromPath .Path) .Override -}}package {{packagePath .Path}};
 {{$importKontext := createImportKontext .}}{{template "imports" $importKontext}}{{$fields := toFields .Argumente .Referenzen .MultiReferenzen $importKontext}}import java.util.Objects;
 
-{{template "comment" (overrideJavaDoc .Kommentar .Override)}}public class {{$name}} {{template "extends" createVererbungKontext .ExtendsPath .ImplementsPaths $importKontext .Override}}{
+{{template "comment" (overrideJavaDoc .Kommentar .Override)}}{{template "annotations" .Override}}public class {{$name}} {{template "extends" createVererbungKontext .ExtendsPath .ImplementsPaths $importKontext .Override}}{
     protected static {{$name}}Delegate delegate = new {{$name}}Delegate();
 {{range $index, $field := $fields}}{{template "field" $field}}{{end}}
 {{$funktionen := findImplementedFunctions .}}{{range $index, $method := $funktionen}}{{template "method" createFunktionKontext $method $importKontext}}{{if ne $index (subtract (len $funktionen) 1)}}
