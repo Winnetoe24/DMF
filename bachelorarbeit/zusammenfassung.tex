@@ -7,7 +7,7 @@ ohne die Nachteile eines unflexiblen Frameworks (wie z.B. \acrshort{emf}), nutze
 Ein unflexibles Framework besitzt mehrere Nachteile.\\
 Es fördert die Konzentrierung von Wissen und Erfahrung auf die verwendeten Technologien, wodurch die Breite der Erfahrungen gemindert wird.
 Eine geringe Breite der Erfahrungen innerhalb eines Teams verhindert eine richtige Evaluation der bisherigen Vorgehensweise.\\
-Es senkt die Anzahl der Bewerber, da die verwendeten Technologien an Popularität verlieren werden und erzeugt eine Anfälligkeit gegenüber Sicherheitslücken,
+Es senkt die Anzahl der Bewerber*innen, da die verwendeten Technologien an Popularität verlieren werden und erzeugt eine Anfälligkeit gegenüber Sicherheitslücken,
 da jedes Programm auf den gleichen Technologien mit den gleichen Schwachstellen basiert.\\
 Das \acrshort{dmf} hat den Anspruch mithilfe von Flexibilität in allen Aspekten des Frameworks die Nachteile bestehender Technologien zu vermeiden.
 Die Flexibilität wurde im Design und den verwendeten Technologien beachtet, um eine Nutzung in jeder Entwicklungsumgebung zu ermöglichen.
@@ -23,7 +23,7 @@ Der Parser unterstützt sowohl das Parsen einer kompletten Datei als auch das in
 Mithilfe der Implementierung der zentralen semantischen Verarbeitung des \acrshort{ast}s konnte der \acrshort{lsp}-Server und der Generator mit einer allgemeinen Interpretation und Verarbeitung implementiert werden.
 \\\\
 Dank des \acrshort{lsp}-Servers können Entwickler*innen \acrshort{dmf}-Modelle in den meisten \acrshort{ide}s einsetzen.
-Durch die zusätzlichen Plugins ist der Einsatz in Intellij und Visual Studio Code nochmals stark vereinfacht worden.\\
+Durch die zusätzlichen Plugins ist der Einsatz in IntelliJ und Visual Studio Code nochmals stark vereinfacht worden.\\
 Ein Nebeneffekt des \acrshort{lsp} ist die schnellere Entwicklung von Erweiterungen für nicht kompatible \acrshort{ide}s.
 Da dieses Protokoll so weit verbreitet ist, kann auf mehr Dokumentation für die Entwicklung zurückgegriffen werden.\\
 Dank des schnellen und inkrementellen Parsen durch die Nutzung von Treesitter kann eine reaktionsschnelle und intuitive Nutzung der \acrshort{ide}s geboten werden.
@@ -32,25 +32,25 @@ Mithilfe verschiedener Strukturen der Sprachen ließ sich der \acrshort{lsp}-Ser
 Durch die Kompilierung von Golang wurde der Server zusätzlich beschleunigt und die Verwaltung der Installation vereinfacht.
 \\\\
 Diese Effekte der Wahl von Golang lassen sich auch beim Generator feststellen.
-Durch die parallele Generierung von Dateien erwies sich der Generator als sehr zeitsparend in der Nutzung.
+Aufgrund der parallelen Generierung von Dateien erwies sich der Generator als sehr zeitsparend in der Nutzung.
 Dadurch wird die Fokussierung der Entwickler*innen auf die Entwicklung erleichtert und es wird die Produktivität gesteigert.
 Der Generator ist in der Lage komplette Modelle in der Startzeit einer JVM zu generieren.\\
-Mit der Unterstützung von Java und Typescript kann das \acrshort{dmf} in verschiedenen Projekten eingesetzt werden.
+Mit der Unterstützung von Java und TypeScript kann das \acrshort{dmf} in verschiedenen Projekten eingesetzt werden.
 Dabei ermöglicht das Maven Plugin auch einen reibungslosen Einsatz in einem Framework mit einer anderen Implementierungssprache.\\
 Dank der Delegate Strukturen können Teile des Modells immer neu generiert werden, ohne die Implementierung der Funktionen zu überschreiben.
 Entwickler*innen können so risikofrei den Generator nutzen.\\
 Durch die Generierung eines Datenbankschemas ist die korrekte Einrichtung einer Datenbankinstanz auch in großen Modellen sehr leicht.
 \\\\
 Das beschriebene Beispielprojekt zeigt, dass das \acrshort{dmf} schon heute einsatzbereit ist.
-Gerade wenn ein Modell sowohl in Typescript als auch in Java genutzt werden soll, bietet es entscheidende Vorteile gegenüber vergleichbaren Frameworks.
-Es steigert dabei abhängig von der Modell- und Team-größe die Produktivität und spart so Kosten.
+Gerade wenn ein Modell sowohl in TypeScript als auch in Java genutzt werden soll, bietet es entscheidende Vorteile gegenüber vergleichbaren Frameworks.
+Es ist anzunehmen, dass das \acrshort{dmf} dabei abhängig von der Modell- und Teamgröße die Produktivität steigert und so Kosten spart.
 \\\\
 Doch es gibt auch Schwachstellen der bisherigen Implementierung.
 Deswegen bietet sich auch ein Ausblick in eine potenzielle Entwicklung des \acrshort{dmf}s an.
 \section{Ausblick}\label{sec:ausblick}
 Bisher werden keine automatischen Mappings für \acrshort{orm} Frameworks erzeugt, wodurch die komplette Persistenz manuell implementiert werden muss.
     Deshalb wird es sich als besonders schwierig herausstellen, ein großes Projekt mit einer Datenbankverbindung zu pflegen.
-    Die zusätzlichen Kosten würden den Vorsprung, den das \acrshort{dmf} durch die flexibilität des Frameworks besitzt, überschatten.
+    Der zusätzliche Aufwand würde den Vorsprung, den das \acrshort{dmf} durch die flexibilität des Frameworks besitzt, überschatten.
     \\\\
     Die Flexibilität ist auch ein weiteres Ziel, welches stark ausgebaut werden kann.
     Durch die Implementierung neuer Generationsziele können mehr Projekte das \acrshort{dmf} nutzen und bisherige Projekte erhalten mehr Freiheiten in der Technologiewahl.
@@ -58,15 +58,15 @@ Bisher werden keine automatischen Mappings für \acrshort{orm} Frameworks erzeug
     Um den Entwickler*innen die vollständige Kontrolle über die Generation zu geben, wäre die Implementierung einer Schnittstelle zur Definition eigener Generationsziele denkbar.
     Denkbar wäre das Laden neuer Golang Templates mit einer Schnittstelle für die Funktionen in der Generation.
     Für die Implementierungssprache der Funktionen kämmen mehrere Sprachen infrage.
-    Sowohl Javascript und Python sind weit verbreitet.\\
-    Jedoch sind die Schnittstellen zu Javascript für die Ausführung in einem Browser ausgelegt.
+    Sowohl JavaScript und Python sind weit verbreitet.\\
+    Jedoch sind die Schnittstellen zu JavaScript für die Ausführung in einem Browser ausgelegt.
     Zur Nutzung müsste der Generator in \acrfull{wasm} kompiliert werden.\\
     Python Funktionen lassen sich über eine C-Schnittstelle ausführen.\\
     Deutlich weiterentwickelt ist die Integration zwischen Lua und Golang.
     Somit wären Golang-Templates und eine Lua Schnittstelle zur Definition wahrscheinlich.
     \\\\
     Durch die Implementierung neuer Override Funktionen würde sich das Framework an andere Architekturen besser anpassen können.
-    Infrage kämen Optionen für Typescript und die Datenbank.\\
+    Infrage kämen Optionen für TypeScript und die Datenbank.\\
     Zusätzlich wären auch Modellweite Overrides, die Einstellungen für eine bestimmte Elementgruppe treffen, denkbar.
     \\\\
     Um die Zusammenarbeit in größeren Teams oder zwischen verschiedenen Teams im Kontext von \acrshort{ple} zu erleichtern, wäre eine automatische Generierung einer Dokumentation hilfreich.

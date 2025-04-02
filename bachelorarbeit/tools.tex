@@ -1,4 +1,5 @@
 \documentclass[./einleitung.tex]{subfiles}
+\usepackage{glossaries}
 \begin{document}
 \section{Auswahl der verwendeten Technologien}\label{sec:auswahl-der-verwendeten-technologien}
 Ein zentraler Teil einer Architektur ist die Auswahl der verwendeten Technologien.
@@ -6,9 +7,9 @@ Diese Technologien sollen die Lösung der Aufgaben einer Software vereinfachen.
 \newline
 Im DMF müssen folgende Aufgaben gelöst werden:
 \begin{enumerate}
-\item Modelldatei Parsen und \acrshort{ast} generieren
+\item Modelldatei parsen und \acrshort{ast} generieren
 \item \acrshort{ast} auslesen und verarbeiten
-\item Kommunikation mit verschiedenen \acrshort{ide}'s
+\item Kommunikation mit verschiedenen \acrshort{ide}s
 \item Generieren von Codedateien in verschieden Sprachen
 \item Integration mit verschiedenen Build Tools
 \end{enumerate}
@@ -18,16 +19,16 @@ Die Entwicklung eigener \acrshort{dsl}s kann durch Frameworks vereinfacht werden
 Es müssen keine einzelnen Lösungen für die verschiedenen Probleme gefunden werden, da ein Framework schon eine komplette Lösung bereitstellt.
 \subsubsection{XText}
 XText ist ein Framework der Eclipse Foundation.\\
-Es bietet die Möglichkeit eine \acrfull{dsl} mit verschiedenen Modellen zu modellieren und Regeln automatisch zu überprüfen.
+Es bietet die Möglichkeit eine \acrfull{dsl} mit verschiedenen Modellen zu modellieren und Regeln automatisch zu überprüfen (siehe~\cite{xtextWebsite}).
 XText setzt auf Modellierung vieler Bestandteile und generiert andere Komponenten komplett.
 Dies ermöglicht eine schnelle Entwicklung, wenn die Anforderungen perfekt zu XText passen.
 XText schränkt stark ein, wo Anpassungen vorgenommen werden können.
 So ist es nicht vorgesehen die \acrshort{lsp}-Server (\nameref{sec:der-lsp-server}) Implementierung anzupassen, obwohl XText nicht alle Features des \acrlong{lsp}-Protokolls unterstützt.
-Dateigeneration und die Verarbeitung des AST's müssen auch mit den Java-Interfaces von XText vorgenommen werden.
-Dies setzt immer die Verwendung von JVM basierten Sprachen voraus.
-Jede JVM-Implementierung benötigt beachtliche Zeit zum Starten weshalb Code Generation immer auf den Start Warten muss. \\
+Dateigeneration und die Verarbeitung des \acrshort{ast}s müssen auch mit den Java-Interfaces von XText vorgenommen werden.
+Dies setzt immer die Verwendung von \acrshort{jvm} basierten Sprachen voraus.
+Jede \acrshort{jvm}-Implementierung benötigt beachtliche Zeit zum Starten weshalb Code Generation immer auf den Start Warten muss. \\
 Abschließend waren an XText die nicht funktionierenden Beispiel-Projekte und die zwingende Entwicklung in Eclipse sehr einschränkend.
-Ein Framework welche eine einfache und flexible Entwicklung ermöglichen soll, sollte nicht schwer und nur in einer \acrshort{ide} zu entwickeln sein.
+Ein Framework, welches eine einfache und flexible Entwicklung ermöglichen soll, sollte nicht schwierig und nur in einer \acrshort{ide} zu entwickeln sein.
 
 \subsubsection{Jetbrains MPS}
 Mit der MPS-\acrshort{ide} bietet Jetbrains die Möglichkeit eigene \acrshort{dsl}s zu entwickeln.\\
@@ -37,15 +38,15 @@ Die angestrebte Flexibilität des \acrshort{dmf}s ist damit nicht gegeben.
 Da kein Framework den Anforderungen des \acrshort{dmf} genügt, müssen Technologien für einzelne Probleme ausgewählt werden.
 \subsection{Parser}
 Der Parser für das \acrshort{dmf} muss große Dateien wiederholt mit kleinen Änderungen parsen.
-Diese Anforderung stammt aus der Notwendigkeit des \acrshort{ast}'s um syntaktische und semantische Fehler zu erkennen, sowie die verschiedenen Tokens(siehe Abschnitt \acrshort{lsp}) nach jeder Eingabe an die \acrshort{ide} zu übermitteln.
-Hierbei ist Latenz die höchste Priorität, denn die Reaktionsfähigkeit der \acrshort{ide} beeinflusst die Geschwindigkeit mit der entwickelt werden kann. \\
-Zusätzlich muss der Parser auch von jeder anderen Komponente des \acrshort{dmf}'s verwendet werden.
-Deshalb ist hier die Einschränkung der Technologien anderer Komponenten unerwünscht.
+Diese Anforderung stammt aus der Notwendigkeit des \acrshort{ast}s um syntaktische und semantische Fehler zu erkennen sowie die verschiedenen Tokens (siehe Abschnitt \acrshort{lsp}) nach jeder Eingabe an die \acrshort{ide} zu übermitteln.
+Hierbei ist Latenz die höchste Priorität, denn die Reaktionsfähigkeit der \acrshort{ide} beeinflusst die Geschwindigkeit, mit der entwickelt werden kann. \\
+Zusätzlich muss der Parser auch von jeder anderen Komponente des \acrshort{dmf}s verwendet werden.
+Deshalb ist hier die Einschränkung der Auswahl der Technologien anderer Komponenten, durch die Auswahl der Technologie für den Parser, unerwünscht.
 
 \subsubsection{Treesitter}
 Treesitter ist ein Open Source Framework zur Generierung von Parsern.\\
-Dabei wird die Grammatik mithilfe eines Javascript \acrlong{api} definiert.
-Mithilfe der Treesitter \acrlong{cli} wird aus der Javascript Datei der Parser generiert. \\
+Dabei wird die Grammatik mithilfe eines JavaScript \acrfull{api} definiert.
+Mithilfe der Treesitter \acrlong{cli} wird aus der JavaScript Datei der Parser generiert. \\
 
 \paragraph[LR-Parsern]{Bei LR-Parsern}\label{par:lr-parser} handelt es sich um sogenannte ``Bottom-Up-Parser''.
 Diese Parser bauen den \acrshort{ast} von den Blättern auf.
@@ -54,9 +55,9 @@ Für die Generierung von Parsern eignen sich LR-Parser, da die Aktions-Tabellen,
 Aus diesen Gründen generiert Treesitter LR(1)-Parser.
 \\\\
 Der generierte Parser nutzt C als Implementierungssprache.
-C eignet sich hier sehr gut, da es die hohe Performance und die Möglichkeit es in jeder anderen Sprache zu nutzen bietet.
+C eignet sich hier sehr gut, da es die hohe Performance und die Möglichkeit, es in jeder anderen Sprache zu nutzen, bietet.
 Das Nutzen von C ist für jede Sprache eine Voraussetzung, um mit dem Betriebssystem zu kommunizieren.
-C's größter Nachteil, die manuelle Speicherverwaltung, wird durch die Generation des Parsers gelöst.
+Cs größter Nachteil, die manuelle Speicherverwaltung, wird durch die Generation des Parsers gelöst.
 Die bereitgestellten Schnittstellen übergeben Strukturen, welche vom Aufrufer verwaltet werden.
 \paragraph{Inkrementelles Parsen}
 Ein großes Unterscheidungsmerkmal von Treesitter ist die Möglichkeit inkrementell zu parsen.
@@ -64,29 +65,29 @@ Ein großes Unterscheidungsmerkmal von Treesitter ist die Möglichkeit inkrement
  \begin{center}
  \textit{With intelligent [node] reuse, changes match the user’s in
 tuition; the size of the development record is decreased; and the performance
- of further analyses (such as semantics) improves.\cite{twagner}}
+ of further analyses (such as semantics) improves.~\cite{twagner}}
  \end{center}
-Beim inkrementellen Parsen ist das Ziel den \acrshort{ast} nicht bei jedem Parse-Durchlauf neu zu erstellen, sondern möglichst viel des \acrshort{ast}'s wiederzuverwenden.
+Beim inkrementellen Parsen ist das Ziel, den \acrshort{ast} nicht bei jedem Parse-Durchlauf neu zu erstellen, sondern möglichst viel des \acrshort{ast}s wiederzuverwenden.
 Für das inkrementelle Parsen muss der \acrshort{ast} sowie die bearbeiteten Textstellen an Treesitter übergeben werden.
 Die Durchlaufzeit des inkrementellen Parse-Durchlaufs hängt nicht mehr der Länge der kompletten Modelldatei ab, sondern nur von den neuen Terminalsymbolen und Modifikationen im \acrshort{ast}:
  \newline
  \begin{center}
- \textit{Our incremental parsing algorithm runs in O(t + slgN) time for t new terminal symbols and s modification sites in a tree containing N nodes \cite{twagner}}
+ \textit{Our incremental parsing algorithm runs in O(t + slgN) time for t new terminal symbols and s modification sites in a tree containing N nodes.~\cite{twagner}}
  \end{center}
 \subsubsection{\acrfull{ant}}
-Das Ziel von \acrshort{ant} ist sehr ähnlich zu Treesitter: ein Framework für die einfache Entwicklung von Parsern zu bieten. \\
+Das Ziel von \acrshort{ant} ist sehr ähnlich zu Treesitter: ein Framework für die einfache Entwicklung von Parsern zu bieten~(siehe~\cite{antlrWebsite}). \\
 Doch es zeigen sich tiefere Unterschiede in den Strategien der Frameworks.
 \acrshort{ant} benutzt wie auch Treesitter ein eigenes \acrfull{api} zum Schreiben der Grammatiken.
-Diese \acrshort{api} nutzt jedoch keine weitverbreitete Sprache wie Javascript, sondern \acrshort{ant} setzt auf eine eigne \acrfull{dsl}.
+Diese \acrshort{api} nutzt jedoch keine weitverbreitete Sprache wie JavaScript, sondern \acrshort{ant} setzt auf eine eigne \acrfull{dsl}.
 Dies erhöht die Ausdruckskraft der \acrshort{api}, jedoch auch den Einarbeitungsaufwand.\\
 Das \acrshort{ant} Framework verzichtet auf die Möglichkeit inkrementell zu Parsen und bietet stattdessen die Generation von LL(*)-Parsern.
 
-\paragraph{LL-Parser} Im Gegensatz zu \nameref{par:lr-parser} handelt es sich bei LL-Parsern um `top-down-parser'.
+\paragraph{LL-Parser} Im Gegensatz zu \nameref{par:lr-parser} handelt es sich bei LL-Parsern um `Top-Down-Parser'.
 Sie bauen damit den AST von der Wurzel aus auf.
 Dafür benötigen die Parser einen Look-Ahead, welcher mehr als ein Zeichen enthält.
 Bei den Look-Ahead handelt es sich um Eingabe Tokens welche für die Entscheidung zwischen verschiedenen Regeln der Grammatik benötigt werden.
 \acrshort{ant} generiert LL(*)-Parser, welche die Größe des Look-Ahead dynamisch anpassen können.
-So können die Parser deutlich mehr Grammatiken verarbeiten und produzieren bessere ASTs als LL(k)-Parser. (vgl.~\cite{parr2011ll})
+So können die Parser deutlich mehr Grammatiken verarbeiten und produzieren bessere ASTs als LL(k)-Parser~(vgl.~\cite{parr2011ll}).
 Der Look-Ahead verhindert jedoch das inkrementelle Parsen, da der Zustand des Look-Aheads sich bei jedem Schritt verändert und nicht aus dem AST wiederherstellbar ist.
 
 \subsubsection{Auswahl Parser}
@@ -94,55 +95,64 @@ Für das \acrshort{dmf} Framework wurde Treesitter verwendet.
 Die exzellente Performance sowie die Flexibilität bei der Implementierung der restlichen Komponenten hoben Treesitter von den restlichen Technologien ab.
 
 
-\subsection{\acrshort{ast} Verarbeiten}
-Bei der Verarbeitung des \acrshort{ast}'s müssen verschiedene Regeln abgearbeitet werden und der Inhalt des \acrshort{ast}'s in einem Modell vorbereitet werden.
+\subsection{\acrshort{ast} Verarbeitung}
+Bei der Verarbeitung des \acrshort{ast}s müssen verschiedene Regeln abgearbeitet werden und der Inhalt des \acrshort{ast}s in einem Modell vorbereitet werden.
 Essenziell für die Verarbeitung ist die Zusammenarbeit mit den folgenden Komponenten.
 
 Die Auswahl der Technologie für diesen Schritt basiert auf der Auswahl für die folgenden Schritte.
 
 \subsection{Kommunikation mit verschiedenen \acrshort{ide}'s}
 Damit ein Framework die Entwicklung nicht einschränkt, muss es in verschiedenen \acrlong{ide}s (\acrshort{ide}) genutzt werden können.
-Viele IDE's stellen Schnittstellen für Plugins bereit.
-Dazu zählen u. A. Intellij, Eclipse, NeoVim und VSCode.
+Viele IDEs stellen Schnittstellen für Plugins bereit.
+Dazu zählen u. A. IntelliJ, Eclipse, NeoVim und Visual Studio Code.
 Jede Schnittstelle ist jedoch unterschiedlich, wodurch die Entwicklung von vielen verschiedenen Plugins nötig wäre.
+
 \paragraph{\acrfull{lsp}}\hypertarget{lsp-ziel}
 Eine einfachere Möglichkeit bietet das \acrfull{lsp}.
-Dieses Protokoll bietet die Möglichkeit, dass viele verschiedene \acrshort{ide}'s eine Serverimplementierung nutzen.
-Im Fall von Zed und Eclipse lassen sich \acrlong{lsp} Server sogar ohne jegliche Plugins einbinden,
-wobei hier auf die schlechte Unterstützung des \acrlong{lsp}-Protokolls in Eclipse hingewiesen werden muss.
-Intellij und NeoVim nutzen Plugins, um \acrlong{lsp}-Server anzubinden.
-VSCode bietet ein \acrlong{api} und einen einfachen \acrlong{lsp}-Client in ein kleines Plugin zu implementieren.
-Im \acrlong{lsp}-Server können gebündelt Logik und Protokoll implementiert werden.
+Dieses Protokoll bietet die Möglichkeit, dass viele verschiedene \acrshort{ide}s eine Serverimplementierung nutzen.
+Im Fall von Zed und Eclipse lassen sich \acrshort{lsp}-Server sogar ohne jegliche Plugins einbinden,
+wobei hier auf die schlechte Unterstützung des \acrshort{lsp}s in Eclipse hingewiesen werden muss.
+IntelliJ und NeoVim nutzen Plugins, um \acrshort{lsp}-Server anzubinden.
+Visual Studio Code bietet ein \acrlong{api} und einen einfachen \acrshort{lsp}-Client in ein kleines Plugin zu implementieren.
+Im \acrshort{lsp}-Server können gebündelt die Logik und das Protokoll implementiert werden.
 \newline\newline
-\acrlong{lsp} wird hauptsächlich über die Standard-Eingabe und -Ausgabe oder über einen Server Socket transportiert.
+Das \acrlong{lsp} wird hauptsächlich über die Standard-Eingabe und -Ausgabe oder über einen Server Socket transportiert.
 Es wird ein JSON-RPC Format genutzt.
-Der \acrlong{lsp}-Server muss somit JSON, Std-In und Std-Out, sowie Server Sockets unterstützen.
+Der \acrshort{lsp}-Server muss somit JSON, Std-In und Std-Out, sowie Server Sockets unterstützen.
 
-\subsubsection{Typescript}
-Von der VSCode Dokumentation wird die Implementierung eines \acrlong{lsp} Servers in Typescript nahegelegt~\cite{vscodeDoc}.
+\subsubsection{TypeScript}
+Von der Visual Studio Code Dokumentation wird die Implementierung eines \acrshort{lsp} Servers in TypeScript nahegelegt~\cite{vscodeDoc}.
 Dafür werden Bibliotheken bereitgestellt.
-Typescript eignet sich gut für das JSON Parsing und für die Verwendung von Server Sockets.
-Probleme entstehen bei Typescript bei den Themen Performance, Anbindung an den Parser und bei der Fehlerbehandlung.
+TypeScript eignet sich gut für das JSON-Parsing und für die Verwendung von Server Sockets.
+Probleme entstehen bei TypeScript bei den Themen Performance, Anbindung an den Parser und bei der Fehlerbehandlung.\\
+Für die Ausführung von TypeScript wird ein zusätzliches Programm (Runtime) benötigt.
+Die Runtime hat einen Einfluss auf die Geschwindigkeit während der Ausführung, kann jedoch nicht für die nicht vorhandene Parallelität in JavaScript kompensieren.
+Zusätzlich muss das Programm bei jeder Ausführung interpretiert werden.
+So schafft es TypeScript nicht die Performance anderer Sprachen zu übertreffen\\
+(siehe~`Node\.Js'~in~\cite{performanceLanguages}).\\
+Die Anbindung an den Parser gestaltet sich als schwierig, da TypeScript (bzw.~JavaScript) nicht darauf ausgelegt ist, andere Sprachen aufzurufen.
+Es ist jedoch möglich durch die Verwendung von zusätzlichem C-Code Aufrufe zumindest von einer C-Funktion zu ermöglichen~(vgl.~\cite{callCFromJS}).
+
 
 \subsubsection{Golang}
 Golang ist eine Sprache, welche für die Entwicklung von Backends ausgelegt wurde. \\
 Es werden die Anforderungen für JSON-Parsing, Std-IO und Server Sockets durch die große Standard-Bibliothek erfüllt.
 Es gibt keine Bibliothek welche das komplette Protokoll beinhaltet.
-Dieses kann jedoch durch die Unterstützung von \acrshort{llm}'s schnell generiert werden.\\
+Dieses kann jedoch durch die Unterstützung von \acrshort{llm}s schnell generiert werden.\\
 Golang bietet zusätzlich eine simple Anbindung an den Parser und die Möglichkeit sehr einfach Parallelität einzubauen.
-Besonders erwähnenswert ist die Geschwindigkeit eines Golang Programmes,ohne auf Speichersicherheit zu verzichten, und die hohe Startgeschwindigkeit, welche besonders beim häufigen Ausführen eines Programmes wichtig wird.
+Besonders erwähnenswert ist die Geschwindigkeit eines Golang-Programmes (vgl.~\cite{performanceLanguages}), ohne auf Speichersicherheit zu verzichten, und die hohe Startgeschwindigkeit, welche besonders beim häufigen Ausführen eines Programmes wichtig wird.
 
 \subsubsection{Java}
-Java bietet mit ``lsp4j'' eine Bibliothek zur einfachen Entwicklung.
+Java bietet mit ``lsp4j'' eine Bibliothek zur einfachen Entwicklung eines \acrshort{lsp}-Servers.
 Bei der Einbindung des Parsers gestalten sich jedoch zusätzliche Herausforderungen, da der Java Code plattformunabhängig kompiliert wird, aber plattformabhängigen Code aufrufen muss.
 Java benötigt für die Ausführung eine installierte Instanz eines \acrlong{jre}s (\acrshort{jre}).
-Die \acrshort{jre} muss nicht nur zusätzlich zum \acrlong{lsp}-Server verwaltet werden, sondern benötigt zusätzlich Zeit zum Starten.
+Die \acrshort{jre} muss nicht nur zusätzlich zum \acrshort{lsp}-Server verwaltet werden, sondern benötigt zusätzlich Zeit zum Starten.
 So muss der Entwickler länger warten, bis seine Entwicklungsumgebung bereitsteht.
 
 
 \subsection{Generation von Codedateien in verschiedenen Sprachen}
 Ziel des DMFs ist, aus Modellen viel Sourcecode zu generieren.
-Dabei soll den Entwicklern die Wahl zwischen mehreren Zielsprachen gegeben werden.
+Dabei soll den Entwickler*innen die Wahl zwischen mehreren Zielsprachen gegeben werden.
 Diese Generation wird beim Build und damit sehr häufig ausgeführt.
 Eine langsame Generation wird jeder Organisation viel Geld kosten.
 \\\\
@@ -150,31 +160,31 @@ Die Generation muss somit schnell und zielsprachenunabhängig sein.
 Sie muss auch von den Build Tools gestartet werden.
 
 \subsubsection{Golang Templates}
-Golang Standardbibliothek bietet die Möglichkeit, Templates zu definieren.
+Die Golang-Standardbibliothek bietet die Möglichkeit, Templates zu definieren.
 Diese Templates werden hauptsächlich für die Generierung von HTML genutzt.
 Da Golang die Templates nicht nur für HTML, sondern auch für generelle Texte anbietet, können diese auch für jede Zielsprache genutzt werden. \\
 Die Anforderungen an einen Webserver (Geschwindigkeit, ressourcenschonend, simpel) komplementieren die Anforderungen an einen Codegenerator sehr gut. \\
-Golang Templates stechen besonders für ihre Integration in \acrshort{ide}'s wie z.B.\ in Intellij heraus.
+Golang Templates stechen besonders für ihre Integration in \acrshort{ide}'s wie z.B.\ in IntelliJ heraus.
 
 \subsubsection{Java}
 Es gibt mehrere Template Engines für Java.
 Einige Beispiele wäre FreeMarker oder Apache Velocity.
-Beide sind gut unterstützt und bieten alle nötigen Features für die Generierung von Code.
+Beide sind gut unterstützt und ermöglichen die Generierung von Code unterschiedlichen Programmiersprachen und Formaten.
 
-\subsubsection{Typescript}
-Für Typescript gibt es viele Template Engines.
+\subsubsection{TypeScript}
+Für TypeScript gibt es viele Template Engines.
 Zu den bekannten gehören Eta, liquidjs und squirrelly.
-Sie bieten alle die Möglichkeit, verschiedene Zielsprachen zu generieren und können mit nodejs ausgeführt werden.
+Sie bieten alle die Möglichkeit, verschiedene Zielsprachen zu generieren und können mit Node\.Js ausgeführt werden.
 
 \subsubsection{Auswahl}
-Da Golang eine exzellente Unterstützung in Intellij hat und keine zusätzliche Installation wie NodeJs oder JRE verwalten muss, wurde Golang für die Implementierung des \acrshort{dmf}s ausgewählt.
+Da Golang eine exzellente Unterstützung in IntelliJ hat und keine zusätzliche Installation wie Node\.Js oder JRE verwalten muss, wurde Golang für die Implementierung des \acrshort{dmf}s ausgewählt.
 Die Verwaltung von zusätzlichen Runtimes stellt immer eine besondere Herausforderung dar, denn diese Runtimes werden häufig schon von den Entwicklern in einer bestimmten Version, die potenziell nicht kompatibel mit dem \acrshort{dmf} wäre, genutzt.
 Es müssen auch der Pfad zur Installation verwaltet werden, welcher sich zwischen Betriebssystemen unterscheiden kann.
 \newline
-Mit der Wahl für Golang für den Generator ist auch die Wahl für die Verarbeitung des \acrshort{ast}'s und für den \acrlong{lsp}-Server gefallen.
+Mit der Wahl für Golang für den Generator ist auch die Wahl für die Verarbeitung des \acrshort{ast}s und für den \acrshort{lsp}-Server gefallen.
 
 \subsection{Integration mit verschiedenen Build Tools}
-Eine Generation während des Buildvorgangs ist essenziell, um sicherzustellen, dass der generierte Code aktuell ist.
+Eine Generation während des Buildvorgangs ist essenziell, um sicherzustellen, dass der generierte Code immer aktuell ist.
 Während der Neugeneration werden auch alle eventuelle unerwünschten Anpassungen in den Dateien überschrieben, wodurch Fehler vermieden werden.
 
 \subsubsection{Maven}
@@ -185,7 +195,7 @@ Dieses Plugin muss den Generator aufrufen.
 Dies ist möglich, indem die Datei des Generators ausgeführt wird.
 
 \subsubsection{NPM}
-NPM ist das führende Build Tool für Typescript Projekte.
+NPM ist das führende Build Tool für TypeScript Projekte.
 NPM unterstützt die Ausführung von Terminalbefehlen.
 Der Generator kann somit über das Terminal ausgeführt werden.
 

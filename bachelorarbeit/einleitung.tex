@@ -8,10 +8,7 @@
 \usepackage{calc}
 \usepackage{pgf}
 \usepackage{float}
-
-
-
-
+\usepackage[ngerman=ngerman-x-latest]{hyphsubst}
 
 
 \colorlet{currenttext}{.}% store current text color
@@ -91,15 +88,7 @@ integer
   morestring=[b]`,
   morestring=[b]"
 }
-%
-%\lstdefinelanguage{Typescript}{ %TODO Typescript lst
-%    morekeywords=[1]{dmf, model, version, package, struct, entity, interface, enum, arg, ref, func, identifier, import, from, extends, implements, expand, override, java, annotations, javaDoc, class, name, type},
-%    morekeywords=[2]{},
-%    morekeywords=[3]{int,byte,double,void,boolean, string, date, datetime},
-%    sensitive=false, % keywords are not case-sensitive
-%    morecomment=[l]{//}, % l is for line comment
-%    morestring=[b]" % defines that strings are enclosed in double quotes
-%} %
+
 
 
 \lstdefinestyle{dmfstyle} {
@@ -251,6 +240,7 @@ Die Erklärung der technischen Spezifikation befindet sich im Abschnitt zum \hyp
 \newacronym{orm}{ORM}{Object Relational Mapping}
 \newacronym{wasm}{Wasm}{WebAssembly}
 \newacronym{jre}{JRE}{Java Runtime Environment}
+\newacronym{faa}{FAA}{Federal Aviation Administration}
 \newacronym{}{}{}
 
 \begin{document}

@@ -1,11 +1,12 @@
 \documentclass[./einleitung.tex]{subfiles}
+\usepackage{glossaries}
 \begin{document}
-Die zentrale Modellierung von Domainmodellen ist sehr verbreitet in der Entwicklung von großen Software-Projekten und zentraler Bestandteil von Product Line Engineering.
+Die zentrale Modellierung von Domainmodellen ist sehr verbreitet (vgl.~\cite[p. 7]{usageOfMDSD}) in der Entwicklung von großen Software-Projekten und zentraler Bestandteil von Product Line Engineering.
 Sie fällt damit in den Bereich der \acrfull{mdsd}.
 Dabei stellt die Modellierung des Domainmodells einen Kompromiss zwischen der kompletten Modellierung einer Software und der klassischen Entwicklung ohne Modelle dar. \\
 Ziel dieses Kompromisses ist die Effizienz und Sicherheit der Codegenerierung für das Datenmodell einzusetzen, um die Entwicklung der restlichen Software zu vereinfachen.
 % Ziel dieser Arbeit ist die Entwicklung des flexiblen Frameworks...
-Bevor wir in Kapitel~\ref{sec:aufgabenstellung} die Anforderungen an ein flexibles Framework zur Generierung von Datenmodellen beschreiben, werden wir zunächst grundlegende Themen behandeln.
+Bevor wir im Abschnitt~\ref{sec:aufgabenstellung} die Anforderungen an ein flexibles Framework zur Generierung von Datenmodellen beschreiben, werden wir zunächst grundlegende Themen behandeln.
 \section{\acrfull{mdsd}}\label{subsec:mdsd}
 \begin{center}
     \textit{Modellgetriebene Softwareentwicklung (Model Driven Software Development, MDSD) ist ein Oberbegriff für Techniken, die aus formalen Modellen automatisiert lauffähige~Software erzeugen.} \cite[p. 11]{modellbuch}
@@ -30,11 +31,12 @@ Datenmodelle stellen im \acrshort{ple} wichtige Assets dar.
 Einheitliche Modelle verhindern das Übersetzen zwischen verschiedenen Produkte.
 
 \section{\acrshort{emf}}\label{subsec:emf}
-\acrfull{emf} ist ein häufig eingesetztes Framework zur Modellierung von Modellen in Java.
+Das \acrfull{emf} ist ein häufig eingesetztes Framework zur Modellierung von Modellen in Java (vgl.~\cite[p. 15]{usageOfMDSD}).
 Es lassen sich große Modelle darstellen und mithilfe von Maven Workflows können diese durch das Build Tool übersetzt werden. \\
 EMF bietet dabei jedoch keine Wahl bei der \acrshort{ide} oder der Programmiersprache.
 Dies führt dazu, dass Projekte und ganze Firmen bei ihren bisherigen Technologien stehen bleiben.
-Es wird bei Neuentwicklungen nicht mehr die gefragt, was wären die besten Technologien um das Problem zu lösen, sondern es wird gefragt, wie lösen wir das mit unserer bisherigen Architektur.
+Es wird bei Neuentwicklungen nicht mehr gefragt, was wären die besten Technologien um das Problem zu lösen, sondern es wird gefragt, wie kann das Problem mit der bisherigen Architektur gelöst werden.
+Somit hängt die Architektur von der Verwendung des Modellierungsframeworks ab.
 \subsection{Effekte eines unflexiblen Frameworks}\label{subsec:effekte-eines-unflexiblen-frameworks}
 Ein wenig flexibles Framework wie \acrshort{emf} beeinträchtigt das Projekt auf mehreren Ebenen:
 \begin{enumerate}
@@ -42,8 +44,8 @@ Ein wenig flexibles Framework wie \acrshort{emf} beeinträchtigt das Projekt auf
 Da nur eine Architektur in Betracht gezogen wird, hat jedes Mitglied des Teams nur Erfahrung mit der aktuellen Architektur und jegliche Erfahrung mit anderen Technologien verfällt mit der Zeit.
 Dies schränkt die Perspektiven auf Probleme sehr stark ein und macht einen Wechsel sehr aufwendig.
 Dieser Effekt ist mit der Bildung sogenannter `Knowledge Islands' (vgl.~\cite{cury2024knowledge}) innerhalb der Teams vergleichbar.
-\item \textbf{Sinkende Bewerberzahl} \\
-Da nur Bewerber für die gewählten Technologien in Betracht gezogen werden, verringert sich die Anzahl stark.
+\item \textbf{Sinkende Bewerber*innenzahl} \\
+Da nur Bewerber für die gewählten Technologien in Betracht gezogen werden, verringert sich ihre Anzahl stark.
 Der Effekt wird verstärkt, wenn die Technologien als veraltet gelten.
 Eine kleinere Bewerberanzahl zwingt Unternehmen auch Bewerber, die andernfalls nicht beachtet worden wären, in Betracht zu ziehen.
 Dies führt zu weiteren negativen Effekten, da einige schlechte Angestellte die Produktivität vieler guter Angestellter stark senken können.
@@ -54,31 +56,32 @@ So könnten bei einem Zero-Day-Exploit direkt mehrere Schichten im ``Schweizer K
     \paragraph{Ein Zero-Day-Exploit} beschreibt einen Angriffsweg, bei dem den Betreibern eines Systems keine Reaktionszeit bleibt. (vgl.~\cite{ibmZeroDay})
     Diese Angriffswege nehmen verschiedene Formen an.
     Die Unbekanntheit der Zero-Day-Exploits bis zur Ausnutzung, stellt besondere Schwierigkeiten bei der Vorhersage dar, weshalb neue Metriken entwickelt wurden. (vgl.~\cite{wang2013k})
+    Die Notwendigkeit neuer Metriken unterstreicht die Bedeutsamkeit der Gefahr eines Zero-Day-Exploits.
 \end{center}
 \begin{center}
-    \paragraph{Das Schweizer Käse Modell} wurde durch die amerikanische Behörde FAA für die Analyse von Verkehrsunglücken entwickelt.
+    \paragraph{Das Schweizer Käse Modell} wurde durch die amerikanische Behörde \acrshort{faa} für die Analyse von Verkehrsunglücken entwickelt.
     Es bildet die Redundanzen die bei einem Unfall fehlschlagen als Schichten, durch deren Löcher ein spezifischer (Un-)Fall passt, ab.
-    Diese Schichten existieren auch in der Software Entwicklung. (vgl.~\cite{bergeon2009swiss}) %TODO Nochmal durchlesen
+    Diese Schichten existieren auch in der Software Entwicklung. (vgl.~\cite{bergeon2009swiss})
 \end{center}
-Diese Anfälligkeit wird stark erhöht, sobald eine Technologie nicht mehr aktiv weiterentwickelt wird.
-Dies führt häufig dazu, dass andere Updates auch nicht genutzt werden können.
+Diese Anfälligkeit wird stark erhöht, sobald eine Technologie nicht mehr aktiv weiterentwickelt wird, da bekannte Schwachstellen nicht mehr behoben werden.
+Dies führt häufig dazu, dass Updates anderer Technologien auch nicht genutzt werden können.
 \end{enumerate}
-
+\newpage
 \section{Anforderungen}\label{sec:aufgabenstellung}
 Das \acrfull{dmf} soll es ermöglichen Datenmodelle zentral zu modellieren, sodass diese von verschiedenen Software-Projekten genutzt werden können.
 Die Grundvoraussetzung ist, dass ein Modell die Arbeit gegenüber der manuellen Implementierung erleichtert.
 Dabei soll die Flexibilität besonders beachtet werden, um die bisher bestehenden Nachteile zu vermeiden.
 Zur Flexibilität gehört die freie Wahl der Programmiersprache und die freie Wahl der Entwicklungsumgebung.
 
-\paragraph{Konkret} soll das \acrshort{dmf} im ersten Schritt die Generierung von Java und Typescript Code aus einer Modelldatei ermöglichen.\\
+\paragraph{Konkret} soll das \acrshort{dmf} im ersten Schritt die Generierung von Java- und TypeScript-Code aus einer Modelldatei ermöglichen.\\
 Es soll ein Datenbankschema zur Persistierung des Modells generiert werden.\\
 Während der Entwicklung soll die Generation automatisch mit dem Bauvorgang der Anwendung durchgeführt werden können.\\
 Die Generationsausgabe soll auf einer allgemeinen Abstraktion basieren.
 Mithilfe dieser Abstraktion werden Inhalt und Aufbau im Modell festgelegt und in die generierten Dateien übersetzt.\\
 Die Übersetzung vom Modell soll für einzelne Elemente überschrieben werden können.
 Dadurch sollen die Einschränkungen und Annahmen der Abstraktion umgangen werden können.\\
-Um die Entwicklung in einem \acrshort{ple} Kontext zu vereinfachen, soll es die Möglichkeit geben Modelle miteinander zu vereinen und zu erweitern.\\
-Code welcher ein erweitertes Modell nutzt soll nach der Erweiterung weiter genutzt werden können.\\
-Die Entwicklung in verschieden Entwicklungsumgebungen soll mit den \acrshort{ide}s Intellij und Visual Studio Code validiert werden.\\
+Um die Entwicklung in einem \acrshort{ple} Kontext zu vereinfachen, soll es die Möglichkeit geben Modelle miteinander zu vereinen und zu erweitern.
+Code, welcher ein erweitertes Modell nutzt, soll nach der Erweiterung weiter genutzt werden können.\\
+Die Entwicklung in verschieden Entwicklungsumgebungen soll mit den \acrshort{ide}s IntelliJ\footnote{IntelliJ ist eine \acrshort{ide} von JetBrains. Für mehr Informationen siehe: \url{https://www.jetbrains.com/de-de/idea/}} und Visual Studio Code\footnote{Visual Studio Code ist eine \acrshort{ide} von Microsoft. Für mehr Informationen siehe: \url{https://code.visualstudio.com/}} validiert werden.\\
 
 \end{document}

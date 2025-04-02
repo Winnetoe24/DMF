@@ -6,10 +6,10 @@
     Diese Abstraktion wurde nach folgender Analyse entwickelt.
 
     \subsection{Analyse}
-    Für die Analyse wurden die Sprachen Java, Typescript, Python, Golang, Rust und C analysiert.
+    Für die Analyse wurden die Sprachen Java, TypeScript, Python, Golang, Rust und C analysiert.
     Die Sprachen wurden spezifisch ausgewählt.
     Java ist weitverbreitet in Enterprise Software.
-    Typescript ist die Standardsprache für jegliche Websites und viele Backends.
+    TypeScript ist die Standardsprache für jegliche Websites und viele Backends.
     Python ist in der Datenanalyse weit verbreitet.
     Durch die Popularität in Umfragen wurde Python miteinbezogen.
     Golang ist eine moderne Alternative für Backends und die Implementierungssprache des \acrshort{dmf}.
@@ -21,7 +21,7 @@
     \begin{center}
         \begin{tabular}{| c || m{4em} | m{5em} | m{5em} | m{4.5em} | m{4.5em} | m{4.5em} |}
             \hline
-            Typen    & Java            & Typescript                           & Python                      & Golang     & Rust       & C          \\
+            Typen    & Java            & TypeScript                           & Python                      & Golang     & Rust       & C          \\
             \hline
             Wert     & primitive Typen & primitive Typen                      & primitive Typen             & alle Typen & alle Typen & alle Typen \\
             \hline
@@ -29,12 +29,12 @@
             \hline
         \end{tabular}
     \end{center}
-    Bei den Sprachen Java, Typescript und Python werden nur primitive Typen als Werte und nicht als Referenzen in Variablen gespeichert.
+    Bei den Sprachen Java, TypeScript und Python werden nur primitive Typen als Werte und nicht als Referenzen in Variablen gespeichert.
     Deshalb wurden die primitiven Typen dieser Sprachen genauer verglichen:
     \begin{center}
         \begin{tabular}{| c || m{7em} | m{7em} | m{7em} | m{4.5em} | m{4.5em} | m{4.5em} |}
             \hline
-            primitive Typen & Java & Typescript & Python \\
+            primitive Typen & Java & TypeScript & Python \\
             \hline
             & byte, short, int, long, float, double, char, boolean
             & number, bigint, string, boolean
@@ -42,7 +42,7 @@
             \hline
         \end{tabular}
     \end{center}
-    Auffällig sind hierbei die Zusammenfassung der Typen byte, short, int, long in Java in den Typen int in Python, sowie die Zusammenfassung aller Zahlentypen, bis auf long, in number in Typescript.
+    Auffällig sind hierbei die Zusammenfassung der Typen byte, short, int, long in Java in den Typen int in Python, sowie die Zusammenfassung aller Zahlentypen, bis auf long, in number in TypeScript.
     Java besitzt als einzige Sprache String nicht als primitiven Datentyp.
 
     \subsubsection{Analyse von Nullwerten}
@@ -52,7 +52,7 @@
     \begin{center}
         \begin{tabular}{| c || m{4em} | m{5em} | m{5em} | m{4.5em} | m{4.5em} | m{4.5em} |}
             \hline
-            Nullwerte & Java & Typescript & Python & Golang & Rust     & C    \\
+            Nullwerte & Java & TypeScript & Python & Golang & Rust     & C    \\
             \hline
             Wert      & nein & nein       & ja     & nein   & Explizit & nein \\
             \hline
@@ -62,7 +62,7 @@
     \end{center}
     Es ist klar zu erkennen, dass bis auf Python jede Sprache Wert-Variablen ohne Nullwerte darstellen kann.
     Referenzen können auch in jeder Sprache Nullwerte beinhalten.
-    In Typescript und Rust muss dies bloß explizit definiert werden.
+    In TypeScript und Rust muss dies bloß explizit definiert werden.
     Aus diesen Ergebnissen ergibt sich, dass die Unterteilung in Wert- und Referenz-Variablen auch die Unterteilung in nullbare und nicht nullbare Variablen abbildet.
 
     \subsubsection{Collectiontypen}
@@ -70,7 +70,7 @@
     \begin{center}
         \begin{tabular}{| c || m{3em} | m{4.5em} | m{5.5em} | m{4.5em} | m{3em} | m{4.5em} |}
             \hline
-            Collectiontypes & Java & Typescript & Python          & Golang     & Rust & C          \\
+            Collectiontypes & Java & TypeScript & Python          & Golang     & Rust & C          \\
             \hline
             List            & ja   & ja (Array) & ja              & ja (slice) & ja   & ja (Array) \\
             \hline
@@ -87,7 +87,7 @@
     Ein Set bildet eine 1:n-Beziehung mit der Garantie, dass jeder enthaltener Wert einzigartig ist. \\
 
     In der Analyse der Liste gab es feine Unterschiede in der Implementierung.
-    Typescript und C nutzen einen Array, jedoch verhält sich der Typescript Array wie eine Liste.
+    TypeScript und C nutzen einen Array, jedoch verhält sich der TypeScript Array wie eine Liste.
     In C sind Arrays in ihrer Größe bei ihrer Initialisierung festgelegt.
     Golang nutzt ein Konstrukt namens `slice'.
     Es kommt mit bestimmten Eigenschaften, kann jedoch für eine Liste genutzt werden. \\
@@ -99,7 +99,7 @@
     Bei der Analyse der Map wurde nur in C keine Implementierung gefunden.
     Python nutzt für die Map den Namen `dictionary'.
 
-    \subsection{Elemente eines Modells}\label{subsec:elemente-eines-modells}
+    \subsection{Modellelemente}\label{subsec:elemente-eines-modells}
     Um mit dem \acrshort{dmf} Daten in Strukturen verschiedener Programmiersprachen darstellen zu können, müssen auch diese abstrahiert werden.
     Dieser Abschnitt beschreibt wie aus den Analysen der Programmiersprachen die Abstraktion des \acrshort{dmf}s gebildet wurde.
 
@@ -109,7 +109,7 @@
     Es gibt in \acrfull{sql} Datenbanksystemen generell eine Unterscheidung zwischen ganzen Zahlen und rationalen Zahlen.
     Somit muss es eine Unterscheidung zwischen int und double geben.
     Es wird jedoch auch unterschieden, wie groß ganze Zahlen werden, weshalb ein long Typ sinnvoll ist.
-    Dieser kann auch mithilfe von bigint in Typescript abgebildet werden.
+    Dieser kann auch mithilfe von bigint in TypeScript abgebildet werden.
     Für die Verarbeitung von unbekannten Daten werden häufig Bytes genutzt.
     Von den drei verglichenen Sprachen beinhaltet nur Java den primitiven Typ.
     Die int-Typen der jeweiligen Sprachen ermöglichen jedoch ähnliche Operationen.
@@ -159,7 +159,7 @@
     Deshalb beinhaltet es Structs.
     Der Name wurde von der Programmiersprache C übernommen, da diese syntaktische Grundlage für fast alle Programmiersprachen dient. \\
     Im \acrshort{dmf} können Structs Argumente, Referenzen zu anderen Structs, Entities, Enums und Interfaces (siehe folgende Abschnitte) und Funktionen beinhalten.
-    Funktionen gehören nicht zur Definition eines komplexen Datentyps, sondern stammen aus der Objekt-Orientierten-Programmierung.
+    Funktionen gehören nicht zur Definition eines komplexen Datentyps, sondern stammen aus der objektorientierten Programmierung.
     Da jedoch Funktionen auch ohne Objektorientierung für Datentypen generiert werden können, kann das \acrshort{dmf} diese Abstraktion unterstützen.
     \newline
     Für die Modellierung wird auch die Abstraktion von Datentypen essenziell sein.
@@ -169,7 +169,7 @@
     Zum Beispiel in C könnte ein \acrshort{dmf} Generat keine Abstraktion generieren, sondern nur die Elemente kombinieren.
 
     \subsubsection{Identität einer Instanz in der Datenbank}
-    Ein Modell im \acrshort{dmf} Framework soll in einer Datenbank gespeichert werden können.
+    Ein Modell im \acrshort{dmf}-Framework soll in einer Datenbank gespeichert werden können.
     Dafür müssen Datenbankschlüssel definiert werden.
     Ein Schlüssel definiert die Identität einer Zeile in einer Tabelle.
     Diese Identität muss auch im Modell abgebildet werden.
@@ -210,7 +210,7 @@ enum IpAddr {
     Das \acrshort{dmf} beinhaltet auch Packages.
     Diese werden jedoch nicht im Dateisystem modelliert, sondern sollen als Elemente im Modell enthalten sein.
 
-    \subsection{Zuweisungen der Abstraktionen}
+    \subsection{Abstraktionszuweisungen}\label{subsec:abstraktionszuweisungen}
 
     Damit diese Abstraktion genutzt werden kann, müssen für jeden abstrakten Typen im \acrshort{dmf} eine Zuweisung in jeder Sprache festgelegt werden.
     Zusätzlich zu der Representation der Daten müssen die Funktionen separat implementiert werden können, damit die Implementierung nicht bei jeder Neugeneration des Datenmodells überschrieben werden.
@@ -275,36 +275,36 @@ enum IpAddr {
     Die Multireferenztypen nutzen Interfaces und Implementierungen aus der Standardbibliothek.
     Die Verwendung von allgemeinen Interfaces für diese Datentypen wird in Java erwartet.
 
-    \subsubsection{Typescript}
+    \subsubsection{TypeScript}
     \begin{center}
         \begin{tabular}{| c || c |}
             \hline
-            Element   & Typescript           \\
+            Element   & TypeScript           \\
             \hhline{|=||=|}
             package   & Ordner               \\
             \hline
-            struct    & Typescript Klasse    \\
+            struct    & TypeScript Klasse    \\
             \hline
-            entity    & Typescript Klasse    \\
+            entity    & TypeScript Klasse    \\
             \hline
-            interface & Typescript Interface \\
+            interface & TypeScript Interface \\
             \hline
-            enum      & Typescript Enum, Details Typescript Interface und Typescript Record   \\
+            enum      & TypeScript Enum, Details TypeScript Interface und TypeScript Record   \\
             \hline
-            Delegate  & Typescript Funktion    \\
+            Delegate  & TypeScript Funktion    \\
             \hline
         \end{tabular}
     \end{center}
-    Die Übersetzung der \acrshort{dmf} Elemente in Typescript stellt sich als ein wenig komplexer als die Übersetzung in Java dar.
+    Die Übersetzung der \acrshort{dmf} Elemente in TypeScript stellt sich als ein wenig komplexer als die Übersetzung in Java dar.
     Structs, Entities und Interfaces können direkt in die nativen Elemente übersetzt werden.\\
-    Da Typescript Enums nur einen Wert pro Eintrag erlauben, müssen eine zusätzliche Struktur für zusätzlichen Daten und eine Struktur für Zuweisung zwischen Enum-Eintrag und Daten generiert werden.
+    Da TypeScript Enums nur einen Wert pro Eintrag erlauben, müssen eine zusätzliche Struktur für zusätzlichen Daten und eine Struktur für Zuweisung zwischen Enum-Eintrag und Daten generiert werden.
     Das ``Details''-Interface enthält die Definitionen der weiteren Argumente.
     Der ``Info''-Record enthält die Zuweisung zwischen dem Enum-Eintrag und einer Instanz des Details-Interfaces. (Für~Beispiel~siehe~\ref{lst:beispielTypTs})\\
     Die Delegates können als Funktionen generiert werden, welche von der modellierten Klasse importiert werden können.
     \begin{center}
         \begin{tabular}{| c || c |}
             \hline
-            Datentyp & Typescript \\
+            Datentyp & TypeScript \\
             \hhline{|=||=|}
             byte     & number     \\
             \hline
@@ -330,11 +330,11 @@ enum IpAddr {
             \hline
         \end{tabular}
     \end{center}
-    Bei der Übersetzung in Typescript werden die Typen stark vereinfacht.
+    Bei der Übersetzung in TypeScript werden die Typen stark vereinfacht.
     Bis auf `long' kann der Typ `number' alle Zahlentypen darstellen.
     Auch die Zeittypen werden mit dem `Date'-Typ zusammengefasst.\\
     Die Multireferenztypen können auf Typen der Standardbiblitohek zurückgreifen.
-    Auch wenn in Typescript ein Array verwendet wird, enthält er alle Funktionen wie die Java-Liste.
+    Auch wenn in TypeScript ein Array verwendet wird, enthält er alle Funktionen wie die Java-Liste.
     Der Unterschied liegt hier somit nur im Namen und der Syntax.
 
     \subsubsection{Datenbank}\label{subsubsec:db-schema}
@@ -345,7 +345,7 @@ enum IpAddr {
     Bei der Übersetzung der Referenzen wird zwischen Structs, Entitäten und Enums unterschieden:\\
     Die Spalten eines Structs werden zur Tabelle der Entität hinzugefügt.\\
     Bei einer Entität muss eine Referenz zu einer anderen Tabelle eingefügt werden.
-    Dafür werden die Spalten des Primärschlüssels als Foreign Key zur Tabelle hinzugefügt.\\
+    Dafür werden die Spalten des Primärschlüssels als Fremdschlüssel zur Tabelle hinzugefügt.\\
     Die Werte der Enum-Einträge müssen nicht in der Datenbank gespeichert werden.
     Deshalb reicht es den Index eines Enum-Eintrags zu speichern.
 

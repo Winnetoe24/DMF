@@ -23,7 +23,7 @@ Die Grammatik beginnt mit der Regel `source\_file':
 \end{grammar}
 In ihr sind die Regeln des Headers, des Importblocks und des Modellinhalts enthalten.
 
-\subparagraph{Namenskonvention in der \acrshort{dmf} Grammatik}
+\subparagraph{Namenskonvention in der \acrshort{dmf} Grammatik}\mbox{}\\
 Die Grammatik des \acrshort{dmf}s nutzt eine Namenskonvention, um den Zweck einer Regel zu dokumentieren.\\
 Ein Block beschreibt immer die Regeln, die ein Element umschließen. \\
 Eine Content-Regel beschreibt den Inhalt in einem Block.
@@ -69,7 +69,7 @@ Sollten keine Importstatements genutzt werden, so wird der komplette Importblock
 
 \subparagraph{Modellelemente erweitern}\mbox{}\\
 Das \acrshort{dmf} beinhaltet die Möglichkeit, Elemente zu erweitern.
-Dies ermöglicht Code, für das ursprüngliche Modell wiederzuverwenden und trotzdem Argumente, Referenzen und Funktionen hinzuzufügen. \\
+Dies ermöglicht, Code für das ursprüngliche Modell wiederzuverwenden und trotzdem Argumente, Referenzen und Funktionen hinzuzufügen. \\
 Eine Erweiterung im \acrshort{dmf} muss generell explizit gekennzeichnet sein.
 Dafür muss zuerst das Package, indem die Entwickler*in etwas erweitern will, importiert werden.
 Das importierte Package muss nun im Modell modelliert werden.
@@ -281,8 +281,8 @@ enum EBeispiel {
 \end{lstlisting}
 Konstanten beinhalten immer einen Index.
 Dieser Index wird in Datenbanktabellen hinterlegt.
-Es müssen zusätzlich für jedes Argument ein passender Wert angegeben werden. \\
-Damit das \acrshort{dmf} den Index automatisch berechnet kann ein `_' verwendet werden.
+Es muss zusätzlich für jedes Argument ein passender Wert angegeben werden. \\
+Damit das \acrshort{dmf} den Index automatisch berechnet, kann ein `_' verwendet werden.
 Die Regel `enum_index' bildet diese Besonderheit ab. \\
 Die Regel `primitive_value' vereinigt alle Value-Regeln.
 \begin{grammar}
@@ -329,8 +329,8 @@ package de.beispiel {
     }
 }
 \end{lstlisting}
-Dieses Beispiel zeigt wie man mithilfe des \acrshort{dmf}s eine Struktur modelliert.
-Diese Struktur beinhaltet Aufgaben, die Benutzer*innen beantworten sollen.
+Dieses Beispiel zeigt, wie man mithilfe des \acrshort{dmf}s eine Struktur modelliert.
+Diese Struktur beinhaltet Aufgaben, die die Benutzer*innen beantworten sollen.
 Als Hilfestellung gibt es ein Beispiel.
 Zur korrekten Darstellung wird am Beispiel der BeispielTyp referenziert.
 Ein Beispiel nutzt ein Interface aus einem anderen Modell.

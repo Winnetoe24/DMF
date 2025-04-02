@@ -10,7 +10,7 @@
     Während dieser Verarbeitung wird zuerst ein semantisches Modell erstellt.
     Anhand dieses semantischen Modells werden semantische Regeln überprüft.\\
 
-    Diese Softwarekomponente ist die erste Komponente welche mithilfe von Golang implementiert wird.
+    Diese Softwarekomponente ist die erste Komponente, welche mithilfe von Golang implementiert wird.
 
     \subsection{Das semantische Modell}\label{subsec:das-semantische-modell}
     Das semantische Modell bildet alle Informationen, die aus dem \acrshort{ast} entnommen werden können, ab.
@@ -63,7 +63,7 @@ type FehlerStelle struct {
     Im \acrshort{lsp}-Server werden die Ergebnisse zwischengespeichert, sodass die Verarbeitung von Dokumenten, die gerade geöffnet sind, beschleunigt wird.\\
     In der Kontext-Struktur des Parsens wird ein Lookup (siehe~\ref{subsubsec:lookup}) genutzt, um die importierten PackageElemente zwischenzuspeichern.
     Während des Parsen von erweiternden Elementen wird der Lookup referenziert und die Eigenschaften in die neuen Elemente übernommen.
-    Am Ende des Parsen ist Modell vollständig mit allen gültigen Elementen.
+    Am Ende des Parsens ist Modell vollständig mit allen gültigen Elementen.
     Elemente die durch den Parser im \acrshort{ast} als fehlerhaft gekennzeichnet wurden, werden ignoriert.
 
     \subsubsection{Der Lookup}\label{subsubsec:lookup}
@@ -127,7 +127,7 @@ type TableReference struct {
     Für die generischen Typen wird die Übersetzung aus dem ersten Schritt übernommen.\\
     Eine \textbf{Map} generiert den Typ des Keys als Spalten mit dem Präfix `Key'.
     Diese Spalten sind auch Teil des Primärschlüssels.
-    Der Typ des Values der Map (2. generischer Typ) wird mit dem Präfix `Value' generiert.\\
+    Der Typ des Values der Map (zweiter generischer Typ) wird mit dem Präfix `Value' generiert.\\
     \textbf{Listen} enthalten eine Spalte namens `Index' mit dem Typ `int' als Teil des Primärschlüssels.
     Diese Spalte repräsentiert den Index in der Liste.
     Die Spalten des Inhalt-Typs der Liste werden mit dem Präfix `Value' generiert.\\
@@ -176,8 +176,8 @@ func newComputeSuperTypes(lookup *smodel.TypeLookUp) *computeSuperTypes {
     Die Reihenfolge der semantischen Regeln ist sehr relevant, denn sie überprüfen nicht nur das semantische Modell, sondern setzen auch Referenzen und befüllen Lookups innerhalb der Elemente. \\
     Im Folgenden werden die Regeln in ihrer Ausführungsreihenfolge erläutert.
 
-    \subsubsection{Compute Supertypes Regel}
-    Die ``Compute Supertypes Regel'' ermittelt und überprüft die Supertypen der PackageElementen.
+    \subsubsection{``Compute Supertypes''-Regel}
+    Die ``Compute Supertypes''-Regel ermittelt und überprüft die Supertypen der PackageElementen.
     Dazu gehören alle Referenzen in den Extends- und Implements-Blöcken.
     Dabei werden folgende Bedingungen überprüft:
     \begin{enumerate}
@@ -192,8 +192,8 @@ func newComputeSuperTypes(lookup *smodel.TypeLookUp) *computeSuperTypes {
     Nachdem die referenzierten Type ermittelt wurden, werden Referenzen zu diesen Typen in die jeweiligen PackageElemente eingetragen.
     So kann später noch schneller auf diese Elemente zugegriffen werden.
 
-    \subsubsection{Compute Elements Regel}
-    Die ``Compute Elements Regel'' ermittelt alle Elemente innerhalb der PackageElemente.
+    \subsubsection{``Compute Elements''-Regel}
+    Die ``Compute Elements''-Regel ermittelt alle Elemente innerhalb der PackageElemente.
     Diese werden als NamedElements in dem jeweiligen PackageElement eingetragen, sodass mithilfe des Namens schnell auf das Element zugegriffen werden kann.
     Zu den NamedElements gehören:
     \begin{enumerate}
@@ -204,7 +204,7 @@ func newComputeSuperTypes(lookup *smodel.TypeLookUp) *computeSuperTypes {
         \item Konstanten
     \end{enumerate}
     Beim Hinzufügen eines Elementes wird überprüft, ob der Name schon von einem Element in der Map genutzt wird. \\ \\
-    Die `Compute Elements Regel' ist einzigartig, denn sie überschreibt das Verhalten des iterierens durch den Lookup mit einem zweifachen Durchlauf.
+    Die ``Compute Elements''-Regel ist einzigartig, denn sie überschreibt das Verhalten des iterierens durch den Lookup mit einem zweifachen Durchlauf.
     Denn um alle geerbten Elemente zu bestimmen, müssen die NamedElements-Maps der anderen PackageElemente schon die eigenen Elemente enthalten.
     \begin{lstlisting}[language=Go]
 package semantic_rules
@@ -221,10 +221,10 @@ func (c *computeElements) walk() []errElement.ErrorElement {
     Das Bestimmen der geerbten Elemente (handleAbstraction) ist rekursiv implementiert.
     So werden auch alle Elemente, die das erweiterte Element erbt, mit eingeschlossen.
 
-    \subsubsection{Check Entity Identifier Regel}
-    Die `Check Entity Identifier Regel' überprüft, ob alle im Entity-Identifier referenzierten Variablen enthalten sind.
+    \subsubsection{``Check Entity Identifier''-Regel}
+    Die ``Check Entity Identifier''-Regel überprüft, ob alle im Entity-Identifier referenzierten Variablen enthalten sind.
 
-    \subsubsection{Check Enum Constants Regel}
+    \subsubsection{``Check Enum Constants''-Regel}
     Die Konstanten eines Enums müssen semantische Regeln folgen.
     Deshalb überprüft diese Regel folgende Bedingungen für jede Konstante:
     \begin{enumerate}
@@ -235,8 +235,8 @@ func (c *computeElements) walk() []errElement.ErrorElement {
         Für die Reihenfolge der Argumente wird die Reihenfolge in der Modelldatei genutzt.
     \end{enumerate}
 
-    \subsubsection{Check Referenzen Regel}
-    Die `Check Referenzen Regel' überprüft, dass alle Referenzen existieren.
+    \subsubsection{``Check Referenzen''-Regel}
+    Die ``Check Referenzen''-Regel überprüft, dass alle Referenzen existieren.
     In folgenden Elementen werden Referenzen überprüft:
     \begin{enumerate}
         \item Referenzen in Structs und Entities.

@@ -63,7 +63,7 @@ interface ResponseError {
     \end{lstlisting}
     Der beinhaltet zwei wichtige Elemente: den Error-Code und die Error-Nachricht.
     Die Error-Codes sind vordefiniert vom Protokoll (siehe~\cite{response}).
-    Die Nachricht ist frei wählbar, sollte jedoch dem Nutzer erklären, wodurch der Fehler entstand.\\
+    Die Nachricht ist frei wählbar, sollte jedoch den Nutzer*innen erklären, wodurch der Fehler entstand.\\
     Es können zusätzliche Daten übermittelt werden.
     Jedoch ist das Format nicht definiert.
     Es bietet sich nur an dieses Element zu nutzen, wenn sowohl Server als auch Client selbst implementiert wurden.
@@ -82,7 +82,8 @@ interface NotificationMessage extends Message {
 
     \paragraph{In Modell des \acrshort{dmf}-\acrshort{lsp}-Servers} werden die verschiedenen Nachrichten in einer Struktur zusammengefasst.
     Der Typ der Nachricht wird dabei anhand der mit Werten befüllten Variablen bestimmt.\\
-    Damit bei der Verarbeitung der Nachricht der Typ der Parameter anhand der Methode bestimmt werden kann, enthält die Variable Params nur einen Wert von Typ `json.RawMessage'.
+    Damit bei der Verarbeitung der Nachricht der Typ der Parameter anhand der Methode bestimmt werden kann, enthält die Variable Params nur einen Wert
+    von Typ `json.RawMessage'.
     Das Parsen der Parameter wird im zugeordneten Service durchgeführt.\\
     Die ID wird auch nicht direkt zu einer Zahl geparsed, da die sowohl als Zahl als auch als String übermittelt werden kann.\\
     Zur Abstraktion des Ergebnisses wird ein allgemeines Interfaces als Typ definiert, welches jede Datenstruktur in Go implementiert.
@@ -169,7 +170,7 @@ type CancelParams struct {
     Die Parameter enthalten die ID der Anfrage, dessen Ergebnis nicht mehr benötigt wird.
     Der Server muss jedoch die Anfrage trotzdem noch beantworten, um dem Ablauf des Protokolls zu folgen.
     \\\\
-    Diese Funktion wird im Abschnitt \nameref{subsubsec:cancel-service} implementiert.
+    Diese Funktion wird im Abschnitt \nameref{subsubsec:cancel-service} (\ref{subsubsec:cancel-service}) implementiert.
 
     \subsubsection[Dokumentensynchronisation]{Dokumentensynchronisation\\ {\textnormal{\footnotesize Text Document Synchronization \\ (textDocument/didOpen, textDocument/didChange, textDocument/didClose) \cite{dokumente}}}}\label{subsubsec:dokumenten-synchronisation}
     Damit ein \acrshort{lsp}-Server Aussagen über eine Datei oder ein ganzes Projekt treffen kann, muss der Server den aktuellen Stand der Dateien kennen.
@@ -193,7 +194,7 @@ type TextDocumentItem struct {
     \end{lstlisting}
     Die Parameter der Methode enthalten die \acrfull{uri}, den Inhalt der Datei, die Sprache und die Version.
     Von diesen Parametern sind die \acrshort{uri} und der Inhalt sehr bedeutend.
-    Sie bestimmen welcher Inhalt unter welcher \acrshort{uri} vom Server gespeichert und verarbeitet wird.
+    Sie bestimmen, welcher Inhalt unter welcher \acrshort{uri} vom Server gespeichert und verarbeitet wird.
     \\\\
     Nachdem ein Dokument geöffnet wurde, wird bei jeder Änderung die Methode `textDocument/didChange' aufgerufen.
     Die Parameter enthalten neben der \acrshort{uri} die Änderungen, welche direkt in die Bearbeitungen der Treesitter-API übersetzt werden können.
@@ -250,7 +251,7 @@ type Location struct {
 }
     \end{lstlisting}
 
-    Die Beschreibung der Implementierung beider Methoden befindet sich im Abschnitt \nameref{subsubsec:reference-service}.\\
+    Die Beschreibung der Implementierung beider Methoden befindet sich im Abschnitt \nameref{subsubsec:reference-service} (\ref{subsubsec:reference-service}).\\
     Die Benutzung der Referenzen wird im Abschnitt \nameref{subsubsec:useReferenzen} (\ref{subsubsec:useReferenzen}) beschrieben.
 
 
@@ -292,7 +293,7 @@ type MarkedString struct {
 	Value string `json:"value"`
 }
     \end{lstlisting}
-    Die Implementierung des Hover-Effekts wird im Abschnitt \nameref{subsubsec:hover-service} beschrieben.\\
+    Die Implementierung des Hover-Effekts wird im Abschnitt \nameref{subsubsec:hover-service} (\ref{subsubsec:hover-service}) beschrieben.\\
     Die Benutzung des Hover-Effekts wird im Abschnitt \nameref{subsubsec:useHover} (\ref{subsubsec:useHover}) beschrieben.
 
     \subsubsection[Faltbereich]{Faltbereich\\ {\textnormal{\footnotesize Folding Ranges (textDocument/foldingRange) \cite{folding}}}}\label{subsubsec:folding}
@@ -326,7 +327,7 @@ const (
 )
     \end{lstlisting}
     \\\\
-    Die Implementierung der Faltbereiche wird im Abschnitt \nameref{subsubsec:folding} beschrieben.\\
+    Die Implementierung der Faltbereiche wird im Abschnitt \nameref{subsubsec:folding} (\ref{subsubsec:folding}) beschrieben.\\
     Die Benutzung der Faltbereiche wird im Abschnitt \nameref{subsubsec:useFaltbereiche} (\ref{subsubsec:useFaltbereiche}) beschrieben.
 
     \subsubsection[Auswahlbereich]{Auswahlbereich\\ {\textnormal{\footnotesize Selection Range (textDocument/selectionRange) \cite{selection}}}}\label{subsubsec:selection}
@@ -352,7 +353,7 @@ type SelectionRange struct {
 }
 type SelectionRangeResult []SelectionRange
     \end{lstlisting}
-    Die Implementierung der Auswahlbereiche wird im Abschnitt \nameref{subsubsec:selection-service} beschrieben.\\
+    Die Implementierung der Auswahlbereiche wird im Abschnitt \nameref{subsubsec:selection-service} (\ref{subsubsec:selection-service}) beschrieben.\\
     Die Benutzung der Auswahlbereiche wird im Abschnitt \nameref{subsubsec:useAuswahlbereiche} (\ref{subsubsec:useAuswahlbereiche}) beschrieben.
 
     \subsubsection[Semantische Tokens]{Semantische Tokens\\ {\textnormal{\footnotesize Semantic Tokens (textDocument/semanticTokens/full) \cite{semantic}}}}\label{subsubsec:semantic}
@@ -386,11 +387,11 @@ type SelectionRangeResult []SelectionRange
             \hline
         \end{tabular}
     \end{center}
-    Die Implementierung der semantischen Tokens wird im Abschnitt \hyperref[subsubsec:semantic-service]{SemanticTokensService} beschrieben.\\
+    Die Implementierung der semantischen Tokens wird im Abschnitt \hyperref[subsubsec:semantic-service]{SemanticTokensService} (\ref{subsubsec:semantic-service}) beschrieben.\\
     Die Benutzung der semantischen Tokens wird im Abschnitt \nameref{subsubsec:useSemanticTokens} (\ref{subsubsec:useSemanticTokens}) beschrieben.
 
     \subsubsection[Diagnosen]{Diagnosen\\ {\textnormal{\footnotesize Publish Diagnostics (textDocument/publishDiagnostics) \cite{diagnostics}}}}\label{subsubsec:diagnostics}
-    Um Fehler, Warnungen, Informationen und Hinweise den Entwickler*innen anzeigen zu können bietet das \acrshort{lsp} die Möglichkeit Diagnosen zu übermitteln.
+    Um Fehler, Warnungen, Informationen und Hinweise den Entwickler*innen anzeigen zu können, bietet das \acrshort{lsp} die Möglichkeit Diagnosen zu übermitteln.
     Hierbei ist die Besonderheit, dass nur der Server weiß, ob und wann die Diagnosen einer Datei sich verändern.
     Deshalb bietet das \acrshort{lsp} die Möglichkeit, dass der Server Benachrichtigungen an den Client mit den Diagnosen sendet.
     \\\\
@@ -420,7 +421,7 @@ type DiagnosticRelatedInformation struct {
 	Message string `json:"message"`
 }
     \end{lstlisting}
-    Die Implementierung für die Erstellung der Diagnosen wird im Abschnitt \nameref{subsubsec:diagnostics-service} beschrieben.\\
+    Die Implementierung für die Erstellung der Diagnosen wird im Abschnitt \nameref{subsubsec:diagnostics-service} (\ref{subsubsec:diagnostics-service}) beschrieben.\\
     Die Benutzung der Diagnosen wird im Abschnitt \nameref{subsubsec:useDiagnosen} (\ref{subsubsec:useDiagnosen}) beschrieben.
     \subsection{Server Implementierung}\label{subsec:server-implementierung}
     % Wie funktioniert JSON-RPC
@@ -430,7 +431,7 @@ type DiagnosticRelatedInformation struct {
     So bekommen die Services, welche die vorher beschriebenen Funktionen implementieren, direkt Nachrichten und können auch Nachrichten verschicken.
     \subsubsection{Abstraktion der Server-Client-Verbindung}
     Da das \acrshort{lsp} Mediumunabhängig ist, muss der Server eine Abstraktion für die Verbindung bereitstellen.
-    \begin{lstlisting}[language=Go]
+    \begin{lstlisting}[language=Go, caption=Definition des Connection-Interfaces]
 package connect
 type Connection interface {
 	WriteMessage(message protokoll.Message)
@@ -465,7 +466,7 @@ type Connection interface {
         \end{center}
     \end{center}
     \paragraph{JSON}\mbox{}\\
-    Damit die Nachrichten übermittelt werden können, müssen sie in JSON Text geparsed werden.
+    Damit die Nachrichten übermittelt werden können, müssen sie ins JSON-Format geparsed werden.
     Dafür wird die Standardbibliothek von Golang genutzt.
     \begin{lstlisting}[language=Go, caption=Umwandlung von und zu JSON, label=lst:json]
 message := protokoll.Message{}
@@ -510,9 +511,9 @@ err = json.Unmarshal(data, &message)
     Beim Lesen aus dem `BufReader' kann ein Zeichen, bis zu dem gelesen werden soll, angegeben werden.
     So kann die Verbindung zeilenweise ausgelesen werden.\\
     Beginnt eine Zeile mit dem Identifier der Länge der Datei, so wird der Rest der Zeile als Zahl interpretiert und zwischengespeichert.\\
-    Wird eine leere Zeile gelesen wird die Schleife zum Auslesen des Headers beendet.\\
+    Wird eine leere Zeile gelesen so wird die Schleife zum Auslesen des Headers beendet.\\
     Nun wird ein Buffer mit der gespeicherten Größe angelegt und mit dem Inhalt aus der Verbindung befüllt.
-    Der Inhalt des Buffers kann nun als Text weiter verwendet werden.
+    Der Inhalt des Buffers kann jetzt als Text weiterverwendet werden.
     \\\\
     Das Schreiben im Basisprotokoll beginnt mit der Messung der Nachrichtenlänge.
     Nun kann der Header in die Verbindung geschrieben werden.
@@ -617,7 +618,7 @@ func (s *Server) nextMethod(logger *log.Logger) bool {
     \end{lstlisting}
     \subsection{Die \acrshort{lsp}-Services}
     Die Schnittstelle für alle Services zu der Server-Schicht bildet das MethodHandler-Interface:
-    \begin{lstlisting}[language=Go]
+    \begin{lstlisting}[language=Go, caption=Definition des MethodHandler-Interfaces]
 package service
 type MethodHandler interface {
 	Initialize(params *initialize.InitializeParams,
@@ -626,7 +627,7 @@ type MethodHandler interface {
 	HandleMethod(message protokoll.Message)
 }
     \end{lstlisting}
-    Jeder Service implementiert die drei Methoden.
+    Jeder Service implementiert die folgenden drei Methoden.
     \begin{enumerate}
         \item \textbf{Initialize} \\
         Der Service liest die Fähigkeiten des Clients und konfiguriert sich selbständig.
@@ -643,7 +644,7 @@ type MethodHandler interface {
     \label{subsubsec:file-service}
     Der FileService ist die Schnittstelle zwischen den Dateien, den Parsern und den restlichen Services.
     Wenn ein anderer Service auf Dateien, das semantische Modell oder den Lookup zugreifen möchte, werden Methoden des FileServices genutzt.
-    \begin{lstlisting}[language=Go]
+    \begin{lstlisting}[language=Go, caption=Definition des FileServices]
 package fileService
 type FileService struct {
 	mapActionChannel chan func()
@@ -654,7 +655,7 @@ type FileService struct {
     \end{lstlisting}
     In der ``handleMap'' werden ``fileHandles'' gespeichert.
     Ein FileHandle speichert alle Daten zu einer Datei und wird mit jeder Veränderung aktualisiert.
-    \begin{lstlisting}[language=Go]
+    \begin{lstlisting}[language=Go, caption=Definition des FileHandles]
 package fileService
 type fileHandle struct {
 	FileContent string
@@ -715,9 +716,9 @@ func (receiver *FileService) GetFileContent(uri protokoll.DocumentURI) (FileCont
     \end{lstlisting}
 
     \paragraph{FileChangeListener}
-    Es gibt Funktionen im \acrshort{lsp} die nicht durch eingehende Nachrichten ausgelöst werden, sondern nach Dateiänderungen automatisch an den Client übermittelt werden.
+    Es gibt Funktionen im \acrshort{lsp}, die nicht durch eingehende Nachrichten ausgelöst werden, sondern nach Dateiänderungen automatisch an den Client übermittelt werden.
     Dafür gibt es im \acrshort{dmf}-\acrshort{lsp}-Server die FileChangeListener.
-    \begin{lstlisting}[language=Go]
+    \begin{lstlisting}[language=Go, caption=Definition des FileChangeListeners]
 package fileService
 type FileChangeListener interface {
 	HandleFileChange(file protokoll.DocumentURI, fileContent string,
@@ -941,7 +942,7 @@ for {
     Damit die Klammern auch noch in der \acrshort{ide} angezeigt werden, wird der Startzeichenindex (Start-Spalte) um 1 erhöht und der Endzeichenindex (End-Spalte) um 1 gesenkt.
 
     \subparagraph{Für die Kommentare} wird die Query-Funktion von Treesitter genutzt.
-    \begin{lstlisting}[capture=Die Query für alle Kommentare, label=lst:commentQuery]
+    \begin{lstlisting}[caption=Die Query für alle Kommentare, label=lst:commentQuery]
 (comment_block) @cb
     \end{lstlisting}
     Die Ergebnisse einer Query werden in der Treesitter-\acrshort{api} QueryMatches genannt.
@@ -1019,7 +1020,7 @@ for {
     \begin{center}
         \begin{tabular}{|c|c|}
             \hline
-            \acrshort{ast}-Node Namen & Verwendung \\
+            \textbf{\acrshort{ast}-Node Namen} & \textbf{Verwendung} \\
             \hline
             reftype & Referenzen, Multireferenzen oder Parameter \\
             \hline
@@ -1052,23 +1053,23 @@ for {
     \begin{center}
         \begin{tabular}{|c|c|}
             \hline
-            Zusammenfassung & \acrshort{ast}-Node-Typen \\
+            & \textbf{\acrshort{ast}-Node-Typen}\\
             \hline
-            Variable & arg_block, ref_block, multi_block \\
+            \textbf{Variable} & arg_block, ref_block, multi_block \\
             \hline
-            EntityIdentifier & identifier_statement\\
+            \textbf{EntityIdentifier} & identifier_statement\\
             \hline
-            Konstante & enum_constant \\
+            \textbf{Konstante} & enum_constant \\
             \hline
-            Kommentar & comment_block \\
+            \textbf{Kommentar} & comment_block \\
             \hline
-            PackageElement & \makecell{package_block, struct_block, enum_block,\\entity_block, interface_block} \\
+            \textbf{PackageElement} & \makecell{package_block, struct_block, enum_block,\\entity_block, interface_block} \\
             \hline
-            Import & import_statement\\
+            \textbf{Import} & import_statement\\
             \hline
-            Model Deklaration & model_declaration \\
+            \textbf{Model Deklaration} & model_declaration \\
             \hline
-            DMF Deklaration & dmf_declaration \\
+            \textbf{DMF Deklaration} & dmf_declaration \\
             \hline
         \end{tabular}
     \end{center}
@@ -1080,7 +1081,7 @@ for {
     Mithilfe dieser Datenstruktur kann das jeweilige Template ausgeführt werden.
 
     \paragraph{Nutzung von Golang-Templates}\mbox{}\\
-    Die Standard Bibliothek von Golang bietet eine Template-Engine die für das Generieren von Texten genutzt wird.
+    Die Standardbibliothek von Golang bietet eine Template-Engine, die für das Generieren von Texten genutzt wird.
     Die \acrshort{api} besteht dabei aus 3 Komponenten: Templates, Funktionen und Datenstrukturen.
     \begin{lstlisting}[language=Go, caption=Ablauf der Template-\acrshort{api}, label=lst:template]
 // Inkludierung der Templates
@@ -1132,14 +1133,14 @@ return buffer.String()
     Globale Elemente können jedoch diesen Kontext auch nicht speichern, wenn die Generierung parallel ausgeführt wird.
     Somit wird jeder erforderlicher Kontext in den Parametern übergeben.
     \\
-    \textbf{Die Datenstrukturen} werden normal im Go-Code definiert.
+    \textbf{Die Datenstrukturen} werden normal im Golang-Code definiert.
     Sie enthalten neben den Daten aus dem semantischen Modell auch den eventuellen Kontext für den Aufruf für eine Funktion oder bündeln Parameter für den Aufruf eines Templates.
     \\
     \textbf{Bei der Generierung} wird ein Writer, der Name des Templates und die Datenstruktur übergeben.
     Das Writer-Interface bietet eine Abstraktion, um Ziel und Implementierungsunabhängig Schreibvorgänge abbilden zu können.
     Um die Zusammenfassung später als String übergeben zu können, wird ein Buffer genutzt.
     \\\\
-    Im folgenden Template für die Zusammenfassung des Entity-Identifiers werden einige der beschriebenen Funktionen der Golang Templates genutzt.
+    Im folgenden Template für die Zusammenfassung des Entity-Identifiers werden einige der beschriebenen Funktionen der Golang-Templates genutzt.
     Deutlich komplexere Templates werden vom Generator genutzt.
     Ein Auszug aus diesen Templates befindet sich im Anhang im Abschnitt \nameref{sec:dateien-aus-der-implementierung-des-dmfs}.
     \begin{lstlisting}[language=markdown, caption=Template der Zusammenfassung des Entity-Identifiers]

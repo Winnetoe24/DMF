@@ -384,7 +384,7 @@ type ReadyElement struct {
 	Columns []*dmodel.Column
 }
     \end{lstlisting}
-    \begin{lstlisting}[language=Typescript, caption=Template für die Generierung einer Typescript Klasse, label=lst:templateTsKlasse]
+    \begin{lstlisting}[language=Typescript, caption=Template für die Generierung einer TypeScript Klasse, label=lst:templateTsKlasse]
 {{define "klasse" -}}
 {{$fields := toFields .Argumente .Referenzen .MultiReferenzen .ImportKontext -}}
 {{$fieldsLength := sub (len $fields) 1 -}}
@@ -401,7 +401,7 @@ export class {{nameFromPath .Path}} {{if .ExtendsPath }}{{template "extends" pat
 {{- end}}
 }{{end}}
     \end{lstlisting}
-    \begin{lstlisting}[language=Typescript, caption=Template für die Generierung einer Typescript Funktion, label=lst:templateTsFunktion]
+    \begin{lstlisting}[language=Typescript, caption=Template für die Generierung einer TypeScript Funktion, label=lst:templateTsFunktion]
 {{define "funktion"}}{{$last := sub (len .Funktion.Parameter) 1}}{{template "comment_tab" .Funktion.Kommentar}}
     {{.Funktion.Name.Name}}({{range $index, $param := .Funktion.Parameter}}{{variableName $param}}: ~\\~{{variableType $param  $.ImportKontext}}{{if ne $last $index}}, {{end}}{{end}}){{if isNotVoid .Funktion.ReturnType}}: ~\\~{{variableType .Funktion.ReturnType .ImportKontext}}{{else}}: void{{end}}{{if .ImportKontext.HasDelegate}} {
         {{if isNotVoid .Funktion.ReturnType}}return {{end}}delegate.{{.Funktion.Name.Name}}(this~\\~{{range $index, $param := .Funktion.Parameter}}, {{variableName $param}}{{end}});

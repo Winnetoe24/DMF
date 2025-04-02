@@ -1,7 +1,4 @@
 \documentclass[./einleitung.tex]{subfiles}
-\usepackage{float}
-\usepackage{natbib}
-\usepackage{listings}
 \begin{document}
     \section{Die Nutzung des \acrshort{lsp}}
     \subsection{Installationsmöglichkeiten}
@@ -16,8 +13,9 @@
     \end{figure}\\
     Es gibt Editoren die eine native Anbindung eines \acrshort{lsp}-Servers ermöglichen.
     Die Konfiguration des \acrshort{dmf}-\acrshort{lsp}-Servers obliegt den Entwickler*innen.
-    \subsubsection{Intellij}
-    Intellij unterstützt nur wenige \acrshort{lsp}-Funktionen ohne zusätzliche Plugins.
+
+    \subsubsection{IntelliJ}
+    IntelliJ unterstützt nur wenige \acrshort{lsp}-Funktionen ohne zusätzliche Plugins.
     Mit von `lsp4ij' können \acrshort{lsp}-Server direkt in der Oberfläche konfiguriert werden.\\
     \begin{figure}[H]
         \includegraphics[width=\linewidth / 2]{bilder/screenshot-add-lsp-lsp4ij}
@@ -25,7 +23,7 @@
         \caption{lsp4ij Konfiguration}
         \label{fig:screenshot-add-lsp-lsp4ij}
     \end{figure}\\
-    Um diese Konfiguration automatisch anzulegen und den Dateien ein passendes Icon zu geben, kann das Intellij-Plugin für das \acrshort{dmf} verwendet werden.
+    Um diese Konfiguration automatisch anzulegen und den Dateien ein passendes Icon zu geben, kann das IntelliJ-Plugin für das \acrshort{dmf} verwendet werden.
     Es enthält die verschiedenen Versionen des Servers und kann sie automatisch an den konfigurierten Pfad ablegen.
     Der Pfad zum \acrshort{lsp}-Server kann entweder in den Einstellungen des Plugins oder über die Umgebungsvariable `DMF\_LSP' konfiguriert werden.
 
@@ -42,12 +40,12 @@
     
     \subsubsection{Einfärbung des Textes}\label{subsubsec:useSemanticTokens}
     Mithilfe der semantischen Token kann der Editor den Text der Modelldatei einfärben.
-    Da der Server nicht die Farbe, sondern nur die Funktion, vorgibt, wird der Text anhand der Einstellungen der Entwickler*innen eingefärbt.
+    Da der Server nicht die Farbe sondern nur die Funktion vorgibt, wird der Text anhand der Einstellungen der Entwickler*innen eingefärbt.
     \begin{figure}[H]
         \centering
         \includegraphics[width=\linewidth / 2 - 1em]{bilder/semanticIntellij}
         \includegraphics[width=\linewidth / 2 - 1em]{bilder/semanticVscode}
-        \caption{Eingefärbte Modelldateien in Intellij und Visual Studio Code}
+        \caption{Eingefärbte Modelldateien in IntelliJ und Visual Studio Code}
         \label{fig:semanticintellij}
     \end{figure}
 
@@ -55,12 +53,12 @@
     Wenn der Fehler in der Datei existieren werden diese automatisch im Editor markiert.
     Es wird auch eine Beschreibung und die detaillierte Beschreibung, welche auch im Generator ausgegeben wird, übertragen.\\
     Die Darstellung wird von der \acrshort{ide} übernommen.
-    In Intellij und Visual Studio Code wird die Hover-Beschreibung zusätzlich angezeigt.\\
+    In IntelliJ und Visual Studio Code wird die Hover-Beschreibung zusätzlich angezeigt.\\
     \begin{figure}[H]
         \centering
         \includegraphics[keepaspectratio,height=8em]{bilder/markierung-fehler-intellij}
         \includegraphics[keepaspectratio,height=8em]{bilder/markierung-fehler-vscode}
-        \caption{Beispiele aus Intellij und Visual Studio Code}
+        \caption{Beispiele aus IntelliJ und Visual Studio Code}
         \label{fig:markierung-fehler-intellij}
     \end{figure}
 
@@ -134,7 +132,7 @@
     \end{figure}
 
     \section{Nutzung des \acrshort{dmf}}\label{sec:nutzung-des-dmf}
-    Zum Darstellen der Benutzung des \acrshort{dmf} wird das Anlegen eines Projektes mit einem Java und einen Typescript Programm beschrieben.
+    Zum Darstellen der Benutzung des \acrshort{dmf} wird das Anlegen eines Projektes mit einem Java und einen TypeScript Programm beschrieben.
     Es wird dafür das Modell aus dem Abschnitt \nameref{subsec:beispieldatei}.
 
     \begin{figure}[H]
@@ -161,11 +159,11 @@
 
     \paragraph{Im Modell} Ordner wird das Modell abgelegt.
     Die Bereitstellung kann an die Organisation angepasst werden, da die restlichen Projekte mithilfe von relativen Pfaden auf die Datei zugreifen.
-    Entscheidend ist dabei die Organisation der Git Repositories.
-    Werden die verschiedenen Komponenten (Modell, Typescript Projekt, Java Projekt) in verschiedenen Repositories abgelegt, so handelt es sich um eine Poly-Repository Struktur. (vgl.~\cite{monorepo})
+    Entscheidend ist dabei die Organisation der Git-Repositories.
+    Werden die verschiedenen Komponenten (Modell, TypeScript-Projekt, Java-Projekt) in verschiedenen Repositories abgelegt, so handelt es sich um eine Poly-Repository Struktur (vgl.~\cite{monorepo}).
     Die Verwaltung der verschiedenen Repositories kann manuell durch Entwickler*innen oder durch Build Scripte gesteuert werden.
     Konträr zur Poly-Repository Struktur ist die Mono-Repository Struktur.
-    Bei dieser werden alle Projekte in einem Repository verwaltet. (vgl.~\cite{monorepo})
+    Bei dieser werden alle Projekte in einem Repository verwaltet (vgl.~\cite{monorepo}).
     Hierbei entfällt die Synchronisation des Modells.
     \\\\
     In unserem Beispiel wird das vorher beschriebene Modell (siehe~\ref{subsec:beispieldatei}) zusammen mit einem Basismodell genutzt.
@@ -180,24 +178,24 @@ package de.base {
 }
     \end{lstlisting}
 
-    \paragraph{Das Typescript Projekt} enthält sowohl die generierten Dateien als auch den Source Code des eigentlichen Projekts.
+    \paragraph{Das TypeScript-Projekt} enthält sowohl die generierten Dateien als auch den Source Code des eigentlichen Projekts.
     Dies kann besonders in kleinen Projekten den Aufwand reduzieren.
 
     \paragraph{Das Java Projekt} wird in mehrere Artefakte unterteilt.
     Dies dient der Strukturierung von größeren Projekten und wurde exemplarisch genutzt, obwohl das Beispiel Projekt nur ein weiteres Artefakt besitzt.
     Innerhalb des JDomain Artefakts werden Modell und Delegates in verschiedene Ordner generiert, damit nur die Delegates von der Versionsverwaltung beachtet werden können und \acrshort{ide}s die Dateien richtig verwalten können.
 
-    \subsection{Anlage des Typescript Projektes}\label{subsec:anlage-des-typescript-projektes}
-    Das Beispiel Typescript Projekt nutzt die Bibliothek `Express' um einen kleinen Webserver zu implementieren.
+    \subsection{Anlage des TypeScript Projektes}\label{subsec:anlage-des-typescript-projektes}
+    Das Beispiel TypeScript Projekt nutzt die Bibliothek `Express' um einen kleinen Webserver zu implementieren.
     Ziel ist es die Verwendung des \acrshort{dmf} im Kontext einer simplen Restschnittstelle zu zeigen.\\
     Das Projekt wurde mithilfe der einer Anleitung von \citeauthor{initExpress}~\cite{initExpress} angelegt.\\
     Zuerst wird die `package.json'-Datei mithilfe der NPM-\acrshort{cli} angelegt.
     In ihr wird das Projekt beschrieben.
     Dazu gehören unter anderem der Name, Version, Abhängigkeiten und Ausführungskonfigurationen.\\
-    Zu den Abhängigkeiten werden Dotenv, Typescript und Express hinzugefügt.
-    Die Abhängigkeiten zu den Typen von Typescript und Express werden als `DevDependecies' hinzugefügt.
+    Zu den Abhängigkeiten werden Dotenv, TypeScript und Express hinzugefügt.
+    Die Abhängigkeiten zu den Typen von TypeScript und Express werden als `DevDependecies' hinzugefügt.
     So werden sie nur während der Entwicklung genutzt.\\
-    Der nächste Schritt der Einrichtung ist die Konfiguration von Typescript.
+    Der nächste Schritt der Einrichtung ist die Konfiguration von TypeScript.
     Es werden die Ordner für Source Code und Output sowie die beabsichtigte Version des JavaScript-Standards angegeben.\\
     Nun kann die Beispielimplementierung aus der Anleitung angelegt werden.
     Diese kann mit folgendem Befehl ausgeführt werden.
@@ -242,7 +240,7 @@ export class Aufgabe {
     \end{lstlisting}
     Bei der Aufgabe handelt es sich um eine Entity.
     Es werden alle Argumente und Referenzen (und evt. Funktionen) generiert.
-    Typescript initialisiert Variablen nicht bei ihrer Definition.
+    TypeScript initialisiert Variablen nicht bei ihrer Definition.
     Sie müssen von Entwickler*innen gesetzt werden.
     Deshalb generiert das \acrshort{dmf} einen Konstruktor mit allen Variablen.
     \begin{lstlisting}[language=Typescript, caption=Beispiel.ts, label=lst:beispielTs]
@@ -272,7 +270,7 @@ export class Beispiel implements IBeispiel {
 }
     \end{lstlisting}
     In der Aufgabe wird das Struct Beispiel referenziert.
-    Structs werden im Typescript Generator equivalent zu Entities generiert.
+    Structs werden im TypeScript Generator equivalent zu Entities generiert.
     Die Beispiel-Klasse demonstriert den Aufruf der Delegate Methoden.
     \begin{lstlisting}[language=Typescript, caption=BeispielTyp.ts, label=lst:beispielTypTs]
 export enum BeispielTyp {
@@ -291,10 +289,10 @@ export const BeispielTypInfo : Record<BeispielTyp, BeispielTypDetails> = {
 
 }
     \end{lstlisting}
-    Am Enum BeispielTyp kann die Emulation von weiteren Argumenten, ohne native Unterstützung, präsentiert werden, obwohl das Enum keine weiteren Argumente besitzt.
+    Am Enum BeispielTyp kann die Emulation von weiteren Argumenten ohne native Unterstützung präsentiert werden, obwohl das Enum keine weiteren Argumente besitzt.
     Das eigentliche Enum besitzt nur Einträge mit den Datenbankindizes.
     Das Details-Interface würde eventuelle Argumente deklarieren.
-    Im Info-Record werden die Enum Konstanten Details-Instanzen zugeordnet, welche die Werte aus dem Modell enthalten.\\
+    Im Info-Record werden die Enum-Konstanten Details-Instanzen zugeordnet, welche die Werte aus dem Modell enthalten.\\
     Die Typen (Interface/Record) müssen für jede Sprache, die das \acrshort{dmf} in der Zukunft implementiert, ersetzt werden.
     
     \paragraph{Die Delegate Funktionen} werden von den Modellklassen importiert und in den Funktionen der Modellklassen aufgerufen.
@@ -458,10 +456,10 @@ public class Beispiel implements IBeispiel {
     }
 }
     \end{lstlisting}
-    Innerhalb der Java Klassen werden für jede Variable Getter und Setter Methoden generiert, um den Best Practices in Java zu folgen.\\
+    Innerhalb der Java Klassen werden für jede Variable Getter- und Setter-Methoden generiert, um den Best Practices in Java zu folgen (siehe~\cite{getterUndSetter}).\\
     Die Delegates werden in Java als Methoden in eigenen Klassen generiert.
-    Um diese Methode aufzurufen wird in der Modellklasse eine statische Instanz der Delegateklasse erzeugt.
-    In den Methoden der Modellklasse kann die Instanz der Delegateklasse aufgerufen werden.\\
+    Um diese Methode aufzurufen, wird in der Modellklasse eine statische Instanz der Delegate-Klasse erzeugt.
+    In den Methoden der Modellklasse kann die Instanz der Delegate-Klasse aufgerufen werden.\\
     Die `equals' und die `hashCode' Methoden werden für jede generierte Klasse überschrieben.
     Sie bestimmen die Identität eines Objekts.
     Die für die Entities modellierte Identität wird auch in den Methoden beachtet.
@@ -482,7 +480,7 @@ public enum BeispielTyp {
     }
 }
     \end{lstlisting}
-    Java Enum können zusätzliche Werte beinhalten.
+    Java Enums können zusätzliche Werte beinhalten.
     Würde das Enum BeispielTyp Argumente beinhalten, so würden diese als Variablen im Enum und im Konstruktor des Enums hinzugefügt werden.
     Die Werte einer Konstante werden direkt in die Deklaration der Konstante generiert.\\
     Datenbankindize werden nicht ins Java Enum generiert.
@@ -507,11 +505,11 @@ public class BeispielDelegate {
     }
 }
     \end{lstlisting}
-    Die vorher erwähnten Delegateklassen werden in einen eigenen Ordner generiert.
+    Die vorher erwähnten Delegate-Klassen werden in einen eigenen Ordner generiert.
     Sie enthalten alle Methode der ursprünglichen Klasse mit dem Modellobjekt als zusätzlichen Parameter.
 
     \paragraph{Das Datenbankschema} wird automatisch bei der Ausführung in den `src/test/resources'-Ordner generiert.
-    Es kann somit in der Versionsverwaltung verwaltet werden.\\
+    Es kann somit auch in der Versionsverwaltung verwaltet werden.\\
     Es könnten auch Tests implementiert werden, welche Entwickler*innen automatisch auf Schemaänderungen hinweisen.
     Die Änderungen in der Schema-Datei erleichtern auch die Entwicklung eines Migrationsscripts, da die Änderungen klar in der Versionsverwaltung sichtbar sind.\\
     Das \acrshort{dmf} generiert das \acrshort{sql}-Schema für die Postgres Datenbank.
@@ -531,8 +529,8 @@ create table Aufgabe (
 
 
     \paragraph{Java Programm}\mbox{}\\
-    Um das angelegte Java Domain Modell zu nutzen wird das JProjekt Artefakt angelegt.
-    Da es sich auch um ein Maven Projekt handelt, beginnt die Anlage mit der `pom.xml'-Datei.
+    Um das angelegte Java-Domain-Modell zu nutzen wird das JProjekt-Artefakt angelegt.
+    Da es sich auch um ein Maven-Projekt handelt, beginnt die Anlage mit der `pom.xml'-Datei.
     Das Java Programm soll eine ausführbare \acrshort{jar}-Datei erzeugen.
     Dafür werden Plugins hinzugefügt (siehe~\ref{sec:dateien-aus-dem-beispielprojekt}).\\
     Für das JDomain-Artefakt müssen zusätzlich die Abhängigkeiten angepasst werden.
@@ -546,7 +544,7 @@ create table Aufgabe (
 </dependencies>
     \end{lstlisting}
     Nun kann die Logik des Projektes implementiert werden.\\
-    Es werden die gleichen Aufgaben wie im Typescript Projekt genutzt.
+    Es werden die gleichen Aufgaben wie im TypeScript-Projekt genutzt.
     Sie werden diesmal jedoch in einer Liste gespeichert.
     Für die Initialisierung der Aufgaben wurde eine eigene Methode implementiert.
     Durch diese Methoden könnte in einem größeren Projekt die Initialisierung überschrieben werden.\\
