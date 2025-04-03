@@ -14,10 +14,13 @@
     Es gibt Editoren die eine native Anbindung eines \acrshort{lsp}-Servers ermöglichen.
     Die Konfiguration des \acrshort{dmf}-\acrshort{lsp}-Servers obliegt den Entwickler*innen.
 
+    \newpage
     \subsubsection{IntelliJ}
     IntelliJ unterstützt nur wenige \acrshort{lsp}-Funktionen ohne zusätzliche Plugins.
     Mithilfe von `lsp4ij' können \acrshort{lsp}-Server direkt in der Oberfläche konfiguriert werden.\\
+%    \the\linewidth
     \begin{figure}[H]
+%        \centering
         \includegraphics[width=\linewidth / 2]{bilder/screenshot-add-lsp-lsp4ij}
         \includegraphics[width=\linewidth / 2]{bilder/screenshot-file-mapping}
         \caption{lsp4ij Konfiguration}
@@ -47,6 +50,7 @@
         \includegraphics[width=\linewidth / 2 - 1em]{bilder/semanticVscode}
         \caption{Eingefärbte Modelldateien in IntelliJ und Visual Studio Code}
         \label{fig:semanticintellij}
+        \vspace{-1em}
     \end{figure}
 
     \subsubsection{Diagnosen}\label{subsubsec:useDiagnosen}
@@ -56,10 +60,12 @@
     In IntelliJ und Visual Studio Code wird die Hover-Beschreibung zusätzlich angezeigt.\\
     \begin{figure}[H]
         \centering
-        \includegraphics[keepaspectratio,height=8em]{bilder/markierung-fehler-intellij}
-        \includegraphics[keepaspectratio,height=8em]{bilder/markierung-fehler-vscode}
+        \vspace{-1.5em}
+        \includegraphics[keepaspectratio,height=6em]{bilder/markierung-fehler-intellij}
+        \includegraphics[keepaspectratio,height=7em]{bilder/markierung-fehler-vscode}
         \caption{Beispiele aus IntelliJ und Visual Studio Code}
         \label{fig:markierung-fehler-intellij}
+        \vspace{-2em}
     \end{figure}
 
     \subsubsection{Hover-Beschreibungen}\label{subsubsec:useHover}
@@ -395,6 +401,7 @@ app.get("/:id", (req: Request, res: Response) => {
 </build>
     \end{lstlisting}
     Mithilfe des Plugins werden die verschiedene Generationsziele in mehreren Ausführungen generiert.
+    \newpage
     \paragraph{Die Modelldateien} befinden sich in einem Unterordner des `target'-Ordners.
     Im `target'-Ordner befinden sich alle temporären Dateien.
     \begin{lstlisting}[language=Java, caption=Beispiel.java, label=lst:beispielJava]
@@ -465,6 +472,7 @@ public class Beispiel implements IBeispiel {
     Die für die Entities modellierte Identität wird auch in den Methoden beachtet.
     Deshalb werden bei Entities nur die Variablen des Identifiers in den Methoden genutzt.
 
+    \newpage
     \begin{lstlisting}[language=Java, caption=BeispielTyp.java, label=lst:beispielTypJava]
 package de.beispiel;
 
@@ -512,6 +520,7 @@ public class BeispielDelegate {
     Es kann somit auch in der Versionsverwaltung verwaltet werden.\\
     Es könnten auch Tests implementiert werden, welche Entwickler*innen automatisch auf Schemaänderungen hinweisen.
     Die Änderungen in der Schema-Datei erleichtern auch die Entwicklung eines Migrationsscripts, da die Änderungen klar in der Versionsverwaltung sichtbar sind.\\
+    \newpage
     Das \acrshort{dmf} generiert das \acrshort{sql}-Schema für die Postgres Datenbank.
     \begin{lstlisting}[language=sql, caption=schema.sql, label=lst:schemaSQL]
 create table Aufgabe (
@@ -569,7 +578,7 @@ public class Main {
                 "Eigenschaften und Verhalten wiederverwendet werden.",
             "Ein Pferd ist genauso ein Tier wie ein Hund.",
             BeispielTyp.TEXT));
-
+~\newpage~
     public static void main(String[] args) {
         aufgaben.forEach(aufgabe -> {
             System.out.println();

@@ -76,7 +76,7 @@ type FehlerStelle struct {
     \subsection{Das Datenbankmodell}\label{subsec:das-datenbankmodell}
     Um das semantische Modell auf ein Datenbankschema abzubilden, muss es eine zentrale Übersetzung geben.
     In dieser werden aus dem semantischen Modell Tabellen und Spalten generiert.
-    \begin{lstlisting}[language=Go, captio=Datenstruktur für Tabellen und Spalten, label=lst:tableColumn]
+    \begin{lstlisting}[language=Go, caption=Datenstruktur für Tabellen und Spalten, label=lst:tableColumn]
 type Table struct {
 	Name string
 	Columns           []*Column
@@ -150,7 +150,7 @@ type Schema struct {
     \subsection{Die semantischen Regeln}\label{subsec:die-semantischen-regeln}
     Die semantischen Regeln basieren alle auf dem Typen `walkRule' und verarbeiten das vorher erstellte semantische Modell.
     Dieser Typ verallgemeinert das Iterieren über den Lookup und nutzt eine Instanz der `iWalkRule' um die Elemente zu verarbeiten.
-    \begin{lstlisting}[language=go]
+    \begin{lstlisting}[language=go, caption=Definition der walkRule, label=lst:walkRule]
 package semantic_rules
 type walkRule struct {
 	lookup    *smodel.TypeLookUp
@@ -160,7 +160,7 @@ type walkRule struct {
     \end{lstlisting}
     Semantische Regeln implementieren das Interface `iWalkRule' und erweitern die `walkRule'.
     Durch das Nutzen der eignen Instanz werden die Methoden der Regel-Implementierung aufgerufen, um Elemente zu verarbeiten.
-    \begin{lstlisting}[language=go]
+    \begin{lstlisting}[language=go, caption=Konstruktor der ``Compute Supertypes''-Regel, label=lst:newComputeSuperTypes]
 package semantic_rules
 func newComputeSuperTypes(lookup *smodel.TypeLookUp) *computeSuperTypes {
 	types := computeSuperTypes{
@@ -206,7 +206,8 @@ func newComputeSuperTypes(lookup *smodel.TypeLookUp) *computeSuperTypes {
     Beim Hinzufügen eines Elementes wird überprüft, ob der Name schon von einem Element in der Map genutzt wird. \\ \\
     Die ``Compute Elements''-Regel ist einzigartig, denn sie überschreibt das Verhalten des iterierens durch den Lookup mit einem zweifachen Durchlauf.
     Denn um alle geerbten Elemente zu bestimmen, müssen die NamedElements-Maps der anderen PackageElemente schon die eigenen Elemente enthalten.
-    \begin{lstlisting}[language=Go]
+    \newpage
+    \begin{lstlisting}[language=Go, caption=Implementierung der walk-Methode der ``Compute Supertypes''-Regel]
 package semantic_rules
 func (c *computeElements) walk() []errElement.ErrorElement {
 	c.walkRule.walk()

@@ -1,4 +1,5 @@
 \documentclass[./einleitung.tex]{subfiles}
+\usepackage{listings}
 
 \begin{document}
     \section{Der \acrshort{lsp}-Server}\label{sec:der-lsp-server}
@@ -26,6 +27,7 @@ interface Message {
 	jsonrpc: string;
 }
     \end{lstlisting}
+    \newpage
     Die Nachrichten gehören zusätzlich zu einem der folgenden Typen (vgl.~\cite{lsp}):
     \paragraph{Anfragen}{\footnotesize Request-Message\\}
     \begin{lstlisting}[language=Typescript]
@@ -68,6 +70,7 @@ interface ResponseError {
     Jedoch ist das Format nicht definiert.
     Es bietet sich nur an dieses Element zu nutzen, wenn sowohl Server als auch Client selbst implementiert wurden.
 
+    \newpage
     \paragraph{Benachrichtigungen}{\footnotesize Notification-Message}\\
 \begin{lstlisting}[language=Typescript]
 interface NotificationMessage extends Message {
@@ -148,7 +151,7 @@ type Message struct {
     Ist diese Vorbereitung abgeschlossen, sendet der Server die `initialized' Benachrichtigung.
     Nun ist der Start der Kommunikation erfolgreich abgeschlossen.
 
-
+    \newpage
     \paragraph{Beenden des Servers}\mbox{}\\
     Wird der \acrshort{lsp}-Server nicht mehr vom Client benötigt, z.B.\ da keine relevanten Dateien mehr geöffnet sind oder die \acrshort{ide}/das Projekt geschlossen wird, so wird die Methode `shutdown' aufgerufen.
     Die Methode erwartet leere Parameter und beendet alle Strukturen für die Verarbeitung der \acrshort{lsp}-Funktionen.
@@ -221,6 +224,7 @@ type DeclarationParams struct {
 	Position protokoll.Position `json:"position"`
 }
     \end{lstlisting}
+    \newpage
     Die Deklaration wird als DeclarationLink als Ergebnis bereitgestellt.
     \begin{lstlisting}[language=Go, title=Definition des DeclarationLink , label=lst:locationLink]
 type DeclarationLink struct {
@@ -260,7 +264,7 @@ type Location struct {
     \\\\
     Während der Initialisierung gibt der Client die Formate an, die er für die Dokumentation unterstützt.
     Das \acrshort{lsp} beinhaltet zwei Formate in der Spezifikation: normaler Text und Markdown.
-    \\\\
+    \newpage
     Die Parameter enthalten die \acrshort{uri} der Datei und die Position.
     \begin{lstlisting}[language=Go, caption=Definition der Hover Parameter, label=lst:hoverParams]
 type HoverParams struct {
@@ -483,7 +487,7 @@ err = json.Unmarshal(data, &message)
     Das \acrshort{lsp} besitzt nicht nur Spezifikationen für den Inhalt der Nachrichten, sondern auch für deren Übertragung.
     Vorausgesetzt wird nur eine bidirektionale Verbindung, welche parallel Text übertragen kann.\\
     Jede Nachricht im Basisprotokoll besteht aus zwei Teilen: dem Header und dem Inhalt.
-    \\\\
+    \newpage
     Der Header enthält Angabe zum Einlesen.
     Diese werden jeweils in eine eigene Zeile geschrieben.
     Die Zeilen werden mit den Kontrollzeichen `{\textbackslash}r{\textbackslash}n' beendet.
@@ -577,7 +581,7 @@ MessageLoop:
     Die Verarbeitung der \acrshort{lsp}-Lifecycle-Nachrichten fällt in den Aufgabenbereich des Servers.
     Sollte die `shutdown'-Anfrage vorliegen, wird der Message-Loop beendet.
     Somit wird schließlich der Server heruntergefahren.
-    \\\\
+    \newpage
     Für alle anderen Methoden wird die Map der Services genutzt, um den richtigen Service zu finden.
     Die Verarbeitung wird im Service fortgeführt.
     Dafür wird eine neue Routine gestartet, so kann der Server schon während der Verarbeitung die nächste Nachricht einlesen.
@@ -686,8 +690,9 @@ func createActionChannel() chan func() {
     \end{lstlisting}
     Jeder Zugriff auf die ``handleMap'' muss in einer Funktion geschehen, welche von der Routine des Channels ausgeführt wird.
     Um auf Werte, welche innerhalb der Funktion geladen werden, auch außerhalb der Funktion zuzugreifen, wird ein zusätzlicher Channel erzeugt, über den die Werte übertragen werden.\\
+    \newpage
     Dieses Pattern wird z.B. beim Laden des Dateiinhalts durch andere Services genutzt.
-    \begin{lstlisting}[language=Go, captio=Laden eines FileHandles]
+    \begin{lstlisting}[language=Go, caption=Laden eines FileHandles]
 func (receiver *FileService) GetFileContent(uri protokoll.DocumentURI) (FileContent, error) {
 	returnChannel := make(chan struct {
 		FileContent
@@ -756,9 +761,7 @@ type FileChangeListener interface {
 
     \paragraph{Die Tokentypen und ihre Verwendung zusammen mit den Tokenmodifikatoren}
     \begin{center}
-
-
-        \begin{tabular}{|c|c|>{\centering\arraybackslash}m{\mycolwidth}|}
+        \begin{longtable}{|c|c|>{\centering\arraybackslash}m{\mycolwidth}|}
             \hline
             Index & Token Typ & \makecell{Verwendung im DMF \\
                 \begin{tabular}{c|c}
@@ -771,7 +774,7 @@ type FileChangeListener interface {
             \makecell[l]{Für das AST-Element ``reftype''.\\Für den Override Wert des Java Typens.}
             }\tabularnewline
             \hline
-            2 & class & \tablecell{- & Für den Override Wert der Java Klasse, der Oberklasse und der implementierten Interfaces.}\tabularnewline[-1ex]
+            2 & class & \tablecell{- & Für den Override Wert der Java Klasse, der Oberklasse und der implementierten Interfaces.}\tabularnewline
             \hline
             3 & enum & \tablecell{ declaration &  Für den Namen eines Enums.}\tabularnewline
             \hline
@@ -786,7 +789,7 @@ type FileChangeListener interface {
                 - & Für die Namen der Variablen im Entity Identifier. Für den Override Wert des Java Namens.\\
                 \hline
                 declaration & Für die Namen von Argumenten, Referenzen und MultiReferenzen.\\
-            }\\[-1ex]
+            }\\
             \hline
             8 & property & Platzhalter\tabularnewline
             \hline
@@ -806,9 +809,10 @@ type FileChangeListener interface {
             \hline
             16 & decorator & \tablecell{ - & Für den Override Wert der Java Annotations. }\tabularnewline
             \hline
-        \end{tabular}
+        \end{longtable}
     \end{center}
 
+    \newpage
     \paragraph{Generierung der Semantik Tokens}\mbox{}\\
     Die Semantik Tokens werden mithilfe zweier Algorithmen generiert.
     \subparagraph{Mithilfe des \acrshort{ast}s} werden alle \acrshort{ast}-Elemente durchlaufen.
@@ -832,7 +836,7 @@ type semanticElement struct {
     \end{lstlisting}
 
     \subparagraph{Die Codierung der semantischen Tokens} muss zunächst die generierten Tokens sortieren, da keine Garantie für die richtige Reihenfolge durch die beiden Algorithmen existiert.
-    \begin{lstlisting}[language=Go,label={lst:sortSemanticTokens}]
+    \begin{lstlisting}[language=Go,caption=Sortieren der Token, label={lst:sortSemanticTokens}]
 slices.SortFunc(semanticElements, func(a, b *semanticElement) int {
     if a.line == b.line {
         return cmp.Compare(a.start, b.start)
@@ -860,7 +864,7 @@ for i, element := range semanticElements {
     if line == lastLine && start < lastStart {
         continue
     }
-
+    ~\pagebreak~
     // Calculate delta encoding
     deltaLine := line - lastLine
     deltaStart := uint32(0)
@@ -947,8 +951,8 @@ for {
     \end{lstlisting}
     Die Ergebnisse einer Query werden in der Treesitter-\acrshort{api} QueryMatches genannt.
     Für diese Query enthalten sie alle `comment_block' Nodes im \acrshort{ast}.
-    Durch die Ergebnisse wird iteriert und für jeden QueryMatch ein Faltbereich erstellt.
-    Dabei wird zwischen einzeiligen und mehrzeiligen Kommentaren unterschieden, da die Positionen unterschiedlich interpretiert werden müssen.
+    Durch die Ergebnisse wird iteriert und für jeden QueryMatch ein Faltbereich erstellt.\\
+    Dabei wird zwischen einzeiligen und mehrzeiligen Kommentaren unterschieden, da die Positionen unterschiedlich interpretiert werden müssen.\\
     Einzeilige Kommentare werden nicht in jeder \acrshort{ide} gut verarbeitet, deshalb können sie über die Argumente beim Start des \acrshort{lsp}-Servers ausgeschaltet werden.
     \begin{lstlisting}[language=Go, caption=Auszug aus der Bestimmung der Faltbereiche für die Kommentare, label=lst:foldingCommentsFor]
 queryCursor := tree_sitter.NewQueryCursor()
@@ -1016,8 +1020,12 @@ for {
     Um zwischen den Referenzen und den Deklarationen in der \acrshort{ide} in der Datei springen zu können, implementiert der ReferenzService die Methoden `textDocument/references' und `textDocument/declaration'. \\
     Die Parameter für beide Methoden enthalten das Textdokument und die Position im Dokument.
     Um die Referenz zu finden, wird der \acrshort{ast} vom Blatt an der Position zur Wurzel durchlaufen.
-    Dabei werden für folgende Node-Typen die erste Node gespeichert.
-    \begin{center}
+    \newpage
+    Dabei werden für folgende Node-Typen die erste Node gespeichert.\\
+%    \vskip{-1em}
+    \begin{table}[H]
+        \vspace{-1.5em}
+        \centering
         \begin{tabular}{|c|c|}
             \hline
             \textbf{\acrshort{ast}-Node Namen} & \textbf{Verwendung} \\
@@ -1029,7 +1037,9 @@ for {
             \makecell{package_block, struct_block, enum_block,\\entity_block, interface_block}& PackageElemente\\
             \hline
         \end{tabular}
-    \end{center}
+        \vspace{-1.5em}
+    \end{table}
+%    \end{center}
     Mithilfe dieser Nodes kann der Name für den LookUp der PackageElemente und der Name des NamedElements innerhalb des PackageElements bestimmt werden.
 
     \paragraph{Referenzen}\mbox{}\\
@@ -1050,7 +1060,8 @@ for {
     \subsubsection[HoverService]{HoverService \secsubtitle{\nameref{subsubsec:hover}}}\label{subsubsec:hover-service}
     Der HoverService lässt die Entwickler*innen Zusammenfassungen für jedes Element aufrufen.
     Um zu bestimmen, welche Zusammenfasssung zu welchen Element übermittelt werden muss, wird zu Beginn jeder Hover-Anfrage die kleinsten Nodes verschiedener Typen bestimmt.
-    \begin{center}
+    \begin{table}[H]
+        \centering
         \begin{tabular}{|c|c|}
             \hline
             & \textbf{\acrshort{ast}-Node-Typen}\\
@@ -1072,8 +1083,7 @@ for {
             \textbf{DMF Deklaration} & dmf_declaration \\
             \hline
         \end{tabular}
-    \end{center}
-
+    \end{table}
     
     \paragraph{Das Generieren der Zusammenfassungen} folgt für jede Zusammenfassung dem gleichen Ablauf.
     Zuerst werden anhand der \acrshort{ast}-Nodes die Elemente aus dem semantischen Modell bestimmt.

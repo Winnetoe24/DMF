@@ -99,12 +99,12 @@ In dieser Sektion können Werte überschrieben werden und sprachspezifische Wert
 <java_annotation> ::= 'annotations' <stringValue>
 \end{grammar}
 \begin{center}
-\begin{tabular}{| c || m{30em} |}
+\begin{tabular}{| c || m{26em} |}
 \hline
 Java Override Option & Funktion\\
 \hhline{|=||=|}
-Annotations & Fügt den Text als Annotation zu dem jeweiligen Element hinzu.
-Java-Annotations gehören nicht zur \acrshort{dmf} Abstraktion, sind jedoch für viele Frameworks wichtig.\\
+Annotations & \makecell[l]{Fügt den Text als Annotation zu dem jeweiligen Element hinzu.\\
+Java-Annotations gehören nicht zur \acrshort{dmf} Abstraktion,\\ sind jedoch für viele Frameworks wichtig.}\\
 \hline
 Extends & Überschreibt die Oberklasse.\\
 \hline
@@ -297,7 +297,7 @@ Die Regel `primitive_value' vereinigt alle Value-Regeln.
 \end{grammar}
 
 \subsection{Beispieldatei}\label{subsec:beispieldatei}
-\begin{lstlisting}
+\begin{lstlisting}[language=DMF, caption=Inhalt der Beispieldatei]
 dmf 1.0.0
 model "beispiel" version 0.0.1
 

@@ -50,7 +50,8 @@ func generateFile(file *os.File, f func(writer io.Writer) error) {
 }
     \end{lstlisting}
     Durch die Abstraktion des Generierens des Dateiinhalts über eine Funktion kann die Methode für alle Elemente genutzt werden.
-    Um dieses Pattern zu erleichtern,  wird die Methode `apply' genutzt.
+    \newpage
+    Um dieses Pattern zu erleichtern, wird die Methode `apply' genutzt.
     \begin{lstlisting}[language=Go, caption=Die apply-Methode, label=lst:apply]
 func apply[E any](f func(writer io.Writer, e E) error, data E) func(writer io.Writer) error {
 	return func(writer io.Writer) error {
@@ -131,7 +132,7 @@ type OverrideAdapter interface {
 	GetType(override *base.Override) *string
 }
     \end{lstlisting}
-
+    \newpage
     \paragraph{Delegate}\mbox{}\\
     Damit Delegates Teile der Templates von anderen PackageElementen nutzen können, wurde das DelegateElement auch als PackageElement implementiert.
     \begin{lstlisting}[language=Go, caption=Definition des DelegateElements, label=lst:DelegateElement]
@@ -150,7 +151,7 @@ type DelegateElement struct {
     \\\\
     Eine Definition eines Generationsziels beginnt mit der Definition eines neuen Datentyps.
     Obwohl Datenmodell und Delegates unterschiedliche Generationsziele darstellen, werden sie in einer Datenstruktur zusammengefasst.
-    \begin{lstlisting}[language=Go, cation=Definition des TypeScript Generationsziel, label=lst:TsTemplate]
+    \begin{lstlisting}[language=Go, caption=Definition des TypeScript Generationsziel, label=lst:TsTemplate]
 type TsTemplate struct {
 	template *template.Template
 }
@@ -172,7 +173,8 @@ type DMFTemplate interface {
 }
     \end{lstlisting}
     Eine besondere Methode ist `GetOverrideAdapter'.
-    Sie gibt den sprachspezifischen Adapter zurück, welcher während der Pfad-Generierung genutzt wird.\\
+    Sie gibt den sprachspezifischen Adapter zurück, welcher während der Pfad-Generierung genutzt wird.
+    \newpage
     In den restlichen Methoden wird das für das jeweilige Element richtige Template definiert und mit den Parametern aufgerufen.
     Zusätzlich wird die Information über die Generation ausgegeben.
     \begin{lstlisting}[language=Go, caption=Aufruf der Generation einer TypeScript Klasse, label=lst:genTsClass]
@@ -234,7 +236,7 @@ func NewTemplate() TsTemplate {
     Beide Erben vom `AbstractGeneratorMojo'.
     Dieses enthält die Konfigurationsparameter und die Ablauflogik.
     Nur die Ausführung des Generators wird in den Unterklassen bestimmt.
-    \\\\
+    \newpage
     Zu Beginn der Generation wird zunächst der Generator vorbereitet.
     Da der Generator eine ausführbare Datei ist, muss diese im Dateisystem vorhanden sein.
     Um systemweite Installationen zu vermeiden, werden die verschiedenen Varianten, für die verschiedenen Kompilationsziele, in der \acrshort{jar} des Plugins gespeichert.
@@ -247,7 +249,7 @@ func NewTemplate() TsTemplate {
     Die Ausgabe wird über den Logger von Maven ausgegeben.
     Sollte ein Fehler vom Generator ausgegeben wird dieser über den Fehlerkanal des Loggers ausgegeben und in einer Exception zurückgegeben.
     Das Auftreten dieser Exception hält die Ausführung von Maven an und der Text der Exception wird in der Konsole als letztes ausgegeben, sodass Entwickler*innen ihn direkt sehen.
-    \begin{figure}[tH]
+    \begin{figure}[H]
         \centering
         \includegraphics[width=\linewidth]{bilder/screenshot-error-generator}
         \caption{Ausgabe eines Fehlers}
