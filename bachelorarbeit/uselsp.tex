@@ -178,7 +178,7 @@ package de.base {
 }
     \end{lstlisting}
 
-    \paragraph{Das TypeScript-Projekt} enthält sowohl die generierten Dateien als auch den Source Code des eigentlichen Projekts.
+    \paragraph{Das TypeScript-Projekt} enthält sowohl die generierten Dateien als auch den Source-Code des eigentlichen Projekts.
     Dies kann besonders in kleinen Projekten den Aufwand reduzieren.
 
     \paragraph{Das Java Projekt} wird in mehrere Artefakte unterteilt.
@@ -196,7 +196,7 @@ package de.base {
     Die Abhängigkeiten zu den Typen von TypeScript und Express werden als `DevDependecies' hinzugefügt.
     So werden sie nur während der Entwicklung genutzt.\\
     Der nächste Schritt der Einrichtung ist die Konfiguration von TypeScript.
-    Es werden die Ordner für Source Code und Output sowie die beabsichtigte Version des JavaScript-Standards angegeben.\\
+    Es werden die Ordner für Source-Code und Output sowie die beabsichtigte Version des JavaScript-Standards angegeben.\\
     Nun kann die Beispielimplementierung aus der Anleitung angelegt werden.
     Diese kann mit folgendem Befehl ausgeführt werden.
     \begin{lstlisting}{language=bash, caption=Start description Servers, label=lst:startExpress}
@@ -215,7 +215,7 @@ npx ts-node src/index.ts
   },
     \end{lstlisting}
     Es werden zwei neue Konfigurationen hinzugefügt: generateModell und generateDelegates.
-    Sie rufen den Generator mit den Parametern für den Source Code Ordner, dem Pfad der Modelldatei und dem jeweiligen Generationsziel auf.
+    Sie rufen den Generator mit den Parametern für den Source-Code-Ordner, dem Pfad der Modelldatei und dem jeweiligen Generationsziel auf.
     Da die Konfigurationen in der Build Konfiguration eingebaut wurden, werden sie bei jedem Build automatisch ausgeführt.
     \paragraph{Die generierten Modelldateien} werden in den Ordnern nach ihrem Package Pfad abgelegt.
     Aus dem verwendeten Modell werden folgende Dateien generiert.

@@ -1223,10 +1223,8 @@ package de.smart.city {
 
         struct MenuSection {
             arg string name;
-            // TODO []
-            arg string items;
-            // TODO []
-            arg double prices;
+            ref List<string> items;
+            ref List<double> prices;
             arg boolean isSpecial;
             func double getAveragePrice();
         }
@@ -1667,8 +1665,7 @@ package de.smart.city {
             arg date lastMaintenance;
             arg date nextMaintenance;
             arg int frequency;
-            // TODO []
-            arg string tasks;
+            ref List<string> tasks;
             arg string responsible;
             func boolean isOverdue();
         }
@@ -2122,7 +2119,6 @@ package de.smart.city {
             arg date startDate;
             arg date endDate;
             func boolean isActive();
-            // TODO [] return
             func string getCollaborators();
             func double calculateProgress();
         }
@@ -2330,7 +2326,6 @@ package de.smart.city {
         }
 
         interface Auditable {
-            // TODO []
             func string getAuditTrail();
             func void addAuditEntry(string entry);
             func boolean isCompliant();
@@ -2341,7 +2336,6 @@ package de.smart.city {
         interface Secureable {
             func boolean encrypt();
             func boolean decrypt();
-            // TODO []
             func string getAccessRoles();
             func boolean hasPermission(string role);
             func void revokeAccess(string userId);
@@ -2349,11 +2343,9 @@ package de.smart.city {
 
         interface RiskAssessable {
             func int getRiskScore();
-            // TODO []
             func string getRiskFactors();
             func boolean isHighRisk();
             func void updateRiskProfile();
-            // TODO []
             func string getMitigationStrategies();
         }
 
