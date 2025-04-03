@@ -16,7 +16,7 @@
 
     \subsubsection{IntelliJ}
     IntelliJ unterstützt nur wenige \acrshort{lsp}-Funktionen ohne zusätzliche Plugins.
-    Mit von `lsp4ij' können \acrshort{lsp}-Server direkt in der Oberfläche konfiguriert werden.\\
+    Mithilfe von `lsp4ij' können \acrshort{lsp}-Server direkt in der Oberfläche konfiguriert werden.\\
     \begin{figure}[H]
         \includegraphics[width=\linewidth / 2]{bilder/screenshot-add-lsp-lsp4ij}
         \includegraphics[width=\linewidth / 2]{bilder/screenshot-file-mapping}
@@ -29,7 +29,7 @@
 
     \subsubsection{Visual Studio Code}
     Um den \acrshort{lsp}-Server in Visual Studio Code nutzen zu können, wird die Erweiterung für das \acrshort{dmf} benötigt.
-    Dieses enthält die Logik zum Verbinden zum Server und die verschiedenen Versionen.
+    Dieses enthält die Logik zum Verbinden mit dem Server und die verschiedenen Versionen.
     Die benötigte Version kann direkt ausgeführt werden und benötigt keine zusätzliche Konfiguration.\\
     Im Gegensatz zu den bisherigen Konfigurationen nutzt die Visual Studio Code Erweiterung eine \acrshort{tcp}-Verbindung.
 
@@ -40,7 +40,7 @@
     
     \subsubsection{Einfärbung des Textes}\label{subsubsec:useSemanticTokens}
     Mithilfe der semantischen Token kann der Editor den Text der Modelldatei einfärben.
-    Da der Server nicht die Farbe sondern nur die Funktion vorgibt, wird der Text anhand der Einstellungen der Entwickler*innen eingefärbt.
+    Da der Server nicht die Farbe, sondern nur die Funktion, vorgibt, wird der Text anhand der Einstellungen der Entwickler*innen eingefärbt.
     \begin{figure}[H]
         \centering
         \includegraphics[width=\linewidth / 2 - 1em]{bilder/semanticIntellij}
@@ -50,8 +50,8 @@
     \end{figure}
 
     \subsubsection{Diagnosen}\label{subsubsec:useDiagnosen}
-    Wenn der Fehler in der Datei existieren werden diese automatisch im Editor markiert.
-    Es wird auch eine Beschreibung und die detaillierte Beschreibung, welche auch im Generator ausgegeben wird, übertragen.\\
+    Wenn Fehler in der Datei existieren, werden diese automatisch im Editor markiert.
+    Es wird auch eine kurze Beschreibung, sowie die detaillierte Beschreibung, welche im Generator ausgegeben wird, übertragen.\\
     Die Darstellung wird von der \acrshort{ide} übernommen.
     In IntelliJ und Visual Studio Code wird die Hover-Beschreibung zusätzlich angezeigt.\\
     \begin{figure}[H]
@@ -133,7 +133,7 @@
 
     \section{Nutzung des \acrshort{dmf}}\label{sec:nutzung-des-dmf}
     Zum Darstellen der Benutzung des \acrshort{dmf} wird das Anlegen eines Projektes mit einem Java und einen TypeScript Programm beschrieben.
-    Es wird dafür das Modell aus dem Abschnitt \nameref{subsec:beispieldatei}.
+    Es wird dafür das Modell aus dem Abschnitt \nameref{subsec:beispieldatei} genutzt.
 
     \begin{figure}[H]
         \caption{Dateiaufbau für ein Beispielprojekt}
@@ -157,7 +157,7 @@
         \label{fig:dirtree}
     \end{figure}
 
-    \paragraph{Im Modell} Ordner wird das Modell abgelegt.
+    \paragraph{Im Modell-Ordner} wird das Modell abgelegt.
     Die Bereitstellung kann an die Organisation angepasst werden, da die restlichen Projekte mithilfe von relativen Pfaden auf die Datei zugreifen.
     Entscheidend ist dabei die Organisation der Git-Repositories.
     Werden die verschiedenen Komponenten (Modell, TypeScript-Projekt, Java-Projekt) in verschiedenen Repositories abgelegt, so handelt es sich um eine Poly-Repository Struktur (vgl.~\cite{monorepo}).
@@ -185,10 +185,10 @@ package de.base {
     Dies dient der Strukturierung von größeren Projekten und wurde exemplarisch genutzt, obwohl das Beispiel Projekt nur ein weiteres Artefakt besitzt.
     Innerhalb des JDomain Artefakts werden Modell und Delegates in verschiedene Ordner generiert, damit nur die Delegates von der Versionsverwaltung beachtet werden können und \acrshort{ide}s die Dateien richtig verwalten können.
 
-    \subsection{Anlage des TypeScript Projektes}\label{subsec:anlage-des-typescript-projektes}
-    Das Beispiel TypeScript Projekt nutzt die Bibliothek `Express' um einen kleinen Webserver zu implementieren.
-    Ziel ist es die Verwendung des \acrshort{dmf} im Kontext einer simplen Restschnittstelle zu zeigen.\\
-    Das Projekt wurde mithilfe der einer Anleitung von \citeauthor{initExpress}~\cite{initExpress} angelegt.\\
+    \subsection{Anlage des TypeScript-Projektes}\label{subsec:anlage-des-typescript-projektes}
+    Das Beispiel TypeScript-Projekt nutzt die Bibliothek `Express', um einen kleinen Webserver zu implementieren.
+    Ziel ist es, die Verwendung des \acrshort{dmf} im Kontext einer simplen Restschnittstelle zu zeigen.\\
+    Das Projekt wurde mithilfe einer Anleitung von Aman~\citeauthor{initExpress}~\cite{initExpress} angelegt.\\
     Zuerst wird die `package.json'-Datei mithilfe der NPM-\acrshort{cli} angelegt.
     In ihr wird das Projekt beschrieben.
     Dazu gehören unter anderem der Name, Version, Abhängigkeiten und Ausführungskonfigurationen.\\
@@ -270,7 +270,7 @@ export class Beispiel implements IBeispiel {
 }
     \end{lstlisting}
     In der Aufgabe wird das Struct Beispiel referenziert.
-    Structs werden im TypeScript Generator equivalent zu Entities generiert.
+    Structs werden im TypeScript-Generator equivalent zu Entities generiert.
     Die Beispiel-Klasse demonstriert den Aufruf der Delegate Methoden.
     \begin{lstlisting}[language=Typescript, caption=BeispielTyp.ts, label=lst:beispielTypTs]
 export enum BeispielTyp {
@@ -483,7 +483,7 @@ public enum BeispielTyp {
     Java Enums können zusätzliche Werte beinhalten.
     Würde das Enum BeispielTyp Argumente beinhalten, so würden diese als Variablen im Enum und im Konstruktor des Enums hinzugefügt werden.
     Die Werte einer Konstante werden direkt in die Deklaration der Konstante generiert.\\
-    Datenbankindize werden nicht ins Java Enum generiert.
+    Datenbankindizes werden nicht ins Java Enum generiert.
     
     \paragraph{Delegate Klassen}\mbox{}\\
     \begin{lstlisting}[language=Java, caption=BeispielDelegate.java, label=lst:beispielDelegateJava]

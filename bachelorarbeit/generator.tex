@@ -73,7 +73,7 @@ go generateFile(createFile(basePath, element.Path, element.Override, buildTsPath
     Um die Entwicklung der Generationsziele zu vereinfachen, stellt das Generator-Modell verschiedene Komponenten und Funktionen bereit.
     \paragraph{ImportKontext}\mbox{}\\
     Importe müssen für jede Datei berechnet werden.
-    Deshalb stellt das Generator-Modell den ImportKotext und Funktionen zum Erstellen des Kontextes bereit.
+    Deshalb stellt das Generator-Modell den ImportKontext und Funktionen zum Erstellen des Kontextes bereit.
     \begin{lstlisting}[language=Go, caption=ImportKontext, label=lst:importKontext]
 type ImportKontext struct {
 	ImportLookUp ImportLookUp
@@ -88,7 +88,7 @@ func CreateImportKontext(pElement packages.PackageElement,
 	handleMultiReferenzImport func(handleImport func(path base.ModelPath), typ packages.MultiReferenzType),
 	handleArgument func(*ImportLookUp, packages.Argument)) ImportKontext {}
     \end{lstlisting}
-    Der ImportKontext beinhaltet den Pfad der aktuellen Datei, ein Kennzeichen, ob es sich um ein Delegate handelt, und einen ImportLookUp, indem die Importe unter dem kompletten ModelPath des importierten Elements gespeichert werden.
+    Der ImportKontext beinhaltet den Pfad der aktuellen Datei, ein Kennzeichen, ob es sich um ein Delegate handelt, und einen ImportLookUp, in dem die Importe unter dem kompletten ModelPath des importierten Elements gespeichert werden.
     Die Funktion CreateImportKontext durchläuft alle Elemente eines PackageElements.
     Die Logik für Referenzen und Abstraktionen kann allgemein für alle Generationsziele implementiert werden.
     Für Argumente und Multireferenzen müssen abhängig vom Generationsziel Importe hinzugefügt werden.
@@ -121,7 +121,7 @@ func ToFields(argumente []packages.Argument, referenzen []packages.Referenz,
     \paragraph{Der OverrideAdapter} bietet Funktionen für alle Override-Optionen an.
     Die Implementierung erfolgt sprachspezifisch, um die richtigen Werte auszuwählen.
     Alle Funktionen des Adapters geben Pointer zurück, damit die Rückgabewerte optional sind.
-    \begin{lstlisting}[language=Go, captio=OverrideAdapter, label=lst:overrideAdapter]
+    \begin{lstlisting}[language=Go, caption=Definition des OverrideAdapters, label=lst:overrideAdapter]
 type OverrideAdapter interface {
 	GetDoc(override *base.Override) *base.Comment
 	GetExtends(override *base.Override) *string
@@ -158,8 +158,7 @@ type TsTemplate struct {
 var _ gbase.DMFTemplate = TsTemplate{}
     \end{lstlisting}
     Der neue Datentyp implementiert das DMFTemplate-Interface.
-    Dafür müssen zwar alle Funktionen deklariert werden.
-    Es werden jedoch nur die für das Generationsziel relevante Methoden implementiert.
+    Dafür müssen zwar alle Funktionen deklariert werden, es werden jedoch nur die für das Generationsziel relevante Methoden implementiert.
     \begin{lstlisting}[language=Go, caption=Definition des DMFTemplate-Interfaces, label=lst:DMFTemplate]
 type DMFTemplate interface {
 	GenerateStruct(writer io.Writer, element *packages.StructElement) error
@@ -174,7 +173,7 @@ type DMFTemplate interface {
     \end{lstlisting}
     Eine besondere Methode ist `GetOverrideAdapter'.
     Sie gibt den sprachspezifischen Adapter zurück, welcher während der Pfad-Generierung genutzt wird.\\
-    In den restlichen Methoden wird das, für das jeweilige Element richtige, Template definiert und mit den Parametern aufgerufen.
+    In den restlichen Methoden wird das für das jeweilige Element richtige Template definiert und mit den Parametern aufgerufen.
     Zusätzlich wird die Information über die Generation ausgegeben.
     \begin{lstlisting}[language=Go, caption=Aufruf der Generation einer TypeScript Klasse, label=lst:genTsClass]
 func (receiver TsTemplate) GenerateStruct(writer io.Writer, element *packages.StructElement) error {

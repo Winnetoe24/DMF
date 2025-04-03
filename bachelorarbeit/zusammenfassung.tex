@@ -2,17 +2,17 @@
 
 \begin{document}
 \chapter{Zusammenfassung}\label{ch:zusammenfassung}
-Grundlage der Arbeit war das Ziel ein Framework zu entwickeln, um die Vorteile einer modellgetriebenen Entwicklung,
-ohne die Nachteile eines unflexiblen Frameworks (wie z.B. \acrshort{emf}), nutzen zu können.
+Grundlage der Arbeit war das Ziel, ein Framework zu entwickeln, um die Vorteile einer modellgetriebenen Entwicklung
+ohne die Nachteile eines unflexiblen Frameworks (wie z.B. \acrshort{emf}) nutzen zu können.
 Ein unflexibles Framework besitzt mehrere Nachteile.\\
 Es fördert die Konzentrierung von Wissen und Erfahrung auf die verwendeten Technologien, wodurch die Breite der Erfahrungen gemindert wird.
-Eine geringe Breite der Erfahrungen innerhalb eines Teams verhindert eine richtige Evaluation der bisherigen Vorgehensweise.\\
+Eine geringe Breite der Erfahrungen innerhalb eines Teams verhindert eine neutrale Evaluation der bisherigen Vorgehensweise.\\
 Es senkt die Anzahl der Bewerber*innen, da die verwendeten Technologien an Popularität verlieren werden und erzeugt eine Anfälligkeit gegenüber Sicherheitslücken,
 da jedes Programm auf den gleichen Technologien mit den gleichen Schwachstellen basiert.\\
 Das \acrshort{dmf} hat den Anspruch mithilfe von Flexibilität in allen Aspekten des Frameworks die Nachteile bestehender Technologien zu vermeiden.
 Die Flexibilität wurde im Design und den verwendeten Technologien beachtet, um eine Nutzung in jeder Entwicklungsumgebung zu ermöglichen.
 \\\\
-Ausgehend vom bisherigen Stand des \acrshort{dmf}s konnten, die am Anfang der Arbeit gestellten, konkreten Anforderungen erfüllt werden.\\
+Ausgehend vom bisherigen Stand des \acrshort{dmf}s konnten die am Anfang der Arbeit gestellten konkreten Anforderungen erfüllt werden.\\
 Mithilfe des Vergleichs verschiedener Programmiersprachen konnte eine Abstraktion zur Modellierung der Datenstrukturen gefunden werden.
 Basierend auf der Abstraktion konnte eine Syntax und Semantik entworfen werden, welche eine kompakte und ausdrucksvolle Modellierung ermöglicht.\\
 Durch die Inklusion der Override Funktion konnte auch eine Flexibilität im Generat erreicht werden.\\
@@ -26,7 +26,7 @@ Dank des \acrshort{lsp}-Servers können Entwickler*innen \acrshort{dmf}-Modelle 
 Durch die zusätzlichen Plugins ist der Einsatz in IntelliJ und Visual Studio Code nochmals stark vereinfacht worden.\\
 Ein Nebeneffekt des \acrshort{lsp} ist die schnellere Entwicklung von Erweiterungen für nicht kompatible \acrshort{ide}s.
 Da dieses Protokoll so weit verbreitet ist, kann auf mehr Dokumentation für die Entwicklung zurückgegriffen werden.\\
-Dank des schnellen und inkrementellen Parsen durch die Nutzung von Treesitter kann eine reaktionsschnelle und intuitive Nutzung der \acrshort{ide}s geboten werden.
+Dank des schnellen und inkrementellen Parsens durch die Nutzung von Treesitter kann eine reaktionsschnelle und intuitive Nutzung der \acrshort{ide}s geboten werden.
 Dabei spielt auch die Wahl von Golang als Implementierungssprache eine große Rolle.
 Mithilfe verschiedener Strukturen der Sprachen ließ sich der \acrshort{lsp}-Server sehr einfach parallelisieren.
 Durch die Kompilierung von Golang wurde der Server zusätzlich beschleunigt und die Verwaltung der Installation vereinfacht.
@@ -34,7 +34,7 @@ Durch die Kompilierung von Golang wurde der Server zusätzlich beschleunigt und 
 Diese Effekte der Wahl von Golang lassen sich auch beim Generator feststellen.
 Aufgrund der parallelen Generierung von Dateien erwies sich der Generator als sehr zeitsparend in der Nutzung.
 Dadurch wird die Fokussierung der Entwickler*innen auf die Entwicklung erleichtert und es wird die Produktivität gesteigert.
-Der Generator ist in der Lage komplette Modelle in der Startzeit einer JVM zu generieren.\\
+Der Generator ist in der Lage, komplette Modelle in der Startzeit einer JVM zu generieren.\\
 Mit der Unterstützung von Java und TypeScript kann das \acrshort{dmf} in verschiedenen Projekten eingesetzt werden.
 Dabei ermöglicht das Maven Plugin auch einen reibungslosen Einsatz in einem Framework mit einer anderen Implementierungssprache.\\
 Dank der Delegate Strukturen können Teile des Modells immer neu generiert werden, ohne die Implementierung der Funktionen zu überschreiben.
@@ -57,8 +57,8 @@ Bisher werden keine automatischen Mappings für \acrshort{orm} Frameworks erzeug
     Es würden sich Golang, Kotlin, Rust, Python oder C anbieten.\\
     Um den Entwickler*innen die vollständige Kontrolle über die Generation zu geben, wäre die Implementierung einer Schnittstelle zur Definition eigener Generationsziele denkbar.
     Denkbar wäre das Laden neuer Golang Templates mit einer Schnittstelle für die Funktionen in der Generation.
-    Für die Implementierungssprache der Funktionen kämmen mehrere Sprachen infrage.
-    Sowohl JavaScript und Python sind weit verbreitet.\\
+    Für die Implementierungssprache der Funktionen kämen mehrere Sprachen infrage.
+    Sowohl JavaScript als auch Python sind weit verbreitet.\\
     Jedoch sind die Schnittstellen zu JavaScript für die Ausführung in einem Browser ausgelegt.
     Zur Nutzung müsste der Generator in \acrfull{wasm} kompiliert werden.\\
     Python Funktionen lassen sich über eine C-Schnittstelle ausführen.\\
