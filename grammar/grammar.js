@@ -36,20 +36,18 @@ module.exports = grammar({
     ),
 
     // Temp
-    keyword: $ => 'keyword',
     componentIdentifier: $ => choice(
       'componentIdentifier',
       $.reftype,
     ),
     parameter: $ => 'parameter',
-    type: $ => 'type',
     extendsStatement: $ => 'extends',
     implementsStatement: $ => 'implements',
-    blockKeyword: $ => 'blockKeyword',
     overrideKeyword: $ => 'overrideKeyword',
 
     // Statements
     statement: $ => seq(
+      optional($.expand),
       choice(
         $.contentStatement,
         $.identifierStatement,
@@ -61,7 +59,7 @@ module.exports = grammar({
     ),
 
     contentStatement: $ => seq(
-      $.keyword,
+      $.statementKeyword,
       $.type,
       $.componentIdentifier,
       optional($.parameter),
@@ -99,36 +97,70 @@ module.exports = grammar({
         token(/\n/),
       )),
 
-    // Reftype
+    // Types
+    type: $ => choice(
+      $.primitiveTypes,
+      $.reftype,
+      $.genericType,
+    ),
+    genericType: $ => seq(
+      $.reftype,
+      token.immediate("<"),
+      $.reftype,
+      repeat(seq(
+        ",",
+        $.reftype)),
+      ">"
+    ),
     reftype: $ => seq(
+      $.refContent,
       repeat(choice(
-        $.dot,
-        $.componentName,
-      )),
+        token.immediate("."),
+        token.immediate(/([a-zA-Z_])+/)
+        ))
+    ),
+    refContent: $ => choice(
+      $.dot,
       $.componentName,
     ),
-    componentName: $ => 'cn',
+
+    componentName: $ => /([a-zA-Z_])+/,
 
     // Control
     semicolon: $ => ';',
     newLine: $ => /\n/,
 
     // Keywords
+    blockKeyword: $ => choice(
+      $.package,
+      $.struct,
+      $.enum,
+      $.entity,
+      $.interface,
+    ),
+    statementKeyword: $ => choice(
+      $.arg,
+      $.ref,
+      $.func,
+    ),
+
     package: $ => 'package',
     struct: $ => 'struct',
     enum: $ => 'enum',
     entity: $ => 'entity',
     interface: $ => 'interface',
+
     arg: $ => 'arg',
     ref: $ => 'ref',
     func: $ => 'func',
+
     expand: $ => 'expand',
     extends: $ => 'extends',
     implements: $ => 'implements',
     identifier: $ => 'identifier',
     override: $ => 'override',
 
-    types: $ => choice(
+    primitiveTypes: $ => choice(
       $.byte,
       $.int,
       $.long,
@@ -148,7 +180,6 @@ module.exports = grammar({
     string: $ => 'string',
     boolean: $ => 'boolean',
     void: $ => 'void',
-
 
 
     number: $ => /[0-9]+/,

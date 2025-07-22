@@ -68,10 +68,6 @@
       "type": "STRING",
       "value": "parameter"
     },
-    "type": {
-      "type": "STRING",
-      "value": "type"
-    },
     "extendsStatement": {
       "type": "STRING",
       "value": "extends"
@@ -80,10 +76,6 @@
       "type": "STRING",
       "value": "implements"
     },
-    "blockKeyword": {
-      "type": "STRING",
-      "value": "blockKeyword"
-    },
     "overrideKeyword": {
       "type": "STRING",
       "value": "overrideKeyword"
@@ -91,6 +83,18 @@
     "statement": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "expand"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "CHOICE",
           "members": [
@@ -135,7 +139,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "keyword"
+          "name": "statementKeyword"
         },
         {
           "type": "SYMBOL",
@@ -208,10 +212,6 @@
           ]
         },
         {
-          "type": "SYMBOL",
-          "name": "block"
-        },
-        {
           "type": "CHOICE",
           "members": [
             {
@@ -222,6 +222,10 @@
               "type": "BLANK"
             }
           ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block"
         }
       ]
     },
@@ -293,24 +297,100 @@
         }
       ]
     },
+    "type": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "primitiveTypes"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "reftype"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "genericType"
+        }
+      ]
+    },
+    "genericType": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "reftype"
+        },
+        {
+          "type": "IMMEDIATE_TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": "<"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "reftype"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "reftype"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ">"
+        }
+      ]
+    },
     "reftype": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "SYMBOL",
+          "name": "refContent"
+        },
         {
           "type": "REPEAT",
           "content": {
             "type": "CHOICE",
             "members": [
               {
-                "type": "SYMBOL",
-                "name": "dot"
+                "type": "IMMEDIATE_TOKEN",
+                "content": {
+                  "type": "STRING",
+                  "value": "."
+                }
               },
               {
-                "type": "SYMBOL",
-                "name": "componentName"
+                "type": "IMMEDIATE_TOKEN",
+                "content": {
+                  "type": "PATTERN",
+                  "value": "([a-zA-Z_])+"
+                }
               }
             ]
           }
+        }
+      ]
+    },
+    "refContent": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "dot"
         },
         {
           "type": "SYMBOL",
@@ -319,8 +399,8 @@
       ]
     },
     "componentName": {
-      "type": "STRING",
-      "value": "cn"
+      "type": "PATTERN",
+      "value": "([a-zA-Z_])+"
     },
     "semicolon": {
       "type": "STRING",
@@ -329,6 +409,48 @@
     "newLine": {
       "type": "PATTERN",
       "value": "\\n"
+    },
+    "blockKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "package"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "struct"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "enum"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "entity"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "interface"
+        }
+      ]
+    },
+    "statementKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "arg"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ref"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "func"
+        }
+      ]
     },
     "package": {
       "type": "STRING",
@@ -382,7 +504,7 @@
       "type": "STRING",
       "value": "override"
     },
-    "types": {
+    "primitiveTypes": {
       "type": "CHOICE",
       "members": [
         {
