@@ -12,6 +12,8 @@ type ModelElement struct {
 	Override  *Override
 }
 
+func (i *ModelElement) ModelElement() {}
+
 func (i *ModelElement) CleanTreeReferences() {
 	i.Node = nil
 }
@@ -20,6 +22,8 @@ func (i *ModelElement) CleanTreeReferences() {
 func (i ModelElement) GetNode() *tree_sitter.Node {
 	return i.Node
 }
+
+var _ IModelElement = &ModelElement{}
 
 type PackageElement struct {
 	ModelElement
