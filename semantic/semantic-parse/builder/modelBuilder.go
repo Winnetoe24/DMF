@@ -8,6 +8,7 @@ import (
 type ModelBuilder struct {
 	DMFVersion   []int32
 	ModelVersion []int32
+	ModelName    base.StringValue
 }
 
 func (m *ModelBuilder) Build() interface{} {

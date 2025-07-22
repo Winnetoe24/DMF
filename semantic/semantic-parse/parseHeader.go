@@ -47,6 +47,56 @@ func (p *Parser) parseDMF() error {
 	return nil
 }
 
+func (p *Parser) parseModel() error {
+	node := p.Node()
+
+	errorElement := util.AssertNodeState(node, "Model Statement")
+	if p.AddErrorElement(errorElement) {
+		return ERROR_ADDED
+	}
+	if !p.GoToFirstChild() {
+		p.AddErrorElement(util.CreateMissingElementError(node, "model statement"))
+		return ERROR_ADDED
+	}
+
+	// ModelName
+	if !p.GoToNextSibling() {
+		p.AddErrorElement(util.CreateMissingElementError(node, "model name"))
+		return ERROR_ADDED
+	}
+	modelName, err := p.parseString()
+	if err != nil {
+		return err
+	}
+
+	modelBuilder, ok := p.currentBuilder.(*builder.ModelBuilder)
+	if !ok {
+		return errors.New(fmt.Sprintf("current builder is not ModelBuilder: %+v", p.currentBuilder))
+	}
+
+	modelBuilder.ModelName = modelName
+
+	// version keyword
+	if !p.GoToNextSibling() {
+		p.AddErrorElement(util.CreateMissingElementError(node, "model version"))
+		return ERROR_ADDED
+	}
+
+	// version
+	if !p.GoToNextSibling() {
+		p.AddErrorElement(util.CreateMissingElementError(node, "model version"))
+		return ERROR_ADDED
+	}
+	version, err := p.parseVersion()
+	if err != nil {
+		return err
+	}
+	modelBuilder.ModelVersion = version
+
+	return nil
+
+}
+
 func (p *Parser) parseVersion() ([]int32, error) {
 	node := p.Node()
 	errorElement := util.AssertNodeState(node, "DMF Statement")
