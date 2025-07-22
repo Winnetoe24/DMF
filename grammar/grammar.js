@@ -10,8 +10,7 @@
 module.exports = grammar({
   name: "dmf",
   //
-  conflicts: $ => [
-  ],
+  conflicts: $ => [],
 
   // word: $ => $.identifier,
   rules: {
@@ -36,18 +35,29 @@ module.exports = grammar({
     ),
 
     // Temp
-    extendsStatement: $ => 'extends',
-    implementsStatement: $ => 'implements',
-    overrideKeyword: $ => 'overrideKeyword',
+    extendsStatement: $ => seq(
+      $.extends,
+      $.reftype
+    ),
+    implementsStatement: $ => seq(
+      $.implements,
+      $.reftype,
+      repeat(seq(
+        ",",
+        $.reftype
+      ))
+    ),
 
     // Statements
     statement: $ => seq(
+      optional($.comment),
       optional($.expand),
       choice(
         $.contentStatement,
         $.identifierStatement,
         $.blockStatement,
         $.overrideStatement,
+        $.languageStatement,
         $.constantStatement,
       ),
       optional($.overrideBlock),
@@ -73,17 +83,23 @@ module.exports = grammar({
 
     blockStatement: $ => seq(
       $.blockKeyword,
-      $.componentName,
+      $.reftype,
       optional($.extendsStatement),
       optional($.implementsStatement),
       optional($.overrideBlock),
       $.block,
     ),
 
+    // Override
+
     overrideStatement: $ => seq(
-        $.overrideKeyword,
-        token(":"),
-        $.overrideContent,
+      $.componentName,
+      token(":"),
+      $.overrideContent,
+      repeat(seq(
+        ",",
+        $.overrideContent
+      ))
     ),
     overrideContent: $ => choice(
       $.stringValue,
@@ -91,12 +107,28 @@ module.exports = grammar({
       $.decorator
     ),
 
+    languageStatement: $ => seq(
+      $.language,
+      $.block,
+    ),
+    language: $ => choice(
+      "java",
+      "typescript",
+      "ts"
+    ),
+
+
     statementEnd: $ => seq(
       choice(
         token(';'),
         token(/;\n/),
         token(/\n/),
       )),
+
+    // Comment
+    comment: $ => prec.right(repeat1($.commentLine)),
+    commentLine: $ => /\/\/.*\n/,
+
 
     //Parameter
     parameter: $ => seq(
@@ -141,7 +173,7 @@ module.exports = grammar({
       repeat(choice(
         token.immediate("."),
         token.immediate(/([a-zA-Z_])+/)
-        ))
+      ))
     ),
     refContent: $ => choice(
       $.dot,

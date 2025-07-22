@@ -62,10 +62,6 @@
           "named": true
         },
         {
-          "type": "componentName",
-          "named": true
-        },
-        {
           "type": "extendsStatement",
           "named": true
         },
@@ -75,6 +71,10 @@
         },
         {
           "type": "overrideBlock",
+          "named": true
+        },
+        {
+          "type": "reftype",
           "named": true
         }
       ]
@@ -95,6 +95,21 @@
       "types": [
         {
           "type": "byte_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "comment",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "commentLine",
           "named": true
         }
       ]
@@ -218,6 +233,25 @@
     "fields": {}
   },
   {
+    "type": "extendsStatement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "extends",
+          "named": true
+        },
+        {
+          "type": "reftype",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "genericType",
     "named": true,
     "fields": {},
@@ -252,6 +286,25 @@
     }
   },
   {
+    "type": "implementsStatement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "implements",
+          "named": true
+        },
+        {
+          "type": "reftype",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "integerValue",
     "named": true,
     "fields": {},
@@ -261,6 +314,30 @@
       "types": [
         {
           "type": "number",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "language",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "languageStatement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "language",
           "named": true
         }
       ]
@@ -332,11 +409,11 @@
       "required": true,
       "types": [
         {
-          "type": "overrideContent",
+          "type": "componentName",
           "named": true
         },
         {
-          "type": "overrideKeyword",
+          "type": "overrideContent",
           "named": true
         }
       ]
@@ -490,6 +567,10 @@
           "named": true
         },
         {
+          "type": "comment",
+          "named": true
+        },
+        {
           "type": "constantStatement",
           "named": true
         },
@@ -503,6 +584,10 @@
         },
         {
           "type": "identifierStatement",
+          "named": true
+        },
+        {
+          "type": "languageStatement",
           "named": true
         },
         {
@@ -709,6 +794,10 @@
     "named": true
   },
   {
+    "type": "commentLine",
+    "named": true
+  },
+  {
     "type": "componentName",
     "named": true
   },
@@ -745,7 +834,7 @@
     "named": true
   },
   {
-    "type": "extendsStatement",
+    "type": "extends",
     "named": true
   },
   {
@@ -761,7 +850,7 @@
     "named": true
   },
   {
-    "type": "implementsStatement",
+    "type": "implements",
     "named": true
   },
   {
@@ -773,6 +862,10 @@
     "named": true
   },
   {
+    "type": "java",
+    "named": false
+  },
+  {
     "type": "long",
     "named": true
   },
@@ -782,10 +875,6 @@
   },
   {
     "type": "override",
-    "named": true
-  },
-  {
-    "type": "overrideKeyword",
     "named": true
   },
   {
@@ -814,6 +903,14 @@
   },
   {
     "type": "true",
+    "named": false
+  },
+  {
+    "type": "ts",
+    "named": false
+  },
+  {
+    "type": "typescript",
     "named": false
   },
   {

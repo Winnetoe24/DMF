@@ -48,20 +48,62 @@
       ]
     },
     "extendsStatement": {
-      "type": "STRING",
-      "value": "extends"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "extends"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "reftype"
+        }
+      ]
     },
     "implementsStatement": {
-      "type": "STRING",
-      "value": "implements"
-    },
-    "overrideKeyword": {
-      "type": "STRING",
-      "value": "overrideKeyword"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "implements"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "reftype"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "reftype"
+              }
+            ]
+          }
+        }
+      ]
     },
     "statement": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "comment"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
         {
           "type": "CHOICE",
           "members": [
@@ -92,6 +134,10 @@
             {
               "type": "SYMBOL",
               "name": "overrideStatement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "languageStatement"
             },
             {
               "type": "SYMBOL",
@@ -181,7 +227,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "componentName"
+          "name": "reftype"
         },
         {
           "type": "CHOICE",
@@ -230,7 +276,7 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "overrideKeyword"
+          "name": "componentName"
         },
         {
           "type": "TOKEN",
@@ -242,6 +288,22 @@
         {
           "type": "SYMBOL",
           "name": "overrideContent"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "overrideContent"
+              }
+            ]
+          }
         }
       ]
     },
@@ -259,6 +321,36 @@
         {
           "type": "SYMBOL",
           "name": "decorator"
+        }
+      ]
+    },
+    "languageStatement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "language"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block"
+        }
+      ]
+    },
+    "language": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "java"
+        },
+        {
+          "type": "STRING",
+          "value": "typescript"
+        },
+        {
+          "type": "STRING",
+          "value": "ts"
         }
       ]
     },
@@ -292,6 +384,21 @@
           ]
         }
       ]
+    },
+    "comment": {
+      "type": "PREC_RIGHT",
+      "value": 0,
+      "content": {
+        "type": "REPEAT1",
+        "content": {
+          "type": "SYMBOL",
+          "name": "commentLine"
+        }
+      }
+    },
+    "commentLine": {
+      "type": "PATTERN",
+      "value": "\\/\\/.*\\n"
     },
     "parameter": {
       "type": "SEQ",
