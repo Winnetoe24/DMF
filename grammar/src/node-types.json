@@ -81,15 +81,39 @@
     }
   },
   {
-    "type": "componentIdentifier",
+    "type": "booleanValue",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "byteValue",
     "named": true,
     "fields": {},
     "children": {
       "multiple": false,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "reftype",
+          "type": "byte_content",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "constantStatement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "componentName",
+          "named": true
+        },
+        {
+          "type": "parameter",
           "named": true
         }
       ]
@@ -127,11 +151,11 @@
       "required": true,
       "types": [
         {
-          "type": "componentIdentifier",
+          "type": "parameter",
           "named": true
         },
         {
-          "type": "parameter",
+          "type": "reftype",
           "named": true
         },
         {
@@ -140,6 +164,49 @@
         },
         {
           "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "dateTimeValue",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dateValue",
+          "named": true
+        },
+        {
+          "type": "timeValue",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "dateValue",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "doubleValue",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dot",
+          "named": true
+        },
+        {
+          "type": "integerValue",
           "named": true
         }
       ]
@@ -179,6 +246,36 @@
         },
         {
           "type": "parameter",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "integerValue",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "number",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "longValue",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "integerValue",
           "named": true
         }
       ]
@@ -240,6 +337,44 @@
         },
         {
           "type": "overrideKeyword",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "parameter",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "parameterContent",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "parameterContent",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "componentName",
+          "named": true
+        },
+        {
+          "type": "reftype",
+          "named": true
+        },
+        {
+          "type": "value",
           "named": true
         }
       ]
@@ -355,6 +490,10 @@
           "named": true
         },
         {
+          "type": "constantStatement",
+          "named": true
+        },
+        {
           "type": "contentStatement",
           "named": true
         },
@@ -415,6 +554,11 @@
     "fields": {}
   },
   {
+    "type": "timeValue",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "type",
     "named": true,
     "fields": {},
@@ -438,6 +582,49 @@
     }
   },
   {
+    "type": "value",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "booleanValue",
+          "named": true
+        },
+        {
+          "type": "byteValue",
+          "named": true
+        },
+        {
+          "type": "dateTimeValue",
+          "named": true
+        },
+        {
+          "type": "dateValue",
+          "named": true
+        },
+        {
+          "type": "doubleValue",
+          "named": true
+        },
+        {
+          "type": "integerValue",
+          "named": true
+        },
+        {
+          "type": "longValue",
+          "named": true
+        },
+        {
+          "type": "stringValue",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "\"",
     "named": false
   },
@@ -446,11 +633,27 @@
     "named": false
   },
   {
+    "type": "(",
+    "named": false
+  },
+  {
+    "type": ")",
+    "named": false
+  },
+  {
     "type": ",",
     "named": false
   },
   {
+    "type": "-",
+    "named": false
+  },
+  {
     "type": ".",
+    "named": false
+  },
+  {
+    "type": "0x",
     "named": false
   },
   {
@@ -470,7 +673,23 @@
     "named": false
   },
   {
+    "type": "D",
+    "named": false
+  },
+  {
+    "type": "L",
+    "named": false
+  },
+  {
+    "type": "T",
+    "named": false
+  },
+  {
     "type": "\\",
+    "named": false
+  },
+  {
+    "type": "_",
     "named": false
   },
   {
@@ -486,8 +705,8 @@
     "named": true
   },
   {
-    "type": "componentIdentifier",
-    "named": false
+    "type": "byte_content",
+    "named": true
   },
   {
     "type": "componentName",
@@ -530,6 +749,10 @@
     "named": true
   },
   {
+    "type": "false",
+    "named": false
+  },
+  {
     "type": "func",
     "named": true
   },
@@ -554,6 +777,10 @@
     "named": true
   },
   {
+    "type": "number",
+    "named": true
+  },
+  {
     "type": "override",
     "named": true
   },
@@ -563,10 +790,6 @@
   },
   {
     "type": "package",
-    "named": true
-  },
-  {
-    "type": "parameter",
     "named": true
   },
   {
@@ -588,6 +811,10 @@
   {
     "type": "struct",
     "named": true
+  },
+  {
+    "type": "true",
+    "named": false
   },
   {
     "type": "void",

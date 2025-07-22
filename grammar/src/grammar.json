@@ -47,27 +47,6 @@
         }
       ]
     },
-    "keyword": {
-      "type": "STRING",
-      "value": "keyword"
-    },
-    "componentIdentifier": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "componentIdentifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "reftype"
-        }
-      ]
-    },
-    "parameter": {
-      "type": "STRING",
-      "value": "parameter"
-    },
     "extendsStatement": {
       "type": "STRING",
       "value": "extends"
@@ -113,6 +92,10 @@
             {
               "type": "SYMBOL",
               "name": "overrideStatement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "constantStatement"
             }
           ]
         },
@@ -147,7 +130,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "componentIdentifier"
+          "name": "reftype"
         },
         {
           "type": "CHOICE",
@@ -169,6 +152,19 @@
         {
           "type": "SYMBOL",
           "name": "identifier"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "parameter"
+        }
+      ]
+    },
+    "constantStatement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "componentName"
         },
         {
           "type": "SYMBOL",
@@ -292,6 +288,78 @@
                 "type": "PATTERN",
                 "value": "\\n"
               }
+            }
+          ]
+        }
+      ]
+    },
+    "parameter": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "SYMBOL",
+                  "name": "parameterContent"
+                },
+                {
+                  "type": "REPEAT",
+                  "content": {
+                    "type": "SEQ",
+                    "members": [
+                      {
+                        "type": "STRING",
+                        "value": ","
+                      },
+                      {
+                        "type": "SYMBOL",
+                        "name": "parameterContent"
+                      }
+                    ]
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "parameterContent": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "value"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "componentName"
+        },
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "reftype"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "componentName"
             }
           ]
         }
@@ -595,6 +663,43 @@
     "byte_content": {
       "type": "PATTERN",
       "value": "[0-9A-F]{4}"
+    },
+    "value": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "integerValue"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "longValue"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "booleanValue"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "byteValue"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "doubleValue"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "stringValue"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dateTimeValue"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "dateValue"
+        }
+      ]
     },
     "version_number": {
       "type": "SEQ",

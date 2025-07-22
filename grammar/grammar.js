@@ -36,11 +36,6 @@ module.exports = grammar({
     ),
 
     // Temp
-    componentIdentifier: $ => choice(
-      'componentIdentifier',
-      $.reftype,
-    ),
-    parameter: $ => 'parameter',
     extendsStatement: $ => 'extends',
     implementsStatement: $ => 'implements',
     overrideKeyword: $ => 'overrideKeyword',
@@ -53,6 +48,7 @@ module.exports = grammar({
         $.identifierStatement,
         $.blockStatement,
         $.overrideStatement,
+        $.constantStatement,
       ),
       optional($.overrideBlock),
       $.statementEnd,
@@ -61,13 +57,18 @@ module.exports = grammar({
     contentStatement: $ => seq(
       $.statementKeyword,
       $.type,
-      $.componentIdentifier,
+      $.reftype,
       optional($.parameter),
     ),
 
     identifierStatement: $ => seq(
       $.identifier,
       $.parameter
+    ),
+
+    constantStatement: $ => seq(
+      $.componentName,
+      $.parameter,
     ),
 
     blockStatement: $ => seq(
@@ -96,6 +97,29 @@ module.exports = grammar({
         token(/;\n/),
         token(/\n/),
       )),
+
+    //Parameter
+    parameter: $ => seq(
+      "(",
+      optional(seq(
+        $.parameterContent,
+        repeat(
+          seq(
+            ",",
+            $.parameterContent,
+          )
+        ),
+      )),
+      ")"
+    ),
+    parameterContent: $ => choice(
+      $.value,
+      $.componentName,
+      seq(
+        $.reftype,
+        $.componentName,
+      )
+    ),
 
     // Types
     type: $ => choice(
@@ -187,6 +211,16 @@ module.exports = grammar({
     byte_content: $ => /[0-9A-F]{4}/,
 
     //Value Tokens
+    value: $ => choice(
+      $.integerValue,
+      $.longValue,
+      $.booleanValue,
+      $.byteValue,
+      $.doubleValue,
+      $.stringValue,
+      $.dateTimeValue,
+      $.dateValue,
+    ),
     version_number: $ => seq(
       $.number,
       $.dot,
