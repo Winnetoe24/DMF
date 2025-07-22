@@ -1,4 +1,4 @@
-package semantic_parse
+package parse_old
 
 import (
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"

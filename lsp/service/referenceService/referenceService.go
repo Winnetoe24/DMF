@@ -12,7 +12,7 @@ import (
 	"github.com/Winnetoe24/DMF/lsp/service/fileService"
 	"github.com/Winnetoe24/DMF/lsp/service/logService"
 	"github.com/Winnetoe24/DMF/lsp/util"
-	semantic_parse "github.com/Winnetoe24/DMF/semantic/semantic-parse"
+	semantic_parse "github.com/Winnetoe24/DMF/semantic/semantic-parse/parse-old"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/base"
 	errElement "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"

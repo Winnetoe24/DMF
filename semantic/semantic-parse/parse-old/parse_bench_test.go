@@ -1,4 +1,4 @@
-package semantic_parse
+package parse_old
 
 import (
 	tree_sitter_dmf "github.com/Winnetoe24/DMF/grammar/dmf_language"

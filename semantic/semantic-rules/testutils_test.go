@@ -2,7 +2,7 @@ package semantic_rules
 
 import (
 	tree_sitter_dmf "github.com/Winnetoe24/DMF/grammar/dmf_language"
-	sematic_model "github.com/Winnetoe24/DMF/semantic/semantic-parse"
+	sematic_model "github.com/Winnetoe24/DMF/semantic/semantic-parse/parse-old"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel"
 	err_element "github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/err-element"
 	tree_sitter "github.com/tree-sitter/go-tree-sitter"
