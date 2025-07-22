@@ -12,244 +12,110 @@ module.exports = grammar({
   //
   conflicts: $ => [
     //TODO entfernen wenn package_strind unf reftype richtig verwendet werden
-    [$.reftype, $.package_string],
+    // [$.reftype, $.package_string],
   ],
 
   // word: $ => $.identifier,
   rules: {
 
-    source_file: $ =>
-      seq(
-        $.dmf_declaration,
-        $._new_line,
-        $.model_declaration,
-        $._new_line,
-        optional($.import_block),
-        $.model_content,
-      ),
+    source_file: $ => repeat(choice(
+      $.statement,
+      $.identifierStatement,
+    )),
 
+    // Block
 
-    dmf_declaration: $ => seq(
-      'dmf',
-      $.version_number,
-    ),
-    model_declaration: $ => seq(
-      'model',
-      $.stringValue,
-      'version',
-      $.version_number,
+    block: $ => seq(
+      '{',
+      repeat(choice(
+        $.statement,
+        $.identifierStatement
+      )),
+      '}'
     ),
 
-    import_block: $ => repeat1($.import_statement),
-    import_statement: $ => seq(
-      'import',
-      $.package_string,
-      'from',
-      $.stringValue,
-      $._new_line,
-    ),
-
-
-    model_content: $ => repeat1($.package_content),
-
-    package_content: $ => seq(
-      optional($.comment_block),
-      optional($.expand),
-      choice(
-        $.package_block,
-        $.struct_block,
-        $.enum_block,
-        $.entity_block,
-        $.interface_block,
-      ),
-      optional($.override_block)),
-
-    comment_block: $ => prec.right(repeat1($.comment)),
-
-    // Overrides
-    override_block: $ => seq(
-      'override',
-      $._left_brace,
-      repeat(choice($.java_override),),
-      $._right_brace
-    ),
-    java_override: $ => seq(
-      'java',
-      $._left_brace,
-      repeat(seq(choice($.java_annotation, $.java_extends, $.java_implements, $.java_class, $.java_name, $.java_type,$.java_doc), $._new_line)),
-      $._right_brace
-    ),
-    java_annotation: $ => seq(
-      'annotations',
-      $.stringValue,
-    ),
-    java_doc: $ => seq('javaDoc', $.stringValue,),
-    java_extends: $ => seq('extends', $.stringValue,),
-    java_implements: $ => seq('implements', $.stringValue,),
-    java_class: $ => seq('class', $.stringValue,),
-    java_name: $ => seq('name', $.stringValue,),
-    java_type: $ => seq('type', $.stringValue,),
-
-    // Package
-    package_block: $ => seq(
-      'package',
-      $.package_string,
-      $._left_brace,
-      repeat($.package_content),
-      $._right_brace,
-    ),
-
-
-    // Struct
-    struct_block: $ => seq(
-      'struct',
-      $.identifier,
-      optional($.extends_block),
-      optional($.implements_block),
-      $._left_brace,
-      repeat($.struct_content),
-      $._right_brace,
-    ),
-    extends_block: $ => seq(
-      'extends',
+    // Temp
+    keyword: $ => 'keyword',
+    componentIdentifier: $ => choice(
+      'componentIdentifier',
       $.reftype,
     ),
-    implements_block: $ => seq(
-      'implements',
-      $.reftype,
-      repeat(seq(
-        $._comma,
-        $.reftype
-      ))
+    parameter: $ => 'parameter',
+    overrideBlock: $ => 'overrideBlock',
+    type: $ => 'type',
+    extendsStatement: $ => 'extends',
+    implementsStatement: $ => 'implements',
+
+    // Statements
+    statement: $ => seq(
+      $.keyword,
+      $.type,
+      $.componentIdentifier,
+      optional($.parameter),
+      optional($.overrideBlock),
+      prec(2, $.statementEnd),
     ),
-    struct_content: $ => seq(
-      optional($.comment_block),
+
+    identifierStatement: $ => seq(
+      $.identifier,
+      optional($.overrideBlock),
+      $.statementEnd,
+    ),
+
+    blockStatement: $ => seq(
+      $.blockKeyword,
+      $.componentName,
+      optional($.extendsStatement),
+      optional($.implementsStatement),
+      optional($.overrideBlock),
+      $.block,
+    ),
+
+    statementEndBuffer: $ => new RustRegex("[[:blank:]]+"),
+    statementEnd: $ => seq(
+      optional($.statementEndBuffer),
       choice(
-        $.arg_block,
-        $.ref_block,
-        $.multi_block,
-        $.func_block,
-      ),
-      optional($.override_block)
-    ),
-    arg_block: $ => seq('arg', $.primitive_type, $.identifier, token.immediate(';')),
-    ref_block: $ => seq('ref', $.reftype, $.identifier, token.immediate(';')),
-    multi_block: $ => seq('ref', $.multi_name, '<', choice($.primitive_type, $.reftype), optional(seq($._comma, choice($.primitive_type, $.reftype))), '>', $.identifier, $._semicolon),
-    multi_name: $ => choice('Map', 'Set', 'List'),
-    func_block: $ => seq('func', choice($.reftype, $.primitive_type, $.void), $.identifier,
-      $._left_paren, optional(seq($.param_definition, repeat(seq($._comma, $.param_definition)))), $._right_paren, $._semicolon,),
-    param_definition: $ => seq(choice($.reftype, $.primitive_type), $.identifier),
-
-    // Enum
-    enum_block: $ => seq(
-      'enum',
-      $.identifier,
-      $._left_brace,
-      repeat($.enum_content),
-      $._right_brace,
-    ),
-    enum_content: $ => seq( optional($.comment_block), choice($.arg_block, $.enum_constant),optional($.override_block)),
-    enum_constant: $ => seq($.identifier, $._left_paren, $.enum_index, repeat(seq($._comma, $.primitive_value)), $._right_paren, $._semicolon),
-    enum_index: $ => choice('_', $.integerValue),
-
-
-    // Entity
-    entity_block: $ => seq(
-      'entity',
-      $.identifier,
-      optional($.extends_block),
-      optional($.implements_block),
-      $._left_brace,
-      repeat($.struct_content),
-      $.identifier_statement,
-      $._right_brace,
-    ),
-    identifier_statement: $ => seq('identifier', $._left_paren, $.identifier, repeat(seq($._comma, $.identifier)), $._right_paren, $._semicolon),
-
-
-    interface_block: $ => seq(
-      'interface',
-      $.identifier,
-      optional($.implements_block),
-      $._left_brace,
-      repeat($.interface_content),
-      $._right_brace,
-    ),
-    interface_content: $ => seq(
-      optional($.comment_block),
-      $.func_block,
-      optional($.override_block),
-    ),
-
-
-    // Tokens
-    number: $ => /[0-9]+/,
-    identifier: $ => /([a-zA-Z_])+/,
-    comment: $ => /\/\/.*\n/,
-    //nicht intern, da die Anzahl der Punkte beim reftype wichtig ist
-    dot: $ => '.',
-    byte_content: $ => /[0-9A-F]{4}/,
-
-    _semicolon: $ => ';',
-    _comma: $ => ',',
-    _left_brace: $ => '{',
-    _right_brace: $ => '}',
-    _left_bracket: $ => '[',
-    _right_bracket: $ => ']',
-    _left_paren: $ => '(',
-    _right_paren: $ => ')',
-    _at: $ => '@',
-    _new_line: $ => /\n/,
-
-    reftype: $ => seq(
-      repeat($.dot),
-      $.package_string,
-    ),
-
-    package_string: $ => prec.left(
-      choice(
-        $.identifier,
-        seq(
-          $.identifier,
-          repeat1(
-            seq(
-              $.dot,
-              $.identifier,
-            )
-          )
-        ),
-        seq(
-          repeat1(
-            seq(
-              $.dot,
-              $.identifier,
-            )
-          )
-        )
+        token.immediate(';'),
+        token.immediate(/\n/),
       )),
 
-    primitive_type: $ => choice(
-      $.byte,
-      $.int,
-      $.long,
-      $.double,
-      $.datetime,
-      $.date,
-      $.string,
-      $.boolean,
+
+    // Reftype
+    reftype: $ => seq(
+      repeat(choice(
+        $.dot,
+        $.componentName,
+      )),
+      $.componentName,
     ),
 
-    primitive_value: $ => choice(
-      $.integerValue,
-      $.doubleValue,
-      $.stringValue,
-      $.dateValue,
-      $.dateTimeValue,
-      $.booleanValue,
-      $.byteValue,
-      $.longValue,
-    ),
+    // packageString: $ => prec.left(
+    //   choice(
+    //     $.componentName,
+    //     seq(
+    //       $.componentName,
+    //       repeat1(
+    //         seq(
+    //           $.dot,
+    //           $.componentName,
+    //         )
+    //       )
+    //     ),
+    //     seq(
+    //       repeat1(
+    //         seq(
+    //           $.dot,
+    //           $.componentName,
+    //         )
+    //       )
+    //     )
+    //   )),
 
+    componentName: $ => 'cn',
+
+    // Control
+    semicolon: $ => ';',
+    newLine: $ => /\n/,
 
     // Keywords
     package: $ => 'package',
@@ -263,7 +129,19 @@ module.exports = grammar({
     expand: $ => 'expand',
     extends: $ => 'extends',
     implements: $ => 'implements',
+    identifier: $ => 'identifier',
 
+    types: $ => choice(
+      $.byte,
+      $.int,
+      $.long,
+      $.double,
+      $.datetime,
+      $.date,
+      $.string,
+      $.boolean,
+      $.void,
+    ),
     byte: $ => 'byte',
     int: $ => 'int',
     long: $ => 'long',
@@ -273,6 +151,12 @@ module.exports = grammar({
     string: $ => 'string',
     boolean: $ => 'boolean',
     void: $ => 'void',
+
+
+
+    number: $ => /[0-9]+/,
+    dot: $ => token('.'),
+    byte_content: $ => /[0-9A-F]{4}/,
 
     //Value Tokens
     version_number: $ => seq(
