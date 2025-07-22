@@ -11,8 +11,6 @@ module.exports = grammar({
   name: "dmf",
   //
   conflicts: $ => [
-    //TODO entfernen wenn package_strind unf reftype richtig verwendet werden
-    // [$.reftype, $.package_string],
   ],
 
   // word: $ => $.identifier,
@@ -20,18 +18,21 @@ module.exports = grammar({
 
     source_file: $ => repeat(choice(
       $.statement,
-      $.identifierStatement,
     )),
 
     // Block
 
     block: $ => seq(
       '{',
-      repeat(choice(
-        $.statement,
-        $.identifierStatement
-      )),
+      repeat(
+        $.statement
+      ),
       '}'
+    ),
+
+    overrideBlock: $ => seq(
+      $.override,
+      $.block,
     ),
 
     // Temp
@@ -41,25 +42,34 @@ module.exports = grammar({
       $.reftype,
     ),
     parameter: $ => 'parameter',
-    overrideBlock: $ => 'overrideBlock',
     type: $ => 'type',
     extendsStatement: $ => 'extends',
     implementsStatement: $ => 'implements',
+    blockKeyword: $ => 'blockKeyword',
+    overrideKeyword: $ => 'overrideKeyword',
 
     // Statements
     statement: $ => seq(
+      choice(
+        $.contentStatement,
+        $.identifierStatement,
+        $.blockStatement,
+        $.overrideStatement,
+      ),
+      optional($.overrideBlock),
+      $.statementEnd,
+    ),
+
+    contentStatement: $ => seq(
       $.keyword,
       $.type,
       $.componentIdentifier,
       optional($.parameter),
-      optional($.overrideBlock),
-      prec(2, $.statementEnd),
     ),
 
     identifierStatement: $ => seq(
       $.identifier,
-      optional($.overrideBlock),
-      $.statementEnd,
+      $.parameter
     ),
 
     blockStatement: $ => seq(
@@ -71,14 +81,23 @@ module.exports = grammar({
       $.block,
     ),
 
-    statementEndBuffer: $ => new RustRegex("[[:blank:]]+"),
-    statementEnd: $ => seq(
-      optional($.statementEndBuffer),
-      choice(
-        token.immediate(';'),
-        token.immediate(/\n/),
-      )),
+    overrideStatement: $ => seq(
+        $.overrideKeyword,
+        token(":"),
+        $.overrideContent,
+    ),
+    overrideContent: $ => choice(
+      $.stringValue,
+      $.reftype,
+      $.decorator
+    ),
 
+    statementEnd: $ => seq(
+      choice(
+        token(';'),
+        token(/;\n/),
+        token(/\n/),
+      )),
 
     // Reftype
     reftype: $ => seq(
@@ -88,29 +107,6 @@ module.exports = grammar({
       )),
       $.componentName,
     ),
-
-    // packageString: $ => prec.left(
-    //   choice(
-    //     $.componentName,
-    //     seq(
-    //       $.componentName,
-    //       repeat1(
-    //         seq(
-    //           $.dot,
-    //           $.componentName,
-    //         )
-    //       )
-    //     ),
-    //     seq(
-    //       repeat1(
-    //         seq(
-    //           $.dot,
-    //           $.componentName,
-    //         )
-    //       )
-    //     )
-    //   )),
-
     componentName: $ => 'cn',
 
     // Control
@@ -130,6 +126,7 @@ module.exports = grammar({
     extends: $ => 'extends',
     implements: $ => 'implements',
     identifier: $ => 'identifier',
+    override: $ => 'override',
 
     types: $ => choice(
       $.byte,
@@ -181,12 +178,13 @@ module.exports = grammar({
 
     byteValue: $ => seq('0x', $.byte_content),
 
-    // Basic string with escapes
     doubleValue: $ => prec(1, seq(
       $.integerValue,
       $.dot,
       $.integerValue
     )),
+
+    decorator: $ => /@\w+/,
 
     // Multiline string (triple-quoted)
     stringValue: $ => choice(

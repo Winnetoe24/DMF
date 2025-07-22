@@ -1,5 +1,55 @@
 [
   {
+    "type": "block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "blockStatement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block",
+          "named": true
+        },
+        {
+          "type": "blockKeyword",
+          "named": true
+        },
+        {
+          "type": "componentName",
+          "named": true
+        },
+        {
+          "type": "extendsStatement",
+          "named": true
+        },
+        {
+          "type": "implementsStatement",
+          "named": true
+        },
+        {
+          "type": "overrideBlock",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
     "type": "componentIdentifier",
     "named": true,
     "fields": {},
@@ -15,6 +65,61 @@
     }
   },
   {
+    "type": "content",
+    "named": false,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
+          "type": "string_content_double_quote",
+          "named": true
+        },
+        {
+          "type": "string_content_single_quote",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "contentStatement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "componentIdentifier",
+          "named": true
+        },
+        {
+          "type": "keyword",
+          "named": true
+        },
+        {
+          "type": "parameter",
+          "named": true
+        },
+        {
+          "type": "type",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "escape_sequence",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "identifierStatement",
     "named": true,
     "fields": {},
@@ -27,11 +132,68 @@
           "named": true
         },
         {
-          "type": "overrideBlock",
+          "type": "parameter",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "overrideBlock",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "block",
           "named": true
         },
         {
-          "type": "statementEnd",
+          "type": "override",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "overrideContent",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "decorator",
+          "named": true
+        },
+        {
+          "type": "reftype",
+          "named": true
+        },
+        {
+          "type": "stringValue",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "overrideStatement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "overrideContent",
+          "named": true
+        },
+        {
+          "type": "overrideKeyword",
           "named": true
         }
       ]
@@ -66,10 +228,6 @@
       "required": false,
       "types": [
         {
-          "type": "identifierStatement",
-          "named": true
-        },
-        {
           "type": "statement",
           "named": true
         }
@@ -85,11 +243,15 @@
       "required": true,
       "types": [
         {
-          "type": "componentIdentifier",
+          "type": "blockStatement",
           "named": true
         },
         {
-          "type": "keyword",
+          "type": "contentStatement",
+          "named": true
+        },
+        {
+          "type": "identifierStatement",
           "named": true
         },
         {
@@ -97,15 +259,11 @@
           "named": true
         },
         {
-          "type": "parameter",
+          "type": "overrideStatement",
           "named": true
         },
         {
           "type": "statementEnd",
-          "named": true
-        },
-        {
-          "type": "type",
           "named": true
         }
       ]
@@ -114,21 +272,36 @@
   {
     "type": "statementEnd",
     "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "statementEndBuffer",
-          "named": true
-        }
-      ]
-    }
+    "fields": {}
+  },
+  {
+    "type": "stringValue",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "\"",
+    "named": false
+  },
+  {
+    "type": "'",
+    "named": false
+  },
+  {
+    "type": ":",
+    "named": false
   },
   {
     "type": ";",
     "named": false
+  },
+  {
+    "type": "\\",
+    "named": false
+  },
+  {
+    "type": "blockKeyword",
+    "named": true
   },
   {
     "type": "componentIdentifier",
@@ -139,7 +312,15 @@
     "named": true
   },
   {
+    "type": "decorator",
+    "named": true
+  },
+  {
     "type": "dot",
+    "named": true
+  },
+  {
+    "type": "extendsStatement",
     "named": true
   },
   {
@@ -147,11 +328,19 @@
     "named": true
   },
   {
+    "type": "implementsStatement",
+    "named": true
+  },
+  {
     "type": "keyword",
     "named": true
   },
   {
-    "type": "overrideBlock",
+    "type": "override",
+    "named": true
+  },
+  {
+    "type": "overrideKeyword",
     "named": true
   },
   {
@@ -159,11 +348,23 @@
     "named": true
   },
   {
-    "type": "statementEndBuffer",
+    "type": "string_content_double_quote",
+    "named": true
+  },
+  {
+    "type": "string_content_single_quote",
     "named": true
   },
   {
     "type": "type",
     "named": true
+  },
+  {
+    "type": "{",
+    "named": false
+  },
+  {
+    "type": "}",
+    "named": false
   }
 ]

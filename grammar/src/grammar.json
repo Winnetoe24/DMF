@@ -10,13 +10,42 @@
           {
             "type": "SYMBOL",
             "name": "statement"
-          },
-          {
-            "type": "SYMBOL",
-            "name": "identifierStatement"
           }
         ]
       }
+    },
+    "block": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SYMBOL",
+            "name": "statement"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "overrideBlock": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "override"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block"
+        }
+      ]
     },
     "keyword": {
       "type": "STRING",
@@ -39,15 +68,69 @@
       "type": "STRING",
       "value": "parameter"
     },
-    "overrideBlock": {
-      "type": "STRING",
-      "value": "overrideBlock"
-    },
     "type": {
       "type": "STRING",
       "value": "type"
     },
+    "extendsStatement": {
+      "type": "STRING",
+      "value": "extends"
+    },
+    "implementsStatement": {
+      "type": "STRING",
+      "value": "implements"
+    },
+    "blockKeyword": {
+      "type": "STRING",
+      "value": "blockKeyword"
+    },
+    "overrideKeyword": {
+      "type": "STRING",
+      "value": "overrideKeyword"
+    },
     "statement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "contentStatement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "identifierStatement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "blockStatement"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "overrideStatement"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "overrideBlock"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "statementEnd"
+        }
+      ]
+    },
+    "contentStatement": {
       "type": "SEQ",
       "members": [
         {
@@ -73,26 +156,6 @@
               "type": "BLANK"
             }
           ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "overrideBlock"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "PREC",
-          "value": 2,
-          "content": {
-            "type": "SYMBOL",
-            "name": "statementEnd"
-          }
         }
       ]
     },
@@ -104,6 +167,51 @@
           "name": "identifier"
         },
         {
+          "type": "SYMBOL",
+          "name": "parameter"
+        }
+      ]
+    },
+    "blockStatement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "blockKeyword"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "componentName"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "extendsStatement"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "implementsStatement"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "block"
+        },
+        {
           "type": "CHOICE",
           "members": [
             {
@@ -114,16 +222,45 @@
               "type": "BLANK"
             }
           ]
-        },
-        {
-          "type": "SYMBOL",
-          "name": "statementEnd"
         }
       ]
     },
-    "statementEndBuffer": {
-      "type": "PATTERN",
-      "value": "[[:blank:]]+"
+    "overrideStatement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "overrideKeyword"
+        },
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "STRING",
+            "value": ":"
+          }
+        },
+        {
+          "type": "SYMBOL",
+          "name": "overrideContent"
+        }
+      ]
+    },
+    "overrideContent": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "stringValue"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "reftype"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "decorator"
+        }
+      ]
     },
     "statementEnd": {
       "type": "SEQ",
@@ -132,26 +269,21 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "statementEndBuffer"
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "IMMEDIATE_TOKEN",
+              "type": "TOKEN",
               "content": {
                 "type": "STRING",
                 "value": ";"
               }
             },
             {
-              "type": "IMMEDIATE_TOKEN",
+              "type": "TOKEN",
+              "content": {
+                "type": "PATTERN",
+                "value": ";\\n"
+              }
+            },
+            {
+              "type": "TOKEN",
               "content": {
                 "type": "PATTERN",
                 "value": "\\n"
@@ -245,6 +377,51 @@
     "identifier": {
       "type": "STRING",
       "value": "identifier"
+    },
+    "override": {
+      "type": "STRING",
+      "value": "override"
+    },
+    "types": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "byte"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "int"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "long"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "double"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "datetime"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "date"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "string"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "boolean"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "void"
+        }
+      ]
     },
     "byte": {
       "type": "STRING",
@@ -414,6 +591,10 @@
           }
         ]
       }
+    },
+    "decorator": {
+      "type": "PATTERN",
+      "value": "@\\w+"
     },
     "stringValue": {
       "type": "CHOICE",
