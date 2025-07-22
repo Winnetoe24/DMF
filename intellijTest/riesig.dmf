@@ -1,8 +1,6 @@
 dmf 1.0.0
 model "smart_city_management" version 1.0.0
 
-
-
 package de.smart.city {
 
     // Core infrastructure management

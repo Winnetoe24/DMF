@@ -1,6 +1,52 @@
 [
   {
-    "type": "arg_block",
+    "type": "block",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": false,
+      "types": [
+        {
+          "type": "statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "blockKeyword",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "entity",
+          "named": true
+        },
+        {
+          "type": "enum",
+          "named": true
+        },
+        {
+          "type": "interface",
+          "named": true
+        },
+        {
+          "type": "package",
+          "named": true
+        },
+        {
+          "type": "struct",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "blockStatement",
     "named": true,
     "fields": {},
     "children": {
@@ -8,11 +54,27 @@
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "block",
           "named": true
         },
         {
-          "type": "primitive_type",
+          "type": "blockKeyword",
+          "named": true
+        },
+        {
+          "type": "extendsStatement",
+          "named": true
+        },
+        {
+          "type": "implementsStatement",
+          "named": true
+        },
+        {
+          "type": "overrideBlock",
+          "named": true
+        },
+        {
+          "type": "reftype",
           "named": true
         }
       ]
@@ -32,14 +94,14 @@
       "required": true,
       "types": [
         {
-          "type": "byte_content",
+          "type": "byteContent",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "comment_block",
+    "type": "comment",
     "named": true,
     "fields": {},
     "children": {
@@ -47,7 +109,26 @@
       "required": true,
       "types": [
         {
-          "type": "comment",
+          "type": "commentLine",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "constantStatement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "componentName",
+          "named": true
+        },
+        {
+          "type": "parameter",
           "named": true
         }
       ]
@@ -62,15 +143,42 @@
       "required": true,
       "types": [
         {
-          "type": "escape_sequence",
+          "type": "escapeSequence",
           "named": true
         },
         {
-          "type": "string_content_double_quote",
+          "type": "stringContentDoubleQuote",
           "named": true
         },
         {
-          "type": "string_content_single_quote",
+          "type": "stringContentSingleQuote",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "contentStatement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "parameter",
+          "named": true
+        },
+        {
+          "type": "reftype",
+          "named": true
+        },
+        {
+          "type": "statementKeyword",
+          "named": true
+        },
+        {
+          "type": "type",
           "named": true
         }
       ]
@@ -101,7 +209,7 @@
     "fields": {}
   },
   {
-    "type": "dmf_declaration",
+    "type": "dmfStatement",
     "named": true,
     "fields": {},
     "children": {
@@ -109,7 +217,7 @@
       "required": true,
       "types": [
         {
-          "type": "version_number",
+          "type": "versionNumber",
           "named": true
         }
       ]
@@ -135,131 +243,35 @@
     }
   },
   {
-    "type": "entity_block",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "extends_block",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "identifier_statement",
-          "named": true
-        },
-        {
-          "type": "implements_block",
-          "named": true
-        },
-        {
-          "type": "struct_content",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "enum_block",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "enum_content",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "enum_constant",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "enum_index",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "primitive_value",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "enum_content",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "arg_block",
-          "named": true
-        },
-        {
-          "type": "comment_block",
-          "named": true
-        },
-        {
-          "type": "enum_constant",
-          "named": true
-        },
-        {
-          "type": "override_block",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "enum_index",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": false,
-      "types": [
-        {
-          "type": "integerValue",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "escape_sequence",
+    "type": "escapeSequence",
     "named": true,
     "fields": {}
   },
   {
-    "type": "extends_block",
+    "type": "extendsStatement",
     "named": true,
     "fields": {},
     "children": {
-      "multiple": false,
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "extends",
+          "named": true
+        },
+        {
+          "type": "reftype",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "genericType",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
       "required": true,
       "types": [
         {
@@ -270,7 +282,7 @@
     }
   },
   {
-    "type": "func_block",
+    "type": "identifierStatement",
     "named": true,
     "fields": {},
     "children": {
@@ -282,83 +294,26 @@
           "named": true
         },
         {
-          "type": "param_definition",
+          "type": "parameter",
           "named": true
-        },
+        }
+      ]
+    }
+  },
+  {
+    "type": "implementsStatement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
         {
-          "type": "primitive_type",
+          "type": "implements",
           "named": true
         },
         {
           "type": "reftype",
-          "named": true
-        },
-        {
-          "type": "void",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "identifier_statement",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "implements_block",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "reftype",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "import_block",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "import_statement",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "import_statement",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "package_string",
-          "named": true
-        },
-        {
-          "type": "stringValue",
           "named": true
         }
       ]
@@ -380,7 +335,12 @@
     }
   },
   {
-    "type": "interface_block",
+    "type": "language",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "languageStatement",
     "named": true,
     "fields": {},
     "children": {
@@ -388,182 +348,11 @@
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "block",
           "named": true
         },
         {
-          "type": "implements_block",
-          "named": true
-        },
-        {
-          "type": "interface_content",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "interface_content",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "comment_block",
-          "named": true
-        },
-        {
-          "type": "func_block",
-          "named": true
-        },
-        {
-          "type": "override_block",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "java_annotation",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "stringValue",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "java_class",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "stringValue",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "java_doc",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "stringValue",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "java_extends",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "stringValue",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "java_implements",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "stringValue",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "java_name",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "stringValue",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "java_override",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "java_annotation",
-          "named": true
-        },
-        {
-          "type": "java_class",
-          "named": true
-        },
-        {
-          "type": "java_doc",
-          "named": true
-        },
-        {
-          "type": "java_extends",
-          "named": true
-        },
-        {
-          "type": "java_implements",
-          "named": true
-        },
-        {
-          "type": "java_name",
-          "named": true
-        },
-        {
-          "type": "java_type",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "java_type",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "stringValue",
+          "type": "language",
           "named": true
         }
       ]
@@ -585,22 +374,7 @@
     }
   },
   {
-    "type": "model_content",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "package_content",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "model_declaration",
+    "type": "modelStatement",
     "named": true,
     "fields": {},
     "children": {
@@ -612,14 +386,14 @@
           "named": true
         },
         {
-          "type": "version_number",
+          "type": "versionNumber",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "multi_block",
+    "type": "overrideBlock",
     "named": true,
     "fields": {},
     "children": {
@@ -627,31 +401,60 @@
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "block",
           "named": true
         },
         {
-          "type": "multi_name",
-          "named": true
-        },
-        {
-          "type": "primitive_type",
-          "named": true
-        },
-        {
-          "type": "reftype",
+          "type": "override",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "multi_name",
+    "type": "overrideContent",
     "named": true,
-    "fields": {}
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "decorator",
+          "named": true
+        },
+        {
+          "type": "reftype",
+          "named": true
+        },
+        {
+          "type": "stringValue",
+          "named": true
+        }
+      ]
+    }
   },
   {
-    "type": "override_block",
+    "type": "overrideStatement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "componentName",
+          "named": true
+        },
+        {
+          "type": "overrideContent",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "parameter",
     "named": true,
     "fields": {},
     "children": {
@@ -659,14 +462,14 @@
       "required": false,
       "types": [
         {
-          "type": "java_override",
+          "type": "parameterContent",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "package_block",
+    "type": "parameterContent",
     "named": true,
     "fields": {},
     "children": {
@@ -674,103 +477,22 @@
       "required": true,
       "types": [
         {
-          "type": "package_content",
-          "named": true
-        },
-        {
-          "type": "package_string",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "package_content",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "comment_block",
-          "named": true
-        },
-        {
-          "type": "entity_block",
-          "named": true
-        },
-        {
-          "type": "enum_block",
-          "named": true
-        },
-        {
-          "type": "expand",
-          "named": true
-        },
-        {
-          "type": "interface_block",
-          "named": true
-        },
-        {
-          "type": "override_block",
-          "named": true
-        },
-        {
-          "type": "package_block",
-          "named": true
-        },
-        {
-          "type": "struct_block",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "package_string",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "dot",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "param_definition",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "primitive_type",
+          "type": "componentName",
           "named": true
         },
         {
           "type": "reftype",
           "named": true
+        },
+        {
+          "type": "value",
+          "named": true
         }
       ]
     }
   },
   {
-    "type": "primitive_type",
+    "type": "primitiveTypes",
     "named": true,
     "fields": {},
     "children": {
@@ -808,12 +530,186 @@
         {
           "type": "string",
           "named": true
+        },
+        {
+          "type": "void",
+          "named": true
         }
       ]
     }
   },
   {
-    "type": "primitive_value",
+    "type": "refContent",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "componentName",
+          "named": true
+        },
+        {
+          "type": "dot",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "reftype",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "refContent",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "source_file",
+    "named": true,
+    "root": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "dmfStatement",
+          "named": true
+        },
+        {
+          "type": "modelStatement",
+          "named": true
+        },
+        {
+          "type": "statement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "statement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "blockStatement",
+          "named": true
+        },
+        {
+          "type": "comment",
+          "named": true
+        },
+        {
+          "type": "constantStatement",
+          "named": true
+        },
+        {
+          "type": "contentStatement",
+          "named": true
+        },
+        {
+          "type": "expand",
+          "named": true
+        },
+        {
+          "type": "identifierStatement",
+          "named": true
+        },
+        {
+          "type": "languageStatement",
+          "named": true
+        },
+        {
+          "type": "overrideBlock",
+          "named": true
+        },
+        {
+          "type": "overrideStatement",
+          "named": true
+        },
+        {
+          "type": "statementEnd",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "statementEnd",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "statementKeyword",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "arg",
+          "named": true
+        },
+        {
+          "type": "func",
+          "named": true
+        },
+        {
+          "type": "ref",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "stringValue",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "timeValue",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "type",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "genericType",
+          "named": true
+        },
+        {
+          "type": "primitiveTypes",
+          "named": true
+        },
+        {
+          "type": "reftype",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "value",
     "named": true,
     "fields": {},
     "children": {
@@ -856,145 +752,7 @@
     }
   },
   {
-    "type": "ref_block",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "reftype",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "reftype",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "dot",
-          "named": true
-        },
-        {
-          "type": "package_string",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "source_file",
-    "named": true,
-    "root": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "dmf_declaration",
-          "named": true
-        },
-        {
-          "type": "import_block",
-          "named": true
-        },
-        {
-          "type": "model_content",
-          "named": true
-        },
-        {
-          "type": "model_declaration",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "stringValue",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "struct_block",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "extends_block",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "implements_block",
-          "named": true
-        },
-        {
-          "type": "struct_content",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "struct_content",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": true,
-      "types": [
-        {
-          "type": "arg_block",
-          "named": true
-        },
-        {
-          "type": "comment_block",
-          "named": true
-        },
-        {
-          "type": "func_block",
-          "named": true
-        },
-        {
-          "type": "multi_block",
-          "named": true
-        },
-        {
-          "type": "override_block",
-          "named": true
-        },
-        {
-          "type": "ref_block",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "timeValue",
-    "named": true,
-    "fields": {}
-  },
-  {
-    "type": "version_number",
+    "type": "versionNumber",
     "named": true,
     "fields": {},
     "children": {
@@ -1037,6 +795,10 @@
     "named": false
   },
   {
+    "type": ".",
+    "named": false
+  },
+  {
     "type": "0x",
     "named": false
   },
@@ -1065,18 +827,6 @@
     "named": false
   },
   {
-    "type": "List",
-    "named": false
-  },
-  {
-    "type": "Map",
-    "named": false
-  },
-  {
-    "type": "Set",
-    "named": false
-  },
-  {
     "type": "T",
     "named": false
   },
@@ -1089,12 +839,8 @@
     "named": false
   },
   {
-    "type": "annotations",
-    "named": false
-  },
-  {
     "type": "arg",
-    "named": false
+    "named": true
   },
   {
     "type": "boolean",
@@ -1105,15 +851,15 @@
     "named": true
   },
   {
-    "type": "byte_content",
+    "type": "byteContent",
     "named": true
   },
   {
-    "type": "class",
-    "named": false
+    "type": "commentLine",
+    "named": true
   },
   {
-    "type": "comment",
+    "type": "componentName",
     "named": true
   },
   {
@@ -1122,6 +868,10 @@
   },
   {
     "type": "datetime",
+    "named": true
+  },
+  {
+    "type": "decorator",
     "named": true
   },
   {
@@ -1138,11 +888,11 @@
   },
   {
     "type": "entity",
-    "named": false
+    "named": true
   },
   {
     "type": "enum",
-    "named": false
+    "named": true
   },
   {
     "type": "expand",
@@ -1150,23 +900,15 @@
   },
   {
     "type": "extends",
-    "named": false
+    "named": true
   },
   {
     "type": "false",
     "named": false
   },
   {
-    "type": "from",
-    "named": false
-  },
-  {
     "type": "func",
-    "named": false
-  },
-  {
-    "type": "identifier",
-    "named": false
+    "named": true
   },
   {
     "type": "identifier",
@@ -1174,11 +916,7 @@
   },
   {
     "type": "implements",
-    "named": false
-  },
-  {
-    "type": "import",
-    "named": false
+    "named": true
   },
   {
     "type": "int",
@@ -1186,14 +924,10 @@
   },
   {
     "type": "interface",
-    "named": false
+    "named": true
   },
   {
     "type": "java",
-    "named": false
-  },
-  {
-    "type": "javaDoc",
     "named": false
   },
   {
@@ -1205,47 +939,47 @@
     "named": false
   },
   {
-    "type": "name",
-    "named": false
-  },
-  {
     "type": "number",
     "named": true
   },
   {
     "type": "override",
-    "named": false
+    "named": true
   },
   {
     "type": "package",
-    "named": false
+    "named": true
   },
   {
     "type": "ref",
-    "named": false
+    "named": true
   },
   {
     "type": "string",
     "named": true
   },
   {
-    "type": "string_content_double_quote",
+    "type": "stringContentDoubleQuote",
     "named": true
   },
   {
-    "type": "string_content_single_quote",
+    "type": "stringContentSingleQuote",
     "named": true
   },
   {
     "type": "struct",
-    "named": false
+    "named": true
   },
   {
     "type": "true",
     "named": false
   },
   {
-    "type": "type",
+    "type": "ts",
+    "named": false
+  },
+  {
+    "type": "typescript",
     "named": false
   },
   {

@@ -10,225 +10,228 @@
 module.exports = grammar({
   name: "dmf",
   //
-  conflicts: $ => [
-    //TODO entfernen wenn package_strind unf reftype richtig verwendet werden
-    [$.reftype, $.package_string],
-  ],
+  conflicts: $ => [],
 
   // word: $ => $.identifier,
   rules: {
 
-    source_file: $ =>
-      seq(
-        $.dmf_declaration,
-        $._new_line,
-        $.model_declaration,
-        $._new_line,
-        optional($.import_block),
-        $.model_content,
+    source_file: $ => seq(
+      $.dmfStatement,
+      $.modelStatement,
+      repeat(choice(
+        $.statement,
+    ))),
+
+    dmfStatement: $ => seq(
+      "dmf",
+      $.versionNumber,
+    ),
+
+    modelStatement: $ => seq(
+      "model",
+      $.stringValue,
+      "version",
+      $.versionNumber,
+    ),
+
+    // Block
+
+    block: $ => seq(
+      '{',
+      repeat(
+        $.statement
       ),
-
-
-    dmf_declaration: $ => seq(
-      'dmf',
-      $.version_number,
-    ),
-    model_declaration: $ => seq(
-      'model',
-      $.stringValue,
-      'version',
-      $.version_number,
+      '}'
     ),
 
-    import_block: $ => repeat1($.import_statement),
-    import_statement: $ => seq(
-      'import',
-      $.package_string,
-      'from',
-      $.stringValue,
-      $._new_line,
+    overrideBlock: $ => seq(
+      $.override,
+      $.block,
     ),
 
-
-    model_content: $ => repeat1($.package_content),
-
-    package_content: $ => seq(
-      optional($.comment_block),
-      optional($.expand),
-      choice(
-        $.package_block,
-        $.struct_block,
-        $.enum_block,
-        $.entity_block,
-        $.interface_block,
-      ),
-      optional($.override_block)),
-
-    comment_block: $ => prec.right(repeat1($.comment)),
-
-    // Overrides
-    override_block: $ => seq(
-      'override',
-      $._left_brace,
-      repeat(choice($.java_override),),
-      $._right_brace
+    // Temp
+    extendsStatement: $ => seq(
+      $.extends,
+      $.reftype
     ),
-    java_override: $ => seq(
-      'java',
-      $._left_brace,
-      repeat(seq(choice($.java_annotation, $.java_extends, $.java_implements, $.java_class, $.java_name, $.java_type,$.java_doc), $._new_line)),
-      $._right_brace
-    ),
-    java_annotation: $ => seq(
-      'annotations',
-      $.stringValue,
-    ),
-    java_doc: $ => seq('javaDoc', $.stringValue,),
-    java_extends: $ => seq('extends', $.stringValue,),
-    java_implements: $ => seq('implements', $.stringValue,),
-    java_class: $ => seq('class', $.stringValue,),
-    java_name: $ => seq('name', $.stringValue,),
-    java_type: $ => seq('type', $.stringValue,),
-
-    // Package
-    package_block: $ => seq(
-      'package',
-      $.package_string,
-      $._left_brace,
-      repeat($.package_content),
-      $._right_brace,
-    ),
-
-
-    // Struct
-    struct_block: $ => seq(
-      'struct',
-      $.identifier,
-      optional($.extends_block),
-      optional($.implements_block),
-      $._left_brace,
-      repeat($.struct_content),
-      $._right_brace,
-    ),
-    extends_block: $ => seq(
-      'extends',
-      $.reftype,
-    ),
-    implements_block: $ => seq(
-      'implements',
+    implementsStatement: $ => seq(
+      $.implements,
       $.reftype,
       repeat(seq(
-        $._comma,
+        ",",
         $.reftype
       ))
     ),
-    struct_content: $ => seq(
-      optional($.comment_block),
+
+    // Statements
+    statement: $ => seq(
+      optional($.comment),
+      optional($.expand),
       choice(
-        $.arg_block,
-        $.ref_block,
-        $.multi_block,
-        $.func_block,
+        $.contentStatement,
+        $.identifierStatement,
+        $.blockStatement,
+        $.overrideStatement,
+        $.languageStatement,
+        $.constantStatement,
       ),
-      optional($.override_block)
+      optional($.overrideBlock),
+      $.statementEnd,
     ),
-    arg_block: $ => seq('arg', $.primitive_type, $.identifier, token.immediate(';')),
-    ref_block: $ => seq('ref', $.reftype, $.identifier, token.immediate(';')),
-    multi_block: $ => seq('ref', $.multi_name, '<', choice($.primitive_type, $.reftype), optional(seq($._comma, choice($.primitive_type, $.reftype))), '>', $.identifier, $._semicolon),
-    multi_name: $ => choice('Map', 'Set', 'List'),
-    func_block: $ => seq('func', choice($.reftype, $.primitive_type, $.void), $.identifier,
-      $._left_paren, optional(seq($.param_definition, repeat(seq($._comma, $.param_definition)))), $._right_paren, $._semicolon,),
-    param_definition: $ => seq(choice($.reftype, $.primitive_type), $.identifier),
 
-    // Enum
-    enum_block: $ => seq(
-      'enum',
+    contentStatement: $ => seq(
+      $.statementKeyword,
+      $.type,
+      $.reftype,
+      optional($.parameter),
+    ),
+
+    identifierStatement: $ => seq(
       $.identifier,
-      $._left_brace,
-      repeat($.enum_content),
-      $._right_brace,
-    ),
-    enum_content: $ => seq( optional($.comment_block), choice($.arg_block, $.enum_constant),optional($.override_block)),
-    enum_constant: $ => seq($.identifier, $._left_paren, $.enum_index, repeat(seq($._comma, $.primitive_value)), $._right_paren, $._semicolon),
-    enum_index: $ => choice('_', $.integerValue),
-
-
-    // Entity
-    entity_block: $ => seq(
-      'entity',
-      $.identifier,
-      optional($.extends_block),
-      optional($.implements_block),
-      $._left_brace,
-      repeat($.struct_content),
-      $.identifier_statement,
-      $._right_brace,
-    ),
-    identifier_statement: $ => seq('identifier', $._left_paren, $.identifier, repeat(seq($._comma, $.identifier)), $._right_paren, $._semicolon),
-
-
-    interface_block: $ => seq(
-      'interface',
-      $.identifier,
-      optional($.implements_block),
-      $._left_brace,
-      repeat($.interface_content),
-      $._right_brace,
-    ),
-    interface_content: $ => seq(
-      optional($.comment_block),
-      $.func_block,
-      optional($.override_block),
+      $.parameter
     ),
 
-
-    // Tokens
-    number: $ => /[0-9]+/,
-    identifier: $ => /([a-zA-Z_])+/,
-    comment: $ => /\/\/.*\n/,
-    //nicht intern, da die Anzahl der Punkte beim reftype wichtig ist
-    dot: $ => '.',
-    byte_content: $ => /[0-9A-F]{4}/,
-
-    _semicolon: $ => ';',
-    _comma: $ => ',',
-    _left_brace: $ => '{',
-    _right_brace: $ => '}',
-    _left_bracket: $ => '[',
-    _right_bracket: $ => ']',
-    _left_paren: $ => '(',
-    _right_paren: $ => ')',
-    _at: $ => '@',
-    _new_line: $ => /\n/,
-
-    reftype: $ => seq(
-      repeat($.dot),
-      $.package_string,
+    constantStatement: $ => seq(
+      $.componentName,
+      $.parameter,
     ),
 
-    package_string: $ => prec.left(
+    blockStatement: $ => seq(
+      $.blockKeyword,
+      $.reftype,
+      optional($.extendsStatement),
+      optional($.implementsStatement),
+      optional($.overrideBlock),
+      $.block,
+    ),
+
+    // Override
+
+    overrideStatement: $ => seq(
+      $.componentName,
+      token(":"),
+      $.overrideContent,
+      repeat(seq(
+        ",",
+        $.overrideContent
+      ))
+    ),
+    overrideContent: $ => choice(
+      $.stringValue,
+      $.reftype,
+      $.decorator
+    ),
+
+    languageStatement: $ => seq(
+      $.language,
+      $.block,
+    ),
+    language: $ => choice(
+      "java",
+      "typescript",
+      "ts"
+    ),
+
+
+    statementEnd: $ => seq(
       choice(
-        $.identifier,
-        seq(
-          $.identifier,
-          repeat1(
-            seq(
-              $.dot,
-              $.identifier,
-            )
-          )
-        ),
-        seq(
-          repeat1(
-            seq(
-              $.dot,
-              $.identifier,
-            )
-          )
-        )
+        token(';'),
+        token(/;\n/),
+        token(/\n/),
       )),
 
-    primitive_type: $ => choice(
+    // Comment
+    comment: $ => prec.right(repeat1($.commentLine)),
+    commentLine: $ => /\/\/.*\n/,
+
+
+    //Parameter
+    parameter: $ => seq(
+      "(",
+      optional(seq(
+        $.parameterContent,
+        repeat(
+          seq(
+            ",",
+            $.parameterContent,
+          )
+        ),
+      )),
+      ")"
+    ),
+    parameterContent: $ => choice(
+      $.value,
+      $.componentName,
+      seq(
+        $.reftype,
+        $.componentName,
+      )
+    ),
+
+    // Types
+    type: $ => choice(
+      $.primitiveTypes,
+      $.reftype,
+      $.genericType,
+    ),
+    genericType: $ => seq(
+      $.reftype,
+      token.immediate("<"),
+      $.reftype,
+      repeat(seq(
+        ",",
+        $.reftype)),
+      ">"
+    ),
+    reftype: $ => seq(
+      $.refContent,
+      repeat(choice(
+        token.immediate("."),
+        token.immediate(/([a-zA-Z_])+/)
+      ))
+    ),
+    refContent: $ => choice(
+      $.dot,
+      $.componentName,
+    ),
+
+    componentName: $ => /([a-zA-Z_])+/,
+
+    // Control
+    semicolon: $ => ';',
+    newLine: $ => /\n/,
+
+    // Keywords
+    blockKeyword: $ => choice(
+      $.package,
+      $.struct,
+      $.enum,
+      $.entity,
+      $.interface,
+    ),
+    statementKeyword: $ => choice(
+      $.arg,
+      $.ref,
+      $.func,
+    ),
+
+    package: $ => 'package',
+    struct: $ => 'struct',
+    enum: $ => 'enum',
+    entity: $ => 'entity',
+    interface: $ => 'interface',
+
+    arg: $ => 'arg',
+    ref: $ => 'ref',
+    func: $ => 'func',
+
+    expand: $ => 'expand',
+    extends: $ => 'extends',
+    implements: $ => 'implements',
+    identifier: $ => 'identifier',
+    override: $ => 'override',
+
+    primitiveTypes: $ => choice(
       $.byte,
       $.int,
       $.long,
@@ -237,33 +240,8 @@ module.exports = grammar({
       $.date,
       $.string,
       $.boolean,
+      $.void,
     ),
-
-    primitive_value: $ => choice(
-      $.integerValue,
-      $.doubleValue,
-      $.stringValue,
-      $.dateValue,
-      $.dateTimeValue,
-      $.booleanValue,
-      $.byteValue,
-      $.longValue,
-    ),
-
-
-    // Keywords
-    package: $ => 'package',
-    struct: $ => 'struct',
-    enum: $ => 'enum',
-    entity: $ => 'entity',
-    interface: $ => 'interface',
-    arg: $ => 'arg',
-    ref: $ => 'ref',
-    func: $ => 'func',
-    expand: $ => 'expand',
-    extends: $ => 'extends',
-    implements: $ => 'implements',
-
     byte: $ => 'byte',
     int: $ => 'int',
     long: $ => 'long',
@@ -274,8 +252,23 @@ module.exports = grammar({
     boolean: $ => 'boolean',
     void: $ => 'void',
 
+
+    number: $ => /[0-9]+/,
+    dot: $ => token('.'),
+    byteContent: $ => /[0-9A-F]{4}/,
+
     //Value Tokens
-    version_number: $ => seq(
+    value: $ => choice(
+      $.integerValue,
+      $.longValue,
+      $.booleanValue,
+      $.byteValue,
+      $.doubleValue,
+      $.stringValue,
+      $.dateTimeValue,
+      $.dateValue,
+    ),
+    versionNumber: $ => seq(
       $.number,
       $.dot,
       $.number,
@@ -295,14 +288,15 @@ module.exports = grammar({
 
     booleanValue: $ => choice('true', 'false'),
 
-    byteValue: $ => seq('0x', $.byte_content),
+    byteValue: $ => seq('0x', $.byteContent),
 
-    // Basic string with escapes
     doubleValue: $ => prec(1, seq(
       $.integerValue,
       $.dot,
       $.integerValue
     )),
+
+    decorator: $ => /@\w+/,
 
     // Multiline string (triple-quoted)
     stringValue: $ => choice(
@@ -310,8 +304,8 @@ module.exports = grammar({
       seq(
         '"',
         alias(repeat(choice(
-          $.string_content_double_quote, // Any chars except quotes or backslash
-          $.escape_sequence
+          $.stringContentDoubleQuote, // Any chars except quotes or backslash
+          $.escapeSequence
         )), "content"),
         '"'
       ),
@@ -319,18 +313,18 @@ module.exports = grammar({
       seq(
         "'",
         alias(repeat(choice(
-          $.string_content_single_quote, // Any chars except quotes or backslash
-          $.escape_sequence
+          $.stringContentSingleQuote, // Any chars except quotes or backslash
+          $.escapeSequence
         )), "content"),
         "'"
       )
     ),
 
-    string_content_single_quote: $ => /[^'\\]+/,
-    string_content_double_quote: $ => /[^"\\]+/,
+    stringContentSingleQuote: $ => /[^'\\]+/,
+    stringContentDoubleQuote: $ => /[^"\\]+/,
 
     // Common escape sequences
-    escape_sequence: $ => seq(
+    escapeSequence: $ => seq(
       '\\',
       choice(
         /[\\'"bfnrt]/, // Single-char escapes
