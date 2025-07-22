@@ -3,16 +3,63 @@
   "name": "dmf",
   "rules": {
     "source_file": {
-      "type": "REPEAT",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "SYMBOL",
-            "name": "statement"
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "dmfStatement"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "modelStatement"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "statement"
+              }
+            ]
           }
-        ]
-      }
+        }
+      ]
+    },
+    "dmfStatement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "dmf"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "versionNumber"
+        }
+      ]
+    },
+    "modelStatement": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "model"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "stringValue"
+        },
+        {
+          "type": "STRING",
+          "value": "version"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "versionNumber"
+        }
+      ]
     },
     "block": {
       "type": "SEQ",
@@ -767,7 +814,7 @@
         "value": "."
       }
     },
-    "byte_content": {
+    "byteContent": {
       "type": "PATTERN",
       "value": "[0-9A-F]{4}"
     },
@@ -808,7 +855,7 @@
         }
       ]
     },
-    "version_number": {
+    "versionNumber": {
       "type": "SEQ",
       "members": [
         {
@@ -901,7 +948,7 @@
         },
         {
           "type": "SYMBOL",
-          "name": "byte_content"
+          "name": "byteContent"
         }
       ]
     },
@@ -949,11 +996,11 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "string_content_double_quote"
+                      "name": "stringContentDoubleQuote"
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "escape_sequence"
+                      "name": "escapeSequence"
                     }
                   ]
                 }
@@ -983,11 +1030,11 @@
                   "members": [
                     {
                       "type": "SYMBOL",
-                      "name": "string_content_single_quote"
+                      "name": "stringContentSingleQuote"
                     },
                     {
                       "type": "SYMBOL",
-                      "name": "escape_sequence"
+                      "name": "escapeSequence"
                     }
                   ]
                 }
@@ -1003,15 +1050,15 @@
         }
       ]
     },
-    "string_content_single_quote": {
+    "stringContentSingleQuote": {
       "type": "PATTERN",
       "value": "[^'\\\\]+"
     },
-    "string_content_double_quote": {
+    "stringContentDoubleQuote": {
       "type": "PATTERN",
       "value": "[^\"\\\\]+"
     },
-    "escape_sequence": {
+    "escapeSequence": {
       "type": "SEQ",
       "members": [
         {

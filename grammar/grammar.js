@@ -15,9 +15,24 @@ module.exports = grammar({
   // word: $ => $.identifier,
   rules: {
 
-    source_file: $ => repeat(choice(
-      $.statement,
-    )),
+    source_file: $ => seq(
+      $.dmfStatement,
+      $.modelStatement,
+      repeat(choice(
+        $.statement,
+    ))),
+
+    dmfStatement: $ => seq(
+      "dmf",
+      $.versionNumber,
+    ),
+
+    modelStatement: $ => seq(
+      "model",
+      $.stringValue,
+      "version",
+      $.versionNumber,
+    ),
 
     // Block
 
@@ -240,7 +255,7 @@ module.exports = grammar({
 
     number: $ => /[0-9]+/,
     dot: $ => token('.'),
-    byte_content: $ => /[0-9A-F]{4}/,
+    byteContent: $ => /[0-9A-F]{4}/,
 
     //Value Tokens
     value: $ => choice(
@@ -253,7 +268,7 @@ module.exports = grammar({
       $.dateTimeValue,
       $.dateValue,
     ),
-    version_number: $ => seq(
+    versionNumber: $ => seq(
       $.number,
       $.dot,
       $.number,
@@ -273,7 +288,7 @@ module.exports = grammar({
 
     booleanValue: $ => choice('true', 'false'),
 
-    byteValue: $ => seq('0x', $.byte_content),
+    byteValue: $ => seq('0x', $.byteContent),
 
     doubleValue: $ => prec(1, seq(
       $.integerValue,
@@ -289,8 +304,8 @@ module.exports = grammar({
       seq(
         '"',
         alias(repeat(choice(
-          $.string_content_double_quote, // Any chars except quotes or backslash
-          $.escape_sequence
+          $.stringContentDoubleQuote, // Any chars except quotes or backslash
+          $.escapeSequence
         )), "content"),
         '"'
       ),
@@ -298,18 +313,18 @@ module.exports = grammar({
       seq(
         "'",
         alias(repeat(choice(
-          $.string_content_single_quote, // Any chars except quotes or backslash
-          $.escape_sequence
+          $.stringContentSingleQuote, // Any chars except quotes or backslash
+          $.escapeSequence
         )), "content"),
         "'"
       )
     ),
 
-    string_content_single_quote: $ => /[^'\\]+/,
-    string_content_double_quote: $ => /[^"\\]+/,
+    stringContentSingleQuote: $ => /[^'\\]+/,
+    stringContentDoubleQuote: $ => /[^"\\]+/,
 
     // Common escape sequences
-    escape_sequence: $ => seq(
+    escapeSequence: $ => seq(
       '\\',
       choice(
         /[\\'"bfnrt]/, // Single-char escapes
