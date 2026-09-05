@@ -49,6 +49,8 @@ public class GenerateDelegatesMojo extends AbstractGeneratorMojo {
                 return "tsDelegates";
             case SQL:
                 throw new RuntimeException("SQL generation for Delegates not supported");
+            case HIBERNATE:
+                throw new RuntimeException("Hibernate generation for Delegates not supported");
         }
         return "javaDelegates";
     }

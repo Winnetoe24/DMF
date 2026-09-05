@@ -3,6 +3,8 @@ package server
 import (
 	"encoding/json"
 	"errors"
+	"log"
+
 	"github.com/Winnetoe24/DMF/lsp/protokoll"
 	"github.com/Winnetoe24/DMF/lsp/protokoll/initialize"
 	"github.com/Winnetoe24/DMF/lsp/server/connect"
@@ -11,14 +13,12 @@ import (
 	"github.com/Winnetoe24/DMF/lsp/service/cancelService"
 	"github.com/Winnetoe24/DMF/lsp/service/diagnosticsService"
 	"github.com/Winnetoe24/DMF/lsp/service/fileService"
-	"github.com/Winnetoe24/DMF/lsp/service/foldingService"
 	"github.com/Winnetoe24/DMF/lsp/service/hoverService"
 	"github.com/Winnetoe24/DMF/lsp/service/ignore"
 	"github.com/Winnetoe24/DMF/lsp/service/logService"
 	"github.com/Winnetoe24/DMF/lsp/service/referenceService"
 	"github.com/Winnetoe24/DMF/lsp/service/selectionRangeService"
 	semantictokensService "github.com/Winnetoe24/DMF/lsp/service/semanticTokensService"
-	"log"
 )
 
 type Server struct {
@@ -47,8 +47,8 @@ func NewServer(con connect.Connection) *Server {
 	newReferenceService := referenceService.NewReferenceService(con, fileServiceHandler)
 	s.addHandler(newReferenceService)
 
-	newFoldingService := foldingService.NewFoldingService(con, fileServiceHandler)
-	s.addHandler(newFoldingService)
+	//newFoldingService := foldingService.NewFoldingService(con, fileServiceHandler)
+	//s.addHandler(newFoldingService)
 
 	newSemanticTokensService := semantictokensService.NewSemanticTokensService(con, fileServiceHandler)
 	s.addHandler(newSemanticTokensService)

@@ -51,6 +51,8 @@ public class GenerateModelMojo extends AbstractGeneratorMojo {
                 return "ts";
             case SQL:
                 return "database";
+            case HIBERNATE:
+                return "hibernate";
         }
         return "java";
     }

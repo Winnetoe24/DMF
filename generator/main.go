@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"github.com/Winnetoe24/DMF/generator/database"
 	"github.com/Winnetoe24/DMF/generator/gbase"
+	hibernate "github.com/Winnetoe24/DMF/generator/hibernate"
 	"github.com/Winnetoe24/DMF/generator/javaGenBase"
 	"github.com/Winnetoe24/DMF/generator/typescript"
 	"github.com/Winnetoe24/DMF/semantic"
@@ -36,12 +37,13 @@ const (
 	Typescript          GenerationMode = "ts"
 	TypescriptDelegates GenerationMode = "tsDelegates"
 	Database            GenerationMode = "database"
+	Hibernate           GenerationMode = "hibernate"
 )
 
 func main() {
 	var basePath = flag.String("basePath", ".", "the path where files are generated")
 	var modelFile = flag.String("modelFile", "./test.dmf", "the model which is generated")
-	var mode = flag.String("mode", string(NotSet), "the generation mode, choose from: java, javaDelegates, ts, tsDelegates, database")
+	var mode = flag.String("mode", string(NotSet), "the generation mode, choose from: java, javaDelegates, ts, tsDelegates, database, hibernate")
 	flag.Parse()
 	if mode == nil || *mode == string(NotSet) {
 		fmt.Println("A generation mode is required.")
@@ -69,7 +71,7 @@ func main() {
 		return
 	}
 	var schema dmodel.Schema
-	if generationMode == Database {
+	if generationMode == Database || generationMode == Hibernate {
 		schema, errorElements = semantic_database.GenerateSchemaNew(up)
 		for _, errElement := range errorElements {
 			println(errElement.ToErrorMsg(&context))
@@ -96,6 +98,9 @@ func main() {
 	case Database:
 		template = database.NewTemplate()
 		GenerateDatabase(*basePath, schema)
+	case Hibernate:
+		template = hibernate.NewTemplate(schema, up.GetTypeLookUp())
+		GenerateHibernate(*basePath, up)
 	}
 	operations.Wait()
 }
@@ -217,6 +222,19 @@ func GenerateDatabase(basePath string, schema dmodel.Schema) {
 	}
 }
 
+func GenerateHibernate(basePath string, lookup smodel.TypeLookUp) {
+	for _, pElement := range lookup {
+		operations.Add(1)
+
+		switch element := pElement.(type) {
+		case *packages.EntityElement:
+			go generateFile(createFile(basePath, element.Path, element.Override, buildHbmPath), apply(template.GenerateEntity, element))
+		default:
+			operations.Done()
+		}
+	}
+}
+
 func createFileIfNotExists(basePath string, path base.ModelPath, override *base.Override, buildPath func(string, base.ModelPath, *base.Override) string) *os.File {
 	finalPath := buildPath(basePath, path, override)
 	if _, err := os.Stat(finalPath); err == nil {
@@ -286,6 +304,21 @@ func buildTsPath(basePath string, path base.ModelPath, _ *base.Override) string 
 }
 func buildDbPath(basePath string, path base.ModelPath, _ *base.Override) string {
 	return basePath + string(os.PathSeparator) + "schema.ddl"
+}
+func buildHbmPath(basePath string, path base.ModelPath, _ *base.Override) string {
+	finalPath := basePath
+	for i, s := range path {
+		finalPath = finalPath + string(os.PathSeparator) + s
+		if i == len(path)-1 {
+			finalPath += ".hbm.xml"
+			break
+		}
+		err := os.MkdirAll(finalPath, 0750)
+		if err != nil {
+			panic(err)
+		}
+	}
+	return finalPath
 }
 
 func apply[E any](f func(writer io.Writer, e E) error, data E) func(writer io.Writer) error {

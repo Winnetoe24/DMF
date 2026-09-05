@@ -1,0 +1,27 @@
+{{define "hbm_entity"}}<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="{{.Package}}">
+    <class name="{{.ClassName}}" table="{{.TableName}}">
+{{template "hbm_id" .Identifiers}}
+{{range .Properties}}{{template "hbm_property" .}}
+{{end}}{{range .ManyToOne}}{{template "hbm_many_to_one" .}}
+{{end}}{{range .Enums}}{{template "hbm_enum_property" .}}
+{{end}}{{range .Components}}{{template "hbm_component" .}}
+{{end}}{{range .Collections}}{{template "hbm_collection" .}}
+{{end}}    </class>
+</hibernate-mapping>
+{{end}}
+
+{{define "hbm_struct"}}<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="{{.Package}}">
+    <class name="{{.ClassName}}" table="{{.TableName}}">
+        <composite-id>
+{{range .Properties}}            <key-property name="{{.Name}}" column="{{.Column}}" type="{{.Type}}"/>
+{{end}}{{range .ManyToOne}}            <key-many-to-one name="{{.Name}}" class="{{.Class}}" column="{{index .Columns 0}}"/>
+{{end}}        </composite-id>
+    </class>
+</hibernate-mapping>
+{{end}}

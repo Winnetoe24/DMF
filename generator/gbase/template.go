@@ -1,9 +1,10 @@
 package gbase
 
 import (
+	"io"
+
 	"github.com/Winnetoe24/DMF/semantic/semantic-database/dmodel"
 	"github.com/Winnetoe24/DMF/semantic/semantic-parse/smodel/packages"
-	"io"
 )
 
 type DMFTemplate interface {

@@ -12,7 +12,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.attribute.PosixFilePermission;
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public abstract class AbstractGeneratorMojo extends AbstractMojo {
     @Parameter(defaultValue = "./target/generated-sources/dmf/")
@@ -47,6 +50,7 @@ public abstract class AbstractGeneratorMojo extends AbstractMojo {
             }else {
                 resource.setDirectory(tempSources);
             }
+            project.addResource(resource);
         }
         generate(log, generatorFile);
 
@@ -61,6 +65,15 @@ public abstract class AbstractGeneratorMojo extends AbstractMojo {
         try {
             InputStream resource = this.getClass().getResourceAsStream("/" + getGeneratorName());
             Files.copy(resource, file.toPath());
+            Set<PosixFilePermission> perms = new HashSet<>();
+            perms.add(PosixFilePermission.OWNER_READ);
+            perms.add(PosixFilePermission.OWNER_WRITE);
+            perms.add(PosixFilePermission.OWNER_EXECUTE);
+            perms.add(PosixFilePermission.GROUP_READ);
+            perms.add(PosixFilePermission.GROUP_EXECUTE);
+            perms.add(PosixFilePermission.OTHERS_READ);
+            perms.add(PosixFilePermission.OTHERS_EXECUTE);
+            Files.setPosixFilePermissions(file.toPath(), perms);
         } catch (IOException e) {
             throw new MojoFailureException("Can't find Generator to copy", e);
         }

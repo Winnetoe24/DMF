@@ -1,0 +1,51 @@
+{{define "hbm_id"}}
+{{if eq (len .) 1}}        <id name="{{(index . 0).Name}}" column="{{(index . 0).Column}}" type="{{(index . 0).Type}}">
+            <generator class="{{(index . 0).Generator}}"/>
+        </id>
+{{else}}        <composite-id>
+{{range .}}            <key-property name="{{.Name}}" column="{{.Column}}" type="{{.Type}}"/>
+{{end}}        </composite-id>
+{{end}}{{end}}
+
+{{define "hbm_property"}}        <property name="{{.Name}}" column="{{.Column}}" type="{{.Type}}"/>
+{{end}}
+
+{{define "hbm_enum_property"}}        <property name="{{.Name}}" column="{{.Column}}">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">{{.EnumClass}}</param>
+                <param name="useNamed">false</param>
+            </type>
+        </property>
+{{end}}
+
+{{define "hbm_many_to_one"}}        <many-to-one name="{{.Name}}" class="{{.Class}}" column="{{range $i, $c := .Columns}}{{if $i}}, {{end}}{{$c}}{{end}}" not-null="false"/>
+{{end}}
+
+{{define "hbm_component"}}        <component name="{{.Name}}" class="{{.Class}}">
+{{range .Properties}}            <property name="{{.Name}}" column="{{.Column}}" type="{{.Type}}"/>
+{{end}}{{range .ManyToOne}}            <many-to-one name="{{.Name}}" class="{{.Class}}" column="{{index .Columns 0}}" not-null="false"/>
+{{end}}{{range .Enums}}{{template "hbm_enum_property" .}}
+{{end}}        </component>
+{{end}}
+
+{{define "hbm_set"}}        <set name="{{.Name}}" table="{{.TableName}}" lazy="true">
+            <key column="{{.KeyColumn}}"/>
+            <element column="{{.ElementColumn}}" type="{{.ElementType}}"/>
+        </set>
+{{end}}
+
+{{define "hbm_list"}}        <list name="{{.Name}}" table="{{.TableName}}" lazy="true">
+            <key column="{{.KeyColumn}}"/>
+            <list-index column="list_index" base="0"/>
+            <element column="{{.ElementColumn}}" type="{{.ElementType}}"/>
+        </list>
+{{end}}
+
+{{define "hbm_map"}}        <map name="{{.Name}}" table="{{.TableName}}" lazy="true">
+            <key column="{{.KeyColumn}}"/>
+            <map-key column="map_key" type="{{.KeyType}}"/>
+            <element column="{{.ElementColumn}}" type="{{.ElementType}}"/>
+        </map>
+{{end}}
+
+{{define "hbm_collection"}}{{if eq .CollectionType "set"}}{{template "hbm_set" .}}{{else if eq .CollectionType "list"}}{{template "hbm_list" .}}{{else if eq .CollectionType "map"}}{{template "hbm_map" .}}{{end}}{{end}}
